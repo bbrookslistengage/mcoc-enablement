@@ -4,12 +4,37 @@ import type * as Preset from '@docusaurus/preset-classic';
 
 const config: Config = {
   title: 'MCA Enablement Course',
-  tagline: 'Self-paced Marketing Cloud Advanced training',
+  tagline: 'Self-paced Marketing Cloud Advanced training by ListEngage',
   favicon: 'img/favicon.ico',
 
   future: {
     v4: true,
   },
+
+  headTags: [
+    {
+      tagName: 'link',
+      attributes: {
+        rel: 'preconnect',
+        href: 'https://fonts.googleapis.com',
+      },
+    },
+    {
+      tagName: 'link',
+      attributes: {
+        rel: 'preconnect',
+        href: 'https://fonts.gstatic.com',
+        crossorigin: 'anonymous',
+      },
+    },
+    {
+      tagName: 'link',
+      attributes: {
+        rel: 'stylesheet',
+        href: 'https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap',
+      },
+    },
+  ],
 
   url: 'https://your-docusaurus-site.example.com',
   baseUrl: '/',
@@ -46,7 +71,12 @@ const config: Config = {
       defaultMode: 'light',
     },
     navbar: {
-      title: 'MCA Enablement Course',
+      title: '',
+      logo: {
+        alt: 'ListEngage',
+        src: 'img/listengage-logo.png',
+        height: 22,
+      },
       items: [
         {to: '/', label: 'Course Overview', position: 'left'},
       ],
@@ -54,7 +84,7 @@ const config: Config = {
     footer: {
       style: 'dark',
       links: [],
-      copyright: `Built with Docusaurus.`,
+      copyright: 'Built by ListEngage',
     },
     prism: {
       theme: prismThemes.github,

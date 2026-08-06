@@ -55,7 +55,7 @@ export default function ProgressCheckbox({
   return (
     <div className="module-footer__checkboxes">
       <label
-        className={`module-footer__checkbox ${lessonDone ? 'module-footer__checkbox--checked' : ''}`}
+        className={`module-footer__checkbox${lessonDone ? ' module-footer__checkbox--checked' : ''}`}
       >
         <input
           type="checkbox"
@@ -65,7 +65,7 @@ export default function ProgressCheckbox({
         Lesson complete
       </label>
       <label
-        className={`module-footer__checkbox ${assignmentDone ? 'module-footer__checkbox--checked' : ''}`}
+        className={`module-footer__checkbox${assignmentDone ? ' module-footer__checkbox--checked' : ''}`}
       >
         <input
           type="checkbox"

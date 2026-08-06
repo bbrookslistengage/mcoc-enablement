@@ -100,6 +100,16 @@ function clearAllProgress(): void {
   window.dispatchEvent(new Event('progress-updated'));
 }
 
+function extractPartNumber(label: string): string {
+  const match = label.match(/Part (\d+)/);
+  return match ? match[1] : '';
+}
+
+function extractPartName(label: string): string {
+  const match = label.match(/Part \d+:\s*(.+)/);
+  return match ? match[1] : label;
+}
+
 export default function ProgressOverview(): ReactNode {
   const [completedCount, setCompletedCount] = useState(0);
   const totalModules = COURSE_PARTS.reduce((sum, p) => sum + p.modules.length, 0);
@@ -128,61 +138,70 @@ export default function ProgressOverview(): ReactNode {
   const pct = totalModules > 0 ? Math.round((completedCount / totalModules) * 100) : 0;
 
   return (
-    <div className="course-overview">
-      <div className="course-overview__header">
-        <h1 className="course-overview__title">MCA Enablement Course</h1>
-        <p className="course-overview__subtitle">
-          Self-paced Marketing Cloud Advanced training, modeled after The Odin Project.
-          Build a real MCA implementation for LEOptical, a fictional eyecare client.
-        </p>
-      </div>
-
-      <div className="course-overview__progress-bar">
-        <div className="course-overview__progress-track">
-          <div
-            className="course-overview__progress-fill"
-            style={{width: `${pct}%`}}
-          />
-        </div>
-        <p className="course-overview__progress-text">
-          {completedCount} of {totalModules} modules complete ({pct}%)
-        </p>
-      </div>
-
-      {COURSE_PARTS.map(part => (
-        <div key={part.label} className="course-overview__part">
-          <div className="course-overview__part-header">
-            <h2 className="course-overview__part-title">{part.label}</h2>
+    <>
+      <div className="course-progress">
+        <div className="course-progress__bar-wrap">
+          <div className="course-progress__track">
+            <div
+              className="course-progress__fill"
+              style={{width: `${pct}%`}}
+            />
           </div>
-          <p className="course-overview__part-description">{part.description}</p>
-          <ul className="course-overview__module-list">
-            {part.modules.map(mod => {
-              const complete = isModuleComplete(mod.slug);
-              return (
-                <li key={mod.slug} className="course-overview__module-item">
-                  <span
-                    className={`course-overview__module-status ${complete ? 'course-overview__module-status--complete' : ''}`}
-                  />
-                  <Link to={mod.path} className="course-overview__module-link">
-                    {mod.title}
-                  </Link>
-                </li>
-              );
-            })}
-          </ul>
+          <span className="course-progress__label">
+            {completedCount}/{totalModules} complete
+          </span>
         </div>
-      ))}
+      </div>
 
-      <div className="course-overview__reset">
+      <div className="course-parts">
+        {COURSE_PARTS.map(part => {
+          const partNum = extractPartNumber(part.label);
+          const partName = extractPartName(part.label);
+          const partComplete = part.modules.filter(m => isModuleComplete(m.slug)).length;
+          const firstModulePath = part.modules[0]?.path ?? '#';
+
+          return (
+            <div key={part.label} className="part-section">
+              <Link to={firstModulePath} className="part-section__header">
+                <div className="part-section__top-row">
+                  <span className="part-section__number">Part {partNum}</span>
+                  <span className="part-section__count">
+                    {partComplete}/{part.modules.length}
+                  </span>
+                </div>
+                <h2 className="part-section__title">{partName}</h2>
+                <p className="part-section__description">{part.description}</p>
+              </Link>
+              <ul className="part-section__modules">
+                {part.modules.map(mod => {
+                  const complete = isModuleComplete(mod.slug);
+                  return (
+                    <li key={mod.slug} className="part-section__module">
+                      <span
+                        className={`part-section__status${complete ? ' part-section__status--complete' : ''}`}
+                      />
+                      <Link to={mod.path} className="part-section__module-link">
+                        {mod.title}
+                      </Link>
+                    </li>
+                  );
+                })}
+              </ul>
+            </div>
+          );
+        })}
+      </div>
+
+      <div className="course-footer-actions">
         <button
           type="button"
-          className="course-overview__reset-btn"
+          className="course-footer-actions__reset-btn"
           onClick={handleReset}
         >
           Reset all progress
         </button>
       </div>
-    </div>
+    </>
   );
 }
 
