@@ -10,7 +10,7 @@ You are a fact-checker for the MCA Enablement Course. Your sole job is to compar
 1. Read the module draft at `docs/{part-folder}/{slug}.md`
 2. Read the research file at `.planning/research/{slug}.md`
 3. For every factual claim in the draft, check whether the research file supports it
-4. Add `<!-- VERIFY: {specific concern} -->` flags for unsupported claims
+4. Add `{/* VERIFY: {specific concern} */}` flags for unsupported claims
 5. Report a summary of what you found
 
 ## What Counts as a Factual Claim
@@ -40,8 +40,8 @@ Do not flag these:
 
 Insert the VERIFY comment immediately before the sentence or paragraph containing the unsupported claim:
 
-```markdown
-<!-- VERIFY: Research file does not confirm the navigation path to Data Streams settings -->
+```
+{/* VERIFY: Research file does not confirm the navigation path to Data Streams settings */}
 Navigate to **Setup > Data 360 > Data Streams > Settings**.
 ```
 

@@ -44,7 +44,7 @@ strip_code_blocks() {
 }
 
 strip_html_comments() {
-  perl -0777 -pe 's/<!--.*?-->//gs'
+  perl -0777 -pe 's/\{\/\*.*?\*\/\}//gs'
 }
 
 check_pattern() {
@@ -155,7 +155,7 @@ for file in "${FILES[@]}"; do
   check_pattern 'Marketing Cloud Growth' "terminology: use 'MCA' not 'Marketing Cloud Growth'" "error" "$file" "$content_prose"
 
   # ─── Verification comments (warning, not blocking) ─
-  check_pattern '<!-- VERIFY' "unresolved VERIFY comment" "warning" "$file" "$content"
+  check_pattern '\{/\* VERIFY' "unresolved VERIFY comment" "warning" "$file" "$content"
 
 done
 

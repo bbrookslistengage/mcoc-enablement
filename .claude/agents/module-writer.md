@@ -58,8 +58,8 @@ Your factual source is the research file. Period.
 - Do not invent UI navigation paths. If the research file says "Setup > Data 360 > Data Streams", use that exact path.
 - Do not invent field names, object names, or platform behaviors.
 - If you need to explain something the research file does not cover, insert a VERIFY comment:
-  ```html
-  <!-- VERIFY: Does the Data Graph auto-refresh after IDR changes? -->
+  ```
+  {/* VERIFY: Does the Data Graph auto-refresh after IDR changes? */}
   ```
 - Every VERIFY comment must include a specific question about what needs to be checked.
 

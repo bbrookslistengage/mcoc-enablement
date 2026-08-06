@@ -51,7 +51,7 @@ MCE practitioners typically used a personal MCE trial account or an MCE sandbox 
 
 ### Provisioning your SDO
 
-<!-- VERIFY: Is PLC course completion ("Simple Demo Org Fundamentals") required before the Demo Org tab appears. -->
+{/* VERIFY: Is PLC course completion ("Simple Demo Org Fundamentals") required before the Demo Org tab appears. */}
 
 Before you start, confirm you have the following:
 
@@ -82,7 +82,7 @@ The two permission sets are:
 1. **Data Cloud Architect (Admin)**: grants access to Data 360 setup and configuration.
 2. **Marketing Cloud Admin**: grants access to MCA features.
 
-<!-- VERIFY: Confirm the "Data Cloud Architect (Admin)" permission set name in Summer '26 SDOs. Some sources call it "Data Cloud Admin." The UI label may differ between releases. -->
+{/* VERIFY: Confirm the "Data Cloud Architect (Admin)" permission set name in Summer '26 SDOs. Some sources call it "Data Cloud Admin." The UI label may differ between releases. */}
 
 To assign them:
 
@@ -131,7 +131,7 @@ If you need to request a new MCE demo account, follow the instructions at [Marke
 MCE demo account provisioning can take several days after submitting the partner benefits case. If you are waiting on an MCE account, you can complete the rest of this module's setup steps (Data 360 setup, Data Kits, IDR, Data Graph, Einstein features) and come back to the MCE connection when the account is ready. Some Data Kit steps require an active MCE account.
 :::
 
-<!-- VERIFY: Does the MCE connection require an active MCE account, or can Module 1 be completed without it? Clarify which steps are blocked by MCE and which are not. -->
+{/* VERIFY: Does the MCE connection require an active MCE account, or can Module 1 be completed without it? Clarify which steps are blocked by MCE and which are not. */}
 
 When your MCE credentials are ready:
 
@@ -157,7 +157,7 @@ Marketing Cloud Data Kits are pre-built connectors that wire CRM objects (Contac
 2. Select **default** as your data space.
 3. Click through to **Install Marketing Cloud Data Kits** and start the installation.
 
-<!-- VERIFY: Confirm the Data Kit names shown in the UI match what the guide describes. Data Kit names may be updated between releases. -->
+{/* VERIFY: Confirm the Data Kit names shown in the UI match what the guide describes. Data Kit names may be updated between releases. */}
 
 :::warning
 Data Kit installation failures are normal. Do not assume something is broken. Use the **Retry** button when a kit shows an error. Keep retrying until all kits show a status of **Deployed**. This can take a while.
@@ -204,7 +204,7 @@ This ruleset identifies the same person across different source systems using na
 
 ### Ruleset 2: MCE Subscriber Key Matching
 
-<!-- VERIFY: Does Spring '26 auto-create the Subscriber Key IDR ruleset when MCE+ is enabled? If so, learners may encounter a pre-existing ruleset and should verify its configuration rather than creating a new one. -->
+{/* VERIFY: Does Spring '26 auto-create the Subscriber Key IDR ruleset when MCE+ is enabled? If so, learners may encounter a pre-existing ruleset and should verify its configuration rather than creating a new one. */}
 
 This ruleset maps MCE Subscriber Keys to Individual records in Data 360.
 
@@ -215,11 +215,11 @@ This ruleset maps MCE Subscriber Keys to Individual records in Data 360.
    - Set **Party Identification Type** to "Person Identifier"
    - Set **Party Identification Name** to "MC Subscriber Key"
 4. Save the ruleset.
-<!-- VERIFY: Research file lists this path as "Setup > Marketing Cloud > Assisted Setup > Assistant Home > Basic Settings > Go to Basic Settings > Configure Identity Resolution Rulesets" - the draft omits the "Go to Basic Settings" step in the middle. Confirm the exact path in a live SDO. -->
+{/* VERIFY: Research file lists this path as "Setup > Marketing Cloud > Assisted Setup > Assistant Home > Basic Settings > Go to Basic Settings > Configure Identity Resolution Rulesets" - the draft omits the "Go to Basic Settings" step in the middle. Confirm the exact path in a live SDO. */}
 5. After saving, navigate to **Setup > Marketing Cloud > Assisted Setup > Assistant Home > Basic Settings > Configure Identity Resolution Rulesets**.
 6. Select `UnifiedssotIndividual1__dlm` as the account Unified Individual object.
 
-<!-- VERIFY: Does the "UnifiedssotIndividual1__dlm" field name remain consistent across SDOs? Verify this is the correct value in a fresh Summer '26 SDO. -->
+{/* VERIFY: Does the "UnifiedssotIndividual1__dlm" field name remain consistent across SDOs? Verify this is the correct value in a fresh Summer '26 SDO. */}
 
 ## Data Graph
 
@@ -281,7 +281,7 @@ The Campaign Creation Agent is an AI agent that helps build campaign briefs and 
 
 ### Set Up the Campaign Creation Agent
 
-<!-- VERIFY: Does the Spring '26 Agentforce setup flow still apply in Summer '26 SDOs? The legacy Agentforce Builder is scheduled to be phased out for new agent creation starting approximately mid-July 2026. The exact UI may differ. -->
+{/* VERIFY: Does the Spring '26 Agentforce setup flow still apply in Summer '26 SDOs? The legacy Agentforce Builder is scheduled to be phased out for new agent creation starting approximately mid-July 2026. The exact UI may differ. */}
 
 1. Navigate to **Setup > Einstein > Einstein Generative AI > Agentforce Studio > Agentforce Agents**. If the option is not visible, refresh the page.
 2. Turn on **Agentforce**.
@@ -325,7 +325,7 @@ The Marketing Performance App provides email analytics through Tableau Next. Set
 6. Repeat the above for the **MobileConnect data bundle**.
 7. Navigate to **Setup > Marketing Cloud > Marketing Features > Marketing Performance > Install**.
 
-<!-- VERIFY: Research file lists the Flows bundle workaround path as "Data 360 > Data Streams > New" - the draft says "App Launcher > Data Cloud > Data Streams > New." These may refer to the same destination, but confirm the exact navigation label in a live SDO. -->
+{/* VERIFY: Research file lists the Flows bundle workaround path as "Data 360 > Data Streams > New" - the draft says "App Launcher > Data Cloud > Data Streams > New." These may refer to the same destination, but confirm the exact navigation label in a live SDO. */}
 If you see errors about `template_requirement_flow`, manually install the Flows Salesforce Data Bundle via **App Launcher > Data Cloud > Data Streams > New**, select Salesforce, and find the Flows bundle.
 
 After installation, assign the **Tableau Next Included App Business User** permission set to any users who need access to the Marketing Performance reports.

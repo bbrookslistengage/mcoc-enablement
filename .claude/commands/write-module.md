@@ -36,7 +36,7 @@ Write the course module for: **$ARGUMENTS**
 
 6. Count the VERIFY flags in the final file:
    ```bash
-   grep -c '<!-- VERIFY' docs/{part-folder}/{slug}.md || echo "0"
+   grep -c '{/\* VERIFY' docs/{part-folder}/{slug}.md || echo "0"
    ```
 
 7. Update `.planning/PROGRESS.md`. Find the row for this module in the Phase 4 table and update the **Content** column:
