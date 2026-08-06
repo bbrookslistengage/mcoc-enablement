@@ -1,0 +1,233 @@
+/*
+ * Infima overrides mapped to design tokens.
+ * Loaded after tokens.css so all custom properties are available.
+ */
+
+:root {
+  /* ─── Map Infima to tokens: Color ──────────────── */
+  --ifm-color-primary: var(--color-brand-primary);
+  --ifm-color-primary-dark: var(--color-brand-primary-hover);
+  --ifm-color-primary-light: var(--color-brand-primary);
+  --ifm-link-color: var(--color-text-link);
+  --ifm-link-hover-color: var(--color-text-link-hover);
+
+  /* ─── Map Infima to tokens: Typography ─────────── */
+  --ifm-font-family-base: var(--font-family-body);
+  --ifm-heading-font-family: var(--font-family-heading);
+  --ifm-font-family-monospace: var(--font-family-mono);
+  --ifm-font-size-base: var(--font-size-body);
+  --ifm-line-height-base: var(--line-height-body);
+  --ifm-heading-font-weight: var(--font-weight-bold);
+  --ifm-font-weight-semibold: var(--font-weight-semibold);
+  --ifm-font-weight-bold: var(--font-weight-bold);
+
+  /* ─── Map Infima to tokens: Code ───────────────── */
+  --ifm-code-font-size: 95%;
+  --docusaurus-highlighted-code-line-bg: rgba(0, 0, 0, 0.1);
+
+  /* ─── Map Infima to tokens: Admonitions ────────── */
+  --ifm-color-info: var(--color-status-info);
+  --ifm-color-success: var(--color-status-success);
+  --ifm-color-warning: var(--color-status-warning);
+  --ifm-color-danger: var(--color-status-caution);
+
+  /* ─── Map Infima to tokens: Layout ─────────────── */
+  --ifm-footer-background-color: var(--color-brand-secondary);
+}
+
+/* ─── Module footer (progress + navigation) ──────── */
+.module-footer {
+  margin-top: var(--space-stack-2xl);
+  padding-top: var(--space-stack-lg);
+  border-top: var(--border-width-default) solid var(--color-border-default);
+}
+
+.module-footer__checkboxes {
+  display: flex;
+  gap: var(--space-inline-md);
+  margin-bottom: var(--space-stack-lg);
+}
+
+.module-footer__checkbox {
+  display: flex;
+  align-items: center;
+  gap: var(--space-inline-sm);
+  cursor: pointer;
+  font-size: var(--font-size-body-small);
+  color: var(--color-text-secondary);
+  user-select: none;
+}
+
+.module-footer__checkbox input[type="checkbox"] {
+  width: 1.125rem;
+  height: 1.125rem;
+  accent-color: var(--color-progress-complete);
+  cursor: pointer;
+}
+
+.module-footer__checkbox--checked {
+  color: var(--color-progress-complete);
+}
+
+.module-footer__nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: var(--space-inline-md);
+}
+
+.module-footer__nav-link {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-inline-xs);
+  font-size: var(--font-size-body-small);
+  font-weight: var(--font-weight-medium);
+  color: var(--color-text-link);
+  text-decoration: none;
+  transition: color var(--transition-fast);
+}
+
+.module-footer__nav-link:hover {
+  color: var(--color-text-link-hover);
+  text-decoration: none;
+}
+
+/* ─── Course overview page ───────────────────────── */
+.course-overview {
+  max-width: var(--layout-content-max-width);
+  margin: 0 auto;
+  padding: var(--space-padding-page);
+}
+
+.course-overview__header {
+  margin-bottom: var(--space-stack-2xl);
+}
+
+.course-overview__title {
+  font-size: var(--font-size-h1);
+  font-weight: var(--font-weight-bold);
+  color: var(--color-text-primary);
+  margin-bottom: var(--space-stack-sm);
+}
+
+.course-overview__subtitle {
+  font-size: var(--font-size-h3);
+  color: var(--color-text-secondary);
+  font-weight: var(--font-weight-normal);
+}
+
+.course-overview__progress-bar {
+  margin-bottom: var(--space-stack-2xl);
+}
+
+.course-overview__progress-track {
+  width: 100%;
+  height: 0.5rem;
+  background: var(--color-surface-sunken);
+  border-radius: var(--border-radius-full);
+  overflow: hidden;
+}
+
+.course-overview__progress-fill {
+  height: 100%;
+  background: var(--color-progress-complete);
+  border-radius: var(--border-radius-full);
+  transition: width var(--transition-default);
+}
+
+.course-overview__progress-text {
+  font-size: var(--font-size-body-small);
+  color: var(--color-text-secondary);
+  margin-top: var(--space-stack-xs);
+}
+
+.course-overview__part {
+  margin-bottom: var(--space-stack-2xl);
+}
+
+.course-overview__part-header {
+  display: flex;
+  align-items: baseline;
+  gap: var(--space-inline-sm);
+  margin-bottom: var(--space-stack-md);
+}
+
+.course-overview__part-title {
+  font-size: var(--font-size-h2);
+  font-weight: var(--font-weight-bold);
+  color: var(--color-text-primary);
+  margin: 0;
+}
+
+.course-overview__part-description {
+  font-size: var(--font-size-body-small);
+  color: var(--color-text-secondary);
+  margin-bottom: var(--space-stack-md);
+}
+
+.course-overview__module-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-stack-xs);
+}
+
+.course-overview__module-item {
+  display: flex;
+  align-items: center;
+  gap: var(--space-inline-sm);
+  padding: var(--space-stack-sm) var(--space-inline-md);
+  border-radius: var(--border-radius-md);
+  transition: background var(--transition-fast);
+}
+
+.course-overview__module-item:hover {
+  background: var(--color-surface-raised);
+}
+
+.course-overview__module-status {
+  width: 1.25rem;
+  height: 1.25rem;
+  border-radius: var(--border-radius-full);
+  border: var(--border-width-strong) solid var(--color-progress-incomplete);
+  flex-shrink: 0;
+}
+
+.course-overview__module-status--complete {
+  background: var(--color-progress-complete);
+  border-color: var(--color-progress-complete);
+}
+
+.course-overview__module-link {
+  color: var(--color-text-primary);
+  text-decoration: none;
+  font-weight: var(--font-weight-medium);
+}
+
+.course-overview__module-link:hover {
+  color: var(--color-text-link);
+  text-decoration: none;
+}
+
+.course-overview__reset {
+  margin-top: var(--space-stack-2xl);
+  text-align: center;
+}
+
+.course-overview__reset-btn {
+  background: none;
+  border: var(--border-width-default) solid var(--color-border-default);
+  border-radius: var(--border-radius-md);
+  padding: var(--space-stack-sm) var(--space-inline-md);
+  font-size: var(--font-size-body-small);
+  color: var(--color-text-secondary);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.course-overview__reset-btn:hover {
+  border-color: var(--color-status-caution);
+  color: var(--color-status-caution);
+}
