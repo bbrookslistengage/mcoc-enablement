@@ -1,6 +1,6 @@
 ---
 sidebar_position: 3
-title: "Module 14: Personalization: Handlebars and AMPscript"
+title: "Personalization: Handlebars and AMPscript"
 description: "Handlebars syntax, AMPscript basics, merge fields, repeaters, and content variations."
 ---
 

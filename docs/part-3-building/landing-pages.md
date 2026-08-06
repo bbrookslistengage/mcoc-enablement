@@ -1,6 +1,6 @@
 ---
 sidebar_position: 6
-title: "Module 17: Landing Pages and Forms"
+title: "Landing Pages and Forms"
 description: "Page builder, form creation, components, configuration, and consent banner integration."
 ---
 

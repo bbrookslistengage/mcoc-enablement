@@ -1,6 +1,6 @@
 ---
 sidebar_position: 2
-title: "Module 13: Email Builder Deep Dive"
+title: "Email Builder Deep Dive"
 description: "Template architecture, locked vs editable regions, headers, footers, and legal disclosures."
 ---
 

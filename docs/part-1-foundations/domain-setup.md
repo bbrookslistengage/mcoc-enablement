@@ -1,6 +1,6 @@
 ---
 sidebar_position: 2
-title: "Module 2: Domain Setup"
+title: "Domain Setup"
 description: "Email domain authentication, landing page domains, link branding, and DNS configuration."
 ---
 

@@ -1,6 +1,6 @@
 ---
 sidebar_position: 3
-title: "Module 8: Data Graphs"
+title: "Data Graphs"
 description: "Building data graphs, structuring DMO relationships, and creating views of unified data."
 ---
 

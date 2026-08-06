@@ -1,6 +1,6 @@
 ---
 sidebar_position: 8
-title: "Module 19: Activation Templates"
+title: "Activation Templates"
 description: "Configuring activation templates and selecting appropriate contact point values."
 ---
 

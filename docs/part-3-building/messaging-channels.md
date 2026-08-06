@@ -1,6 +1,6 @@
 ---
 sidebar_position: 9
-title: "Module 20: Messaging Channels"
+title: "Messaging Channels"
 description: "SMS and WhatsApp configuration, and data sources for personalized channel content."
 ---
 

@@ -1,6 +1,6 @@
 ---
 sidebar_position: 1
-title: "Module 12: Salesforce CMS and Content Management"
+title: "Salesforce CMS and Content Management"
 description: "CMS setup, Enhanced CMS Workspaces, asset organization, and content types."
 ---
 

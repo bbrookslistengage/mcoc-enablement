@@ -1,6 +1,6 @@
 ---
 sidebar_position: 2
-title: "Module 22: Conversational Messaging"
+title: "Conversational Messaging"
 description: "Configuring two-way conversational messaging, response handling, and ongoing customer interactions."
 ---
 

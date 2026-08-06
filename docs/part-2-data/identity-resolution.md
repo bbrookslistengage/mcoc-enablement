@@ -1,6 +1,6 @@
 ---
 sidebar_position: 4
-title: "Module 9: Identity Resolution"
+title: "Identity Resolution"
 description: "Configuring IDR rulesets and linking multiple data sources into unified profiles."
 ---
 

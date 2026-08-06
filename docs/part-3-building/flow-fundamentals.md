@@ -1,6 +1,6 @@
 ---
 sidebar_position: 4
-title: "Module 15: Flow Fundamentals"
+title: "Flow Fundamentals"
 description: "Flow types, trigger conditions, configuration settings, and marketing flow elements."
 ---
 

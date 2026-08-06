@@ -1,6 +1,6 @@
 ---
 sidebar_position: 1
-title: "Module 21: Agentforce for Marketing"
+title: "Agentforce for Marketing"
 description: "Automating campaign creation, audience segmentation, and content generation using marketing agents."
 ---
 

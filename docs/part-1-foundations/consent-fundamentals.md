@@ -1,6 +1,6 @@
 ---
 sidebar_position: 4
-title: "Module 4: Consent Fundamentals"
+title: "Consent Fundamentals"
 description: "Consent management concepts, consent objects and relationships, and the role of consent in compliance."
 ---
 
