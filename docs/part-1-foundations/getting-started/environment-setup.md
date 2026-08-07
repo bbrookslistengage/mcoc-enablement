@@ -67,7 +67,7 @@ MCA setup can auto-create a default IDR ruleset. Before creating any ruleset, na
 :::
 
 :::tip[Coming from MCE?]
-MCE used Subscriber Key as its primary identifier for contacts. Data 360 has no concept of a Subscriber Key by default. Configuring IDR to match on Party Identification is what bridges MCE subscriber history into the MCA data model so it maps to the right Unified Individual records.
+MCA has no concept of a Subscriber Key. There is no single primary identifier for contacts. Instead, Identity Resolution combines records from multiple sources and produces a **Unified Individual**: the resolved identity that MCA uses for segmentation, personalization, and sending.
 :::
 
 ### Confirm Company Information includes Address
