@@ -10,7 +10,7 @@ LEOptical has never had a consent management framework. Their previous ESP sent 
 
 This module is where you build the plumbing that makes consent work. You will create the Communication Subscriptions that define LEOptical's marketing categories, configure a preference page so subscribers can manage their own opt-ins, set up the web tracking consent banner for landing pages, and use CSV import to create OPT_IN records for your protagonist contacts. You will also add the Privacy Consent Status component to Lead and Contact pages so your team can see consent status at a glance without opening Data 360.
 
-The consent automation flow (a Data 360-Triggered Flow that creates records for new individuals automatically) is covered in this module's flow section, but the walkthrough is pending a validated POC. For now, CSV import is the method you will use to get protagonist contacts into an OPT_IN state so you can continue with later modules.
+The consent automation flow is covered in a separate Project page. That page walks through the trigger mechanism and full flow architecture once the POC is validated. This module covers everything else: Communication Subscriptions, the preference page, the Privacy Consent Status component, CSV import, and the web tracking consent banner.
 
 This module builds on the data work from Modules 2-4. The Communication Subscription Consent DMO that you write records to here connects to Contact Point Email in the Data Graph you will build in Module 8.
 
@@ -27,7 +27,7 @@ This section contains a general overview of topics that you will learn in this l
 
 ## Communication Subscriptions
 
-LEOptical's four Communication Subscriptions are defined in the Consent Fundamentals module. This section covers how to create them in the platform.
+LEOptical's four Communication Subscriptions are defined in the Consent Fundamentals module. This section covers how to create them in the platform. Communication Subscriptions are created and managed in the MCA Consent tab, separate from Salesforce Setup.
 
 MCA auto-creates a default "Marketing" Communication Subscription when the org is configured. You can use it, rename it, or ignore it in favor of creating your own. For LEOptical, create the three named marketing subscriptions as your primary marketing categories. Order Updates is transactional. You will not build consent automation for it and it does not appear on the preference page.
 
