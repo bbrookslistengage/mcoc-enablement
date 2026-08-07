@@ -1,0 +1,10 @@
+{
+  "label": "Domain Setup",
+  "position": 2,
+  "collapsible": true,
+  "collapsed": false,
+  "link": {
+    "type": "doc",
+    "id": "part-1-foundations/domain-setup/index"
+  }
+}

@@ -39,7 +39,7 @@ Written, reviewed, and verified against a live SDO.
 | # | Module | Spec | Skeleton | Content | Screenshots | Verified |
 |---|--------|------|----------|---------|-------------|----------|
 | 1 | Getting Started | Done | - | Draft (9 VERIFY) | - | - |
-| 2 | Domain Setup | Done | - | - | - | - |
+| 2 | Domain Setup | Done | - | Draft (7 VERIFY) | - | - |
 | 3 | Business Units and Governance | Done | - | - | - | - |
 | 4 | Consent Fundamentals | Done | - | - | - | - |
 | 5 | Consent Configuration | Done | - | - | - | - |

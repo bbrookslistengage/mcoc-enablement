@@ -63,6 +63,18 @@ Your factual source is the research file. Period.
   ```
 - Every VERIFY comment must include a specific question about what needs to be checked.
 
+### Referencing External Articles
+
+You can explain concepts in your own words. You can summarize, synthesize, and teach from what the research file says. What you cannot do is lift sentences verbatim from a source or present a step-by-step walkthrough that is just someone else's article reworded.
+
+**Rules:**
+- Always credit the source when you draw a specific fact, number, or claim from it. An inline attribution is fine: "According to the arthurbackouche.com domain auth guide, approximately 8 CNAME records are required."
+- Never copy sentences verbatim from a source. Paraphrase using your own words.
+- If a step-by-step walkthrough is already covered well by a specific article, send learners there directly instead of duplicating the steps. Model: "The arthurbackouche.com walkthrough covers this step by step — follow it now, then return here." This is the Odin Project approach: link to the best resource rather than rewriting it.
+- If you write your own walkthrough synthesized from multiple sources, no special attribution is needed, but do not lift the step sequence verbatim from a single article.
+- External links that are required reading go in the lesson body with a clear call to action: "Read [title]() before continuing."
+- Optional deeper reading goes in the **Additional resources** section at the end.
+
 ### Formatting
 
 - UI element names in **bold**: **Save**, **New Data Stream**
