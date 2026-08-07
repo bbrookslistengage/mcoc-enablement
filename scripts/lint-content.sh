@@ -25,7 +25,7 @@ else
   FILES=()
   while IFS= read -r -d '' f; do
     FILES+=("$f")
-  done < <(find docs -name '*.md' -print0 2>/dev/null)
+  done < <(find docs \( -name '*.md' -o -name '*.mdx' \) -print0 2>/dev/null)
 fi
 
 if [ ${#FILES[@]} -eq 0 ]; then
@@ -33,12 +33,13 @@ if [ ${#FILES[@]} -eq 0 ]; then
   exit 0
 fi
 
-# Strip fenced code blocks and HTML comments before checking.
-# This prevents false positives from code examples and <!-- VERIFY --> flags.
+# Strip fenced code blocks, HTML comments, and MDX import statements before checking.
+# This prevents false positives from code examples, <!-- VERIFY --> flags, and MDX imports.
 strip_code_blocks() {
   awk '
     /^```/ { in_code = !in_code; print ""; next }
     in_code { print ""; next }
+    /^import / { print ""; next }
     { print }
   ' "$1"
 }
