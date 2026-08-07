@@ -8,7 +8,7 @@ description: "How MCA's explicit opt-in consent model works, the five consent ob
 
 LEOptical has been sending batch-and-blast newsletters for years with no consent framework. Their previous ESP treated everyone as contactable by default. MCA does not. Before a single marketing email can go out, every customer needs an explicit consent record in Data 360. This is not a configuration choice you can skip. It is how the platform works at the enforcement layer.
 
-This module covers the consent model in full: the five components that make up a consent record, how consent is checked at send time, and the gotchas that cause silent send failures. "Silent" is the key word. When MCA blocks a send for consent reasons, it does not raise an error or create a bounce. The contact simply does not receive the email. If you do not understand the consent model before you start building, you will spend a lot of time wondering why your sends are not reaching anyone.
+This module covers the consent model in full: the five components that make up a consent record, how consent is checked at send time, and the gotchas that cause consent failures. When MCA blocks a send for consent reasons, the contact appears in send reporting as not sent with a reason indicating they were not opted in. The send does not raise a delivery error or a bounce. If you do not understand the consent model before you start building, you will spend a lot of time chasing consent failures in send logs without knowing what to look for.
 
 Module 5 builds the flow that creates consent records for LEOptical's customers. This module is the prerequisite. Understand the model here, and the flow in Module 5 will make sense. Skip this, and Module 5 will feel like following steps without knowing why.
 
@@ -22,7 +22,7 @@ This section contains a general overview of topics that you will learn in this l
 - How the Communication Subscription Consent DMO stores consent status and what fields matter.
 - The Party field gotcha and the Contact Point Email workaround.
 - The 90-day consent cache and why direct DMO writes do not work.
-- How consent is enforced at send time (and why failures are silent).
+- How consent is enforced at send time and what the send record shows when a contact is blocked.
 - The five valid methods for creating consent records and why direct DMO writes do not work.
 - Transactional vs. marketing messages and when consent is not required.
 - LEOptical's four Communication Subscriptions and how they map to the consent model.
@@ -108,10 +108,10 @@ When a Flow or activation triggers a send, MCA checks consent before delivering 
 1. MCA identifies the contact's email address (the Contact Point).
 2. The selected Communication Subscription is evaluated against the email address.
 3. The system checks the consent cache for an OPT_IN record for that email + subscription + channel combination.
-4. If no OPT_IN record exists, or if the cached record shows OPT_OUT, the message is silently suppressed.
+4. If no OPT_IN record exists, or if the cached record shows OPT_OUT, the send is blocked for that contact. The contact appears in send reporting as not sent, with a reason indicating they were not opted in. No delivery error is raised and the contact does not bounce.
 5. If an OPT_IN record is confirmed in the cache, the send proceeds.
 
-Step 4 is where consultants get burned. The send does not fail. The contact does not bounce. There is no error in send reporting that says "blocked for consent." The contact simply does not appear in the delivered count. Consent debugging requires proactive checking, not reactive error analysis.
+Step 4 is where consultants get burned. The failure is visible in send reporting, but only if you look at the not-sent records and check the reason. It does not surface as an error on the send itself. If your delivered count looks low and you are not checking the not-sent list, you will miss it.
 
 The other thing to notice: step 3 says "consent cache," not "Communication Subscription Consent DMO." These are not the same thing.
 
@@ -294,7 +294,7 @@ Even transactional emails display the List-Unsubscribe header that email clients
 - [ ] Your relationship diagram includes the Party field issue and shows the Contact Point Email workaround as the actual join path.
 - [ ] Your consent strategy document identifies all four LEOptical Communication Subscriptions and correctly labels Order Updates as transactional.
 - [ ] Your consent strategy document explains the 90-day consent cache and lists the valid consent creation methods.
-- [ ] You can explain what happens when a send is blocked for consent reasons (no error, no bounce, silent suppression).
+- [ ] You can explain what happens when a send is blocked for consent reasons (contact appears as not sent with an opt-in reason, no delivery error, no bounce).
 - [ ] You can explain why writing directly to the Communication Subscription Consent DMO via a data transform does not work.
 
 ## Knowledge check

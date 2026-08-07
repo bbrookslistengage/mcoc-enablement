@@ -6,7 +6,7 @@ description: "Configure Communication Subscriptions, build a triggered flow to a
 
 ## Overview
 
-LEOptical has never had a consent management framework. Their previous ESP sent newsletters to whoever was in the list. MCA works differently. Before a marketing email can leave the platform, the recipient needs an explicit OPT_IN record for the relevant Communication Subscription. No record means no send. No error, no warning, just silence.
+LEOptical has never had a consent management framework. Their previous ESP sent newsletters to whoever was in the list. MCA works differently. Before a marketing email can leave the platform, the recipient needs an explicit OPT_IN record for the relevant Communication Subscription. If no OPT_IN record exists, the send is blocked. The contact appears in send reporting as not sent, with a reason indicating they were not opted in.
 
 This module is where you build the plumbing that makes consent work. You will create the Communication Subscriptions that define LEOptical's marketing categories, configure a preference page so subscribers can manage their own opt-ins, set up the web tracking consent banner for landing pages, and use CSV import to create OPT_IN records for your protagonist contacts. You will also add the Privacy Consent Status component to Lead and Contact pages so your team can see consent status at a glance without opening Data 360.
 
