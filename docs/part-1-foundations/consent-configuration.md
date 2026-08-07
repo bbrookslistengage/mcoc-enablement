@@ -104,73 +104,6 @@ The standard **Preference Center** merge field does not work with custom prefere
 - MCE's preference center worked with all email types. MCA's custom preference pages (Spring '26 feature) do not support transactional emails. The standard default preference page does not have this restriction.
 :::
 
-## Web tracking consent banner
-
-The consent banner in the assignment refers to web tracking consent, not email subscription management. These are two separate systems.
-
-The web tracking consent banner appears on MCA landing pages and any external site using MCA tracking embed codes. It asks visitors for permission to collect behavioral data (clicks, page views, session data) before tracking begins. This feeds the web analytics and behavioral tracking in Data 360.
-
-The email preference page manages which marketing subscriptions a contact is opted into. These serve different purposes and are configured in different places.
-
-### Configure the web tracking consent banner
-
-Navigate to **Setup > Quick Find > Web Tracking**.
-
-1. Open the **Consent Banner** section.
-2. Toggle **Require Consent Banner** to enabled.
-3. Configure position, font, colors, and button text as needed. Button text customization was added in Summer '26.
-4. Save your changes.
-5. After changing consent banner settings, republish any Marketing Landing Page sites that use web tracking. The banner changes do not take effect until the site is republished.
-
-{/* SCREENSHOT: description of what to capture -- the Consent Banner configuration panel in Setup */}
-
-You will not deploy this banner to a live landing page until Modules 17-18. For now, confirm the setting is configured and note that the banner requires a republish step after any future changes.
-
-## The Create Consent Request flow element
-
-This is the platform-native flow element for writing consent records. It is the only method that updates both the Communication Subscription Consent DMO and the consent cache at the same time. If you write directly to the DMO using a standard Create Records element, the cache is not updated and the consent status MCA checks at send time will not reflect the change.
-
-In the Flow Builder canvas, search for **Create Consent Request**. Its internal API name is `MessagingConsent.MessagingConsent`, which appears in documentation and SOQL references.
-
-The element requires six input fields:
-
-| Field | Description | Example |
-|---|---|---|
-| `CommunicationSubscriptionChannelType` | The `0eB` ID for the subscription + channel combination | `0eBHs00000111n0MAA` |
-| `ConsentCapturedDateTime` | Timestamp when consent was captured | `$Flow.CurrentDateTime` |
-| `ConsentId` | Composite key: email address, a `#` separator, and the Channel Type ID | `user@example.com#0eBHs00000111n0MAA` |
-| `ConsentStatus` | OPT_IN or OPT_OUT | `OPT_IN` |
-| `ContactPointValue` | The email address this consent applies to | The email variable from the flow |
-| `Name` | The Communication Subscription ID (`0Xl` prefix) | `0XlHs00000111ZZKAY` |
-
-The `ConsentId` field is a composite key you construct as a formula resource. The formula concatenates the email address and the Channel Type ID with a `#` separator. In Flow formula syntax:
-
-```
-[emailVariable] & "#" & "0eBHs00000111n0MAA"
-```
-
-Replace `0eBHs00000111n0MAA` with the actual Channel Type ID for your org. Create a separate formula resource for each subscription.
-
-One **Create Consent Request** element is required per subscription-channel combination. For LEOptical's three marketing subscriptions (all email), that is three elements in the flow.
-
-:::warning
-The `ConsentId` formula and the `CommunicationSubscriptionChannelType` field must use the `0eB` ID specific to your org. These values are not transferable between orgs. Hardcode the IDs as formula resources or flow constants after retrieving them from your SDO.
-:::
-
-Field-level reference for the `MessagingConsent.MessagingConsent` action is documented in the [arthurbackouche.com consent management guide](https://arthurbackouche.com/docs/marketing-cloud-next/consent-management/how-to-manage-consent-in-marketing-cloud-next/). Review that guide before building the flow.
-
-## Building the consent automation flow
-
-{/* TBD: This section requires a verified POC before it can be documented. The correct trigger type is a Data 360-Triggered Flow on the Individual DMO. The walkthrough will be written after testing the flow design in a live SDO to confirm trigger behavior, latency, and the correct field mapping for the Create Consent Request element. Do not build this flow from the Create Consent Request element reference table above alone — the triggering mechanism has not yet been validated. Come back to this section after completing the consent automation POC. */}
-
-:::caution
-This walkthrough is not yet available. The consent automation flow design requires hands-on validation in a live SDO before it can be documented accurately. For now, use the CSV import method (see below) to create consent records for your protagonist contacts so you can continue with later modules.
-:::
-
-The Create Consent Request flow element reference in the previous section covers the element's required inputs. The trigger mechanism, entry conditions, and full flow architecture will be documented here once validated.
-
-For background on the bidirectional consent sync pattern (flow changes in MCA writing back to CRM, and vice versa), see the [modrzejewski.it consent sync guide](https://modrzejewski.it/blog/how-to-keep-consent-in-sync-between-salesforce-data-360-and-marketing-cloud-next/).
-
 ## Privacy Consent Status component
 
 The Privacy Consent Status component is a Lightning Web Component that surfaces consent status for all Communication Subscriptions on a CRM record page. It lets your team see whether a contact is opted in or out of each subscription, and make manual updates without opening Data 360.
@@ -231,6 +164,61 @@ You cannot mix OPT_IN and OPT_OUT records in a single CSV import file. All rows 
 :::
 
 The CSV import updates the consent cache. Contact points must already exist in the system. The import does not create new Leads or Contacts.
+
+## The Create Consent Request flow element
+
+This is the platform-native flow element for writing consent records. It is the only method that updates both the Communication Subscription Consent DMO and the consent cache at the same time. If you write directly to the DMO using a standard Create Records element, the cache is not updated and the consent status MCA checks at send time will not reflect the change.
+
+In the Flow Builder canvas, search for **Create Consent Request**. Its internal API name is `MessagingConsent.MessagingConsent`, which appears in documentation and SOQL references.
+
+The element requires six input fields:
+
+| Field | Description | Example |
+|---|---|---|
+| `CommunicationSubscriptionChannelType` | The `0eB` ID for the subscription + channel combination | `0eBHs00000111n0MAA` |
+| `ConsentCapturedDateTime` | Timestamp when consent was captured | `$Flow.CurrentDateTime` |
+| `ConsentId` | Composite key: email address, a `#` separator, and the Channel Type ID | `user@example.com#0eBHs00000111n0MAA` |
+| `ConsentStatus` | OPT_IN or OPT_OUT | `OPT_IN` |
+| `ContactPointValue` | The email address this consent applies to | The email variable from the flow |
+| `Name` | The Communication Subscription ID (`0Xl` prefix) | `0XlHs00000111ZZKAY` |
+
+The `ConsentId` field is a composite key you construct as a formula resource. The formula concatenates the email address and the Channel Type ID with a `#` separator. In Flow formula syntax:
+
+```
+[emailVariable] & "#" & "0eBHs00000111n0MAA"
+```
+
+Replace `0eBHs00000111n0MAA` with the actual Channel Type ID for your org. Create a separate formula resource for each subscription.
+
+One **Create Consent Request** element is required per subscription-channel combination. For LEOptical's three marketing subscriptions (all email), that is three elements in the flow.
+
+:::warning
+The `ConsentId` formula and the `CommunicationSubscriptionChannelType` field must use the `0eB` ID specific to your org. These values are not transferable between orgs. Hardcode the IDs as formula resources or flow constants after retrieving them from your SDO.
+:::
+
+Field-level reference for the `MessagingConsent.MessagingConsent` action is documented in the [arthurbackouche.com consent management guide](https://arthurbackouche.com/docs/marketing-cloud-next/consent-management/how-to-manage-consent-in-marketing-cloud-next/). Review that guide before building the flow.
+
+## Web tracking consent banner
+
+The consent banner in the assignment refers to web tracking consent, not email subscription management. These are two separate systems.
+
+The web tracking consent banner appears on MCA landing pages and any external site using MCA tracking embed codes. It asks visitors for permission to collect behavioral data (clicks, page views, session data) before tracking begins. This feeds the web analytics and behavioral tracking in Data 360.
+
+The email preference page manages which marketing subscriptions a contact is opted into. These serve different purposes and are configured in different places.
+
+### Configure the web tracking consent banner
+
+Navigate to **Setup > Quick Find > Web Tracking**.
+
+1. Open the **Consent Banner** section.
+2. Toggle **Require Consent Banner** to enabled.
+3. Configure position, font, colors, and button text as needed. Button text customization was added in Summer '26.
+4. Save your changes.
+5. After changing consent banner settings, republish any Marketing Landing Page sites that use web tracking. The banner changes do not take effect until the site is republished.
+
+{/* SCREENSHOT: description of what to capture -- the Consent Banner configuration panel in Setup */}
+
+You will not deploy this banner to a live landing page until Modules 17-18. For now, confirm the setting is configured and note that the banner requires a republish step after any future changes.
 
 ## Org-wide consent settings
 
