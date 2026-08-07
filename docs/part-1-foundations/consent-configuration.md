@@ -1,7 +1,7 @@
 ---
 sidebar_position: 5
 title: "Consent Configuration"
-description: "Configure Communication Subscriptions, build a triggered flow to auto-create consent records, and add the Privacy Consent Status component to CRM record pages."
+description: "Configure Communication Subscriptions, set up the preference page and web tracking consent banner, and add the Privacy Consent Status component to CRM record pages."
 ---
 
 ## Overview
