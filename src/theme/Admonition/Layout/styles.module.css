@@ -1,0 +1,113 @@
+.admonition {
+  margin: 1.5rem 0;
+  border-radius: var(--border-radius-md);
+  border: var(--border-width-default) solid transparent;
+  padding: var(--space-stack-md) var(--space-inline-lg);
+  box-shadow: none;
+}
+
+/* ── Info ──────────────────────────────────────── */
+.admonition--info {
+  background: var(--color-status-info-subtle);
+  border-color: rgba(0, 154, 215, 0.18);
+}
+
+.admonition--info .admonitionIcon svg {
+  color: var(--color-status-info);
+}
+
+.admonition--info .admonitionTitle {
+  color: var(--color-brand-blue);
+}
+
+/* ── Warning ───────────────────────────────────── */
+.admonition--warning {
+  background: var(--color-status-warning-subtle);
+  border-color: rgba(241, 156, 46, 0.22);
+}
+
+.admonition--warning .admonitionIcon svg {
+  color: var(--color-status-warning);
+}
+
+.admonition--warning .admonitionTitle {
+  color: var(--color-brand-orange-muted);
+}
+
+/* ── Tip (Coming from MCE?) ────────────────────── */
+.admonition--tip {
+  background: rgba(28, 46, 66, 0.04);
+  border-color: rgba(28, 46, 66, 0.14);
+}
+
+.admonition--tip .admonitionIcon svg {
+  color: var(--color-brand-navy);
+}
+
+.admonition--tip .admonitionTitle {
+  color: var(--color-brand-navy);
+}
+
+/* ── Caution ───────────────────────────────────── */
+.admonition--caution,
+.admonition--danger {
+  background: var(--color-status-caution-subtle);
+  border-color: rgba(220, 38, 38, 0.18);
+}
+
+.admonition--caution .admonitionIcon svg,
+.admonition--danger .admonitionIcon svg {
+  color: var(--color-status-caution);
+}
+
+.admonition--caution .admonitionTitle,
+.admonition--danger .admonitionTitle {
+  color: var(--color-status-caution);
+}
+
+/* ── Header row ────────────────────────────────── */
+.admonitionHeader {
+  display: flex;
+  align-items: center;
+  gap: 0.375rem;
+  margin-bottom: 0.5rem;
+}
+
+.admonitionIcon {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+.admonitionIcon svg {
+  width: 0.875rem;
+  height: 0.875rem;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.admonitionTitle {
+  font-size: var(--font-size-label);
+  font-weight: var(--font-weight-semibold);
+  letter-spacing: var(--letter-spacing-wide);
+  text-transform: uppercase;
+  line-height: 1;
+}
+
+/* ── Content ───────────────────────────────────── */
+.admonitionContent {
+  font-size: var(--font-size-body-small);
+  line-height: var(--line-height-body);
+  color: var(--color-text-primary);
+}
+
+.admonitionContent > :last-child {
+  margin-bottom: 0;
+}
+
+.admonitionContent p {
+  margin-bottom: 0;
+}

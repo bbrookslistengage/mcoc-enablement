@@ -121,7 +121,7 @@ These words and constructions are not allowed anywhere in course content. This l
 Use Docusaurus admonitions for specific purposes only:
 
 ```markdown
-:::tip Coming from MCE?
+:::tip[Coming from MCE?]
 MCE equivalent mapping goes here.
 :::
 

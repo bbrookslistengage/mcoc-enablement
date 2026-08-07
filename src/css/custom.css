@@ -241,34 +241,7 @@ body {
   line-height: var(--line-height-relaxed);
 }
 
-/* Admonitions */
-
-.alert {
-  border-radius: var(--border-radius-sm);
-  border-left-width: 3px;
-  padding: var(--space-stack-md) var(--space-inline-md);
-  box-shadow: none;
-}
-
-.alert--info {
-  border-left-color: var(--color-status-info);
-  background: var(--color-status-info-subtle);
-}
-
-.alert--success {
-  border-left-color: var(--color-status-success);
-  background: var(--color-status-success-subtle);
-}
-
-.alert--warning {
-  border-left-color: var(--color-status-warning);
-  background: var(--color-status-warning-subtle);
-}
-
-.alert--danger {
-  border-left-color: var(--color-status-caution);
-  background: var(--color-status-caution-subtle);
-}
+/* Admonitions — styled via src/theme/Admonition/Layout/styles.module.css */
 
 /* Tables */
 

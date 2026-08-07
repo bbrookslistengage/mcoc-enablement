@@ -83,11 +83,11 @@ When a lesson section includes step-by-step instructions:
 
 ### Coming from MCE? callout
 
-Place a `:::tip Coming from MCE?` admonition within the lesson body at
+Place a `:::tip[Coming from MCE?]` admonition within the lesson body at
 the point where it is most relevant. This is not a fixed position. Put it
 where the MCE comparison actually helps.
 
-:::tip Coming from MCE?
+:::tip[Coming from MCE?]
 Map this concept to the MCE equivalent. Be specific:
 - What is the direct equivalent (if one exists)?
 - What changed between MCE and MCA?

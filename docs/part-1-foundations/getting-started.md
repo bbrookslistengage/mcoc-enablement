@@ -1,7 +1,7 @@
 ---
 sidebar_position: 1
-title: "Module 1: Getting Started"
-description: "Provision your SDO, set up Data 360 and MCA, install the Marketing Data Kit, and seed the org with LEOptical's CRM data."
+title: "Getting Started"
+description: "Provision your SDO, set up Data 360 and MCA, and seed the org with LEOptical's CRM data."
 ---
 
 ## Overview
@@ -10,9 +10,11 @@ LEOptical just signed their Salesforce contract. Day one of the engagement. Your
 
 The environment you will work in throughout this course is an SDO (Simple Demo Org), Salesforce's partner demo environment. Think of it as LEOptical's org for the duration of the course. It is not a sandbox. It is not a Developer Edition. It has specific characteristics, specific limitations, and a 30-day expiry you need to address immediately. Every configuration decision you make here maps to what a real MCA implementation would require.
 
-This module covers a lot of ground: SDO provisioning, permission sets, Data 360 setup, Marketing Cloud setup, Data Kit installation, Identity Resolution configuration, a Data Graph, segmentation features, Einstein Engagement Scoring, Agentforce, and Send Time Optimization. Several of these steps kick off automated processes that take hours or days to complete. You are not expected to finish this in a single sitting. Plan for 1-3 days to get through the full setup.
+This module covers a lot of ground: SDO provisioning, Data 360 setup, Marketing Cloud setup, Identity Resolution configuration, a Data Graph, segmentation features, Einstein Engagement Scoring, Agentforce, and Send Time Optimization. Several of these steps kick off automated processes that take hours or days to complete. You are not expected to finish this in a single sitting. Plan for 1-3 days to get through the full setup.
 
 Some concepts introduced here (Identity Resolution, Data Graphs, Unified Individuals) will not make full sense yet. That is intentional. Modules 8 and 9 cover those in depth. For now, you are configuring the infrastructure. You will understand why each piece matters once you start using it.
+
+At the end of this module, you will seed your org with LEOptical's fictional customer data: approximately 60,000 Contacts, Accounts, Products, and Campaigns. This is the data you will work with throughout the course. Several of the AI features you configure during setup (Einstein Engagement Scoring, Send Time Optimization) require real email engagement history to produce results. The seed data does not include that history, so those features will be infrastructure-only for now.
 
 ## Lesson overview
 
@@ -20,377 +22,221 @@ This section contains a general overview of topics that you will learn in this l
 
 - What an SDO is and how it differs from other Salesforce environments.
 - How to provision an SDO from Partner Learning Camp and extend its expiry.
-- What permission sets are required and how to assign them.
 - How to run Data 360 setup and confirm it is complete.
-- How to connect a Marketing Cloud Engagement demo account to your org.
-- How to install Marketing Cloud Data Kits and handle common installation failures.
-- How to configure two Identity Resolution rulesets (name+email and MCE Subscriber Key).
+- How to install the Marketing Performance App.
+- How to configure Identity Resolution rulesets.
 - How to create a Data Graph for personalization.
 - How to enable advanced segmentation features, Einstein Engagement Scoring, Agentforce, and Send Time Optimization.
 - How to seed the org with LEOptical's CRM data.
 
-## Your Environment: The SDO
+## Setup
 
-The SDO (Simple Demo Org) is Salesforce's primary partner demo environment. It is not a Developer Edition, not a sandbox, and not a trial. It comes pre-populated with demo data, pre-installed packages, and tooling that standard orgs do not have. You access SDOs through Partner Learning Camp, and they are available only to Salesforce partners.
+The authoritative setup guide for MCA in an SDO is the [MCA SDO Setup Guide](https://quip.com/rSLuAs4M0ak3). Complete the following sections from that doc in order. The notes below each section flag things the doc does not cover or where SDO behavior differs.
 
-Key characteristics of the SDO:
+:::tip[Coming from MCE?]
+MCA lives entirely inside a Core Salesforce org. There is no separate "Marketing Cloud" login. You log into Salesforce and MCA is an app in the App Launcher. This is a fundamental shift from MCE, which had its own separate application and login.
+:::
 
-- Expires 30 days after provisioning by default.
-- Can be extended up to 12 months via a Partner Community request (do this immediately).
-- Takes approximately 1 hour to provision, sometimes longer.
-- Has one data space. Business units cannot be enabled. Always select "default" as your data space throughout this course.
-- AutoNTO accounts cannot be connected.
+### Get your own Simple Demo Org (SDO) from Partner Learning Camp (PLC)
+
+Follow the guide to provision your SDO.
 
 :::warning
 Extend your SDO expiry before you do anything else. Navigate to the Partner Community and ask the Agent to extend your SDO expiry date by one year. If you forget, your org expires in 30 days and you lose everything you have built.
 :::
 
-:::tip Coming from MCE?
-MCE practitioners typically used a personal MCE trial account or an MCE sandbox tied to a production org. MCA lives entirely inside a Core Salesforce org. There is no separate "Marketing Cloud" login. You log into Salesforce and MCA is an app in the App Launcher. This is a fundamental shift, and it takes some getting used to.
-:::
+The SDO has one data space. Business units cannot be enabled. Always select **default** as your data space throughout this course.
 
-### Provisioning your SDO
+### Data 360 Setup
 
-{/* VERIFY: Is PLC course completion ("Simple Demo Org Fundamentals") required before the Demo Org tab appears. */}
+Follow the guide. Data 360 setup runs as an automated process. When it finishes, you will see a **Tenant Endpoint** in the Data 360 Setup page. That is your confirmation it is complete.
 
-Before you start, confirm you have the following:
-
-- An active Salesforce Partner account.
-- Login credentials for the Partner Community.
-- Access to your email inbox (for the SDO activation email).
-- A browser with private/incognito window support.
-
-To provision your SDO:
-
-1. Log in to [Partner Learning Camp](https://partnerlearningcamp.salesforce.com/).
-2. Navigate to the **Demo Org** tab.
-3. Request a **Simple Demo Org**. The provisioning email arrives within approximately 1 hour.
-4. When you receive the activation email, open it in a **private/incognito window**. This avoids session conflicts with any existing Salesforce logins.
-5. Complete the activation flow. Set a password you will remember.
-6. After logging in, go to the **Partner Community** and ask the Agent to extend your SDO expiry by one year.
+The Tenant Endpoint is a unique URL that identifies your org's Data 360 instance. It is what other Salesforce services use to communicate with Data 360: Marketing Cloud, Identity Resolution, and the Assisted Setup wizard all depend on it. If it is not present, those services cannot connect, and subsequent setup steps will fail with confusing errors.
 
 :::warning
-After receiving the activation email, some background installation tasks may still be running in the org. Accessing your user record in Setup may be slow for the first several minutes. This is expected.
+Data 360 setup can take up to 2 hours. Do not proceed with Marketing Cloud setup steps until the Tenant Endpoint appears.
 :::
 
-## Permission Sets
+### Marketing Cloud Setup
 
-Before configuring anything, assign the two required permission sets to your user. Without these, you cannot access the MCA and Data 360 setup flows.
-
-The two permission sets are:
-
-1. **Data Cloud Architect (Admin)**: grants access to Data 360 setup and configuration.
-2. **Marketing Cloud Admin**: grants access to MCA features.
-
-{/* VERIFY: Confirm the "Data Cloud Architect (Admin)" permission set name in Summer '26 SDOs. Some sources call it "Data Cloud Admin." The UI label may differ between releases. */}
-
-To assign them:
-
-1. Navigate to **Setup > Users > Users**.
-2. Click your username.
-3. Scroll to **Permission Set Assignments** and click **Edit Assignments**.
-4. Move **Data Cloud Architect (Admin)** and **Marketing Cloud Admin** from the Available list to the Enabled list.
-5. Click **Save**.
-
-:::tip Coming from MCE?
-MCE managed users, roles, and business unit access inside the MCE application itself. MCA uses standard Salesforce permission sets. If your client already uses Salesforce, their admins can manage MCA access through the same tools they use for everything else.
-:::
-
-## Company Information
-
-Email sending requires a physical mailing address in the org (CAN-SPAM compliance). Set this up now before the sending configuration steps.
-
-1. Navigate to **Setup > Company Settings > Company Information**.
-2. Click **Edit**.
-3. Fill in **Street**, **City**, **State/Province**, **Zip/Postal Code**, and **Country**.
-4. Click **Save**.
-
-## Data 360 Setup
-
-Data 360 setup runs as an automated process inside your org. The process creates the data infrastructure that MCA depends on.
-
-1. Click the **Setup** gear icon in the top-right corner.
-2. Navigate to **Data Cloud Setup**.
-3. Click **Get Started**.
-
-The setup process runs automatically. When it finishes, you will see a **Tenant Endpoint** in the Data 360 setup page. That endpoint is your confirmation that Data 360 is fully provisioned.
+Follow the guide. This runs the Assisted Setup wizard and installs the Marketing Cloud Data Kits, which wire CRM objects (Contacts, Accounts, Campaigns, and more) into Data 360 as Data Model Objects.
 
 :::warning
-Data 360 setup can take up to 2 hours. Do not proceed with Marketing Cloud setup steps until the Tenant Endpoint appears. If you continue before setup completes, you may encounter errors in the Assisted Setup wizard.
-:::
-
-## Marketing Cloud Engagement Connection
-
-MCA can send email natively, but for this course you will also connect a Marketing Cloud Engagement (MCE) demo account. This connection lets MCE subscriber data (including Subscriber Keys and email engagement history) flow into Data 360.
-
-Only one MCE demo account is provisioned per partner organization. Check with your team before requesting a new one. If your partner org already has one, get the credentials from the person who set it up.
-
-If you need to request a new MCE demo account, follow the instructions at [Marketing Cloud Engagement Demo Accounts for Partners](https://help.salesforce.com/s/articleView?id=000390865&type=1). Account provisioning can take several days.
-
-:::warning
-MCE demo account provisioning can take several days after submitting the partner benefits case. If you are waiting on an MCE account, you can complete the rest of this module's setup steps (Data 360 setup, Data Kits, IDR, Data Graph, Einstein features) and come back to the MCE connection when the account is ready. Some Data Kit steps require an active MCE account.
-:::
-
-{/* VERIFY: Does the MCE connection require an active MCE account, or can Module 1 be completed without it? Clarify which steps are blocked by MCE and which are not. */}
-
-When your MCE credentials are ready:
-
-1. Navigate to **Setup > Marketing Cloud > Assisted Setup > Assistant Home**.
-2. Find the **Connect Data and Start Setup** card and click **Go to Setup**.
-3. Under **Required Setup**, click **Go to Data Cloud Setup**.
-4. Enter your MCE account credentials.
-
-For the MCE connection to work, the MCE user must:
-- Have the **Marketing Cloud Admin** role and **Administrator** role in MCE.
-- Be designated as an **API User** in MCE Setup > Users.
-- Belong to an Enterprise 2.0 account type.
-
-:::tip Coming from MCE?
-In MCE, you worked directly inside the Marketing Cloud application. In MCA, MCE becomes a data source connected to Data 360. The two products are peers now, not the same thing. Your MCE instance feeds subscriber data into MCA's unified data model, but MCA controls the sending logic.
-:::
-
-## Marketing Cloud Basic Settings and Data Kits
-
-Marketing Cloud Data Kits are pre-built connectors that wire CRM objects (Contacts, Accounts, Campaigns, and more) into Data 360 as Data Model Objects (DMOs). Installing them is one of the first real configuration steps.
-
-1. Navigate to **Setup > Marketing Cloud > Assisted Setup > Basic Settings**.
-2. Select **default** as your data space.
-3. Click through to **Install Marketing Cloud Data Kits** and start the installation.
-
-{/* VERIFY: Confirm the Data Kit names shown in the UI match what the guide describes. Data Kit names may be updated between releases. */}
-
-:::warning
-Data Kit installation failures are normal. Do not assume something is broken. Use the **Retry** button when a kit shows an error. Keep retrying until all kits show a status of **Deployed**. This can take a while.
+Data Kit installation failures are normal. Use the **Retry** button when a kit shows an error. Keep retrying until all kits show a status of **Deployed**.
 :::
 
 :::warning
-The Sales Data Kit can fail due to missing Account permissions on the **Data Cloud Salesforce Connector** permission set. If it does, navigate to **Setup > Permission Sets > Data Cloud Salesforce Connector > Object Settings > Accounts** and confirm all permissions (Read, Create, Edit, and any others listed) are enabled. Then retry the Sales Data Kit installation.
+The Sales Data Kit can fail due to missing Account permissions on the **Data Cloud Salesforce Connector** permission set. If it does, navigate to **Setup > Permission Sets > Data Cloud Salesforce Connector > Object Settings > Accounts**, confirm all permissions are enabled, then retry.
 :::
 
-:::warning
-On some SDOs, Data Kit installation fails with: "A required package is missing. Package 'Salesforce Standard Data Model', Version x or later must be installed first." If you see this error, install the package from [https://help.salesforce.com/s/articleView?id=002234049&type=1](https://help.salesforce.com/s/articleView?id=002234049&type=1) and then retry.
-:::
-
-:::tip Coming from MCE?
+:::tip[Coming from MCE?]
 MCE had Contact Builder connectors and synchronized data extensions to pull CRM data into Marketing Cloud. Data Kits are the MCA equivalent. The concept is similar: pre-built bundles that map CRM objects to a marketing data model. The implementation is entirely different. Data Kits map to Data 360 DMOs, not synchronized data extensions.
 :::
 
-## Identity Resolution
+### Install the Marketing Performance App
 
-Identity Resolution (IDR) is how MCA figures out that two records in different systems represent the same real person. It runs matching rules against your data and produces **Unified Individual** records. You will configure two rulesets.
-
-This module does not go deep on how IDR works. Module 9 covers that. For now, follow the steps to get the infrastructure in place.
-
-:::warning
-MCA setup can auto-create a default IDR ruleset. Before creating either ruleset below, navigate to **App Launcher > Identity Resolutions** and check whether a ruleset already exists. Creating duplicates is harmless but confusing. If a default ruleset exists, review its configuration against what is described below.
-:::
-
-:::tip Coming from MCE?
-MCE used Subscriber Key as its primary identifier for contacts. Data 360 has no concept of a Subscriber Key by default. The second IDR ruleset you configure below (MCE Subscriber Key matching) is specifically designed to bridge the MCE identifier into the MCA data model, so that MCE subscriber history maps to the right Unified Individual records.
-:::
-
-### Ruleset 1: Name and Email Matching
-
-This ruleset identifies the same person across different source systems using name and email address.
-
-1. Navigate to **App Launcher > Identity Resolutions**.
-2. Click **New Ruleset**.
-3. Set **Primary DMO** to **Individual** and **Match DMO** to **Individual**.
-4. Set Match Rule to **Custom** and add the following fields:
-   - **First Name**, Method: **Fuzzy - Medium Precision**
-   - **Last Name**, Method: **Exact**
-   - **Contact Point Email > Email Address**, Method: **Exact Normalized**
-5. Save the ruleset. IDR will run the first match job automatically.
-
-### Ruleset 2: MCE Subscriber Key Matching
-
-{/* VERIFY: Does Spring '26 auto-create the Subscriber Key IDR ruleset when MCE+ is enabled? If so, learners may encounter a pre-existing ruleset and should verify its configuration rather than creating a new one. */}
-
-This ruleset maps MCE Subscriber Keys to Individual records in Data 360.
-
-1. In **App Launcher > Identity Resolutions**, create a new ruleset.
-2. Set **Primary DMO** to **Individual** and **Match DMO** to **Individual**.
-3. Set Match Rule to **Custom** and add:
-   - **DMO**: Party Identification, **Field**: Identification Number, **Method**: Exact
-   - Set **Party Identification Type** to "Person Identifier"
-   - Set **Party Identification Name** to "MC Subscriber Key"
-4. Save the ruleset.
-{/* VERIFY: Research file lists this path as "Setup > Marketing Cloud > Assisted Setup > Assistant Home > Basic Settings > Go to Basic Settings > Configure Identity Resolution Rulesets" - the draft omits the "Go to Basic Settings" step in the middle. Confirm the exact path in a live SDO. */}
-5. After saving, navigate to **Setup > Marketing Cloud > Assisted Setup > Assistant Home > Basic Settings > Configure Identity Resolution Rulesets**.
-6. Select `UnifiedssotIndividual1__dlm` as the account Unified Individual object.
-
-{/* VERIFY: Does the "UnifiedssotIndividual1__dlm" field name remain consistent across SDOs? Verify this is the correct value in a fresh Summer '26 SDO. */}
-
-## Data Graph
-
-A Data Graph is a pre-computed JSON snapshot of connected records for each Unified Individual. You use it for personalization (Handlebars merge fields in email content). The graph is computed on a schedule and accessed at send time.
-
-You are creating this now to enable personalization when you start building emails. Module 8 covers Data Graphs in depth.
-
-1. Navigate to **App Launcher > Data Cloud > Data Graphs tab**.
-2. Click **New > Start from Scratch > Standard Data Graph**.
-3. Configure:
-   - **Data Graph Name**: Marketing Content Personalization
-   - **Data Space**: default
-   - **Primary DMO**: Unified Individual
-   - **Refresh Schedule**: Daily
-4. Add the following DMO chain:
-   - Unified Individual fields (select all fields you want available for personalization)
-   - Unified Individual > Unified Link Individual > Individual (include Data Source field)
-   - Unified Individual > Unified Link Individual > Individual > Contact Point Email (include Email Address field)
-   - Unified Individual > Unified Link Individual > Individual > Contact Point Phone (include Formatted E164 Phone Number field)
-5. Save the Data Graph.
-6. Navigate to **Setup > Marketing Cloud > Assisted Setup > Reporting and Optimization > Customer Engagement > Configure Basic Personalization**.
-7. Select **Marketing Content Personalization** in the dropdown.
-
-## Advanced Segmentation Features
-
-Three segmentation features are disabled by default and need to be turned on manually.
-
-1. Navigate to **Setup > Data Cloud > Feature Management > Feature Manager**.
-2. Enable **Approximate Segment Population**.
-3. Enable **Segment Preview**.
-4. Enable **Einstein Segment Creation**.
-
-## Einstein Engagement Scoring
-
-Einstein Engagement Scoring predicts how likely a contact is to engage with an email. You are setting up the model now as infrastructure. It will not produce results in the SDO with seed data alone.
-
-:::warning
-Engagement Scoring requires 1,000 or more real email engagement events (sends, opens, clicks, bounces, unsubscribes) in the prior 90 days. The seed data does not include real engagement history. The model will not produce scores until you have real sending history. Module 23 covers how to interpret scoring results when they do appear.
-:::
-
-1. Navigate to **Setup > Marketing Cloud > Assisted Setup > Reporting and Optimization > Customer Engagement**.
-2. Click **Go to Scoring Setup > New**.
-3. Configure:
-   - **Model name**: Default
-   - **Score on**: People
-   - **Identity Resolution**: Unified Individual
-4. Save.
-
-## Agentforce Campaign Creation Agent
-
-The Campaign Creation Agent is an AI agent that helps build campaign briefs and suggests email content. Enabling it requires two steps: turning on Einstein, then setting up the agent.
-
-### Enable Einstein
-
-1. Navigate to **Setup > Einstein > Einstein Generative AI > Einstein Setup**.
-2. Toggle **Einstein** on.
-3. Turn on **Global Languages**.
-4. Turn on **Deploy Prompt Templates**.
-
-### Set Up the Campaign Creation Agent
-
-{/* VERIFY: Does the Spring '26 Agentforce setup flow still apply in Summer '26 SDOs? The legacy Agentforce Builder is scheduled to be phased out for new agent creation starting approximately mid-July 2026. The exact UI may differ. */}
-
-1. Navigate to **Setup > Einstein > Einstein Generative AI > Agentforce Studio > Agentforce Agents**. If the option is not visible, refresh the page.
-2. Turn on **Agentforce**.
-3. Click **+ New Agent**.
-4. Select **Campaign Creation**.
-5. Name it **Campaign Creation Agent**.
-6. Click **Let's Go**.
-7. Review the default subagent descriptions.
-8. Click **Save and Commit**.
-
-Grant the agent to the System Administrator profile:
-
-1. Navigate to **Setup > Users > Profiles > System Administrator > Agent Access**.
-2. Click **Edit**.
-3. Assign the **Campaign Creation Agent** to this profile.
-4. Save.
-
-## Send Time Optimization
-
-Send Time Optimization (STO) predicts the best time to send email to each individual contact based on their past engagement. Like Engagement Scoring, it requires real engagement history to produce results. Enabling it now sets up the infrastructure.
-
-1. Navigate to **Setup > Marketing Cloud > Assisted Setup > Channels > Email**.
-2. Find the **Activate Einstein Send Time Optimization** section.
-3. Click **Go to Einstein Settings**.
-4. Select **Enable with your org-specific data**.
-5. Click **Enable**.
-
-:::warning
-STO activation can take up to 48 hours to complete. It will not produce meaningful results with seed data only. Real engagement history is required. This is infrastructure setup only for now.
-:::
-
-## Marketing Performance App (Optional)
-
-The Marketing Performance App provides email analytics through Tableau Next. Setting it up now means your reporting infrastructure is ready when you start sending.
-
-1. Navigate to **Setup > Marketing Cloud > Marketing Features > Marketing Performance > Go to Data Streams > New > Marketing Cloud > Next**.
-2. Map your MC Engagement Business Units to the Default Data Space.
-3. Select the **Email Studio Starter Data Bundle**.
-4. Include the **SFMC Journey Activity Run Data Streams**.
-5. Confirm the field mappings and click **Deploy**.
-6. Repeat the above for the **MobileConnect data bundle**.
-7. Navigate to **Setup > Marketing Cloud > Marketing Features > Marketing Performance > Install**.
-
-{/* VERIFY: Research file lists the Flows bundle workaround path as "Data 360 > Data Streams > New" - the draft says "App Launcher > Data Cloud > Data Streams > New." These may refer to the same destination, but confirm the exact navigation label in a live SDO. */}
-If you see errors about `template_requirement_flow`, manually install the Flows Salesforce Data Bundle via **App Launcher > Data Cloud > Data Streams > New**, select Salesforce, and find the Flows bundle.
-
-After installation, assign the **Tableau Next Included App Business User** permission set to any users who need access to the Marketing Performance reports.
+Follow the guide.
 
 :::warning
 The Marketing Performance Intelligence package must be uninstalled and reinstalled once per Salesforce release (three times per year). It does not auto-update. If your SDO crosses a release boundary during the course, you will need to reinstall it.
 :::
 
+### Define an Identity Resolution Ruleset
+
+Follow the guide to set up Identity Resolution (IDR). IDR is how MCA determines that two records in different systems represent the same real person. It produces **Unified Individual** records.
+
+You can access Identity Resolution through the setup menu as the guide describes, or directly via **App Launcher > Identity Resolutions**. Both get you to the same place.
+
+:::warning
+MCA setup can auto-create a default IDR ruleset. Before creating any ruleset, navigate to **App Launcher > Identity Resolutions** and check whether one already exists. If a default ruleset is there, review its configuration rather than creating a duplicate.
+:::
+
+:::tip[Coming from MCE?]
+MCE used Subscriber Key as its primary identifier for contacts. Data 360 has no concept of a Subscriber Key by default. Configuring IDR to match on Party Identification is what bridges MCE subscriber history into the MCA data model so it maps to the right Unified Individual records.
+:::
+
+### Confirm Company Information includes Address
+
+Follow the guide. This is a CAN-SPAM compliance requirement. Email sending will fail without a physical mailing address in the org.
+
+### Create a Data Graph for Personalization
+
+Follow the guide to create a Data Graph. A Data Graph is a pre-computed snapshot of connected records for each Unified Individual. You use it for personalization (Handlebars merge fields in email content).
+
+Module 8 covers Data Graphs in depth. For now, you are creating the infrastructure.
+
+### Turn on Advanced Segmentation Features
+
+Follow the guide to enable Approximate Segment Population, Segment Preview, and Einstein Segment Creation. All three are disabled by default.
+
+### Enable Einstein Engagement Scoring
+
+Follow the guide.
+
+:::warning
+Engagement Scoring requires 1,000 or more real email engagement events in the prior 90 days. The seed data does not include real engagement history, so the model will not produce scores yet. Module 23 covers how to interpret scoring results when they do appear.
+:::
+
+### Enable Agentforce
+
+Follow the guide to enable Einstein and set up the Campaign Creation Agent.
+
+### Enable Send Time Optimization
+
+Follow the guide.
+
+:::warning
+STO activation can take up to 48 hours. It will not produce meaningful results with seed data only. This is infrastructure setup.
+:::
+
 ## Seeding LEOptical's CRM Data
 
-The seed script populates your SDO with LEOptical's fictional customer data: approximately 60,000 Contacts, Accounts, Products, and Campaigns. This data is what you will work with throughout the course.
+The seed script (`seed_crm_data.apex`) is in the course repo under `static/seed-data/`. It populates your SDO with approximately 60,000 Contacts, 5 Products, Campaigns, and related records. All data is self-contained in the script. There is no CSV dependency at this stage. This is the data you will work with throughout the course.
 
-1. In your org, navigate to the **Developer Console** (via the gear icon or Setup).
-2. Open **Execute Anonymous**.
-3. Paste in the contents of `seed_crm_data.apex`.
-4. Run the script. It will take several minutes to complete.
-5. After the script completes, navigate to **Contacts** in the App Launcher and confirm approximately 60,000 Contacts are present.
+### Run the seed script
 
-Next, update the 10 protagonist contacts. These are the specific contacts you will use throughout the course to receive and verify test emails. They need to have your email address so that emails you send actually reach you.
+The Apex script runs through the Developer Console's Execute Anonymous window.
 
-6. Navigate to each of the 10 protagonist contacts and update their email address using an alias pattern: `yourname+maria@gmail.com`, `yourname+james@gmail.com`, and so on. The exact protagonist names are listed in your course materials.
+1. Click the **gear icon** in the top-right corner of your org and select **Developer Console**.
 
-Finally, note the Campaign IDs for the seeded campaigns. You will need these in later modules.
+   {/* SCREENSHOT: Developer Console option in the gear menu */}
 
-7. Navigate to **Campaigns** in the App Launcher.
-8. Open each seeded campaign and copy its Salesforce Record ID from the URL.
-9. Save these IDs somewhere accessible (a notes file, a spreadsheet, anywhere you can reference them later).
+2. In the Developer Console, go to **Debug > Open Execute Anonymous Window** (or press **Ctrl+E** / **Cmd+E**).
+
+   {/* SCREENSHOT: Developer Console with the Debug menu open */}
+
+3. Open `static/seed-data/seed_crm_data.apex` from the course repo and copy its entire contents.
+4. Paste the script into the Execute Anonymous window.
+5. Check **Open Log** at the bottom of the window, then click **Execute**.
+
+   {/* SCREENSHOT: Execute Anonymous window with script pasted and Open Log checked */}
+
+6. The log window will open. The script takes 2-5 minutes to complete. When it finishes, the last log line will read `Execution finished`.
+
+   {/* SCREENSHOT: Log window showing "Execution finished" */}
+
+:::warning
+If the log shows an error (red text or an exception), do not proceed. Copy the error message and check the troubleshooting notes in the course repo's `README.md`. The most common cause is hitting DML governor limits. The script is designed to run on a fresh SDO, not an org that already has data.
+:::
+
+### Confirm the data is present
+
+7. Close the Developer Console and navigate to **Contacts** in the App Launcher.
+8. Switch the list view to **All Contacts**. You should see approximately 60,000 records.
+
+   {/* SCREENSHOT: Contacts list view showing record count near 60,000 */}
+
+9. Navigate to **Products** in the App Launcher and confirm 5 Product records are present: the 4 lens families plus frames.
+10. Navigate to **Campaigns** and confirm the seeded campaigns are present (Spring Collection 2026, VisionCare Rewards Launch, Back to School).
+
+### Update the protagonist contacts
+
+The 10 protagonist contacts are the ones you will actually receive emails from. They are pre-configured with specific loyalty tiers, purchase histories, and exam statuses to let you test different personalization scenarios. The script creates them with placeholder emails (`YOURNAME+maria@example.com` style) that you need to replace with your own address.
+
+Use Gmail's plus-alias pattern: `yourname+maria@gmail.com`, `yourname+james@gmail.com`, and so on. Each alias routes to your inbox but arrives as a distinct address, so you can tell which contact received which email.
+
+The 10 protagonists and what they are designed to test:
+
+| Name | Loyalty Tier | What they test |
+|------|-------------|----------------|
+| Maria Chen | Gold | VIP customer with overdue eye exam and multiple products |
+| James Okafor | Platinum | Top tier, recent exam |
+| Sofia Reyes | Bronze | New signup, no purchases, no engagement |
+| David Kim | Silver | Lapsed buyer (last purchase over 200 days ago), overdue exam |
+| Aisha Patel | Gold | VIP, single product family |
+| Carlos Mendez | Bronze | Low tier, one purchase |
+| Wei Zhang | Platinum | Power buyer, all 4 products, recent exam |
+| Fatima Al-Hassan | Silver | Tier boundary case (exactly 25,000 points) |
+| Ryan O'Brien | Bronze | Has had an exam but no purchases |
+| Priya Sharma | Gold | Multi-product Visionaire buyer, recent exam |
+
+To update each contact:
+
+11. In the **Contacts** list, search for each protagonist by name.
+12. Open the contact record and click **Edit**.
+13. Update the **Email** field to your alias: `yourname+[firstname]@gmail.com`.
+14. Save.
+
+Repeat for all 10. When you start sending emails in later modules, these are the contacts whose inboxes you will check.
+
+{/* SCREENSHOT: A protagonist contact record with the email field updated to the alias pattern */}
+
+### Record the Campaign IDs
+
+The seeded campaigns have Salesforce Record IDs you will reference in later modules when building segments and journeys.
+
+15. Navigate to **Campaigns** in the App Launcher.
+16. Open each seeded campaign and copy the 18-character Salesforce Record ID from the URL (the portion after `/lightning/r/Campaign/` and before `/view`).
+17. Save the IDs somewhere accessible: a notes file, a spreadsheet, anywhere you can find them later.
+
+The campaigns to record: Spring Collection 2026, VisionCare Rewards Launch, Back to School.
 
 ## Assignment
 
 This module is foundational setup. Your job is to get from zero to a working, seeded MCA environment.
 
 1. Provision your SDO from Partner Learning Camp. Extend the expiry to 12 months via the Partner Community before doing anything else.
-2. Assign the **Data Cloud Architect (Admin)** and **Marketing Cloud Admin** permission sets to your user.
-3. Add a full company mailing address to the org under **Company Information**.
-4. Run Data 360 setup and wait for the Tenant Endpoint to appear before continuing.
-5. Connect your MCE demo account (or request one if your partner org does not have one). If provisioning takes more than a day, skip this and return to it.
-6. Run Marketing Cloud Assisted Setup. Install the Marketing Cloud Data Kits. Retry any that fail until all show **Deployed**.
-7. Configure the two Identity Resolution rulesets: name+email matching and MCE Subscriber Key matching.
-8. Create the **Marketing Content Personalization** Data Graph and set it as the default for Basic Personalization.
-9. Enable the three advanced segmentation features in Feature Manager.
-10. Set up the Einstein Engagement Scoring model.
-11. Enable Einstein and create the Campaign Creation Agent in Agentforce.
-12. Enable Send Time Optimization.
-13. Run `seed_crm_data.apex` in the Developer Console and confirm approximately 60,000 Contacts are present.
-14. Update the 10 protagonist contacts with your email address using alias patterns.
-15. Document the Campaign IDs for the seeded campaigns. You will need these in later modules.
-16. Take a platform tour: navigate to MCA (App Launcher), Data 360 setup, and Salesforce CMS. Orient yourself to where things live.
-17. **(Stretch)** Explore the dynamic sending configuration concepts in the Marketing Cloud Assisted Setup. Note what is available and what each setting does. You do not need to configure anything, just explore.
+2. Complete all setup sections in the [MCA SDO Setup Guide](https://quip.com/rSLuAs4M0ak3) listed in the Setup section above. Work through them in order.
+3. Run `seed_crm_data.apex` in the Developer Console and confirm approximately 60,000 Contacts are present.
+4. Update the 10 protagonist contacts with your email address using alias patterns.
+5. Document the Campaign IDs for the seeded campaigns. You will need these in later modules.
+6. Take a platform tour: navigate to MCA (App Launcher), Data 360 setup, and Salesforce CMS. Orient yourself to where things live.
+7. **(Stretch)** Explore the dynamic sending configuration concepts in the Marketing Cloud Assisted Setup. Note what is available and what each setting does. You do not need to configure anything, just explore.
 
 ## Success Criteria
 
 - [ ] MCA is accessible from the App Launcher.
 - [ ] Data 360 is provisioned and a Tenant Endpoint is visible in **Data Cloud Setup**.
 - [ ] Marketing Data Kits are all installed and show a status of **Deployed**.
-- [ ] **Data Cloud Architect (Admin)** and **Marketing Cloud Admin** permission sets are assigned to your user.
+- [ ] At least one Identity Resolution ruleset is configured.
+- [ ] The **Marketing Content Personalization** Data Graph exists and is set as the default for Basic Personalization.
+- [ ] Approximate Segment Population, Segment Preview, and Einstein Segment Creation are enabled in Feature Manager.
+- [ ] An Einstein Engagement Scoring model exists.
+- [ ] The Campaign Creation Agent is created and accessible from the System Administrator profile.
+- [ ] Send Time Optimization is enabled.
 - [ ] Seed data is visible: approximately 60,000 Contacts, 4 Products, and Campaigns exist in the org.
 - [ ] All 10 protagonist contacts have been updated with your email address using alias patterns.
 - [ ] Campaign IDs for all seeded campaigns are documented and saved somewhere accessible.
-- [ ] Two Identity Resolution rulesets are configured: one for name+email matching, one for MCE Subscriber Key matching.
-- [ ] The **Marketing Content Personalization** Data Graph exists and is set as the default for Basic Personalization.
-- [ ] Approximate Segment Population, Segment Preview, and Einstein Segment Creation are enabled in Feature Manager.
-- [ ] An Einstein Engagement Scoring model named **Default** exists.
-- [ ] The Campaign Creation Agent is created and accessible from the System Administrator profile.
-- [ ] Send Time Optimization is enabled.
 
 ## Knowledge check
 
@@ -400,7 +246,7 @@ The following questions are an opportunity to reflect on key topics in this less
 - Why does the SDO have only one data space, and what does this mean for how you configure things throughout this course?
 - What is the purpose of the Tenant Endpoint, and why should you wait for it before proceeding with Marketing Cloud setup?
 - What are Data Kits, and what CRM objects do they wire into Data 360?
-- Why are two separate Identity Resolution rulesets configured in this module? What does each one do?
+- What is Identity Resolution, and what does it produce? Why does it matter for a client like LEOptical who has customer data spread across multiple systems?
 - What is a Data Graph, and why do you need one before you can use Handlebars personalization in emails?
 - Einstein Engagement Scoring and Send Time Optimization are both configured in this module but will not produce results. Why not, and when will they start working?
 - For a real client like LEOptical (who comes from a basic ESP with no unified customer view), which setup step in this module represents the biggest architectural shift from their previous state?
