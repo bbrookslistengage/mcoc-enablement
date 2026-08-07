@@ -46,6 +46,8 @@ For LEOptical, this means every existing customer needs an explicit consent reco
 
 ## The Five Consent Components
 
+Before reading the sections below, look at [The Agentic Marketer's consent management diagram](https://the-agentic-marketer.com/marketing-cloud-next-deep-dives/consent-management/). Their diagram shows how these five objects connect to each other. The prose below explains what each one does and where the gotchas are.
+
 MCA's consent model has five interrelated components. You need to understand all five before the consent record structure makes sense.
 
 For background on MCA's Data Model Objects (DMOs), how they relate to Salesforce objects, and how they work within Data 360, the [Understand Consent Management for Effective Marketing Trailhead module](https://trailhead.salesforce.com/content/learn/modules/consent-management-fundamentals-for-marketing-cloud-next/get-started-with-consent-management) and [The Agentic Marketer consent deep dive](https://the-agentic-marketer.com/marketing-cloud-next-deep-dives/consent-management/) are both good starting points. The assignment at the end of this module includes both.
@@ -95,11 +97,15 @@ Key fields on the Communication Subscription Consent DMO:
 
 The composite key format, per the arthurbackouche.com implementation guide, looks like this: `user@example.com#0eBHs0000010zyOMAQ`. This key uniquely identifies one consent record for one email address and one subscription-channel combination.
 
-### Consent Audit Trail (DLO)
+## Global Opt-Out vs. Subscription-Level Opt-Out
 
-MCA also maintains a `ConsentAuditTrailV2` Data Lake Object (DLO) that logs every consent change event: opt-ins, opt-outs, and updates from any source. Unlike the Communication Subscription Consent DMO, this DLO is not mapped to a DMO and is not used by MCA at send time. It is an append-only log, useful for compliance audits and debugging consent history, but it plays no role in enforcement.
+MCA supports two levels of unsubscribe. The preference center exposes both.
 
-{/* VERIFY: ConsentAuditTrailV2 DLO existence and behavior sourced from The Agentic Marketer consent deep dive. Confirm DLO name and that it is not mapped to a DMO in a live SDO. */}
+**Subscription-level:** The Unified Individual's email address is opted out of one subscription. Their consent status for all other subscriptions is unchanged.
+
+**Global opt-out ("Unsubscribe from all"):** Removes the Unified Individual's email address from all existing subscriptions across all channels. This is what the standard email footer unsubscribe link triggers.
+
+One nuance: global opt-out does not permanently block an email address from future subscriptions. If a new Communication Subscription is created after the global opt-out, the email address would not automatically be opted out of the new subscription. It would be absent from it (which is effectively opt-out, since absence = blocked), but it was not explicitly excluded from it. This distinction matters if you are auditing consent coverage across your subscription catalog.
 
 ## How Consent is Enforced at Send Time
 
@@ -114,6 +120,14 @@ When a Flow or activation triggers a send, MCA checks consent before delivering 
 Step 4 is where consultants get burned. The failure is visible in send reporting, but only if you look at the not-sent records and check the reason. It does not surface as an error on the send itself. If your delivered count looks low and you are not checking the not-sent list, you will miss it.
 
 The other thing to notice: step 3 says "consent cache," not "Communication Subscription Consent DMO." These are not the same thing.
+
+## The Consent Audit Trail
+
+The Consent Audit Trail is a logging mechanism, not part of the enforcement chain described above.
+
+MCA also maintains a `ConsentAuditTrailV2` Data Lake Object (DLO) that logs every consent change event: opt-ins, opt-outs, and updates from any source. Unlike the Communication Subscription Consent DMO, this DLO is not mapped to a DMO and is not used by MCA at send time. It is an append-only log, useful for compliance audits and debugging consent history, but it plays no role in enforcement.
+
+{/* VERIFY: ConsentAuditTrailV2 DLO existence and behavior sourced from The Agentic Marketer consent deep dive. Confirm DLO name and that it is not mapped to a DMO in a live SDO. */}
 
 ## The 90-Day Consent Cache
 
@@ -155,6 +169,31 @@ There are exactly five ways to create or update consent records that MCA will ac
 
 {/* VERIFY: Navigation path for Consent Imports — research file lists "Marketing Cloud App → Consent → Consent Imports → Import" sourced from Mavlers. Confirm this exact path in a live SDO before the module is marked verified. */}
 
+## The Party Field Gotcha
+
+This is the most architecturally confusing aspect of MCA consent. The Communication Subscription Consent DMO has a `Party` field intended to link to the Individual DMO via `Individual ID`. When a person opts in or out, MCA does not populate this field.
+
+The built-in relationship between the Communication Subscription Consent DMO and the Individual DMO does not work. This is confirmed platform behavior as of Summer '26, not a misconfiguration.
+
+**The workaround:** Relate the Communication Subscription Consent DMO to Contact Point Email using the `Contact Point Value` field on the Communication Subscription Consent record matched against the `Email Address` field on Contact Point Email.
+
+The Data Graph traversal for consent becomes:
+
+```
+Unified Individual → Contact Point Email → Communication Subscription Consent
+                                          (via Email Address = Contact Point Value)
+```
+
+:::warning
+If you do not build this relationship in the Data Graph, consent status is invisible to your segments and Handlebars personalization expressions. You cannot filter a segment by consent status. You cannot show a customer's consent preference in an email. Build the Contact Point Email to Communication Subscription Consent relationship via email match, not via the Party field.
+:::
+
+Module 8 covers Data Graph configuration in detail. This is where that relationship gets built. For now, understand why the Party field does not work and what the workaround is.
+
+:::tip[Coming from MCE?]
+In MCE, there was no equivalent to this architectural issue. Subscriber records were self-contained. In MCA, the consent record and the individual record are separate DMOs that should join via Party ID but do not. This is a known platform gap, not a design choice you made wrong.
+:::
+
 ## The Preference Center
 
 MCA includes a built-in hosted preference center. Customers access it via a link in an email. The preference center shows only the subscriptions that have been added to the preference page. Subscriptions not added to the page are not visible to the customer, which means customers cannot opt in or out of them from the preference center.
@@ -168,16 +207,6 @@ Deleting a Communication Subscription permanently and irrecoverably deletes all 
 {/* VERIFY: Confirmed via Mavlers and The Agentic Marketer that deleting a Communication Subscription deletes all related consent records. Verify this behavior in a live SDO before the module is marked verified — specifically confirm that Communication Subscription Consent records are deleted, not just orphaned. */}
 
 How to configure which subscriptions appear on the preference page and how to insert the preference center link in emails is covered in the Consent Configuration module.
-
-## Global Opt-Out vs. Subscription-Level Opt-Out
-
-MCA supports two levels of unsubscribe. The preference center exposes both.
-
-**Subscription-level:** The Unified Individual's email address is opted out of one subscription. Their consent status for all other subscriptions is unchanged.
-
-**Global opt-out ("Unsubscribe from all"):** Removes the Unified Individual's email address from all existing subscriptions across all channels. This is what the standard email footer unsubscribe link triggers.
-
-One nuance: global opt-out does not permanently block an email address from future subscriptions. If a new Communication Subscription is created after the global opt-out, the email address would not automatically be opted out of the new subscription. It would be absent from it (which is effectively opt-out, since absence = blocked), but it was not explicitly excluded from it. This distinction matters if you are auditing consent coverage across your subscription catalog.
 
 ## Double Opt-In
 
@@ -222,31 +251,6 @@ If you are working in an org provisioned before Summer '25, you may encounter tw
 - New: `MessagingConsentV2-MessagingConsent` DSO
 
 Both may exist in the same Data 360. The system uses V2 for all new writes. If you see duplicate consent records while debugging, this is likely the cause. LEOptical's SDO is provisioned fresh, so this will not be an issue for this engagement. It is worth knowing for client orgs that have been running MCA for a while.
-
-## The Party Field Gotcha
-
-This is the most architecturally confusing aspect of MCA consent. The Communication Subscription Consent DMO has a `Party` field intended to link to the Individual DMO via `Individual ID`. When a person opts in or out, MCA does not populate this field.
-
-The built-in relationship between the Communication Subscription Consent DMO and the Individual DMO does not work. This is confirmed platform behavior as of Summer '26, not a misconfiguration.
-
-**The workaround:** Relate the Communication Subscription Consent DMO to Contact Point Email using the `Contact Point Value` field on the Communication Subscription Consent record matched against the `Email Address` field on Contact Point Email.
-
-The Data Graph traversal for consent becomes:
-
-```
-Unified Individual → Contact Point Email → Communication Subscription Consent
-                                          (via Email Address = Contact Point Value)
-```
-
-:::warning
-If you do not build this relationship in the Data Graph, consent status is invisible to your segments and Handlebars personalization expressions. You cannot filter a segment by consent status. You cannot show a customer's consent preference in an email. Build the Contact Point Email to Communication Subscription Consent relationship via email match, not via the Party field.
-:::
-
-Module 8 covers Data Graph configuration in detail. This is where that relationship gets built. For now, understand why the Party field does not work and what the workaround is.
-
-:::tip[Coming from MCE?]
-In MCE, there was no equivalent to this architectural issue. Subscriber records were self-contained. In MCA, the consent record and the individual record are separate DMOs that should join via Party ID but do not. This is a known platform gap, not a design choice you made wrong.
-:::
 
 ## LEOptical's Four Communication Subscriptions
 
