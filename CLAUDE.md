@@ -44,6 +44,12 @@ Agents (dispatched by the commands, not invoked directly):
 
 **Content:** `docs/` contains module markdown organized by part (`part-1-foundations/`, `part-2-data/`, etc.). Each part has a `_category_.json` for sidebar ordering.
 
+**Screenshot component:** `src/components/Screenshot.tsx` is globally registered via `src/theme/MDXComponents.tsx`. Use it in any `.md` or `.mdx` file without importing:
+```mdx
+<Screenshot src="/img/{module-slug}/{filename}.png" alt="..." caption="Optional caption" />
+```
+Screenshots live in `static/img/{module-slug}/`, named `{module-number}-{description}.png`. The component renders with a rounded border, shadow, and optional italic caption.
+
 ## Content Rules (enforced by linter)
 
 The content linter (`scripts/lint-content.sh`) enforces rules from `.planning/WRITING-STYLE-GUIDE.md`. Key constraints:

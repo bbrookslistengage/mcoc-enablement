@@ -84,6 +84,11 @@ You can explain concepts in your own words. You can summarize, synthesize, and t
 - Code snippets in fenced blocks with language specified
 - Numbered lists for sequential steps, bullets for unordered items
 - Max two levels of list nesting
+- Screenshots use the `Screenshot` component (globally available, no import needed):
+  ```mdx
+  <Screenshot src="/img/{module-slug}/{filename}.png" alt="..." caption="Optional caption" />
+  ```
+  Images live in `static/img/{module-slug}/`, named `{module-number}-{description}.png`. Place a `Screenshot` directly after the step it illustrates. Alt text must describe what the learner should see. During drafting, leave a `{/* SCREENSHOT: description of what to capture */}` comment as a placeholder — do not invent image paths that don't exist yet.
 
 ## Module Structure
 
@@ -98,6 +103,8 @@ title: "{Module title from research file}"
 description: "{One sentence summary for SEO and sidebar hover}"
 ---
 ```
+
+The `title` is the plain module name only — no "Module X:" prefix. Never prepend a number or the word "Module" to the title.
 
 ### Overview (H2)
 
