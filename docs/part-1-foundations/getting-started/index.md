@@ -14,7 +14,7 @@ This module is split into two phases. The first is environment setup: SDO provis
 
 You are not expected to finish this in a single sitting. Plan for 1-3 days.
 
-Some concepts introduced here (Identity Resolution, Data Graphs, Unified Individuals) will not make full sense yet. That is intentional. Modules 8 and 9 cover those in depth. For now, you are configuring the infrastructure. You will understand why each piece matters once you start using it.
+Some concepts introduced here (Identity Resolution, Data Graphs, Unified Individuals) will not make full sense yet. That is intentional. <ModuleLink slug="data-graphs" /> and <ModuleLink slug="identity-resolution" /> cover those in depth. For now, you are configuring the infrastructure. You will understand why each piece matters once you start using it.
 
 ## Lesson overview
 

@@ -156,7 +156,7 @@ for file in "${FILES[@]}"; do
   check_pattern 'Marketing Cloud Growth' "terminology: use 'MCA' not 'Marketing Cloud Growth'" "error" "$file" "$content_prose"
 
   # ─── Module references ──────────────────────────────
-  check_pattern '\bModule [0-9]' "numbered module reference: use <ModuleLink slug=\"...\"> instead" "error" "$file" "$content_prose"
+  check_pattern '\bModules? [0-9]' "numbered module reference: use <ModuleLink slug=\"...\"> instead" "error" "$file" "$content_prose"
 
   # ─── Verification comments (warning, not blocking) ─
   check_pattern '\{/\* VERIFY' "unresolved VERIFY comment" "warning" "$file" "$content"

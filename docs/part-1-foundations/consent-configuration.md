@@ -229,7 +229,7 @@ For external websites (like the LEOptical Netlify site you will build later), tr
 
 Not every client will use the MCA consent banner on their external sites. Some clients use their own consent management platform (OneTrust, Cookiebot, or similar) and do not want a second consent banner from MCA. The web connector toggle lets you disable the MCA banner in those cases while still capturing behavioral data once the visitor has consented through the client's own tool.
 
-Web connector setup is covered in Modules 17-18. For now, understand that the MCA consent banner for landing pages and the web connector consent toggle are independent configurations.
+Web connector setup is covered in <ModuleLink slug="landing-pages" /> and <ModuleLink slug="landing-pages-advanced" />. For now, understand that the MCA consent banner for landing pages and the web connector consent toggle are independent configurations.
 
 ## Org-wide consent settings
 
@@ -256,7 +256,7 @@ Even if you disable consent management globally, consent is still checked for an
 3. Add all three marketing subscriptions to the default preference page and verify they appear when you click **View Page**.
 4. Configure the web tracking consent banner: enable the banner in **Setup > Quick Find > Web Tracking**, configure basic display settings, then add the Data 360 and web tracking consent banner integrations to the Marketing Landing Page site via **All Sites > Marketing Landing Page > Builder > Settings > Integrations**. Publish the site.
 5. Add the **Privacy Consent Status** component to the Contact and Lead record pages in Lightning App Builder.
-6. **Consent records for protagonist contacts (CSV import):** The consent automation flow is not yet available. Use the CSV import method to create OPT_IN records for your 10 protagonist contacts. Run three separate imports, one per marketing subscription. Verify OPT_IN status appears for all three subscriptions on the **Privacy Consent Status** component on each protagonist Contact record. Contacts without consent records will not receive test emails in Modules 14 onward.
+6. **Consent records for protagonist contacts (CSV import):** The consent automation flow is not yet available. Use the CSV import method to create OPT_IN records for your 10 protagonist contacts. Run three separate imports, one per marketing subscription. Verify OPT_IN status appears for all three subscriptions on the **Privacy Consent Status** component on each protagonist Contact record. Contacts without consent records will not receive test emails from <ModuleLink slug="email-builder" /> onward.
 
 ## Success Criteria
 
