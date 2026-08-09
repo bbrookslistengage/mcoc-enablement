@@ -2,5 +2,6 @@
   "label": "Part 2: Data & Audiences",
   "position": 2,
   "collapsible": true,
-  "collapsed": true
+  "collapsed": true,
+  "description": "Ingest data, build your data model, resolve identities, and create segments."
 }

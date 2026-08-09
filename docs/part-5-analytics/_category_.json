@@ -2,5 +2,6 @@
   "label": "Part 5: Analytics",
   "position": 5,
   "collapsible": true,
-  "collapsed": true
+  "collapsed": true,
+  "description": "Build dashboards and surface marketing data across the Salesforce platform."
 }

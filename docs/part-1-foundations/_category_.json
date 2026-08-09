@@ -2,5 +2,6 @@
   "label": "Part 1: Setup & Foundations",
   "position": 1,
   "collapsible": true,
-  "collapsed": true
+  "collapsed": true,
+  "description": "Provision your SDO, configure domains and business units, and build the consent framework."
 }
