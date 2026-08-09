@@ -98,18 +98,39 @@ Add it to both the Contact and Lead record pages.
 
 ### Add the component to the Contact page
 
-1. Navigate to a Contact record.
-2. Click the **Setup gear icon** at the top right.
-3. Select **Edit Page**. This opens Lightning App Builder.
-4. In the left panel, search for **Privacy Consent Status**.
-5. Drag the component onto the page canvas. A dedicated tab works well. Name the tab `Consent`.
-6. Click **Save**.
-7. Click **Activate** and select the appropriate audience (All users, or the profile group for your team).
-8. Repeat for the Lead object (**Setup > Object Manager > Lead > Lightning Record Pages**).
+1. Navigate to a Contact record (e.g., Maria Chen).
+2. Click the **gear icon** in the top right corner of the page.
+3. Select **Edit Page** from the dropdown.
 
-**[INSERT SCREENSHOT: Privacy Consent Status component on a Contact record page showing the three LEOptical subscriptions with OPT_IN/OPT_OUT status rows]**
+<Screenshot src="/img/consent-configuration/11-edit-page-menu.png" alt="Contact record page with the gear icon dropdown open, showing Edit Page option highlighted" caption="Click the gear icon on any Contact record and select Edit Page to open Lightning App Builder." />
 
-**What the component shows:** Each Communication Subscription appears as a row with its current consent status for the contact's email address. Status is OPT_IN or OPT_OUT.
+4. Lightning App Builder opens. In the **Components** panel on the left, type `priv` in the search box. The **Privacy Consent Status** component appears under Standard.
+5. Drag the component onto the page canvas. Place it in the right sidebar or in its own section where the team will see it at a glance.
+
+<Screenshot src="/img/consent-configuration/12-app-builder-component-placed.png" alt="Lightning App Builder showing the Privacy Consent Status component placed on the Contact Record Page, with the component search showing 'priv' and the Consent Status panel visible on the page canvas" caption="The Privacy Consent Status component placed on the Contact page. The component shows all four Communication Subscriptions with their current consent status." />
+
+6. Click **Save** in the top right. Lightning App Builder prompts you to activate the page.
+7. Click **Activation**. The Activation dialog opens with three tabs: Org Default, App Default, and App, Record Type, and Profile. Select the **Org Default** tab.
+
+<Screenshot src="/img/consent-configuration/13-activation-org-default.png" alt="Activation dialog for Contact Record Page showing Org Default tab selected with an Assign as Org Default button" caption="The Activation dialog. Click Assign as Org Default to make this page layout the default for all users." />
+
+8. Click **Assign as Org Default**. A form factor selection screen appears.
+
+<Screenshot src="/img/consent-configuration/14-assign-form-factor.png" alt="Assign form factor screen with Desktop selected as the form factor for the org default page" caption="Select Desktop as the form factor. This applies the page layout to the desktop Lightning Experience." />
+
+9. Select **Desktop** and click **Next**. The review screen shows the assignment change.
+
+<Screenshot src="/img/consent-configuration/15-review-assignment.png" alt="Review assignment screen showing Form Factor Desktop, Current Org Default System Default, New Org Default Contact Record Page" caption="Review the assignment: the new org default for Desktop will be your Contact Record Page with the Privacy Consent Status component." />
+
+10. Confirm the assignment shows your Contact Record Page as the new org default. Click **Save**.
+
+11. Repeat for the Lead object: navigate to a Lead record, click the gear icon, select **Edit Page**, add the Privacy Consent Status component, save, and activate as the org default.
+
+After activation, the Consent Status panel appears on every Contact record page in the org.
+
+<Screenshot src="/img/consent-configuration/16-privacy-consent-on-record.png" alt="Maria Chen Contact record page showing the Consent Status panel with four subscriptions: Eye Health Reminders, Marketing, Promotional Offers, and VisionCare Rewards Updates, all showing Opted Out status" caption="The Privacy Consent Status component on Maria Chen's Contact record. All four subscriptions show Opted Out. Status will change to Opted In after you run the CSV consent import in the assignment." />
+
+**What the component shows:** Each Communication Subscription appears as a row with its current consent status for the contact's email address. The component displays the contact point (email), channel, subscription name, and status.
 
 **Manual updates:** Click the dropdown on the right of any subscription row and select the new status. The consent cache updates immediately. The Communication Subscription Consent DMO in Data 360 reflects the change within approximately 2-3 minutes.
 
