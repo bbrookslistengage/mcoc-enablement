@@ -29,36 +29,57 @@ function deriveAlias(email: string, slug: string): string {
 }
 
 function buildScript(email: string, valid: boolean): string {
-  const contactLines = CONTACTS.map(({ first, last, slug }) => {
+  const today = 'Date.today()';
+
+  const contacts = [
+    { first: 'Maria',  last: 'Chen',      slug: 'mariac',  tier: 'Gold',     points: 62400,  lastExam: `${today}.addMonths(-14)`, nextDue: `${today}.addMonths(-2)` },
+    { first: 'James',  last: 'Okafor',    slug: 'jokafar', tier: 'Platinum', points: 88750,  lastExam: `${today}.addMonths(-2)`,  nextDue: `${today}.addMonths(10)` },
+    { first: 'Sofia',  last: 'Reyes',     slug: 'sofiar',  tier: 'Bronze',   points: 1200,   lastExam: 'null',                    nextDue: 'null' },
+    { first: 'David',  last: 'Kim',       slug: 'davidk',  tier: 'Silver',   points: 31500,  lastExam: `${today}.addMonths(-18)`, nextDue: `${today}.addMonths(-6)` },
+    { first: 'Aisha',  last: 'Patel',     slug: 'aishap',  tier: 'Gold',     points: 55800,  lastExam: `${today}.addMonths(-4)`,  nextDue: `${today}.addMonths(8)` },
+    { first: 'Carlos', last: 'Mendez',    slug: 'carlosm', tier: 'Bronze',   points: 8900,   lastExam: 'null',                    nextDue: 'null' },
+    { first: 'Wei',    last: 'Zhang',     slug: 'weiz',    tier: 'Platinum', points: 112300, lastExam: `${today}.addMonths(-1)`,  nextDue: `${today}.addMonths(11)` },
+    { first: 'Fatima', last: 'Al-Hassan', slug: 'fatimaa', tier: 'Silver',   points: 25000,  lastExam: `${today}.addMonths(-13)`, nextDue: `${today}.addMonths(-1)` },
+    { first: 'Ryan',   last: "O\\'Brien", slug: 'ryano',   tier: 'Bronze',   points: 3400,   lastExam: `${today}.addMonths(-6)`,  nextDue: `${today}.addMonths(6)` },
+    { first: 'Priya',  last: 'Sharma',    slug: 'priyas',  tier: 'Gold',     points: 71200,  lastExam: `${today}.addMonths(-3)`,  nextDue: `${today}.addMonths(9)` },
+  ];
+
+  const contactLines = contacts.map(({ first, last, slug, tier, points, lastExam, nextDue }, index) => {
     const contactEmail = valid ? deriveAlias(email, slug) : `you+${slug}@yourdomain.com`;
-    return `    new Contact(FirstName='${first}', LastName='${last}', Email='${contactEmail}'),`;
+    const comma = index < contacts.length - 1 ? ',' : '';
+    return `    new Contact(
+        FirstName='${first}', LastName='${last}',
+        Email='${contactEmail}',
+        Loyalty_Tier__c='${tier}', Loyalty_Points__c=${points},
+        Last_Exam_Date__c=${lastExam}, Next_Exam_Due__c=${nextDue}
+    )${comma}`;
   }).join('\n');
 
   return `// =============================================================
-// LEOptical Seed Script - TBD
-// Full implementation coming soon. This script will create:
-//   - ~60,000 Contacts with realistic names and loyalty data
-//   - 5 Products (4 lens families + frames)
-//   - 3 Campaigns (Spring Collection 2026, VisionCare Rewards
-//     Launch, Back to School)
-//   - 10 test contacts with your email address (shown below)
+// LEOptical - Test Contacts Seed Script
 //
-// Run in: Developer Console > Debug > Open Execute Anonymous Window
+// Creates the 10 test contacts used throughout this course.
+// Each contact has your email address set via a +alias so you
+// can receive emails from each one in your own inbox.
+//
+// Run in: Setup > Developer Console >
+//         Debug > Open Execute Anonymous Window
+//
+// Run this only once. The batch class (Step 2) handles the
+// remaining ~59,990 contacts separately.
 // =============================================================
-
-// --- Test contacts (your email address) ---
-// These are the only contacts with a real deliverable email.
-// The remaining ~59,990 contacts will use @example.com addresses.
 
 List<Contact> testContacts = new List<Contact>{
 ${contactLines}
 };
 
 insert testContacts;
-System.debug('>>> Inserted ' + testContacts.size() + ' test contacts.');
+
+System.debug('LEOptical: inserted ' + testContacts.size() + ' test contacts.');
 for (Contact c : testContacts) {
-    System.debug('>>> ' + c.FirstName + ' ' + c.LastName + ' | ' + c.Email + ' | ID: ' + c.Id);
-}`;
+    System.debug(' >> ' + c.FirstName + ' ' + c.LastName + ' | ' + c.Email);
+}
+System.debug('Done. Check the debug log above to confirm all 10 contacts were created.');`;
 }
 
 // Light and dark themes matching Docusaurus defaults
@@ -94,7 +115,7 @@ export default function SeedScript(): React.ReactElement {
   const valid = isValidEmail(email);
   const theme = colorMode === 'dark' ? DARK_THEME : LIGHT_THEME;
 
-  const script = useMemo(() => buildScript(email, valid), [email, valid]);
+  const script = useMemo(() => buildScript(email, valid).replace(/\u00a0/g, ' '), [email, valid]);
 
   function handleCopy() {
     navigator.clipboard.writeText(script).then(() => {

@@ -1,0 +1,27 @@
+.figure {
+  margin: var(--space-stack-xl) 0;
+}
+
+.frame {
+  border-radius: var(--border-radius-lg);
+  border: var(--border-width-default) solid var(--color-border-default);
+  box-shadow: var(--shadow-lg);
+  overflow: hidden;
+  background: var(--color-surface-raised);
+  line-height: 0;
+}
+
+.image {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+.caption {
+  margin-top: var(--space-stack-sm);
+  font-size: var(--font-size-body-xs);
+  color: var(--color-text-tertiary);
+  text-align: center;
+  font-style: italic;
+  line-height: var(--line-height-body);
+}
