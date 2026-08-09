@@ -1,91 +1,26 @@
 import {type ReactNode, useState, useEffect, useCallback} from 'react';
 import Link from '@docusaurus/Link';
+import {usePluginData} from '@docusaurus/useGlobalData';
 
-interface ModuleInfo {
-  slug: string;
+interface ModuleEntry {
   title: string;
   path: string;
+  parent?: string;
+  part: string;
+  position: number;
 }
 
-interface PartInfo {
+interface PartEntry {
+  dirName: string;
   label: string;
+  position: number;
   description: string;
-  modules: ModuleInfo[];
 }
 
-const COURSE_PARTS: PartInfo[] = [
-  {
-    label: 'Introduction',
-    description: 'Course orientation, platform context, and the mindset you need before diving in.',
-    modules: [
-      {slug: 'how-this-course-works', title: 'How This Course Works', path: '/introduction/how-this-course-works'},
-      {slug: 'mca-vs-mce', title: 'MCA vs. MCE', path: '/introduction/mca-vs-mce'},
-      {slug: 'intro-to-data-360', title: 'Introduction to Data 360', path: '/introduction/intro-to-data-360'},
-      {slug: 'navigating-a-new-platform', title: 'Navigating a New Platform', path: '/introduction/navigating-a-new-platform'},
-    ],
-  },
-  {
-    label: 'Part 1: Setup & Foundations',
-    description: 'Provision your SDO, configure domains and business units, and build the consent framework.',
-    modules: [
-      {slug: 'getting-started', title: 'Getting Started', path: '/part-1-foundations/getting-started'},
-      {slug: 'domain-setup', title: 'Domain Setup', path: '/part-1-foundations/domain-setup'},
-      {slug: 'business-units', title: 'Business Units and Governance', path: '/part-1-foundations/business-units'},
-      {slug: 'consent-fundamentals', title: 'Consent Fundamentals', path: '/part-1-foundations/consent-fundamentals'},
-      {slug: 'consent-configuration', title: 'Consent Configuration', path: '/part-1-foundations/consent-configuration'},
-    ],
-  },
-  {
-    label: 'Part 2: Data & Audiences',
-    description: 'Ingest data, build your data model, resolve identities, and create segments.',
-    modules: [
-      {slug: 'data-360-dmos', title: 'Data 360 and Data Model Objects', path: '/part-2-data/data-360-dmos'},
-      {slug: 'crm-data-ingestion', title: 'CRM Data Ingestion', path: '/part-2-data/crm-data-ingestion'},
-      {slug: 'data-graphs', title: 'Data Graphs', path: '/part-2-data/data-graphs'},
-      {slug: 'identity-resolution', title: 'Identity Resolution', path: '/part-2-data/identity-resolution'},
-      {slug: 'segmentation', title: 'Segmentation', path: '/part-2-data/segmentation'},
-      {slug: 'consumption-entitlements', title: 'Consumption and Entitlements', path: '/part-2-data/consumption-entitlements'},
-    ],
-  },
-  {
-    label: 'Part 3: Building for the Client',
-    description: 'Create content, build emails, configure flows, design landing pages, and set up activations.',
-    modules: [
-      {slug: 'salesforce-cms', title: 'Salesforce CMS and Content Management', path: '/part-3-building/salesforce-cms'},
-      {slug: 'email-builder', title: 'Email Builder Deep Dive', path: '/part-3-building/email-builder'},
-      {slug: 'personalization', title: 'Personalization: Handlebars and AMPscript', path: '/part-3-building/personalization'},
-      {slug: 'flow-fundamentals', title: 'Flow Fundamentals', path: '/part-3-building/flow-fundamentals'},
-      {slug: 'flow-orchestration', title: 'Flow Orchestration', path: '/part-3-building/flow-orchestration'},
-      {slug: 'landing-pages', title: 'Landing Pages and Forms', path: '/part-3-building/landing-pages'},
-      {slug: 'landing-pages-advanced', title: 'Landing Pages: Advanced', path: '/part-3-building/landing-pages-advanced'},
-      {slug: 'activation-templates', title: 'Activation Templates', path: '/part-3-building/activation-templates'},
-      {slug: 'messaging-channels', title: 'Messaging Channels', path: '/part-3-building/messaging-channels'},
-    ],
-  },
-  {
-    label: 'Part 4: AI & Intelligence',
-    description: 'Explore Agentforce, conversational messaging, and predictive AI features.',
-    modules: [
-      {slug: 'agentforce', title: 'Agentforce for Marketing', path: '/part-4-ai/agentforce'},
-      {slug: 'conversational-messaging', title: 'Conversational Messaging', path: '/part-4-ai/conversational-messaging'},
-      {slug: 'predictive-ai', title: 'Predictive AI', path: '/part-4-ai/predictive-ai'},
-    ],
-  },
-  {
-    label: 'Part 5: Analytics',
-    description: 'Build dashboards and surface marketing data across the Salesforce platform.',
-    modules: [
-      {slug: 'reporting-dashboards', title: 'Reporting and Dashboards', path: '/part-5-analytics/reporting-dashboards'},
-    ],
-  },
-  {
-    label: 'Part 6: Capstone',
-    description: 'Put it all together with a multi-channel implementation project.',
-    modules: [
-      {slug: 'capstone-project', title: 'Capstone Project', path: '/part-6-capstone/capstone-project'},
-    ],
-  },
-];
+interface RegistryData {
+  modules: Record<string, ModuleEntry>;
+  parts: PartEntry[];
+}
 
 function getModuleProgress(slug: string): {lesson: boolean; assignment: boolean} {
   if (typeof window === 'undefined') return {lesson: false, assignment: false};
@@ -100,16 +35,6 @@ function isModuleComplete(slug: string): boolean {
   return p.lesson && p.assignment;
 }
 
-function clearAllProgress(): void {
-  if (typeof window === 'undefined') return;
-  const allModules = COURSE_PARTS.flatMap(p => p.modules);
-  for (const m of allModules) {
-    localStorage.removeItem(`progress:${m.slug}:lesson`);
-    localStorage.removeItem(`progress:${m.slug}:assignment`);
-  }
-  window.dispatchEvent(new Event('progress-updated'));
-}
-
 function extractPartNumber(label: string): string {
   const match = label.match(/Part (\d+)/);
   return match ? match[1] : '';
@@ -120,17 +45,144 @@ function extractPartName(label: string): string {
   return match ? match[1] : label;
 }
 
+interface BuiltPart {
+  label: string;
+  description: string;
+  modules: Array<{
+    slug: string;
+    title: string;
+    path: string;
+    children: Array<{
+      slug: string;
+      title: string;
+      path: string;
+      position: number;
+    }>;
+    position: number;
+  }>;
+}
+
+function buildPartsFromRegistry(data: RegistryData): BuiltPart[] {
+  const {modules, parts} = data;
+
+  return parts.map(part => {
+    // Get all modules in this part
+    const partModules = Object.entries(modules)
+      .filter(([, entry]) => entry.part === part.dirName)
+      .map(([slug, entry]) => ({slug, ...entry}));
+
+    // Separate top-level modules (no parent) from children
+    const topLevel = partModules
+      .filter(m => !m.parent)
+      .sort((a, b) => a.position - b.position);
+
+    // Build module list with children
+    const builtModules = topLevel.map(mod => {
+      const children = partModules
+        .filter(m => m.parent === mod.slug)
+        .sort((a, b) => a.position - b.position)
+        .map(m => ({
+          slug: m.slug,
+          title: m.title,
+          path: m.path,
+          position: m.position,
+        }));
+
+      return {
+        slug: mod.slug,
+        title: mod.title,
+        path: mod.path,
+        children,
+        position: mod.position,
+      };
+    });
+
+    return {
+      label: part.label,
+      description: part.description,
+      modules: builtModules,
+    };
+  });
+}
+
+function AccordionModule({
+  mod,
+}: {
+  mod: BuiltPart['modules'][number];
+}): ReactNode {
+  const [expanded, setExpanded] = useState(false);
+
+  const childComplete = mod.children.filter(c => isModuleComplete(c.slug)).length;
+  const allChildrenComplete = childComplete === mod.children.length;
+
+  return (
+    <li className="part-section__module part-section__module--accordion">
+      <div className="part-section__module-header">
+        <span
+          className={`part-section__status${allChildrenComplete ? ' part-section__status--complete' : ''}`}
+        />
+        <Link to={mod.path} className="part-section__module-link">
+          {mod.title}
+        </Link>
+        <button
+          type="button"
+          className={`part-section__accordion-toggle${expanded ? ' part-section__accordion-toggle--open' : ''}`}
+          onClick={() => setExpanded(!expanded)}
+          aria-expanded={expanded}
+          aria-label={`${expanded ? 'Collapse' : 'Expand'} ${mod.title} sub-modules`}
+        >
+          <svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true">
+            <path d="M3 4.5L6 7.5L9 4.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+          </svg>
+        </button>
+        <span className="part-section__child-count">
+          {childComplete}/{mod.children.length}
+        </span>
+      </div>
+      {expanded && (
+        <ul className="part-section__submodules">
+          {mod.children.map(child => {
+            const complete = isModuleComplete(child.slug);
+            return (
+              <li key={child.slug} className="part-section__module part-section__module--sub">
+                <span
+                  className={`part-section__status${complete ? ' part-section__status--complete' : ''}`}
+                />
+                <Link to={child.path} className="part-section__module-link">
+                  {child.title}
+                </Link>
+              </li>
+            );
+          })}
+        </ul>
+      )}
+    </li>
+  );
+}
+
 export default function ProgressOverview(): ReactNode {
+  const registryData = usePluginData('module-registry') as RegistryData;
+  const builtParts = buildPartsFromRegistry(registryData);
+
+  // Collect all leaf-level slugs for progress counting
+  const allLeafSlugs: string[] = [];
+  for (const part of builtParts) {
+    for (const mod of part.modules) {
+      if (mod.children.length > 0) {
+        allLeafSlugs.push(...mod.children.map(c => c.slug));
+      } else {
+        allLeafSlugs.push(mod.slug);
+      }
+    }
+  }
+
   const [completedCount, setCompletedCount] = useState(0);
-  const totalModules = COURSE_PARTS.reduce((sum, p) => sum + p.modules.length, 0);
+  const totalModules = allLeafSlugs.length;
 
   const recalculate = useCallback(() => {
-    const count = COURSE_PARTS
-      .flatMap(p => p.modules)
-      .filter(m => isModuleComplete(m.slug))
-      .length;
+    const count = allLeafSlugs.filter(slug => isModuleComplete(slug)).length;
     setCompletedCount(count);
-  }, []);
+  }, [allLeafSlugs]);
 
   useEffect(() => {
     recalculate();
@@ -139,11 +191,16 @@ export default function ProgressOverview(): ReactNode {
   }, [recalculate]);
 
   const handleReset = useCallback(() => {
+    if (typeof window === 'undefined') return;
     if (window.confirm('Reset all progress? This cannot be undone.')) {
-      clearAllProgress();
+      for (const slug of allLeafSlugs) {
+        localStorage.removeItem(`progress:${slug}:lesson`);
+        localStorage.removeItem(`progress:${slug}:assignment`);
+      }
+      window.dispatchEvent(new Event('progress-updated'));
       recalculate();
     }
-  }, [recalculate]);
+  }, [allLeafSlugs, recalculate]);
 
   const pct = totalModules > 0 ? Math.round((completedCount / totalModules) * 100) : 0;
 
@@ -164,10 +221,23 @@ export default function ProgressOverview(): ReactNode {
       </div>
 
       <div className="course-parts">
-        {COURSE_PARTS.map(part => {
+        {builtParts.map(part => {
           const partNum = extractPartNumber(part.label);
           const partName = extractPartName(part.label);
-          const partComplete = part.modules.filter(m => isModuleComplete(m.slug)).length;
+
+          // Count completed leaf modules in this part
+          let partLeafCount = 0;
+          let partLeafComplete = 0;
+          for (const mod of part.modules) {
+            if (mod.children.length > 0) {
+              partLeafCount += mod.children.length;
+              partLeafComplete += mod.children.filter(c => isModuleComplete(c.slug)).length;
+            } else {
+              partLeafCount += 1;
+              partLeafComplete += isModuleComplete(mod.slug) ? 1 : 0;
+            }
+          }
+
           const firstModulePath = part.modules[0]?.path ?? '#';
 
           return (
@@ -176,7 +246,7 @@ export default function ProgressOverview(): ReactNode {
                 <div className="part-section__top-row">
                   <span className="part-section__number">Part {partNum}</span>
                   <span className="part-section__count">
-                    {partComplete}/{part.modules.length}
+                    {partLeafComplete}/{partLeafCount}
                   </span>
                 </div>
                 <h2 className="part-section__title">{partName}</h2>
@@ -184,6 +254,9 @@ export default function ProgressOverview(): ReactNode {
               </Link>
               <ul className="part-section__modules">
                 {part.modules.map(mod => {
+                  if (mod.children.length > 0) {
+                    return <AccordionModule key={mod.slug} mod={mod} />;
+                  }
                   const complete = isModuleComplete(mod.slug);
                   return (
                     <li key={mod.slug} className="part-section__module">
@@ -214,6 +287,3 @@ export default function ProgressOverview(): ReactNode {
     </>
   );
 }
-
-export {COURSE_PARTS};
-export type {ModuleInfo, PartInfo};
