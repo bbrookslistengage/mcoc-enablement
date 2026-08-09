@@ -108,7 +108,7 @@ Follow the guide. This is a CAN-SPAM compliance requirement. Email sending will 
 
 Follow the guide to create a Data Graph. A Data Graph is a pre-computed snapshot of connected records for each Unified Individual. You use it for personalization (Handlebars merge fields in email content).
 
-Module 8 covers Data Graphs in depth. For now, you are creating the infrastructure.
+<ModuleLink slug="data-graphs" /> covers Data Graphs in depth. For now, you are creating the infrastructure.
 
 ### Turn on Advanced Segmentation Features
 
@@ -119,7 +119,7 @@ Follow the guide to enable Approximate Segment Population, Segment Preview, and 
 Follow the guide.
 
 :::warning
-Engagement Scoring requires 1,000 or more real email engagement events in the prior 90 days. The seed data does not include real engagement history, so the model will not produce scores yet. Module 23 covers how to interpret scoring results when they do appear.
+Engagement Scoring requires 1,000 or more real email engagement events in the prior 90 days. The seed data does not include real engagement history, so the model will not produce scores yet. <ModuleLink slug="predictive-ai" /> covers how to interpret scoring results when they do appear.
 :::
 
 ### Enable Agentforce

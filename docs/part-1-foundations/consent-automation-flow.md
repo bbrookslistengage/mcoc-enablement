@@ -8,11 +8,11 @@ custom_edit_url: null
 
 ## Overview
 
-LEOptical's consent strategy relies on a flow that creates OPT_IN records automatically when a new individual enters the system. Without it, every new contact starts as blocked from marketing sends. Module 5 covers CSV import as a manual workaround. This project is the permanent implementation.
+LEOptical's consent strategy relies on a flow that creates OPT_IN records automatically when a new individual enters the system. Without it, every new contact starts as blocked from marketing sends. <ModuleLink slug="consent-configuration" /> covers CSV import as a manual workaround. This project is the permanent implementation.
 
 The consent automation flow is a Data 360-Triggered Flow that fires on the Individual DMO. When a new Individual record is created, the flow writes OPT_IN records for each of LEOptical's three marketing Communication Subscriptions using the Create Consent Request flow element.
 
-This walkthrough is pending a validated proof of concept in a live SDO. The trigger mechanism, entry conditions, and field mapping for the Create Consent Request element must be confirmed against actual platform behavior before this page can be completed. Do not attempt to build this flow from the Create Consent Request element reference table in Module 5 alone. The triggering mechanism has not yet been validated.
+This walkthrough is pending a validated proof of concept in a live SDO. The trigger mechanism, entry conditions, and field mapping for the Create Consent Request element must be confirmed against actual platform behavior before this page can be completed. Do not attempt to build this flow from the Create Consent Request element reference table in <ModuleLink slug="consent-configuration" /> alone. The triggering mechanism has not yet been validated.
 
 ## Lesson overview
 
@@ -28,7 +28,7 @@ This section contains a general overview of topics that you will learn in this l
 {/* TBD: This walkthrough requires a validated POC before it can be documented. The correct trigger type is a Data 360-Triggered Flow on the Individual DMO. The steps will be written after testing the flow design in a live SDO to confirm trigger behavior, latency, and the correct field mapping for the Create Consent Request element. Do not build this flow until the POC is validated. */}
 
 :::caution
-This walkthrough is not yet available. The consent automation flow design requires hands-on validation in a live SDO before it can be documented accurately. For now, use the CSV import method in Module 5 to create consent records for your protagonist contacts so you can continue with later modules.
+This walkthrough is not yet available. The consent automation flow design requires hands-on validation in a live SDO before it can be documented accurately. For now, use the CSV import method in <ModuleLink slug="consent-configuration" /> to create consent records for your protagonist contacts so you can continue with later modules.
 :::
 
 For background on the bidirectional consent sync pattern (flow changes in MCA writing back to CRM, and vice versa), see the [modrzejewski.it consent sync guide](https://modrzejewski.it/blog/how-to-keep-consent-in-sync-between-salesforce-data-360-and-marketing-cloud-next/).
@@ -37,7 +37,7 @@ For background on the bidirectional consent sync pattern (flow changes in MCA wr
 
 > **The client wants:** New contacts who enter the system to receive OPT_IN records automatically, without manual CSV import.
 
-This assignment will be written when the walkthrough is complete. You should complete Module 5's CSV import step first so that your protagonist contacts have consent records while this flow is being validated.
+This assignment will be written when the walkthrough is complete. You should complete the CSV import step in <ModuleLink slug="consent-configuration" /> first so that your protagonist contacts have consent records while this flow is being validated.
 
 ## Success Criteria
 

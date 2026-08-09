@@ -12,7 +12,7 @@ This module is where you build the plumbing that makes consent work. You will cr
 
 The consent automation flow is covered in a separate Project page. That page walks through the trigger mechanism and full flow architecture once the POC is validated. This module covers everything else: Communication Subscriptions, the preference page, the Privacy Consent Status component, CSV import, and the web tracking consent banner.
 
-This module builds on the data work from Modules 2-4. The Communication Subscription Consent DMO that you write records to here connects to Contact Point Email in the Data Graph you will build in Module 8.
+This module builds on the setup work from <ModuleLink slug="domain-setup" />, <ModuleLink slug="business-units" />, and <ModuleLink slug="consent-fundamentals" />. The Communication Subscription Consent DMO that you write records to here connects to Contact Point Email in the Data Graph you will build in <ModuleLink slug="data-graphs" />.
 
 ## Lesson overview
 
@@ -256,7 +256,7 @@ The following questions are an opportunity to reflect on key topics in this less
 - Why can you not write directly to the Communication Subscription Consent DMO using a standard Create Records flow element?
 - What is the difference between the web tracking consent banner and the email preference page? Where is each one configured?
 - A colleague deletes a Communication Subscription that had 5,000 OPT_IN records. What happens to those records?
-- A test contact is not receiving test emails in Module 14. What is the first thing you check?
+- A test contact is not receiving test emails in <ModuleLink slug="email-builder" />. What is the first thing you check?
 - How does the consent behavior for Order Updates (transactional) differ from the three marketing subscriptions in LEOptical's org, and why?
 - The Privacy Consent Status component shows OPT_IN for a contact, but a query of the Communication Subscription Consent DMO in Data 360 still shows the old value. Is this a problem, and how long should you wait before escalating?
 

@@ -12,7 +12,7 @@ Before you can do anything meaningful in MCA, you need data. This page walks you
 - ~48,672 contacts with realistic names, loyalty tiers, and exam history
 - 5 Products and 3 Campaigns
 
-The contacts include 10 "protagonist" contacts that you will use to receive test emails later in the course. For now, all contacts (including protagonists) use `@example.com` placeholder emails. You will update the protagonist emails with your own address in Module 5 when you set up consent.
+The contacts include 10 "protagonist" contacts that you will use to receive test emails later in the course. For now, all contacts (including protagonists) use `@example.com` placeholder emails. You will update the protagonist emails with your own address in <ModuleLink slug="consent-configuration" /> when you set up consent.
 
 The import uses the browser-based Data Import Wizard, which handles up to 50,000 records per import. No external tools are required. The total active work is about 15 minutes, plus a 5-10 minute wait while the contacts import processes in the background.
 
@@ -260,9 +260,9 @@ List view search may not find recently imported contacts due to search indexing 
 
 The 10 protagonist contacts (Maria Chen, James Okafor, Sofia Reyes, and 7 others) are already in your org from the CSV import. Right now they have `@example.com` placeholder emails, just like the other ~48,000 contacts.
 
-In Module 5, you will update these 10 contacts with your own email address using `+alias` patterns (e.g., `yourname+mariac@gmail.com`). This is when you start receiving test emails. The update adds a second Contact Point Email in Data 360 while preserving the original `@example.com` email, which keeps their ecommerce orders and loyalty records linked through identity resolution.
+In <ModuleLink slug="consent-configuration" />, you will update these 10 contacts with your own email address using `+alias` patterns (e.g., `yourname+mariac@gmail.com`). This is when you start receiving test emails. The update adds a second Contact Point Email in Data 360 while preserving the original `@example.com` email, which keeps their ecommerce orders and loyalty records linked through identity resolution.
 
-There is nothing to do with the protagonist contacts right now. You will come back to them in Module 5.
+There is nothing to do with the protagonist contacts right now. You will come back to them in <ModuleLink slug="consent-configuration" />.
 
 ---
 

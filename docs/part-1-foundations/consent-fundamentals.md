@@ -10,7 +10,7 @@ LEOptical has been sending batch-and-blast newsletters for years with no consent
 
 This module covers the consent model in full: the five components that make up a consent record, how consent is checked at send time, and the gotchas that cause consent failures. When MCA blocks a send for consent reasons, the contact appears in send reporting as not sent with a reason indicating they were not opted in. The send does not raise a delivery error or a bounce. If you do not understand the consent model before you start building, you will spend a lot of time chasing consent failures in send logs without knowing what to look for.
 
-Module 5 builds the flow that creates consent records for LEOptical's customers. This module is the prerequisite. Understand the model here, and the flow in Module 5 will make sense. Skip this, and Module 5 will feel like following steps without knowing why.
+<ModuleLink slug="consent-configuration" /> builds the flow that creates consent records for LEOptical's customers. This module is the prerequisite. Understand the model here, and the configuration in <ModuleLink slug="consent-configuration" /> will make sense. Skip this, and <ModuleLink slug="consent-configuration" /> will feel like following steps without knowing why.
 
 ## Lesson overview
 
@@ -42,7 +42,7 @@ In MCE, subscribers in the All Subscribers list were contactable unless they wer
 - MCE Subscriber Key was the system identity anchor. MCA has no Subscriber Key concept. Identity is resolved via Identity Resolution into Unified Individuals.
 :::
 
-For LEOptical, this means every existing customer needs an explicit consent record before they can receive anything. That's the problem Module 5 solves. This module gives you the model you need to understand what Module 5 is building.
+For LEOptical, this means every existing customer needs an explicit consent record before they can receive anything. That's the problem <ModuleLink slug="consent-configuration" /> solves. This module gives you the model you need to understand what <ModuleLink slug="consent-configuration" /> is building.
 
 ## The Five Consent Components
 
@@ -167,7 +167,7 @@ There are exactly five ways to create or update consent records that MCA will ac
 
 3. **CSV Import:** Bulk consent import via **Marketing Cloud App > Consent > Consent Imports**. Each import file maps to a single channel, a single subscription, and a single consent status. Contact points must already exist. The import does not create new Leads or Contacts. Cache is updated.
 
-4. **Create Consent Request Flow Element:** The recommended method for automated consent creation. A native Flow element (not a custom apex or API call) that writes consent and refreshes the cache. This is what Module 5 builds.
+4. **Create Consent Request Flow Element:** The recommended method for automated consent creation. A native Flow element (not a custom apex or API call) that writes consent and refreshes the cache. This is what <ModuleLink slug="consent-configuration" /> builds.
 
 5. **Unsubscribe link clicks:** When a subscriber clicks the unsubscribe link in an email, MCA writes OPT_OUT to the DMO and refreshes the cache.
 
@@ -187,7 +187,7 @@ The built-in relationship between the Communication Subscription Consent DMO and
 If you do not build this relationship in the Data Graph, consent status is invisible to your segments and Handlebars personalization expressions. You cannot filter a segment by consent status. You cannot show a customer's consent preference in an email. Build the Contact Point Email to Communication Subscription Consent relationship via email match, not via the Party field.
 :::
 
-Module 8 covers Data Graph configuration in detail. This is where that relationship gets built. For now, understand why the Party field does not work and what the workaround is.
+<ModuleLink slug="data-graphs" /> covers Data Graph configuration in detail. This is where that relationship gets built. For now, understand why the Party field does not work and what the workaround is.
 
 :::tip[Coming from MCE?]
 In MCE, there was no equivalent to this architectural issue. Subscriber records were self-contained. In MCA, the consent record and the individual record are separate DMOs that should join via Party ID but do not. This is a known platform gap, not a design choice you made wrong.
