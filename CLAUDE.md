@@ -40,7 +40,7 @@ Agents (dispatched by the commands, not invoked directly):
 
 **Swizzled theme:** `src/theme/DocItem/Layout.tsx` wraps the default DocItem layout to inject `ProgressCheckbox` and prev/next navigation into every doc page.
 
-**Course overview page:** `src/pages/index.tsx` renders the hero and `ProgressOverview`. The module list is hardcoded in `ProgressOverview.tsx` as `COURSE_PARTS` — update this array when adding/removing modules.
+**Course overview page:** `src/pages/index.tsx` renders the hero and `ProgressOverview`. The module list is dynamically built from the module registry — no manual updates needed when adding, removing, or reordering modules. Nested modules render with an accordion UI.
 
 **Content:** `docs/` contains module markdown organized by part (`part-1-foundations/`, `part-2-data/`, etc.). Each part has a `_category_.json` for sidebar ordering.
 
@@ -49,6 +49,15 @@ Agents (dispatched by the commands, not invoked directly):
 <Screenshot src="/img/{module-slug}/{filename}.png" alt="..." caption="Optional caption" />
 ```
 Screenshots live in `static/img/{module-slug}/`, named `{module-number}-{description}.png`. The component renders with a rounded border, shadow, and optional italic caption.
+
+**Module registry:** A Docusaurus plugin (`plugins/module-registry/`) scans all doc frontmatter at build time and generates a registry mapping slugs to titles and paths. The registry is exposed via `setGlobalData` and consumed by `<ModuleLink>` and `ProgressOverview` via `usePluginData('module-registry')`. Module titles come from frontmatter, part metadata from `_category_.json` — the registry is the derived single source of truth. When adding or renaming modules, just update the frontmatter title. The `ProgressOverview` on the course overview page dynamically builds from the registry — no hardcoded module list.
+
+**ModuleLink component:** `src/components/ModuleLink.tsx` is globally registered via `src/theme/MDXComponents.tsx`. Use it in any `.md` file without importing:
+```mdx
+<ModuleLink slug="data-graphs" />
+<ModuleLink slug="data-graphs" text="custom link text" />
+```
+The slug is the filename (without extension) of the target module. The component renders the module's frontmatter title as a hyperlink. Unknown slugs cause a build failure.
 
 ## Content Rules (enforced by linter)
 
@@ -59,6 +68,7 @@ The content linter (`scripts/lint-content.sh`) enforces rules from `.planning/WR
 - **Banned phrases:** "let's dive in", "it's important to note", "in order to", "make sure to", "feel free to", "Congratulations", "Great job", etc.
 - **Banned admonitions:** `:::note` and `:::danger` (use `:::info`, `:::warning`, `:::tip`, `:::caution`)
 - **Terminology:** "Data 360" not "Data Cloud"; "MCA" not "Marketing Cloud Growth"
+- **No numbered module references** — never write "Module 5" or "Module 8". Always use `<ModuleLink slug="..." />` to reference other modules by name. The linter flags `Module \d+` as an error.
 - **Unresolved `<!-- VERIFY -->` comments** produce warnings (not errors)
 
 The linter strips fenced code blocks before checking, so code examples are exempt.
