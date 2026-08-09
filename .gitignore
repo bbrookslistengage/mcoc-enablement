@@ -18,3 +18,51 @@
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+
+# Playwright screenshots (raw capture, not course content)
+.playwright-mcp/
+playwright-report/
+test-results/
+
+# Temp screenshots at repo root (design spikes, not course content)
+/admonitions-*.png
+
+# Temp screenshots in module image dirs
+static/img/**/temp-*.png
+
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+
+# Secrets and credentials
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.cert
+*.p12
+*.pfx
+*.jks
+*.keystore
+.secret
+.secrets
+credentials.json
+service-account*.json
+*-credentials.json
+*.credential
+token.json
+auth.json
+
+# IDE and editor
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+
+# OS files
+Thumbs.db
