@@ -1,0 +1,10 @@
+{
+  "label": "Business Units and Governance",
+  "position": 3,
+  "collapsible": true,
+  "collapsed": false,
+  "link": {
+    "type": "doc",
+    "id": "part-1-foundations/business-units/index"
+  }
+}

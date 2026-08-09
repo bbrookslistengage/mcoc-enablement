@@ -46,6 +46,9 @@ The walkthrough on [arthurbackouche.com](https://arthurbackouche.com/docs/market
 4. Create a From Address for the domain. Use a recognizable address like `marketing@e.leoptical.com`. This address appears in the `From:` field of every email sent from this domain.
 5. Click **Manual DNS Record Information** to view the DNS records MCA has generated for your domain.
 6. Add all DNS records at your registrar. See the next section for what these records are and what each one does.
+
+<Screenshot src="/img/domain-setup/02-manual-dns-records.png" alt="Manual DNS Record Information panel showing the generated CNAME records for the authenticated sending domain" />
+
 7. Return to Setup, check the box confirming your DNS changes are complete, and enable **Activate my Domain**.
 8. Optionally enter an email address to receive an activation notification.
 9. Domain status changes to **Pending**. Activation can take up to 72 hours (source: arthurbackouche.com, The Agentic Marketer "First Email").
@@ -129,6 +132,8 @@ After your domain activates, you create From Addresses that use it. You can have
 2. Click **+ Add From Addresses**.
 3. Enter the email address and display name (e.g., `marketing@e.leoptical.com`, display name "LEOptical").
 4. Click **Save**.
+
+<Screenshot src="/img/domain-setup/01-from-address-active.png" alt="Authenticated From Addresses list in Unified Messaging Setup showing a From Address with Active domain status" />
 
 The From Address is now available to select when building emails and flows.
 

@@ -21,7 +21,7 @@ This section contains a general overview of topics that you will learn in this l
 - How to create LEOptical's three marketing Communication Subscriptions in the MCA Consent tab.
 - How to configure the default preference page so subscribers can manage their email opt-ins.
 - What the web tracking consent banner is and how it differs from the email preference center.
-- What the "Create Consent Request" flow element requires and why the ConsentId formula matters.
+- What the "Create Consent" flow element requires and how it differs from a standard Create Records element.
 - How to add the Privacy Consent Status component to Lead and Contact record pages.
 - How to use CSV import to create bulk OPT_IN records for existing contacts.
 
@@ -33,34 +33,20 @@ MCA auto-creates a default "Marketing" Communication Subscription when the org i
 
 ### Create a Communication Subscription
 
-Navigate to **Marketing Cloud App > Consent > Preference Pages and Subscriptions**.
+Navigate to **Marketing Cloud App > Consent > Preference Pages and Subscriptions**. Click the **Subscriptions** tab in the left sidebar.
 
-1. Click **New Subscription**.
+1. Click **+ New Subscription**.
+
+<Screenshot src="/img/consent-configuration/08-new-subscription-dialog.png" alt="New communication subscription dialog with Subscription Name and Channels fields" caption="The New communication subscription dialog. Enter a name and select the Email channel." />
+
 2. Enter the subscription name: `Promotional Offers`.
-3. Select **Email** as the communication channel. Email is included by default.
+3. Select **Email** as the communication channel.
 4. Click **Save**.
 5. Repeat for `VisionCare Rewards Updates` and `Eye Health Reminders`.
 
-After saving each subscription, MCA creates a **Communication Subscription Channel Type** record in the background. This junction record has an ID starting with `0eB`. You will need this ID when you build the flow. Write it down for each subscription.
+After saving each subscription, MCA creates a **Communication Subscription Channel Type** record in the background. This junction record links the subscription to the email channel and is what the consent flow references when writing records.
 
-### Find the Communication Subscription Channel Type IDs
-
-You need two IDs per subscription for the flow: the Communication Subscription ID (starts with `0Xl`) and the Communication Subscription Channel Type ID (starts with `0eB`).
-
-{/* VERIFY: What is the UI path in Data 360 or the MCA app to view the Communication Subscription Channel Type record and retrieve its ID? The research file notes these can be found by querying via SOQL/API or navigating to the record in Data 360. Confirm the exact navigation in a live SDO. */}
-
-The most reliable method is a SOQL query. In the Developer Console or SOQL query panel:
-
-```sql
-SELECT Id, Name, CommunicationSubscriptionId
-FROM CommunicationSubscriptionChannelType
-```
-
-Copy the `Id` (the `0eB` ID) and `CommunicationSubscriptionId` (the `0Xl` ID) values for each of your three marketing subscriptions. Store them somewhere accessible. You will hardcode them into formula resources in the flow.
-
-:::warning
-The Communication Subscription Channel Type ID is org-specific and static. If you delete and recreate a subscription, the ID changes and any flow using the old ID stops working. Treat these IDs like configuration constants.
-:::
+<Screenshot src="/img/consent-configuration/01-subscription-list.png" alt="Consent Subscriptions list showing four Communication Subscriptions: Eye Health Reminders, Marketing, Promotional Offers, and VisionCare Rewards Updates, all with Email channel" caption="The Subscriptions list after creating LEOptical's three marketing subscriptions. The default Marketing subscription is also visible." />
 
 ## The default preference page
 
@@ -80,7 +66,7 @@ Navigate to **Marketing Cloud App > Consent > Preference Pages and Subscriptions
 
 Do not add Order Updates to the preference page. Transactional communications should not be opt-in managed through a marketing preference center.
 
-{/* SCREENSHOT: description of what to capture -- the default preference page edit view with three subscriptions added */}
+<Screenshot src="/img/consent-configuration/10-preference-page-editor.png" alt="Email Preference Page editor showing four subscription toggles: Marketing, Promotional Offers, VisionCare Rewards Updates, and Eye Health Reminders, all set to Active, with Unsubscribe from All and Subscribe buttons at the bottom" caption="The preference page editor with all four subscriptions added as active toggles. The component palette on the left lets you add headings, dividers, and other content around the subscription toggles." />
 
 ### Add a preference center link to emails
 
@@ -121,7 +107,7 @@ Add it to both the Contact and Lead record pages.
 7. Click **Activate** and select the appropriate audience (All users, or the profile group for your team).
 8. Repeat for the Lead object (**Setup > Object Manager > Lead > Lightning Record Pages**).
 
-{/* SCREENSHOT: description of what to capture -- the Privacy Consent Status component on a Contact record showing subscription rows with OPT_IN/OPT_OUT status */}
+**[INSERT SCREENSHOT: Privacy Consent Status component on a Contact record page showing the three LEOptical subscriptions with OPT_IN/OPT_OUT status rows]**
 
 **What the component shows:** Each Communication Subscription appears as a row with its current consent status for the contact's email address. Status is OPT_IN or OPT_OUT.
 
@@ -146,16 +132,23 @@ MCA has no direct equivalent to several of the consent mechanics you used in MCE
 
 For bulk consent creation when you have a list of known opt-ins that were not processed through the flow, MCA provides a CSV import path.
 
-Navigate to **Marketing Cloud App > Consent > Consent Imports > Import**.
+Navigate to **Marketing Cloud App > Consent > Consent Imports**.
 
-The import process:
+<Screenshot src="/img/consent-configuration/05-consent-imports-landing.png" alt="Consent Imports page showing 0 items with an Import button highlighted in the top right corner" caption="The Consent Imports landing page. Click + Import to start a new consent import." />
+
+Click **+ Import**. The import wizard walks through two steps:
+
+<Screenshot src="/img/consent-configuration/06-consent-import-wizard-step1.png" alt="Import Consent Data wizard step 1 showing Channel set to Email, Communication Subscription set to Marketing, and Opt In or Opt Out selection" caption="Step 1: Select the channel, the target subscription, and whether this import sets Opt In or Opt Out status." />
+
 1. Select the communication channel (**Email**).
-2. Select the target subscription (**Promotional Offers**).
-3. Select the consent status (**OPT_IN** or **OPT_OUT**).
+2. Select the target subscription (e.g., **Promotional Offers**).
+3. Select **Opt In** or **Opt Out**. The status you select applies to every row in the file.
 4. Click **Next**.
-5. Upload the CSV file. Each row is one email address. The status you selected in step 3 applies to all rows.
-6. Review the preview.
-7. Click **Import**.
+
+<Screenshot src="/img/consent-configuration/07-consent-import-wizard-step2.png" alt="Upload Import File wizard step showing a file upload area and a link to download a sample file" caption="Step 2: Upload a CSV file. Each row is one email address. Use the sample file link to see the expected format." />
+
+5. Upload the CSV file. Each row is one email address with a consent timestamp.
+6. Click **Next** to review, then confirm the import.
 
 One import file handles one subscription. To import consent for three subscriptions, run three separate imports.
 
@@ -169,56 +162,53 @@ The CSV import updates the consent cache. Contact points must already exist in t
 
 This is the platform-native flow element for writing consent records. It is the only method that updates both the Communication Subscription Consent DMO and the consent cache at the same time. If you write directly to the DMO using a standard Create Records element, the cache is not updated and the consent status MCA checks at send time will not reflect the change.
 
-In the Flow Builder canvas, search for **Create Consent Request**. Its internal API name is `MessagingConsent.MessagingConsent`, which appears in documentation and SOQL references.
+In Flow Builder, add a **Create Consent** element to the canvas. The element's input panel has four fields:
 
-The element requires six input fields:
+| Field | What you set |
+|---|---|
+| **Consent Status** | Select **Opt In** or **Opt Out** from the dropdown |
+| **Contact Point** | The email address variable from the flow's trigger or a Get Records lookup |
+| **Channel** | Select **Email** from the dropdown |
+| **Communication Subscription** | Select one or more subscriptions from the picker (e.g., "Promotional Offers") |
 
-| Field | Description | Example |
-|---|---|---|
-| `CommunicationSubscriptionChannelType` | The `0eB` ID for the subscription + channel combination | `0eBHs00000111n0MAA` |
-| `ConsentCapturedDateTime` | Timestamp when consent was captured | `$Flow.CurrentDateTime` |
-| `ConsentId` | Composite key: email address, a `#` separator, and the Channel Type ID | `user@example.com#0eBHs00000111n0MAA` |
-| `ConsentStatus` | OPT_IN or OPT_OUT | `OPT_IN` |
-| `ContactPointValue` | The email address this consent applies to | The email variable from the flow |
-| `Name` | The Communication Subscription ID (`0Xl` prefix) | `0XlHs00000111ZZKAY` |
+<Screenshot src="/img/consent-configuration/04-create-consent-request-element.png" alt="Flow Builder canvas showing a Create Consent element with Consent Status set to Opt In, Contact Point set to emailAddress, Channel set to Email, and Communication Subscription set to Marketing" caption="The Create Consent element in Flow Builder. You select the consent status, contact point, channel, and subscription directly from the UI." />
 
-The `ConsentId` field is a composite key you construct as a formula resource. The formula concatenates the email address and the Channel Type ID with a `#` separator. In Flow formula syntax:
+You can select multiple Communication Subscriptions in a single Create Consent element. For LEOptical's three marketing subscriptions, one element with all three selected is sufficient.
 
-```
-[emailVariable] & "#" & "0eBHs00000111n0MAA"
-```
-
-Replace `0eBHs00000111n0MAA` with the actual Channel Type ID for your org. Create a separate formula resource for each subscription.
-
-One **Create Consent Request** element is required per subscription-channel combination. For LEOptical's three marketing subscriptions (all email), that is three elements in the flow.
-
-:::warning
-The `ConsentId` formula and the `CommunicationSubscriptionChannelType` field must use the `0eB` ID specific to your org. These values are not transferable between orgs. Hardcode the IDs as formula resources or flow constants after retrieving them from your SDO.
-:::
-
-Field-level reference for the `MessagingConsent.MessagingConsent` action is documented in the [arthurbackouche.com consent management guide](https://arthurbackouche.com/docs/marketing-cloud-next/consent-management/how-to-manage-consent-in-marketing-cloud-next/). Review that guide before building the flow.
+The element's internal API name is `MessagingConsent.MessagingConsent`, which appears in documentation and SOQL references. The [arthurbackouche.com consent management guide](https://arthurbackouche.com/docs/marketing-cloud-next/consent-management/how-to-manage-consent-in-marketing-cloud-next/) covers the underlying field-level reference if you need it for debugging.
 
 ## Web tracking consent banner
 
-The consent banner in the assignment refers to web tracking consent, not email subscription management. These are two separate systems.
+The consent banner is about web tracking consent, not email subscription management. These are two separate systems. The email preference page manages which marketing subscriptions a contact is opted into. The web tracking consent banner asks visitors for permission to collect behavioral data (clicks, page views, session data) before tracking begins. This feeds the web analytics and behavioral tracking in Data 360.
 
-The web tracking consent banner appears on MCA landing pages and any external site using MCA tracking embed codes. It asks visitors for permission to collect behavioral data (clicks, page views, session data) before tracking begins. This feeds the web analytics and behavioral tracking in Data 360.
+There are two places the consent banner can appear, and each has its own configuration path.
 
-The email preference page manages which marketing subscriptions a contact is opted into. These serve different purposes and are configured in different places.
+### MCA landing pages
 
-### Configure the web tracking consent banner
+For MCA-hosted landing pages, the consent banner is enabled through the Marketing Landing Page site builder. The setup has three steps:
 
-Navigate to **Setup > Quick Find > Web Tracking**.
+1. **Design the banner.** Navigate to **Setup > Quick Find > Web Tracking**. Open the **Consent Banner** section and toggle **Require Consent Banner** to enabled. Configure the banner position, font, colors, and link text. The Accept and Reject button labels are not customizable in the default banner. Save your changes.
 
-1. Open the **Consent Banner** section.
-2. Toggle **Require Consent Banner** to enabled.
-3. Configure position, font, colors, and button text as needed. Button text customization was added in Summer '26.
-4. Save your changes.
-5. After changing consent banner settings, republish any Marketing Landing Page sites that use web tracking. The banner changes do not take effect until the site is republished.
+{/* VERIFY: Summer '26 added the ability to create custom consent banners via Content > Create New Content > Consent Banner. This provides full control over button text and layout. Confirm whether the Setup-level banner settings still apply when a custom banner is used, or whether the custom banner replaces them entirely. */}
 
-{/* SCREENSHOT: description of what to capture -- the Consent Banner configuration panel in Setup */}
+2. **Enable the integration.** Navigate to **Setup > Quick Find > All Sites**. Open the **Marketing Landing Page** builder. Click the **Settings gear icon**, then select **Integrations**. Click **+ Add to Site** under the Data 360 integration, enable the toggle, associate your data space, and save. Then click **+ Add to Site** under the web tracking consent banner integration, enable the toggle, and save. Wait for both integrations to show a green enabled status.
 
-You will not deploy this banner to a live landing page until Modules 17-18. For now, confirm the setting is configured and note that the banner requires a republish step after any future changes.
+{/* Screenshot alt/caption use "Data Cloud" because that is the label in the Salesforce UI */}
+<Screenshot src="/img/consent-configuration/03-site-builder-integrations.png" alt="Marketing Landing Page site builder Integrations page showing the two integration cards with Add to Site buttons" caption="The Integrations page in the Marketing Landing Page site builder. Both integrations must be added and enabled." />
+
+3. **Publish the site.** Click **Publish** in the site builder. The consent banner does not appear until the site is published. If you change any banner settings after publishing, you must republish.
+
+:::warning
+The first page view of a website visitor is not recorded when consent is required. Tracking begins only after the visitor accepts the consent banner. This is expected behavior.
+:::
+
+### External websites (web connector)
+
+For external websites (like the LEOptical Netlify site you will build later), tracking is handled by a **web connector** that embeds a tracking beacon on the external site. The web connector has its own toggle that controls whether the MCA consent banner is displayed.
+
+Not every client will use the MCA consent banner on their external sites. Some clients use their own consent management platform (OneTrust, Cookiebot, or similar) and do not want a second consent banner from MCA. The web connector toggle lets you disable the MCA banner in those cases while still capturing behavioral data once the visitor has consented through the client's own tool.
+
+Web connector setup is covered in Modules 17-18. For now, understand that the MCA consent banner for landing pages and the web connector consent toggle are independent configurations.
 
 ## Org-wide consent settings
 
@@ -241,9 +231,9 @@ Even if you disable consent management globally, consent is still checked for an
 > **The client wants:** Consent infrastructure in place so that marketing emails can go out. The team needs to see consent status on CRM record pages without logging into Data 360. Protagonist contacts need consent records so they can receive test emails in later modules.
 
 1. Create three Communication Subscriptions in **Marketing Cloud App > Consent > Preference Pages and Subscriptions**: `Promotional Offers`, `VisionCare Rewards Updates`, and `Eye Health Reminders`. Email channel only.
-2. Record the Communication Subscription Channel Type ID (the `0eB` ID) and Communication Subscription ID (the `0Xl` ID) for each subscription. Store them somewhere accessible. You will need them when the consent automation flow is built.
+2. Confirm each subscription has the **Email** channel associated. The Communication Subscription Channel Type records (the junction between subscription and channel) are created automatically when you save.
 3. Add all three marketing subscriptions to the default preference page and verify they appear when you click **View Page**.
-4. Configure the web tracking consent banner in **Setup > Quick Find > Web Tracking**. Enable the banner and configure basic display settings.
+4. Configure the web tracking consent banner: enable the banner in **Setup > Quick Find > Web Tracking**, configure basic display settings, then add the Data 360 and web tracking consent banner integrations to the Marketing Landing Page site via **All Sites > Marketing Landing Page > Builder > Settings > Integrations**. Publish the site.
 5. Add the **Privacy Consent Status** component to the Contact and Lead record pages in Lightning App Builder.
 6. **Consent records for protagonist contacts (CSV import):** The consent automation flow is not yet available. Use the CSV import method to create OPT_IN records for your 10 protagonist contacts. Run three separate imports, one per marketing subscription. Verify OPT_IN status appears for all three subscriptions on the **Privacy Consent Status** component on each protagonist Contact record. Contacts without consent records will not receive test emails in Modules 14 onward.
 
@@ -262,7 +252,7 @@ Even if you disable consent management globally, consent is still checked for an
 The following questions are an opportunity to reflect on key topics in this lesson. If you can't answer a question, revisit the relevant section, but keep in mind you are not expected to memorize or master this knowledge.
 
 - What is the default consent status for a new Individual in MCA, and what does that mean for marketing sends?
-- What two IDs does the "Create Consent Request" flow element require per subscription-channel combination, and how do you find them?
+- What four inputs does the "Create Consent" flow element require, and how does it differ from writing directly to the Communication Subscription Consent DMO?
 - Why can you not write directly to the Communication Subscription Consent DMO using a standard Create Records flow element?
 - What is the difference between the web tracking consent banner and the email preference page? Where is each one configured?
 - A colleague deletes a Communication Subscription that had 5,000 OPT_IN records. What happens to those records?

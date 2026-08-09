@@ -16,15 +16,43 @@ MCA lives entirely inside a Core Salesforce org. There is no separate "Marketing
 
 Follow the guide to provision your SDO.
 
-:::warning
-Extend your SDO expiry before you do anything else. Navigate to the Partner Community and ask the Agent to extend your SDO expiry date by one year. If you forget, your org expires in 30 days and you lose everything you have built.
-:::
+### Extend your SDO expiry
+
+Extend your SDO before you do anything else. The default expiry is 30 days. If it lapses before you finish the course, you lose everything you have built.
+
+Salesforce does not have a self-serve extension option. You need to log a support case through the Partner Community. Follow the [How to Submit a Case to Extend Your Demo Org](https://help.salesforce.com/s/articleView?id=002718163&type=1) guide. The screenshot below shows where to find the case submission option.
+
+<Screenshot src="/img/getting-started/01-log-a-case-partner-support.png" alt="Partner Community help menu with Log a Case for Help option highlighted" />
+
+Use this template for the case description. Find your Org ID under **Setup > Company Information**.
+
+```
+Subject: SDO Expiry Extension Request
+
+Product: Sales
+Severity: S3
+
+Hello,
+
+I am requesting a 12-month extension on my Simple Demo Org (SDO).
+
+Org ID: [YOUR ORG ID]
+Org URL: [YOUR ORG URL]
+Current expiry date: [CURRENT EXPIRY DATE]
+
+I am using this org for MCA enablement training and need the additional
+time to complete the course curriculum.
+
+Thank you.
+```
 
 The SDO has one data space. Business units cannot be enabled. Always select **default** as your data space throughout this course.
 
 ### Data 360 Setup
 
 Follow the guide. Data 360 setup runs as an automated process. When it finishes, you will see a **Tenant Endpoint** in the Data 360 Setup page. That is your confirmation it is complete.
+
+<Screenshot src="/img/getting-started/02-tenant-endpoint.png" alt="Data 360 Setup page showing Your Home Org Details with the Tenant Endpoint populated, confirming that Data 360 provisioning is complete" />
 
 The Tenant Endpoint is a unique URL that identifies your org's Data 360 instance. It is what other Salesforce services use to communicate with Data 360: Marketing Cloud, Identity Resolution, and the Assisted Setup wizard all depend on it. If it is not present, those services cannot connect, and subsequent setup steps will fail with confusing errors.
 
@@ -65,6 +93,8 @@ You can access Identity Resolution through the setup menu as the guide describes
 :::warning
 MCA setup can auto-create a default IDR ruleset. Before creating any ruleset, navigate to **App Launcher > Identity Resolutions** and check whether one already exists. If a default ruleset is there, review its configuration rather than creating a duplicate.
 :::
+
+<Screenshot src="/img/environment-setup/01-identity-resolution-ruleset.png" alt="Identity Resolutions list view showing one ruleset: Individual Identity Resolution, data space default, Primary Data Object Individual, Ruleset Status Published" caption="If your SDO already has a default ruleset like this, review it rather than creating a new one." />
 
 :::tip[Coming from MCE?]
 MCA has no concept of a Subscriber Key. There is no single primary identifier for contacts. Instead, Identity Resolution combines records from multiple sources and produces a **Unified Individual**: the resolved identity that MCA uses for segmentation, personalization, and sending.

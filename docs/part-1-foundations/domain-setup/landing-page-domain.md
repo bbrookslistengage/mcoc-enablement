@@ -32,6 +32,9 @@ SFMC Tips #171, ["Setting Domains for Landing Pages"](https://medium.com/@market
 2. Click **Add a Domain**.
 3. Enter your subdomain (e.g., `pages.leoptical.com`).
 4. Select **Serve the domain with the Salesforce Content Delivery Network (CDN)**. This enables the free Cloudflare SSL option.
+
+<Screenshot src="/img/domain-setup/03-landing-page-domain-cdn-option.png" alt="Domain Edit screen in Salesforce Setup showing the CDN hosting option selected for a landing page subdomain" />
+
 5. MCA displays two CNAME records using your org's ID. Copy them.
 6. Add both records at your registrar:
    - `pages.[yourdomain].com` pointing to `pages.[yourdomain].com.[orgId].live.siteforce.com`

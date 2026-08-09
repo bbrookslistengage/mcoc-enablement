@@ -78,11 +78,13 @@ LEOptical's initial build is email-only. SMS and WhatsApp require paid add-ons. 
 
 This is a junction object in Data 360 that uniquely identifies the combination of a Communication Subscription and an Engagement Channel Type. You do not configure it directly. It is created automatically when you associate a channel with a subscription.
 
-It has its own record ID (IDs begin with `0eB`). This ID is what the Create Consent Request Flow element needs when writing a consent record. It is the mechanism that links a specific subscription to a specific channel. Without it, MCA does not know which subscription-channel pair a consent record applies to.
+It has its own record ID (IDs begin with `0eB`). It is the mechanism that links a specific subscription to a specific channel. You do not need to look up or reference this ID directly when building consent flows. The Create Consent flow element handles the mapping when you select a subscription and channel from its UI.
 
 ### Communication Subscription Consent (DMO)
 
 This is the actual consent record stored in Data 360. The four components above are all context. The Communication Subscription Consent DMO is the source of truth the enforcement layer checks at send time.
+
+<Screenshot src="/img/consent-fundamentals/02-comm-sub-consent-dmo-fields.png" alt="Communication Subscription Consent DMO detail page in Data 360 showing the object label, API name ssot__CommunicationSubscriptionConsent__dlm, Standard type, and 33 fields" caption="The Communication Subscription Consent DMO in Data 360. This is the object that stores the actual consent records the enforcement layer checks at send time." />
 
 Key fields on the Communication Subscription Consent DMO:
 
@@ -126,6 +128,8 @@ The other thing to notice: step 3 says "consent cache," not "Communication Subsc
 The Consent Audit Trail is a logging mechanism, not part of the enforcement chain described above.
 
 MCA also maintains a `ConsentAuditTrailV2` Data Lake Object (DLO) that logs every consent change event: opt-ins, opt-outs, and updates from any source. Unlike the Communication Subscription Consent DMO, this DLO is not mapped to a DMO and is not used by MCA at send time. It is an append-only log, useful for compliance audits and debugging consent history, but it plays no role in enforcement.
+
+<Screenshot src="/img/consent-fundamentals/04-consent-audit-trail-dlo.png" alt="ConsentAuditTrailV2 Data Lake Object detail page showing Category Other, Total Records 0, and Fields mapped 0/0 in the Data Mapping section" caption="The ConsentAuditTrailV2 DLO in Data 360. Note that it is a Data Lake Object, not a Data Model Object, and has 0 fields mapped. It logs consent changes but plays no role in send-time enforcement. Your org's DLO name will include your org ID." />
 
 {/* VERIFY: ConsentAuditTrailV2 DLO existence and behavior sourced from The Agentic Marketer consent deep dive. Confirm DLO name and that it is not mapped to a DMO in a live SDO. */}
 
@@ -173,16 +177,11 @@ There are exactly five ways to create or update consent records that MCA will ac
 
 This is the most architecturally confusing aspect of MCA consent. The Communication Subscription Consent DMO has a `Party` field intended to link to the Individual DMO via `Individual ID`. When a person opts in or out, MCA does not populate this field.
 
+<Screenshot src="/img/consent-fundamentals/03-comm-sub-consent-relationships.png" alt="Relationships tab on the Communication Subscription Consent DMO showing two relationships: one to Communication Subscription and one to Individual via the Party field with KQ_PartyId" caption="The Relationships tab shows the Party field relationship to Individual exists in the schema. MCA does not populate the Party field value, so this relationship returns no results." />
+
 The built-in relationship between the Communication Subscription Consent DMO and the Individual DMO does not work. This is confirmed platform behavior as of Summer '26, not a misconfiguration.
 
 **The workaround:** Relate the Communication Subscription Consent DMO to Contact Point Email using the `Contact Point Value` field on the Communication Subscription Consent record matched against the `Email Address` field on Contact Point Email.
-
-The Data Graph traversal for consent becomes:
-
-```
-Unified Individual → Contact Point Email → Communication Subscription Consent
-                                          (via Email Address = Contact Point Value)
-```
 
 :::warning
 If you do not build this relationship in the Data Graph, consent status is invisible to your segments and Handlebars personalization expressions. You cannot filter a segment by consent status. You cannot show a customer's consent preference in an email. Build the Contact Point Email to Communication Subscription Consent relationship via email match, not via the Party field.
@@ -261,11 +260,8 @@ LEOptical needs four Communication Subscriptions. Three are marketing subscripti
 | Promotional Offers | Marketing | Yes | Yes |
 | VisionCare Rewards Updates | Marketing | Yes | Yes |
 | Eye Health Reminders | Marketing | Yes | Yes |
-| Order Updates | Transactional | No (by default) | No |
 
-The "Order Updates" distinction matters immediately. Post-purchase confirmation emails, shipping notifications, and the review request flow in Module 16 all use the Order Updates subscription. Those sends can reach customers who have never opted into any marketing subscription, because MCA does not check consent for transactional messages by default.
-
-Admins can change this behavior in Setup: consent checks can be enabled for transactional messages or disabled entirely. The default configuration checks consent for marketing messages and skips it for transactional. LEOptical's implementation uses the default.
+Post-purchase confirmation emails, shipping notifications, and order-related sends are transactional. MCA does not check consent for transactional messages by default, so those sends can reach customers who have never opted into any marketing subscription.
 
 :::warning
 Even transactional emails display the List-Unsubscribe header that email clients (Gmail, Apple Mail) render as a one-click unsubscribe button. This happens at the email client's discretion, not MCA's. A customer who clicks that button on an Order Updates email may end up with a consent change in your system depending on how your preference center is configured. Test this behavior before go-live.
