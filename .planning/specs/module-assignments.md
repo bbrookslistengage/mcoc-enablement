@@ -29,8 +29,9 @@ Flows have been moved before Landing Pages & Forms so learners are comfortable w
 - Provision your SDO and verify Core Org Edition requirements are met
 - Provision Data 360 and install the Marketing Data Kit
 - Assign the necessary permission sets to your user
-- Run the `seed_crm_data.apex` script to populate LEOptical's CRM with ~60,000 Contacts, Accounts, Products, and Campaigns
-- Update the 10 protagonist contacts with your own email address using `+alias` patterns (e.g., `yourname+maria@gmail.com`, `yourname+james@gmail.com`). These are the contacts you'll use throughout the course to receive and verify test emails
+- Create 4 custom fields on Contact (Loyalty Tier, Loyalty Points, Last Exam Date, Next Exam Due)
+- Import `contacts.csv` (~48,675 Contacts) via the Data Import Wizard
+- Run the Products & Campaigns anonymous Apex snippet in Developer Console
 - Take a platform tour: navigate to MCA setup, Data 360 setup, and Salesforce CMS
 - Note the Campaign IDs for the seeded campaigns — you'll need these in later modules
 
@@ -39,8 +40,7 @@ Flows have been moved before Landing Pages & Forms so learners are comfortable w
 - [ ] Data 360 is provisioned and accessible
 - [ ] Marketing Data Kit is installed
 - [ ] Permission sets are assigned
-- [ ] Seed data is visible: ~60,000 Contacts, 4 Products, Campaigns exist in the org
-- [ ] All 10 protagonist contacts have been updated with your email address
+- [ ] Seed data is visible: ~48,675 Contacts, 1 Account ("LEOptical Customers"), 5 Products, 3 Campaigns
 - [ ] Campaign IDs are documented for later use
 
 **Stretch Goal:**
@@ -119,6 +119,7 @@ Flows have been moved before Landing Pages & Forms so learners are comfortable w
 > **The client wants:** Build the consent infrastructure. Create consent records, configure a consent banner, and — critically — set up the automation that grants consent to new individuals as they enter the system.
 
 **Assignment:**
+- **Update your 10 protagonist contacts with your email address.** The protagonist contacts were imported in Module 1 with `@example.com` placeholder emails. Before you can receive test emails, you need to update them with your own address using `+alias` patterns (e.g., `yourname+mariac@gmail.com`). Run the update script provided on the course page in Developer Console. This creates a second Contact Point Email in Data 360 for each protagonist while preserving the original `@example.com` email (which links to their ecommerce orders and loyalty records).
 - Create Consent Purpose records for email marketing
 - Create associated Consent Templates
 - Configure a consent banner for use on marketing landing pages (you'll use this in Modules 17-18)
@@ -126,11 +127,11 @@ Flows have been moved before Landing Pages & Forms so learners are comfortable w
   - The flow listens for changes on the Individual DMO — specifically when a field like "Email Marketing Opt-In" becomes true
   - When triggered, the flow performs a Contact Point Email lookup for that individual
   - The flow creates a Communication Subscription Consent record with OPT_IN for those email addresses
-- Add the Consent Lightning Web Component to the Lead and Contact record pages so consent status is visible in the CRM
+- Add the Consent Lightning Web Component to the Contact record pages so consent status is visible in the CRM
 - **Test the consent flow in phases:**
-  1. **Manual validation first:** Manually create 2-3 new Leads/Contacts in Salesforce with the opt-in field set to true. Verify the triggered flow fires and creates consent records for each. Check the consent LWC on the record page to confirm. If the flow doesn't work, debug it now — because if it's broken, the next step will create records without consent and you'll have to clean them up manually
-  2. **CSV stress test:** Once the flow is validated, download `new_contacts_batch1.csv` (~20 new contacts) and import them via Data Loader or Data Import Wizard. Verify that consent records are created for all of them. Check for edge cases: did any fail? Why?
-  3. **Spot-check the protagonist contacts:** Verify that your 10 protagonist contacts (updated with your email in Module 1) have consent records. If they don't, you won't receive test emails in later modules
+  1. **Manual validation first:** Manually create 2-3 new Contacts in Salesforce with the opt-in field set to true. Verify the triggered flow fires and creates consent records for each. Check the consent LWC on the record page to confirm. If the flow doesn't work, debug it now — because if it's broken, the next step will create records without consent and you'll have to clean them up manually
+  2. **CSV stress test:** Once the flow is validated, download `new_contacts_batch1.csv` (~20 new contacts) and import them via the Data Import Wizard. Verify that consent records are created for all of them. Check for edge cases: did any fail? Why?
+  3. **Spot-check the protagonist contacts:** Verify that your 10 protagonist contacts (updated with your email earlier in this module) have consent records. If they don't, you won't receive test emails in later modules
 
 **Success Criteria:**
 - [ ] Consent Purpose records exist for email marketing
@@ -143,7 +144,7 @@ Flows have been moved before Landing Pages & Forms so learners are comfortable w
 - [ ] Protagonist contacts have consent records and are ready for email testing
 - [ ] You can explain why this automation is necessary (MCA doesn't auto-create consent)
 
-> **Why test manually first?** If the consent flow has a bug, every record imported via CSV will be created without consent. You'd then need to either fix the flow and re-trigger it for all those records, or manually create consent records. Testing with 2-3 manual records first catches flow issues before they become a 60,000-record cleanup problem. This is the same approach you'd use on a real engagement — validate with a small batch before running at scale.
+> **Why test manually first?** If the consent flow has a bug, every record imported via CSV will be created without consent. You'd then need to either fix the flow and re-trigger it for all those records, or manually create consent records. Testing with 2-3 manual records first catches flow issues before they become an 80,000-record cleanup problem. This is the same approach you'd use on a real engagement — validate with a small batch before running at scale.
 
 ---
 
@@ -280,7 +281,7 @@ Additionally, learn how to query segment members directly via the **Unified Indi
 - Calculate the impact of current design decisions: data streams, unified profiles, segment refresh frequency, data retention
 - Identify which design decisions have the biggest consumption impact
 - Assess the consumption impact of dirty data: how many credits are consumed by duplicate records, unresolved identities, and orphaned data? What would cleanup save?
-- Write a recommendation memo: what should LEOptical monitor as they scale from 60,000 to 600,000 customers?
+- Write a recommendation memo: what should LEOptical monitor as they scale from 80,000 to 600,000 customers?
 
 **Success Criteria:**
 - [ ] Consumption metrics are reviewed and documented

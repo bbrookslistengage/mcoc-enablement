@@ -107,7 +107,7 @@ This diagram shows where LEOptical's data originates, how it enters Data 360, an
 ```mermaid
 flowchart TB
     subgraph sources ["Data Sources"]
-        CRM["Salesforce CRM<br/><i>System of Record</i><br/>~60K Contacts, Accounts,<br/>Products, Campaigns"]
+        CRM["Salesforce CRM<br/><i>System of Record</i><br/>~49K Contacts,<br/>Products, Campaigns"]
         LOYALTY["Loyalty Platform Export<br/><i>VisionCare Rewards</i><br/>~40K members<br/>(loyalty_members.csv)"]
         ECOMM["Ecommerce Platform Export<br/><i>Online Store</i><br/>~100K orders<br/>(ecommerce_orders.csv)"]
         EXAMS["Clinic System Export<br/><i>Exam Scheduling Tool</i><br/>~exam records<br/>(exam_history.csv)"]
@@ -184,7 +184,7 @@ How each business entity maps to a Data 360 DMO, what sources feed it, and the i
 | Loyalty Membership | **Loyalty Program Member** | Standard + custom fields | Loyalty CSV | CSV data stream |
 | Order | **Sales Order** | Standard (manually enabled) | Ecommerce CSV | CSV data stream |
 | Order Line Item | **Sales Order Product** | Standard (manually enabled) | Ecommerce CSV | CSV data stream |
-| Product | **Product** | Standard | CRM Product (Apex seed) | Auto (CRM) |
+| Product | **Product** | Standard | CRM Product (anonymous Apex) | Auto (CRM) |
 | Eye Exam | **Eye Exam** | Custom | Exam History CSV | CSV data stream |
 | Communication Consent | **Comm Subscription Consent** | Standard | Consent automation flow (Module 5) + landing page forms | Flow-created / form-created |
 | — | **Unified Individual** | Standard | Post-IDR (system-generated) | Automatic after IDR runs |

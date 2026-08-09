@@ -16,15 +16,19 @@
 - [ ] Linting scripts for style enforcement
 
 ### Phase 2: Seed Data
-- [ ] `seed_crm_data.apex` written and tested in SDO
-- [ ] `loyalty_members.csv` generated (with dirty data per spec)
-- [ ] `ecommerce_orders.csv` generated (with dirty data per spec)
-- [ ] `exam_history.csv` generated (with dirty data per spec)
-- [ ] `new_signups_july.csv` generated
-- [ ] `new_orders_july.csv` generated
-- [ ] `new_contacts_batch1.csv` generated
-- [ ] All 10 protagonist contacts verified across all data files
+- [x] `scripts/generate-seed-data.py` written (single source of truth for all CSVs)
+- [x] `contacts.csv` generated (~48,675 Contacts with dirty data per spec)
+- [x] `seed-products-campaigns.apex` anonymous Apex snippet written
+- [x] `loyalty_members.csv` generated (with dirty data per spec)
+- [x] `ecommerce_orders.csv` generated (with dirty data per spec, includes protagonist orders)
+- [x] `exam_history.csv` generated (with dirty data per spec)
+- [x] `new_signups_july.csv` generated
+- [x] `new_orders_july.csv` generated
+- [x] `new_contacts_batch1.csv` generated
+- [x] All 10 protagonist contacts verified across all data files
+- [ ] `SeedScript.tsx` updated to generate UPDATE script (not INSERT) for Module 4
 - [ ] Dirty data inventory documented (what problems exist in which files)
+- [ ] Seed data tested end-to-end in a clean SDO
 
 ### Phase 3: Static Assets
 - [ ] LEOptical brand assets (logo, product images) created or sourced
@@ -40,9 +44,9 @@ Written, reviewed, and verified against a live SDO.
 |---|--------|------|----------|---------|-------------|----------|
 | 1 | Getting Started | Done | - | Draft (9 VERIFY) | - | - |
 | 2 | Domain Setup | Done | - | Draft (7 VERIFY) | - | - |
-| 3 | Business Units and Governance | Done | - | - | - | - |
-| 4 | Consent Fundamentals | Done | - | - | - | - |
-| 5 | Consent Configuration | Done | - | - | - | - |
+| 3 | Business Units and Governance | Done | - | Draft (8 VERIFY) | - | - |
+| 4 | Consent Fundamentals | Done | - | Draft (3 VERIFY) | - | - |
+| 5 | Consent Configuration | Done | - | Draft (4 VERIFY) | - | - |
 | 6 | Data 360 and Data Model Objects | Done | - | - | - | - |
 | 7 | CRM Data Ingestion | Done | - | - | - | - |
 | 8 | Data Graphs | Done | - | - | - | - |
@@ -91,6 +95,10 @@ Record significant decisions here so we do not revisit them.
 | Date | Decision | Rationale |
 |------|----------|-----------|
 | 2026-08-06 | No Opportunities in Apex seed | All purchase data comes from ecommerce CSV mapped to Sales Order / Sales Order Product |
+| 2026-08-08 | CRM seed data via CSV import, not Apex batch | Single Python script generates all CSVs with consistent emails. Learners import via Data Import Wizard (browser-based). |
+| 2026-08-08 | ~48,672 Contacts only, no Leads | B2C pattern. Leads don't make sense for eyecare retail. IDR scenarios come from cross-source email mismatches, not CRM object duplication. |
+| 2026-08-08 | Single shared Account "LEOptical Customers" | Avoids 50K individual accounts. Person Accounts vary across SDOs and aren't relevant to MCA. |
+| 2026-08-08 | Protagonists in CSV with @example.com emails | Protagonist email update moved to Module 4 via anonymous Apex. Data 360 upsert preserves old Contact Point Email, so ecommerce orders stay linked. |
 | 2026-08-06 | Loyalty Program Member uses standard DMO with custom fields | Flat structure, no relational tier/currency DMOs needed |
 | 2026-08-06 | Eye Exam is a custom DMO | No standard DMO fits clinic exam data |
 | 2026-08-06 | Data Graph rooted on Unified Individual | Required for Handlebars personalization and activation |
