@@ -15,6 +15,16 @@ interface PartInfo {
 
 const COURSE_PARTS: PartInfo[] = [
   {
+    label: 'Introduction',
+    description: 'Course orientation, platform context, and the mindset you need before diving in.',
+    modules: [
+      {slug: 'how-this-course-works', title: 'How This Course Works', path: '/introduction/how-this-course-works'},
+      {slug: 'mca-vs-mce', title: 'MCA vs. MCE', path: '/introduction/mca-vs-mce'},
+      {slug: 'intro-to-data-360', title: 'Introduction to Data 360', path: '/introduction/intro-to-data-360'},
+      {slug: 'navigating-a-new-platform', title: 'Navigating a New Platform', path: '/introduction/navigating-a-new-platform'},
+    ],
+  },
+  {
     label: 'Part 1: Setup & Foundations',
     description: 'Provision your SDO, configure domains and business units, and build the consent framework.',
     modules: [

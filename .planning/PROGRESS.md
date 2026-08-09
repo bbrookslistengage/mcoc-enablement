@@ -42,6 +42,10 @@ Written, reviewed, and verified against a live SDO.
 
 | # | Module | Spec | Skeleton | Content | Screenshots | Verified |
 |---|--------|------|----------|---------|-------------|----------|
+| I-1 | How This Course Works | Done | - | Draft (0 VERIFY) | N/A | - |
+| I-2 | MCA vs. MCE | Done | - | Draft (0 VERIFY) | N/A | - |
+| I-3 | Introduction to Data 360 | Done | - | Draft (0 VERIFY) | N/A | - |
+| I-4 | Navigating a New Platform | Done | - | Draft (0 VERIFY) | N/A | - |
 | 1 | Getting Started | Done | - | Draft (9 VERIFY) | - | - |
 | 2 | Domain Setup | Done | - | Draft (7 VERIFY) | - | - |
 | 3 | Business Units and Governance | Done | - | Draft (8 VERIFY) | - | - |
