@@ -6,7 +6,7 @@ description: "Practical advice for learning MCA, managing expectations about the
 
 ## Overview
 
-You are an experienced Salesforce professional picking up a new product. You have done this before, whether it was learning a new cloud, a new tool, or an entirely new platform. MCA is another one of those. It will feel unfamiliar at first. Some parts will feel clunky or counterintuitive. That is completely normal, and it fades with hands-on time.
+You are an experienced Salesforce professional picking up a new product. You have done this before, whether it was learning a new cloud, a new tool, or an entirely new platform. MCA is another one of those. It will feel unfamiliar at first. Some parts will feel clunky or counterintuitive. That is completely normal. Some of it smooths out as you learn the platform's patterns. Some of it is just how the platform works right now.
 
 This module covers how to approach the learning process, how to use the tools at your disposal (especially AI), and why you are more prepared for this than you might think. There is no configuration work here. Just perspective and practical advice before you start building.
 
@@ -16,7 +16,6 @@ This section contains a general overview of topics that you will learn in this l
 
 - Why your existing Salesforce experience transfers directly to learning MCA.
 - What makes MCA's learning curve feel steeper than other products, and why that is temporary.
-- The hands-on learning philosophy behind this course's assignments.
 - How to use AI tools effectively when researching MCA topics.
 
 ## You already know how to learn hard things
@@ -36,21 +35,6 @@ The biggest difference is the data layer. Data 360 adds a layer of upfront compl
 The early modules are the steepest part of the learning curve. Once data is flowing and identity resolution is running, you start building segments, creating emails, and configuring flows. That is where things start to move faster and feel more intuitive.
 
 If something feels confusing in the first few modules, keep going. It is not a sign that you are falling behind. It is a sign that you are in the steepest part of the curve, and the curve flattens out.
-
-## Learning by building
-
-This course is built around hands-on practice with realistic scenarios. Every assignment connects to LEOptical's business. You are not configuring features in isolation. You are building a real implementation, piece by piece.
-
-The assignments intentionally do not hand you every step. They give you enough context, point you in the right direction, and then ask you to figure it out. That friction is the point.
-
-Struggling with a configuration for 20 minutes and eventually getting it to work teaches you something that reading a walkthrough never will. You build real problem-solving instincts. The kind that matter when a client asks you to do something you have not seen before. The kind where you think "I have done this before" instead of "I read about this once."
-
-When you get stuck (and you will get stuck), here is what to do:
-
-1. Re-read the relevant lesson section. The answer might be there.
-2. Check the Salesforce Help documentation for the specific feature.
-3. Use an AI tool to walk you through the problem (more on that below).
-4. If you are truly stuck after 30 minutes of genuine effort, move on. Come back to it later with fresh eyes. Sometimes the next module gives you the context you were missing.
 
 ## Using AI as a learning tool
 
@@ -102,5 +86,4 @@ The following questions are an opportunity to reflect on key topics in this less
 
 - Why does MCA feel more complex upfront compared to MCE or other Salesforce products?
 - What is the first thing you should do before using an AI tool to research MCA topics?
-- Why does this course use assignments that do not give you every step?
-- What should you do if you are stuck on an assignment for more than 30 minutes?
+- What should you do if an AI tool starts describing MCE features as if they are current MCA features?
