@@ -200,36 +200,27 @@ The element's internal API name is `MessagingConsent.MessagingConsent`, which ap
 
 ## Web tracking consent banner
 
-The consent banner is about web tracking consent, not email subscription management. These are two separate systems. The email preference page manages which marketing subscriptions a contact is opted into. The web tracking consent banner asks visitors for permission to collect behavioral data (clicks, page views, session data) before tracking begins. This feeds the web analytics and behavioral tracking in Data 360.
+The web tracking consent banner is separate from email subscription consent. The preference page manages which marketing subscriptions a contact is opted into. The web tracking consent banner asks website visitors for permission to collect behavioral data (clicks, page views, session data) before tracking begins. This feeds the web analytics and behavioral tracking in Data 360.
 
-There are two places the consent banner can appear, and each has its own configuration path.
+The consent banner can appear in two places. You do not need to configure either one in this module, but understanding the two mechanisms now will save you time when you reach the landing page and web connector modules later.
 
 ### MCA landing pages
 
-For MCA-hosted landing pages, the consent banner is enabled through the Marketing Landing Page site builder. The setup has three steps:
-
-1. **Design the banner.** Navigate to **Setup > Quick Find > Web Tracking**. Open the **Consent Banner** section and toggle **Require Consent Banner** to enabled. Configure the banner position, font, colors, and link text. The Accept and Reject button labels are not customizable in the default banner. Save your changes.
-
-{/* VERIFY: Summer '26 added the ability to create custom consent banners via Content > Create New Content > Consent Banner. This provides full control over button text and layout. Confirm whether the Setup-level banner settings still apply when a custom banner is used, or whether the custom banner replaces them entirely. */}
-
-2. **Enable the integration.** Navigate to **Setup > Quick Find > All Sites**. Open the **Marketing Landing Page** builder. Click the **Settings gear icon**, then select **Integrations**. Click **+ Add to Site** under the Data 360 integration, enable the toggle, associate your data space, and save. Then click **+ Add to Site** under the web tracking consent banner integration, enable the toggle, and save. Wait for both integrations to show a green enabled status.
-
-{/* Screenshot alt/caption use "Data Cloud" because that is the label in the Salesforce UI */}
-<Screenshot src="/img/consent-configuration/03-site-builder-integrations.png" alt="Marketing Landing Page site builder Integrations page showing the two integration cards with Add to Site buttons" caption="The Integrations page in the Marketing Landing Page site builder. Both integrations must be added and enabled." />
-
-3. **Publish the site.** Click **Publish** in the site builder. The consent banner does not appear until the site is published. If you change any banner settings after publishing, you must republish.
+For MCA-hosted landing pages, the consent banner is a piece of content you create in a CMS workspace and then enable through the Marketing Landing Page site builder. The banner editor lets you configure position (top, bottom, or center), colors, and button text. Once created, you add the Data 360 and web tracking consent banner integrations to the site and publish.
 
 :::warning
 The first page view of a website visitor is not recorded when consent is required. Tracking begins only after the visitor accepts the consent banner. This is expected behavior.
 :::
 
+You will create the consent banner content and configure the landing page integrations in <ModuleLink slug="landing-pages" />. There is nothing to configure here.
+
 ### External websites (web connector)
 
-For external websites (like the LEOptical Netlify site you will build later), tracking is handled by a **web connector** that embeds a tracking beacon on the external site. The web connector has its own toggle that controls whether the MCA consent banner is displayed.
+For external websites (like the LEOptical site you will build on Netlify), tracking is handled by a **web connector** that embeds a tracking beacon on the external site. The web connector has a toggle in **Setup > Quick Find > Web Tracking** that controls whether MCA displays the consent banner on the external site.
 
-Not every client will use the MCA consent banner on their external sites. Some clients use their own consent management platform (OneTrust, Cookiebot, or similar) and do not want a second consent banner from MCA. The web connector toggle lets you disable the MCA banner in those cases while still capturing behavioral data once the visitor has consented through the client's own tool.
+Not every client uses the MCA consent banner on their external sites. Some clients use their own consent management platform (OneTrust, Cookiebot, or similar) and do not want a second consent banner from MCA. The web connector toggle lets you disable the MCA banner in those cases while still capturing behavioral data once the visitor has consented through the client's own tool.
 
-Web connector setup is covered in <ModuleLink slug="landing-pages" /> and <ModuleLink slug="landing-pages-advanced" />. For now, understand that the MCA consent banner for landing pages and the web connector consent toggle are independent configurations.
+You will configure the web connector in <ModuleLink slug="landing-pages-advanced" />. There is nothing to configure here.
 
 ## Org-wide consent settings
 
@@ -254,17 +245,15 @@ Even if you disable consent management globally, consent is still checked for an
 1. Create three Communication Subscriptions in **Marketing Cloud App > Consent > Preference Pages and Subscriptions**: `Promotional Offers`, `VisionCare Rewards Updates`, and `Eye Health Reminders`. Email channel only.
 2. Confirm each subscription has the **Email** channel associated. The Communication Subscription Channel Type records (the junction between subscription and channel) are created automatically when you save.
 3. Add all three marketing subscriptions to the default preference page and verify they appear when you click **View Page**.
-4. Configure the web tracking consent banner: enable the banner in **Setup > Quick Find > Web Tracking**, configure basic display settings, then add the Data 360 and web tracking consent banner integrations to the Marketing Landing Page site via **All Sites > Marketing Landing Page > Builder > Settings > Integrations**. Publish the site.
-5. Add the **Privacy Consent Status** component to the Contact and Lead record pages in Lightning App Builder.
-6. **Consent records for protagonist contacts (CSV import):** The consent automation flow is not yet available. Use the CSV import method to create OPT_IN records for your 10 protagonist contacts. Run three separate imports, one per marketing subscription. Verify OPT_IN status appears for all three subscriptions on the **Privacy Consent Status** component on each protagonist Contact record. Contacts without consent records will not receive test emails from <ModuleLink slug="email-builder" /> onward.
+4. Add the **Privacy Consent Status** component to the Contact and Lead record pages in Lightning App Builder. Activate each page as the org default for the Desktop form factor.
+5. **Consent records for protagonist contacts (CSV import):** The consent automation flow is not yet available. Use the CSV import method to create OPT_IN records for your 10 protagonist contacts. Run three separate imports, one per marketing subscription. Verify OPT_IN status appears for all three subscriptions on the **Privacy Consent Status** component on each protagonist Contact record. Contacts without consent records will not receive test emails from <ModuleLink slug="email-builder" /> onward.
 
 ## Success Criteria
 
 - [ ] Three Communication Subscriptions exist in the Consent tab: Promotional Offers, VisionCare Rewards Updates, Eye Health Reminders
 - [ ] All three subscriptions appear on the default preference page (confirmed via **View Page**)
-- [ ] Web tracking consent banner is enabled in Setup
-- [ ] Privacy Consent Status component is present on the Contact record page layout
-- [ ] Privacy Consent Status component is present on the Lead record page layout
+- [ ] Privacy Consent Status component is present on the Contact record page layout and activated as the org default
+- [ ] Privacy Consent Status component is present on the Lead record page layout and activated as the org default
 - [ ] All 10 protagonist contacts show OPT_IN for all three marketing subscriptions in the Privacy Consent Status component
 - [ ] You can explain why MCA does not auto-create consent records and what happens to sends when no record exists
 

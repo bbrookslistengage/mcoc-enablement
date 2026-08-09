@@ -120,9 +120,10 @@ Flows have been moved before Landing Pages & Forms so learners are comfortable w
 
 **Assignment:**
 - **Update your 10 protagonist contacts with your email address.** The protagonist contacts were imported in Module 1 with `@example.com` placeholder emails. Before you can receive test emails, you need to update them with your own address using `+alias` patterns (e.g., `yourname+mariac@gmail.com`). Run the update script provided on the course page in Developer Console. This creates a second Contact Point Email in Data 360 for each protagonist while preserving the original `@example.com` email (which links to their ecommerce orders and loyalty records).
-- Create Consent Purpose records for email marketing
-- Create associated Consent Templates
-- Configure a consent banner for use on marketing landing pages (you'll use this in Modules 17-18)
+- Create Communication Subscriptions for email marketing (Promotional Offers, VisionCare Rewards Updates, Eye Health Reminders)
+- Add subscriptions to the default preference page
+- Add the Privacy Consent Status component to Contact and Lead record pages, activate as org default
+- Use CSV import to create OPT_IN records for protagonist contacts (consent banner and web connector configuration deferred to Modules 17-18)
 - Build a Data 360 Triggered Flow that automatically creates consent records for new individuals:
   - The flow listens for changes on the Individual DMO — specifically when a field like "Email Marketing Opt-In" becomes true
   - When triggered, the flow performs a Contact Point Email lookup for that individual
