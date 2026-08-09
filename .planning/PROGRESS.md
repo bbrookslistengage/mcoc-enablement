@@ -51,26 +51,25 @@ Written, reviewed, and verified against a live SDO.
 | 3 | Business Units and Governance | Done | - | Draft (8 VERIFY) | - | - |
 | 4 | Consent Fundamentals | Done | - | Draft (3 VERIFY) | - | - |
 | 5 | Consent Configuration | Done | - | Draft (4 VERIFY) | - | - |
-| 6 | Data 360 and Data Model Objects | Done | - | - | - | - |
-| 7 | CRM Data Ingestion | Done | - | - | - | - |
+| 6 | Working with Data 360 (multi-subpage) | Restructured | - | - | - | - |
+| 7 | Identity Resolution | Done | - | - | - | - |
 | 8 | Data Graphs | Done | - | - | - | - |
-| 9 | Identity Resolution | Done | - | - | - | - |
-| 10 | Segmentation | Done | - | - | - | - |
-| 11 | Consumption and Entitlements | Done | - | - | - | - |
-| 12 | Salesforce CMS and Content Management | Done | - | - | - | - |
-| 13 | Email Builder Deep Dive | Done | - | - | - | - |
-| 14 | Personalization: Handlebars and AMPscript | Done | - | - | - | - |
-| 15 | Flow Fundamentals | Done | - | - | - | - |
-| 16 | Flow Orchestration | Done | - | - | - | - |
-| 17 | Landing Pages and Forms | Done | - | - | - | - |
-| 18 | Landing Pages: Advanced | Done | - | - | - | - |
-| 19 | Activation Templates | Done | - | - | - | - |
-| 20 | Messaging Channels | Deferred | - | - | - | - |
-| 21 | Agentforce for Marketing | Done | - | - | - | - |
-| 22 | Conversational Messaging | Deferred | - | - | - | - |
-| 23 | Predictive AI | Done | - | - | - | - |
-| 24 | Reporting and Dashboards | Done | - | - | - | - |
-| 25 | Capstone Project | Deferred | - | - | - | - |
+| 9 | Segmentation | Done | - | - | - | - |
+| 10 | Consumption and Entitlements | Done | - | - | - | - |
+| 11 | Salesforce CMS and Content Management | Done | - | - | - | - |
+| 12 | Email Builder Deep Dive | Done | - | - | - | - |
+| 13 | Personalization: Handlebars and AMPscript | Done | - | - | - | - |
+| 14 | Flow Fundamentals | Done | - | - | - | - |
+| 15 | Flow Orchestration | Done | - | - | - | - |
+| 16 | Landing Pages and Forms | Done | - | - | - | - |
+| 17 | Landing Pages: Advanced | Done | - | - | - | - |
+| 18 | Activation Templates | Done | - | - | - | - |
+| 19 | Messaging Channels | Deferred | - | - | - | - |
+| 20 | Agentforce for Marketing | Done | - | - | - | - |
+| 21 | Conversational Messaging | Deferred | - | - | - | - |
+| 22 | Predictive AI | Done | - | - | - | - |
+| 23 | Reporting and Dashboards | Done | - | - | - | - |
+| 24 | Capstone Project | Deferred | - | - | - | - |
 
 Status values: `-` (not started), `In Progress`, `Done`, `Blocked`
 
@@ -113,3 +112,6 @@ Record significant decisions here so we do not revisit them.
 | 2026-08-06 | Flows moved before Landing Pages in Part 3 | Learners need Flow Builder comfort before connecting form submissions to flows |
 | 2026-08-06 | Module 7 Actionable List is Campaign Member-based, not Opportunity-based | No Opportunities in the data model |
 | 2026-08-06 | Module 16 post-purchase is Automation Event Triggered Flow on Sales Order | Transactional send pattern |
+| 2026-08-09 | CRM Data Ingestion removed as standalone module | Content absorbed into Working with Data 360 subpages. CRM data stream tour moves to Exploring Your Org. Actionable List moves to Segmentation. |
+| 2026-08-09 | Identity Resolution moved before Data Graphs | IDR produces Unified Individuals that Data Graphs depend on. Matches the refresh chain dependency order taught in the course. |
+| 2026-08-09 | Module 6 renamed to Working with Data 360 (multi-subpage) | Covers data streams, DLOs, DMOs, refresh chain, CSV ingestion, and the LEOptical data model. Replaces both old Module 6 and Module 7. |

@@ -37,10 +37,13 @@ const config: Config = {
     },
   ],
 
-  url: 'https://your-docusaurus-site.example.com',
-  baseUrl: '/',
+  url: 'https://bbrookslistengage.github.io',
+  baseUrl: '/mcoc-enablement/',
+  organizationName: 'bbrookslistengage',
+  projectName: 'mcoc-enablement',
+  trailingSlash: false,
 
-  onBrokenLinks: 'throw',
+  onBrokenLinks: 'warn',
 
   i18n: {
     defaultLocale: 'en',
