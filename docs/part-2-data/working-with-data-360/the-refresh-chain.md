@@ -63,36 +63,49 @@ The chain is strictly sequential. Each step depends on the output of the previou
 
 ## Refresh mechanics in SDOs vs production
 
-{/* VERIFY: Do SDOs truly prevent scheduling automatic data stream refreshes? No official source confirms this specific limitation. Confirm by checking the SDO UI directly. */}
-
 | | SDO | Production |
 |---|-----|-----------|
-| CRM data stream refresh | Manual only | Hourly upsert. Full refresh every ~2 weeks. |
-| CSV/external data stream refresh | Manual only | Configurable schedule |
-| Identity resolution | Manual trigger | Configurable schedule |
-| Data Graph refresh | Manual trigger | Configurable schedule |
+| CRM data stream refresh | Auto every ~10 min (batch). Manual refresh available anytime. | Every 10 min (batch) or near-real-time (streaming). |
+| CSV/external data stream refresh | Manual only (re-upload) | Configurable schedule |
+| Full refresh (CRM) | Configurable: None (default), 10 days, 25 days, 50 days. Manual via **Refresh Now**. | Same configurable options. |
+| Identity resolution | Manual trigger or configurable schedule | Configurable schedule |
+| Data Graph refresh | Configurable: every 30 minutes, hourly, every 4 hours, daily (default), weekly, monthly. Manual via **Refresh Now**. | Same configurable options. |
 
-In production, these steps run on automated schedules. CRM data streams upsert hourly, bringing in records where the Last Modified Date changed since the last refresh. A full refresh (which deletes all DLO records and re-ingests from scratch) runs automatically every two weeks.
+See [Data Stream Schedule in Data 360](https://help.salesforce.com/s/articleView?id=data.c360_a_data_stream_schedule.htm&type=5) and [Configure Periodic Full Refresh Interval](https://help.salesforce.com/s/articleView?id=data.c360_a_crm_data_full_refresh_interval.htm&type=5) for the official documentation on these schedules.
 
-In your SDO, none of this is automated. Every time you add or change data, you follow this workflow:
+CRM data streams refresh incrementally every ~10 minutes in batch mode, picking up records where `LastModifiedDate` changed since the last refresh. Streaming mode (near-real-time) is available for CDC-enabled objects that do not use formula fields. Full refresh is disabled by default. You can configure it to run every 10, 25, or 50 days, or trigger it manually with **Refresh Now**.
+
+In your SDO, CRM data streams auto-refresh roughly every 10 minutes, so data does flow in without manual intervention. But when you are actively working and need changes reflected immediately, waiting 10 minutes is impractical. That is when you use the manual workflow:
 
 1. Create or update the record in CRM (or upload a CSV).
-2. Navigate to **Data 360 Setup > Data Streams**, find the relevant stream, and click **Refresh Now**.
+2. Navigate to **Data Streams**, find the relevant stream, and click **Refresh Now**.
 3. Wait for the refresh to complete.
-4. Run identity resolution.
-5. Refresh the Data Graph.
+4. Run identity resolution by navigating to **Identity Resolution**, opening the ruleset, and clicking **Run Ruleset**.
+5. Refresh the Data Graph by navigating to **Data Graphs**, opening the row actions dropdown, and clicking **Refresh Now**.
 
-This is tedious. It is also the reality of working in an SDO. You will do this many times throughout the course. It gets faster once it becomes habit.
+<Screenshot src="/img/the-refresh-chain/02-identity-resolution-run.png" alt="CohortMCG Identity Resolution ruleset detail page showing Run Ruleset button, Ruleset Status Published, Last Job Status Succeeded, and Resolution Summary sidebar showing 1.04K Unified Profiles from 1.08K source profiles" caption="Step 4: Click Run Ruleset to trigger identity resolution manually." />
+
+You will use this workflow many times throughout the course. It gets faster once it becomes habit.
 
 :::warning
-Incremental (upsert) refreshes only pick up records where the Last Modified Date changed since the last refresh. Formula fields on CRM objects can change value without updating the Last Modified Date. When this happens, incremental refreshes miss the change. Only a full refresh catches it. If you suspect stale formula field data, trigger a full refresh.
+Incremental (upsert) refreshes only pick up records where `LastModifiedDate` changed since the last refresh. Formula fields recalculate their values when queried, but updating a formula field's result does not update `LastModifiedDate` on the record unless a tracked field also changed. When this happens, the incremental refresh misses the change. Formula fields also force batch mode (they prevent streaming/CDC-based ingestion). If you suspect stale formula field data, trigger a full refresh. See [Configure Periodic Full Refresh Interval](https://help.salesforce.com/s/articleView?id=data.c360_a_crm_data_full_refresh_interval.htm&type=5) for details.
 :::
 
 ## What is a Data Graph?
 
 A Data Graph is a pre-computed snapshot of connected records for each Unified Individual. You already created one in Getting Started: the Marketing Content Personalization graph. That graph is what Handlebars expressions read from when resolving merge fields in emails.
 
-The Data Graph is not a live query. It is a snapshot that gets rebuilt when you trigger a refresh. This is why it sits at the end of the refresh chain. It needs to wait for IDR to finish so it can include the latest unified data.
+The Data Graph is not a live query. It is a snapshot that gets rebuilt on a schedule or when you trigger a manual refresh. Trigger a manual refresh from the Data Graphs list view via the row actions dropdown.
+
+<ScreenshotPlaceholder alt="Data Graphs list view with the row actions dropdown open on one graph, showing Refresh Now, Schedule, and Refresh History options" />
+
+To change the schedule, select **Schedule** from the same dropdown.
+
+<ScreenshotPlaceholder alt="Set Your Data Graph's Refresh Schedule modal with the interval dropdown open showing Every 30 Minutes, Every 1 Hour, Every 4 Hours, Daily, Weekly, Monthly, and Streaming options" />
+
+You cannot control the exact time of day the scheduled refresh runs. See [Get to Know Data Graphs (Trailhead)](https://trailhead.salesforce.com/content/learn/modules/data-graphs-in-data-cloud/get-to-know-data-graphs) for more on how Data Graphs work.
+
+This is why the Data Graph sits at the end of the refresh chain. It needs to wait for IDR to finish so it can include the latest unified data.
 
 The <ModuleLink slug="data-graphs" /> module covers Data Graph configuration in detail. For now, three things matter:
 
@@ -106,19 +119,29 @@ Missing fields in the Data Graph JSON are absent, not null. A Handlebars express
 
 ## Data Transforms
 
-Data Transforms reshape, filter, or enrich data between the DLO and DMO layers. They read from a source DLO, apply SQL transformations, and write to a target DLO or DMO.
+Data Transforms reshape, filter, or enrich data within the Data 360 data pipeline. They exist because Data 360 does not provide an ad-hoc SQL query layer for reshaping data inline. When source data does not match the target data model cleanly, transforms bridge the gap without requiring an external ETL tool.
 
-There are two types:
+There are two types, and they work very differently:
 
 | | Batch transforms | Streaming transforms |
 |---|---|---|
-| **What they do** | Complex operations: aggregations, joins between DLOs, filtering | Basic SQL on a single DLO (no joins) |
+| **Interface** | Visual drag-and-drop node builder | SQL query editor |
+| **Source** | DLOs or DMOs | Single DLO only |
+| **Operations** | Aggregations, joins, filters, calculated fields, append (union) | SELECT, WHERE, CASE, CONCAT, type conversions (no joins) |
 | **When they run** | Manually or on a schedule | Near real-time, as data arrives |
 | **Output** | DLOs or DMOs | DLOs only |
 | **Org limit** | 100 per org | 25 per org |
-| **Best for** | Historical data, complex reshaping | Simple field transforms, filtering |
+
+Batch transforms use a visual builder where you drag nodes onto a canvas and connect them. You do not write SQL for batch transforms. Streaming transforms are the SQL-based option, but they are limited to a single DLO source with no joins.
 
 Common use cases include combining fields, filtering out test records, type conversions, and data normalization.
+
+See the Trailhead modules on [Batch Data Transforms](https://trailhead.salesforce.com/content/learn/modules/batch-data-transforms-in-data-cloud-quick-look/get-started-with-batch-data-transforms-in-data-360) and [Streaming Data Transforms](https://trailhead.salesforce.com/content/learn/modules/streaming-data-transforms-quick-look/get-started-with-streaming-data-transforms-in-data-cloud) for hands-on examples.
+
+:::tip[Coming from MCE?]
+- Data Transforms fill a similar role to SQL queries in Automation Studio. In MCE, you write SQL against data extensions to reshape, filter, and join data. In Data 360, batch transforms handle joins and aggregations through a visual builder (no SQL), while streaming transforms use SQL but are limited to single-source, simple operations.
+- There is no direct equivalent to writing a freeform SQL query against your entire data model. Transforms are scoped and purpose-built.
+:::
 
 LEOptical does not use Data Transforms in this course. The seed data is pre-formatted to map directly to DMOs. But you should know transforms exist. On client engagements where source data does not match the target data model cleanly, transforms sit between raw ingestion and the data model to bridge the gap.
 
@@ -131,13 +154,17 @@ The following questions are an opportunity to reflect on key topics in this less
 - What are the three steps that must happen (in order) after you create a new CRM record before that record appears in a segment?
 - What happens if you run identity resolution before the data stream has refreshed?
 - Why does the Data Graph need to refresh after identity resolution?
-- In an SDO, why must data stream refreshes be triggered manually?
+- How often do CRM data streams refresh incrementally in an SDO?
+- What is the difference between batch transforms and streaming transforms in terms of interface and capabilities?
 - How does a Data Transform fit into the dependency chain relative to the three main steps?
 
 ## Additional resources
 
 These resources are not required. They are here if you want to go deeper on a specific topic.
 
-- [Creating Data Streams Using Salesforce CRM Connector (HeiChat)](https://heichat.net/blogs/tbGE71MEV4E/Creating-Data-Streams-Using-Salesforce-CRM-Connector-%7C-Data-Cloud-Decoded/) - Detailed walkthrough of CRM data stream refresh schedules (hourly incremental, biweekly full) and the data stream detail page.
-- [Salesforce Data Transforms (Salesforce Ben)](https://www.salesforceben.com/salesforce-data-transforms-what-is-this-key-component-of-data-cloud/) - Overview of batch and streaming transforms, org limits, and cost implications.
+- [Data Stream Schedule in Data 360 (Salesforce Help)](https://help.salesforce.com/s/articleView?id=data.c360_a_data_stream_schedule.htm&type=5) - Official documentation on data stream refresh schedules and modes.
+- [Configure Periodic Full Refresh Interval (Salesforce Help)](https://help.salesforce.com/s/articleView?id=data.c360_a_crm_data_full_refresh_interval.htm&type=5) - How to configure full refresh intervals for CRM data streams.
+- [Get to Know Data Graphs (Trailhead)](https://trailhead.salesforce.com/content/learn/modules/data-graphs-in-data-cloud/get-to-know-data-graphs) - Overview of Data Graph concepts and refresh behavior.
+- [Batch Data Transforms Quick Look (Trailhead)](https://trailhead.salesforce.com/content/learn/modules/batch-data-transforms-in-data-cloud-quick-look/get-started-with-batch-data-transforms-in-data-360) - Hands-on introduction to the visual batch transform builder.
 - [Streaming Data Transforms Quick Look (Trailhead)](https://trailhead.salesforce.com/content/learn/modules/streaming-data-transforms-quick-look/get-started-with-streaming-data-transforms-in-data-cloud) - Streaming transform capabilities with a phone normalization example.
+- [Salesforce Data Transforms (Salesforce Ben)](https://www.salesforceben.com/salesforce-data-transforms-what-is-this-key-component-of-data-cloud/) - Overview of batch and streaming transforms, org limits, and cost implications.

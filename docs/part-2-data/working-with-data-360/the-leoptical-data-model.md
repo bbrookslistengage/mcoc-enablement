@@ -8,7 +8,7 @@ description: "Review the target data model, understand DMO relationship design d
 
 Every MCA engagement starts with a data model conversation. Before you build segments, configure identity resolution, or personalize emails, you need a clear picture of what data exists, where it lives, and how the pieces connect. This is that conversation for LEOptical.
 
-In the previous subpages, you toured the auto-installed CRM data streams, learned the refresh chain, and ingested LEOptical's external CSV data. Now you step back and look at the full picture. You will review the target entity relationship diagram, understand why each DMO was chosen, and verify that your org's data model matches the design.
+In the previous lessons, you toured the auto-installed CRM data streams, learned the refresh chain, and ingested LEOptical's external CSV data. Now you step back and look at the full picture. You will review the target entity relationship diagram, understand why each DMO was chosen, and verify that your org's data model matches the design.
 
 This is also where you start thinking about downstream use cases. The data model you verify here is what powers segmentation, identity resolution, and email personalization later in the course. If a relationship is missing or misconfigured, those features break in ways that are hard to debug. Getting the data model right is worth the time.
 
@@ -21,7 +21,6 @@ This section contains a general overview of topics that you will learn in this l
 - Why certain DMOs are standard and one is custom
 - How to define and verify DMO relationships
 - The difference between standard (auto-activated) and custom (manually defined) relationships
-- How the Data Graph connects to Unified Individual
 - What segments this data model enables
 
 ## The ERD
@@ -190,18 +189,29 @@ A simpler data model with only Individual and Contact Point Email could not supp
 
 ## DMO relationships in practice
 
-If you completed the previous subpage, your DMOs already exist. Standard DMO relationships (like Individual to Contact Point Email) activate automatically when field mappings are in place. But the custom Eye Exam DMO needs its relationships defined manually, and you should verify that all other relationships are correctly configured.
+If you completed the previous lesson, your DMOs already exist. Standard DMO relationships (like Individual to Contact Point Email) activate automatically when field mappings are in place. But the custom Eye Exam DMO needs its relationships defined manually, and you should verify that all other relationships are correctly configured.
+
+Navigate to **Data Model** and browse the list of mapped DMOs.
+
+<Screenshot src="/img/the-leoptical-data-model/04-data-model-canvas.png" alt="Data Model list view showing 93 mapped DMOs with columns for Object Label, Object API Name, Category, Data Streams, Data Lake Objects, Data Space, Type, and Status - all showing Ready status" caption="The Data Model view is a list, not a visual canvas. Use the search bar to find specific DMOs." />
+
+Click into the **Individual** DMO and open the **Relationships** tab to see the built-in relationships that come with this standard DMO.
+
+<Screenshot src="/img/the-leoptical-data-model/04-individual-dmo-relationships.png" alt="Individual DMO Relationships tab showing a table with columns for Object, Field, Key Qualifier, Cardinality, Related Object, Related Field, and Key Qualifier. Rows include Account Contact, Campaign Member, Communication Subscription, Contact Point Address, Contact Point Email, Contact Point Phone, and others - all ManyToOne cardinality pointing to Individual" caption="These relationships activate automatically once DLOs are mapped to the related DMOs. You did not create them." />
 
 ### How to define a relationship
 
-1. Navigate to **Data Cloud > Data Model**.
-2. Select the DMO you want to add a relationship to (for example, **Eye Exam**).
-3. Open the **Relationships** tab and click **Edit**.
-4. Click **+ New Relationship**.
-5. Set the **cardinality** (1:1, 1:N, or N:1). For Eye Exam to Individual, this is N:1 (many exams belong to one individual).
-6. Select the **related object** (Individual).
-7. Select the **related field** that links the two objects.
-8. Click **Save**.
+For the custom Eye Exam DMO, you must create the relationship manually.
+
+1. Navigate to **Data Model** and click into the **Eye Exam** DMO.
+2. Open the **Relationships** tab and click **Edit**.
+3. Click **+ New Relationship** (a new row appears at the bottom of the relationship list).
+4. Set the **cardinality** (N:1 or 1:1). For Eye Exam to Individual, this is N:1 (many exams belong to one individual).
+5. Select the **related object** (Individual).
+6. Select the **related field** that links the two objects.
+7. Click **Save & Close**.
+
+<Screenshot src="/img/the-leoptical-data-model/04-new-relationship-form.png" alt="Edit Relationships modal showing existing relationships as read-only rows and a new empty row at the bottom with Select an Option dropdowns for Field, Cardinality (N:1/1:1), Related Object, and Related Field" caption="The new empty row at the bottom is where you define the relationship. Existing relationships above it are read-only." />
 
 :::warning
 Cardinality cannot be changed after a relationship is created. If you set it wrong, you must delete the relationship and recreate it. Think carefully before saving. Cardinality affects how segmentation and activation treat the related records.
@@ -209,79 +219,39 @@ Cardinality cannot be changed after a relationship is created. If you set it wro
 
 ### Standard vs custom relationships
 
-There are three relationship types available:
+The Data 360 relationship UI offers two cardinality options:
 
-- **Many-to-one lookup** (N:1): Many records in this DMO point to one record in the related DMO. Example: many Eye Exams belong to one Individual.
-- **One-to-many child** (1:N): One record in this DMO has many related records. Example: one Sales Order has many Sales Order Products.
-- **Many-to-many bridge**: Two DMOs relate through a bridge object. Less common in this data model.
+- **Many-to-one (N:1)**: Many records in the current DMO relate to one record in the target DMO. Example: many Eye Exams belong to one Individual.
+- **One-to-one (1:1)**: One record in the current DMO relates to one record in the target DMO. Example: one Individual has one Loyalty Program Member record.
 
-Standard DMO relationships are built-in. They activate automatically once at least one field mapping exists between the related DMOs. You do not create these. They just work.
+There is no "one-to-many" option in the UI. To express "one Individual has many Eye Exams," you create an N:1 relationship from the Eye Exam DMO (the "many" side) pointing to Individual. The DMO you are editing is always the left side of the relationship. It is auto-filled and cannot be changed.
 
-Custom relationships must be explicitly defined using the steps above. There is one more thing to know: a custom relationship is deleted automatically when the field mappings for one of the related objects are removed. If you remove all field mappings from the Eye Exam DMO, any custom relationships you defined for it disappear too.
+This means: to set up all of LEOptical's relationships correctly, you need to think about which DMO is the "many" side and create the relationship from that DMO's page. You cannot navigate to Individual and say "Individual has many Eye Exams." You must navigate to Eye Exam and say "many Eye Exams belong to one Individual."
+
+Standard DMO relationships are built-in and activate automatically once at least one field mapping exists between the related DMOs. You do not create these manually. Custom relationships must be explicitly defined from the Relationships tab on the relevant DMO.
+
+For more details, see [Data Model Object Relationships (Salesforce Help)](https://help.salesforce.com/s/articleView?id=sf.c360_a_data_model_object_relationships.htm&type=5).
 
 :::tip[Coming from MCE?]
 - In MCE, all data extensions are custom-created. There is no concept of "standard" data extensions with built-in relationships. In Data 360, standard DMOs with automatic relationships are the default, and custom DMOs are the exception.
-- Contact Builder in MCE lets you define relationships between data extensions for cross-object queries. DMO relationships serve the same purpose but come in two varieties: standard (automatic) and custom (manual).
+- Contact Builder in MCE links data extensions to the contact record so they appear as attributes in decision splits and Audience Builder filters. It is not a query layer - SQL queries in Automation Studio work against data extensions regardless of Contact Builder. DMO relationships serve a similar purpose to Contact Builder attribute groups (making related data available for segmentation and personalization), but they are mandatory rather than optional and apply platform-wide.
 - The biggest practical difference: in MCE, you build the entire data model from scratch every time. In Data 360, the standard DMOs give you a head start, and you only build custom DMOs for entities the platform does not already know about.
 :::
-
-## Data Graph structure
-
-The Data Graph is how Data 360 pre-computes the related records for each Unified Individual. It is what powers Handlebars personalization in emails and dynamic content resolution. You will configure it in the <ModuleLink slug="data-graphs" /> module. For now, understand its structure.
-
-The LEOptical Data Graph is rooted on **Unified Individual**. From there, it branches out to every related DMO:
-
-```mermaid
-graph TB
-    UI["Unified Individual<br/><i>(root)</i>"]
-    CPE["Contact Point Email<br/><i>(1:many)</i>"]
-    CPP["Contact Point Phone<br/><i>(1:many)</i>"]
-    ACCT["Account<br/><i>(many:1)</i>"]
-    SO["Sales Order<br/><i>(1:many)</i>"]
-    SOP["Sales Order Product<br/><i>(1:many)</i>"]
-    PROD["Product<br/><i>(many:1)</i>"]
-    LPM["Loyalty Program Member<br/><i>(1:1)</i>"]
-    EXAM["Eye Exam<br/><i>(1:many)</i>"]
-    CSC["Comm Subscription<br/>Consent<br/><i>(via email match)</i>"]
-
-    UI --> CPE
-    UI --> CPP
-    UI --> ACCT
-    UI --> SO
-    UI --> LPM
-    UI --> EXAM
-    SO --> SOP
-    SOP --> PROD
-    CPE --> CSC
-
-    style UI fill:#8e44ad,color:#fff
-    style CPE fill:#2980b9,color:#fff
-    style CSC fill:#e74c3c,color:#fff
-    style LPM fill:#27ae60,color:#fff
-    style SO fill:#f39c12,color:#fff
-    style EXAM fill:#16a085,color:#fff
-```
-
-The root is Unified Individual, not Individual. This matters. Individual is the DMO that holds source records from CRM. Unified Individual is the post-IDR resolved identity that ties together records from all sources. The Data Graph uses Unified Individual as its root because personalization and segmentation work on resolved identities, not raw source records. The <ModuleLink slug="identity-resolution" /> module covers how Unified Individuals are created.
-
-Sales Order Product connects to Product through a many-to-one relationship. This means the Data Graph can traverse from a Unified Individual all the way to the specific products they purchased: Unified Individual > Sales Order > Sales Order Product > Product. This two-hop traversal is what makes the "SeeClear Enthusiasts" segment possible.
-
-Comm Subscription Consent connects through Contact Point Email, not directly to Unified Individual. This is a platform-specific design decision related to how consent works in MCA.
 
 ## Assignment
 
 > **The client wants:** A verified, documented data model that matches the target architecture. Before LEOptical's data can power segments and personalization, every DMO and relationship must be in place.
 
-1. Review the LEOptical ERD above and compare it to the DMOs in your SDO. Navigate to **Data Cloud > Data Model** and confirm that every DMO from the mapping table exists.
-2. For each DMO, open the **Relationships** tab and verify that the expected relationships are defined. Standard DMO relationships should already be active. If any custom relationships are missing (especially for Eye Exam), create them using the steps in the "DMO relationships in practice" section.
-3. Verify your relationships are correctly defined by navigating the data model graph view in **Data Cloud > Data Model**. Trace a path from Individual through Sales Order to Sales Order Product to Product. Trace another path from Individual to Eye Exam.
+1. Review the LEOptical ERD above and compare it to the DMOs in your SDO. Navigate to **Data Model** and confirm that every DMO from the mapping table exists.
+2. For each DMO, open the **Relationships** tab and verify that the expected relationships are defined. Standard DMO relationships should already be active. If any custom relationships are missing (especially for Eye Exam), create them using the steps above.
+3. Verify your relationships are correctly defined by navigating the data model list in **Data Model**. Trace a path from Individual through Sales Order to Sales Order Product to Product. Trace another path from Individual to Eye Exam.
 4. Write a brief data model summary document. For each of the 11 DMOs (including Unified Individual), write one paragraph explaining what it holds, where its data comes from, and how it connects to the rest of the model. This is the kind of deliverable you would present to a client during a data model review.
 
 ## Success criteria
 
 - [ ] All DMOs from the target data model exist in your org (Individual, Contact Point Email, Contact Point Phone, Account, Loyalty Program Member, Sales Order, Sales Order Product, Product, Eye Exam, Comm Subscription Consent, Unified Individual)
 - [ ] All relationships between DMOs are defined (verify via the Relationships tab on each DMO)
-- [ ] You can navigate the data model in **Data Cloud > Data Model** and trace relationships between entities
+- [ ] You can navigate the data model in **Data Model** and trace relationships between entities
 - [ ] Data model summary document is written (one paragraph per DMO)
 - [ ] You can explain why Eye Exam is a custom DMO while Sales Order is standard
 
@@ -289,7 +259,6 @@ Comm Subscription Consent connects through Contact Point Email, not directly to 
 
 The following questions are an opportunity to reflect on key topics in this lesson. If you can't answer a question, revisit the relevant section, but keep in mind you are not expected to memorize or master this knowledge.
 
-- Why is the Data Graph rooted on Unified Individual rather than on Individual?
 - What happens if you set the wrong cardinality on a DMO relationship?
 - Why does LEOptical use a custom DMO for eye exams but a standard one for sales orders?
 - How do standard DMO relationships differ from manually created ones?

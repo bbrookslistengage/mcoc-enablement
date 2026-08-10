@@ -106,3 +106,5 @@ These resources are not required. They are here if you want to go deeper on a sp
 - [5 New Marketing Cloud Next Features (Nebula Consulting)](https://nebulaconsulting.co.uk/insights/5-new-marketing-cloud-next-features-were-excited-to-try/). BU arrival in Spring '26, 50 BU limit, use cases for brands and regions.
 
 - [What Is the Difference Between SF Marketing Clouds? (Mateusz Dabrowski)](https://mateuszdabrowski.pl/sites/faq/salesforce/what-is-the-difference-between-sf-marketing-clouds/). Architectural comparison between MCA and MCE. Written before Spring '26 BU GA but still useful for understanding the platform divergence.
+
+- [Business Units in Marketing Cloud (Mateusz Dabrowski)](https://mateuszdabrowski.pl/docs/salesforce/marketing-cloud/config/business-units/). In-depth coverage of business unit configuration, data space relationships, and multi-BU governance considerations.

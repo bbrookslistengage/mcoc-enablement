@@ -35,18 +35,49 @@ Each one needs its own data stream. The process is the same for all three, so th
 
 ### Creating a CSV data stream
 
-1. Navigate to **Data 360 Setup > Data Streams**.
+1. Navigate to **Data Streams**.
 2. Click **New**.
-3. Select the **File Upload** tile.
+3. Select the **File Upload** tile under "Other Sources."
+
+<Screenshot src="/img/ingesting-external-data/03-new-data-stream-connectors.png" alt="New Data Stream connector selection screen showing Connected Sources (Ingestion API, Salesforce CRM, Website) and Other Sources (File Upload, Installed Data Kits and Packages)" caption="File Upload is under Other Sources, not Connected Sources. Connected Sources require a pre-configured connection." />
+
 4. Click **Upload Files** (or drag your CSV onto the upload area). Wait for the upload notification, then click **Next**.
-5. Review the data preview. Verify that columns and values parsed correctly.
-6. Select the DLO **category**: Profile, Engagement, or Other. This choice matters because it determines which DMOs this DLO can map to (more on this below).
-7. Designate a **primary key** column. This is the field that uniquely identifies each record in the file.
-8. Name the DLO (or accept the auto-generated name).
-9. Review the auto-detected data types on the **Supported Fields** tab. Modify column labels or API names if needed.
-10. Click **Deploy**.
+5. Review the data preview. Verify that columns and values parsed correctly. On the left panel, select the DLO **category**: Profile, Engagement, or Other. This choice matters and cannot be changed after you deploy the data stream.
+
+<Screenshot src="/img/ingesting-external-data/03-csv-data-preview.png" alt="New Data Stream step 2 showing the left panel with Category radio buttons (Profile selected, Engagement, Other) and Primary Key dropdown, alongside the right panel showing parsed CSV sample data with columns FirstName, LastName, Email, BirthDate and 3 sample rows" caption="Category selection and data preview are on the same screen. Choose your category before reviewing the fields." />
+
+6. Designate a **primary key** column. This is the field that uniquely identifies each record in the file.
+7. Name the DLO (or accept the auto-generated name).
+8. Review the auto-detected data types on the **Supported Fields** tab. Modify column labels or API names if needed.
+9. Click **Deploy**.
 
 After deployment, the data stream ingests the CSV. For smaller files, this completes within seconds.
+
+### DLO categories
+
+Step 5 asks you to select a category. This choice has permanent downstream consequences, so it is worth understanding each option.
+
+**Profile**: Contains demographic and descriptive information about individuals or accounts. Think of it as "who someone is." Profile data is treated as upsert data, meaning new records update existing ones based on the primary key. Requires a unique identifier. This is the default selection.
+
+**Engagement**: Records behavioral interactions and activities over time. Think of it as "what someone did." Engagement data is treated as append data, meaning each record represents a distinct event. Requires a DateTime field representing the event timestamp (the "Event Date"), which cannot be changed after setup.
+
+**Other**: Catches edge cases and mixed data types. Use this for data that does not fit cleanly into Profile or Engagement, or for mutable engagement data where DateTime values change over time.
+
+**Why it matters**: The category determines which DMOs a DLO can map to. A DMO inherits its category from the first DLO mapped to it, and that category is permanent. After that, only DLOs with the same category can map to that DMO. Category also affects how Data 360 treats the data (upsert vs append behavior). Choose carefully. If you pick the wrong category, you must delete the data stream and recreate it.
+
+For more detail on how categories affect ingestion behavior, see [Salesforce Ben: Data Stream Categories](https://www.salesforceben.com/what-are-the-data-stream-categories-in-data-cloud/).
+
+### Primary keys
+
+The primary key is the field that uniquely identifies each record in your data source. Data 360 uses it for deduplication and upsert behavior. When you re-upload a CSV or refresh a data stream, records with the same primary key value are updated rather than duplicated.
+
+Choosing the right primary key is a discovery question on real engagements. You need to understand what makes each record unique in the source system. A wrong primary key causes duplicate records or unintended overwrites.
+
+For LEOptical's CSV files:
+
+- `loyalty_members.csv`: `membership_number` (each loyalty membership is unique)
+- `ecommerce_orders.csv`: `order_id` (each order is unique, while line items use `line_item_id`)
+- `exam_history.csv`: `exam_id` (each exam record is unique)
 
 ### File limits
 
@@ -64,10 +95,6 @@ CSV data streams support two refresh modes:
 - **Upsert**: updates existing records and adds new ones based on the primary key. The CSV header row must match the fields defined in the data stream. Available since November 2025.
 
 You trigger both modes manually by re-uploading a file. CSV data streams do not refresh on an automatic schedule the way CRM data streams do.
-
-:::warning
-DMO category inheritance is permanent. A DMO inherits its category (Profile, Engagement, or Other) from the first DLO mapped to it. After that, only DLOs with the same category can map to it. If you assign the wrong category to your DLO, you cannot change the DMO's category later. Choose carefully on the first mapping.
-:::
 
 ## Standard vs custom DMOs
 
@@ -106,12 +133,20 @@ For LEOptical, the mapping looks like this:
 | `ecommerce_orders.csv` | Sales Order Product | Standard | Standard DMO exists for order line items. |
 | `exam_history.csv` | Eye Exam | Custom | No standard DMO exists for eye exam records. This is industry-specific. |
 
+Here is why each DMO was chosen:
+
+- **Individual**: Represents a person. Maps from CRM Contact records. This is the core profile DMO that identity resolution uses to create Unified Individuals.
+- **Contact Point Email**: Represents an email address associated with a person. A single Individual can have multiple Contact Point Email records (work email, personal email, loyalty email). This separation is critical for identity resolution.
+- **Loyalty Program Member**: Represents a membership in a loyalty program. The standard DMO covers common loyalty fields (membership number, enrollment date, status). LEOptical adds custom fields for tier and points balance.
+- **Sales Order / Sales Order Product**: Represent an order header and its line items. Sales Order holds the order-level data (date, total, status). Sales Order Product holds per-item data (SKU, quantity, price). This split is a standard commerce data pattern.
+- **Eye Exam (custom)**: No standard DMO exists for clinical exam records. This is industry-specific data that requires a custom DMO.
+
 Most B2C concepts fit the standard data model. Industry-specific concepts (insurance policies, patient records, eye exams) typically need custom DMOs.
 
 :::tip[Coming from MCE?]
-- In MCE, all data extensions are custom-created. You define every field yourself. In Data 360, standard DMOs exist for common entities and custom DMOs are the exception. This is the opposite pattern.
-- In MCE, you define data extension fields directly (name, type, length). In Data 360, you map DLO fields to DMO fields. The mapping indirection (DLO to DMO) has no MCE equivalent.
-- Custom DMOs are the closest thing to a "create a new data extension" workflow, but they live within a shared data model with defined relationships rather than as standalone tables.
+In MCE, you define data extension fields directly. You set the name, data type, and length yourself. In Data 360, DMO fields have defined data types, and the platform [enforces type compatibility at mapping time](https://help.salesforce.com/s/articleView?id=data.c360_a_data_type_field_mappings.htm&type=5). You cannot map a Text DLO field to a Number DMO field, for example. Some types are cross-compatible (Email, Phone, Text, and URL can map to each other), but mismatches like Text-to-Number are blocked before you can save the mapping.
+
+Custom DMOs are the closest thing to "creating a new data extension," but they live within a shared data model with defined relationships rather than as standalone tables.
 :::
 
 ## Field mapping
@@ -120,11 +155,13 @@ After deploying a data stream, you map its DLO fields to DMO fields. This is whe
 
 ### How mapping works
 
-1. From the data stream detail page, start the mapping experience.
+1. From the data stream detail page, open the **Data Mapping** sidebar and click **Review**.
 2. The mapping canvas shows the source DLO on one side and the target DMO on the other.
 3. Search for the target DMO you want to map to.
 4. Map individual source fields to target DMO fields.
 5. Focus on identifiers (emails, IDs, names) first. These are critical for identity resolution.
+
+<Screenshot src="/img/ingesting-external-data/03-field-mapping-canvas.png" alt="Contact_Home data stream Fields tab with the Data Mapping sidebar showing 46 of 155 fields mapped and a READY status badge" caption="The Data Mapping sidebar on any data stream detail page shows your mapping progress and readiness status." />
 
 ### Key mapping facts
 
@@ -192,26 +229,26 @@ Eye exam records have no standard DMO equivalent. You need to create one.
 
 ### Walkthrough
 
-1. Navigate to **Data Cloud > Data Model**.
-2. Click **New**.
-3. Select **New** (for original creation, not "From Existing").
-4. Fill in the form:
+1. Navigate to **Data Model**.
+2. Click **New DMO**.
+3. Fill in the form:
    - **Object Label:** Eye Exam
    - **Object API Name:** Eye_Exam (auto-generated from label)
    - **Object Category:** Other (eye exams are neither Profile nor Engagement data)
    - **Description:** Eye exam records from LEOptical optical clinics
-5. Use **Add Field** to create each field from the Eye Exam mapping table above. Set appropriate data types (Text, Email, Date).
-6. Assign `Eye Exam Id` as the **Primary Key**.
-7. Click **Save**.
+
+<Screenshot src="/img/ingesting-external-data/04-custom-dmo-creation.png" alt="Create a Custom Data Model Object form showing Object Label, Object API Name, Object Category dropdown, Object Description field, and a pre-populated field list with Data Source, Data Source Object, and Internal Organization fields" caption="The form pre-populates three system fields (Data Source, Data Source Object, Internal Organization). Leave these as-is and add your custom fields below them." />
+
+4. Use **Add Field** to create each field from the Eye Exam mapping table above. Set appropriate data types (Text, Email, Date).
+5. Assign `Eye Exam Id` as the **Primary Key**.
+6. Click **Save**.
 
 After saving, you can map the `exam_history.csv` DLO fields to this custom DMO using the same mapping process described above.
 
 :::warning
-Editing field structure on a DMO after creation can impact dependent segments, identity resolution rules, and activations. Get the field definitions right before you start building downstream configurations. Only custom DMOs can be deleted, and only after removing all downstream dependencies.
-:::
+DMO relationships use only two cardinality options: N:1 (many-to-one) and 1:1 (one-to-one). To express "one Individual has many Eye Exams," you create the relationship from the Eye Exam DMO (the "many" side) as an N:1 relationship pointing to Individual. The DMO you are editing is always the left side of the relationship.
 
-:::warning
-Relationship cardinality between DMOs cannot be changed after the relationship is created. Cardinality affects segmentation and activation behavior. Plan your relationships before creating them. The next subpage covers the full LEOptical data model and relationship design.
+Cardinality cannot be changed after you create the relationship. If you set it wrong, you must delete the relationship and recreate it. Plan your relationships before creating them. The next lesson covers the full LEOptical data model and relationship design.
 :::
 
 ## Troubleshooting ingestion
@@ -231,9 +268,15 @@ Data 360 separates problem records from successful ones. The batch does not fail
 
 ### Investigating failures
 
-1. Open the data stream detail page and check the **Refresh History**. It shows record counts per refresh.
+1. Open the data stream detail page and click the **Refresh History** tab. It shows record counts per refresh.
 2. Compare the record count to the number of rows in your source CSV. If the numbers differ, some records failed.
-3. Use **Data Explorer** (accessible from the **Data Cloud** menu) to preview the ingested data and verify records. Data Explorer supports basic filtering.
+
+<Screenshot src="/img/ingesting-external-data/03-refresh-history-with-records.png" alt="Contact_Home data stream Refresh History tab showing 3 entries: one Total Replace with 552 records processed and 551 added (Success), one Total Replace with 1 record processed and 0 added (Failure), and one Upsert with 0 records (Failure)" caption="A Failure status with low record counts is worth investigating. Row 2 here shows 1 record processed but 0 added - the record was read but rejected." />
+
+3. Use **Data Explorer** (accessible from the top nav) to preview the ingested data and verify records.
+
+<Screenshot src="/img/ingesting-external-data/03-data-explorer.png" alt="Data Explorer Objects page showing a Data Space selector set to 'default', an Object Type selector, and an Object search field, with a 'Select an Object' prompt in the main area" caption="Select an Object Type (DMO or DLO) and then the specific object to preview its records." />
+
 4. Check the data stream's **Last Run Status** field for failure indicators.
 
 {/* VERIFY: Where exactly do problem/failed records appear in the UI? The research could not confirm the exact location for viewing individual failed records. Check the SDO for the specific UI path to see which records failed and why. */}

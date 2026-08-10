@@ -102,7 +102,7 @@ For LEOptical's single-BU setup, this has no practical effect on current impleme
 
 1. Read the [Top 10 Spring '26 Updates for Salesforce Marketers](https://www.salesforceben.com/top-10-spring-26-updates-for-salesforce-marketers/) article from Salesforce Ben. Focus on the business units section. Note what changed in Spring '26 and how BU data isolation works.
 
-2. Read [5 New Marketing Cloud Next Features](https://nebulaconsulting.co.uk/insights/5-new-marketing-cloud-next-features-were-excited-to-try/) from Nebula Consulting. This covers BU use cases for brands and regions.
+2. Read [Business Units in Marketing Cloud](https://mateuszdabrowski.pl/docs/salesforce/marketing-cloud/config/business-units/) by Mateusz Dabrowski. This is the most thorough community reference on BU configuration, data space relationships, and multi-BU governance. Pay attention to the sections on data isolation and setup sequence.
 
 3. Write a brief governance recommendation (one page or less) for LEOptical. Your recommendation must include:
    - Why LEOptical does not need multiple business units today.
