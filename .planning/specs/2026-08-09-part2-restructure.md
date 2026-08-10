@@ -380,7 +380,9 @@ Unchanged from current spec except:
 
 ### Update
 - `docs/part-2-data/identity-resolution.md` — sidebar_position: 2
-- `docs/part-2-data/data-graphs.md` — sidebar_position: 3
+- `docs/part-2-data/data-graphs/index.md` — sidebar_position: 1 (concepts)
+- `docs/part-2-data/data-graphs/configuring-leoptical-data-graph.md` — sidebar_position: 2 (hands-on)
+- `docs/part-2-data/data-graphs/_category_.json` — position: 3
 - `docs/part-2-data/segmentation.md` — sidebar_position: 4, add Actionable List assignment
 - `docs/part-2-data/consumption-entitlements.md` — sidebar_position: 5
 - `.planning/PROGRESS.md` — update module table (remove CRM Data Ingestion, rename Module 6, reorder 8/9)

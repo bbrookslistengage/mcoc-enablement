@@ -73,7 +73,7 @@ When a lesson section includes step-by-step instructions:
 - Number every step.
 - Bold all UI element names: **Save**, **New Data Stream**, **Activate**.
 - Use navigation paths: **Setup > Data 360 > Data Streams**.
-- Put a screenshot after any step where the UI is not obvious.
+- Put a screenshot after any step where the UI is not obvious. During drafting, use `<ScreenshotPlaceholder alt="description" />` as a placeholder. Replace with `<Screenshot src="..." alt="..." />` once the image exists.
 - State what the learner should see after each significant action:
   "You should see a field mapping screen with columns from the CSV
   on the left."
@@ -120,7 +120,7 @@ The assignment is a mix of tasks. It can include:
   assignment list. Do not create a separate section.
 
 Reference prior modules when the assignment depends on previous work:
-"Using the Data Graph you built in Module 8..."
+"Using the Data Graph you built in the <ModuleLink slug="data-graphs" /> module..."
 
 Be specific about what to build. Do not leave room for interpretation on
 required deliverables. If there are choices, say so explicitly.

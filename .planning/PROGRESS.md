@@ -52,8 +52,8 @@ Written, reviewed, and verified against a live SDO.
 | 4 | Consent Fundamentals | Done | - | Draft (3 VERIFY) | - | - |
 | 5 | Consent Configuration | Done | - | Draft (4 VERIFY) | - | - |
 | 6 | Working with Data 360 (multi-subpage) | Restructured | - | - | - | - |
-| 7 | Identity Resolution | Done | - | - | - | - |
-| 8 | Data Graphs | Done | - | - | - | - |
+| 7 | Identity Resolution (multi-subpage) | Restructured | - | Draft (5 VERIFY) | - | - |
+| 8 | Data Graphs (multi-subpage) | Restructured | - | Draft (4 VERIFY) | - | - |
 | 9 | Segmentation | Done | - | - | - | - |
 | 10 | Consumption and Entitlements | Done | - | - | - | - |
 | 11 | Salesforce CMS and Content Management | Done | - | - | - | - |

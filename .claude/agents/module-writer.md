@@ -88,7 +88,30 @@ You can explain concepts in your own words. You can summarize, synthesize, and t
   ```mdx
   <Screenshot src="/img/{module-slug}/{filename}.png" alt="..." caption="Optional caption" />
   ```
-  Images live in `static/img/{module-slug}/`, named `{module-number}-{description}.png`. Place a `Screenshot` directly after the step it illustrates. Alt text must describe what the learner should see. During drafting, leave a `{/* SCREENSHOT: description of what to capture */}` comment as a placeholder — do not invent image paths that don't exist yet.
+  Images live in `static/img/{module-slug}/`, named `{module-number}-{description}.png`. Alt text must describe what the learner should see. During drafting, use `ScreenshotPlaceholder` instead — do not invent image paths that don't exist yet:
+  ```mdx
+  <ScreenshotPlaceholder alt="Description of what to capture: which screen, what state, what the learner should observe" />
+  ```
+  When the real screenshot exists, replace `<ScreenshotPlaceholder alt="..." />` with `<Screenshot src="/img/{module-slug}/{filename}.png" alt="..." />`.
+
+### When to insert a screenshot placeholder
+
+Insert a `{/* SCREENSHOT */}` placeholder in exactly four situations:
+
+1. **Navigation arrival** — the learner just navigated somewhere new and needs to confirm they landed in the right place. Insert after the step that says "Navigate to X" or "Click into Y." Describe the list view or page header they should see.
+
+2. **Consequential choice** — the learner is about to make a selection that is permanent or has downstream effects (category, cardinality, primary key, connector type). Insert before or after the choice step to show what the options look like and which one to pick.
+
+3. **Confirmation of success** — after a significant action (deploy, refresh, save), insert to show what a successful result looks like. This is especially important when the success state is subtle (a status badge, a record count, a green indicator).
+
+4. **Key concept made visible** — when the prose explains an abstract concept and the UI makes it concrete in one glance. The canonical example: "one DLO maps to multiple DMOs" is abstract until you see the mapping canvas with lines connecting to three DMO targets. Insert when seeing the UI will do more work than another paragraph.
+
+Do NOT insert placeholders for:
+- Steps that describe prose or tables with no UI interaction
+- Concepts that are explained well enough in the text or with a code block
+- Every step in a walkthrough by default — only the four cases above
+
+Each placeholder must include a specific description: what screen, what state, what the learner should observe. Bad: `{/* SCREENSHOT: the UI */}`. Good: `{/* SCREENSHOT: Data Streams list view filtered to "contact", showing Contact_Home with Active status and record count */}`.
 
 ## Module Structure
 
