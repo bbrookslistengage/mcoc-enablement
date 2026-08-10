@@ -54,7 +54,7 @@ Written, reviewed, and verified against a live SDO.
 | 6 | Working with Data 360 (multi-subpage) | Restructured | - | - | - | - |
 | 7 | Identity Resolution (multi-subpage) | Restructured | - | Draft (5 VERIFY) | - | - |
 | 8 | Data Graphs (multi-subpage) | Restructured | - | Draft (4 VERIFY) | - | - |
-| 9 | Segmentation | Done | - | - | - | - |
+| 9 | Segmentation | Done | - | Draft (24 VERIFY) | - | - |
 | 10 | Consumption and Entitlements | Done | - | - | - | - |
 | 11 | Salesforce CMS and Content Management | Done | - | - | - | - |
 | 12 | Email Builder Deep Dive | Done | - | - | - | - |
