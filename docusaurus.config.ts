@@ -45,6 +45,12 @@ const config: Config = {
 
   onBrokenLinks: 'warn',
 
+  markdown: {
+    mermaid: true,
+  },
+
+  themes: ['@docusaurus/theme-mermaid'],
+
   i18n: {
     defaultLocale: 'en',
     locales: ['en'],
@@ -95,8 +101,11 @@ const config: Config = {
       copyright: 'Built by ListEngage',
     },
     prism: {
-      theme: prismThemes.github,
-      additionalLanguages: ['bash', 'json', 'sql'],
+      theme: prismThemes.nightOwlLight,
+      additionalLanguages: ['bash', 'json', 'sql', 'apex', 'java'],
+    },
+    mermaid: {
+      theme: {light: 'neutral'},
     },
   } satisfies Preset.ThemeConfig,
 };

@@ -1,4 +1,5 @@
 import React from 'react';
+import useBaseUrl from '@docusaurus/useBaseUrl';
 import styles from './Screenshot.module.css';
 
 interface ScreenshotProps {
@@ -8,10 +9,11 @@ interface ScreenshotProps {
 }
 
 export default function Screenshot({ src, alt, caption }: ScreenshotProps): React.JSX.Element {
+  const resolvedSrc = useBaseUrl(src);
   return (
     <figure className={styles.figure}>
       <div className={styles.frame}>
-        <img src={src} alt={alt} className={styles.image} />
+        <img src={resolvedSrc} alt={alt} className={styles.image} />
       </div>
       {caption && <figcaption className={styles.caption}>{caption}</figcaption>}
     </figure>

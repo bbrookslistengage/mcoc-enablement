@@ -68,6 +68,11 @@
   --color-code-text: var(--color-text-primary);
   --color-code-inline-bg: rgba(0, 154, 215, 0.06);
   --color-code-inline-text: #0077a8;
+  --color-code-block-border: var(--color-border-default);
+  --color-code-title-bg: #e8ecf0;
+  --color-code-title-text: var(--color-text-secondary);
+  --color-code-line-number: var(--color-text-tertiary);
+  --color-code-highlight-bg: rgba(0, 154, 215, 0.08);
 
   /* ─── Typography: Font Family ──────────────────── */
   --font-family-body: 'Montserrat', sans-serif;

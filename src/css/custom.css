@@ -24,7 +24,7 @@
   --ifm-font-weight-bold: var(--font-weight-bold);
 
   --ifm-code-font-size: 90%;
-  --docusaurus-highlighted-code-line-bg: rgba(0, 154, 215, 0.08);
+  --docusaurus-highlighted-code-line-bg: var(--color-code-highlight-bg);
 
   --ifm-color-info: var(--color-status-info);
   --ifm-color-success: var(--color-status-success);
@@ -226,19 +226,79 @@ body {
 }
 
 /* Code blocks */
+div[class^='codeBlockContainer'],
+div[class*=' codeBlockContainer'] {
+  border-radius: var(--border-radius-lg);
+  border: var(--border-width-default) solid var(--color-code-block-border);
+  overflow: hidden;
+  box-shadow: var(--shadow-md);
+  margin-bottom: var(--space-stack-lg);
+}
+
+/* Code block title bar (language label) */
+div[class^='codeBlockTitle'],
+div[class*=' codeBlockTitle'] {
+  background: var(--color-code-title-bg) !important;
+  color: var(--color-code-title-text) !important;
+  border-bottom: var(--border-width-default) solid var(--color-border-default);
+  font-family: var(--font-family-mono);
+  font-size: var(--font-size-body-xs);
+  font-weight: var(--font-weight-medium);
+  letter-spacing: var(--letter-spacing-wide);
+  text-transform: uppercase;
+  padding: var(--space-stack-sm) var(--space-inline-md);
+}
+
 .markdown pre {
-  background: var(--color-brand-navy-dark);
+  border-radius: 0;
   border: none;
-  border-radius: var(--border-radius-md);
-  padding: var(--space-padding-card);
+  margin: 0;
+  padding: var(--space-inline-md) var(--space-padding-card);
 }
 
 .markdown pre code {
   background: none;
-  color: var(--color-text-inverse);
   padding: 0;
   font-size: var(--font-size-body-small);
   line-height: var(--line-height-relaxed);
+}
+
+/* Line numbers */
+.prism-code .token-line .linenumber {
+  color: var(--color-code-line-number);
+  min-width: 2rem;
+  padding-right: var(--space-inline-md);
+  text-align: right;
+  user-select: none;
+}
+
+/* Highlighted code line */
+.theme-code-block-highlighted-line {
+  background-color: var(--color-code-highlight-bg);
+  display: block;
+  margin: 0 calc(-1 * var(--space-padding-card));
+  padding: 0 var(--space-padding-card);
+  border-left: 3px solid var(--color-brand-blue);
+}
+
+/* Copy button */
+button[class^='copyButton'],
+button[class*=' copyButton'] {
+  color: var(--color-text-tertiary);
+  opacity: 0;
+  transition: opacity var(--transition-fast), color var(--transition-fast);
+}
+
+div[class^='codeBlockContainer']:hover button[class^='copyButton'],
+div[class^='codeBlockContainer']:hover button[class*=' copyButton'],
+div[class*=' codeBlockContainer']:hover button[class^='copyButton'],
+div[class*=' codeBlockContainer']:hover button[class*=' copyButton'] {
+  opacity: 1;
+}
+
+button[class^='copyButton']:hover,
+button[class*=' copyButton']:hover {
+  color: var(--color-text-primary);
 }
 
 /* Admonitions — styled via src/theme/Admonition/Layout/styles.module.css */
