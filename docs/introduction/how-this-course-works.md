@@ -1,4 +1,5 @@
 ---
+has_assignment: false
 sidebar_position: 1
 title: "How This Course Works"
 description: "Course structure, the LEOptical client scenario, and the learning philosophy behind every module."

@@ -1,4 +1,5 @@
 ---
+has_assignment: false
 sidebar_position: 3
 title: "Introduction to Data 360"
 description: "A high-level primer on Data 360 concepts: data streams, DLOs, DMOs, identity resolution, and segments."

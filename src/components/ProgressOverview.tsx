@@ -8,6 +8,7 @@ interface ModuleEntry {
   parent?: string;
   part: string;
   position: number;
+  hasAssignment: boolean;
 }
 
 interface PartEntry {
@@ -30,9 +31,9 @@ function getModuleProgress(slug: string): {lesson: boolean; assignment: boolean}
   };
 }
 
-function isModuleComplete(slug: string): boolean {
+function isModuleComplete(slug: string, hasAssignment = true): boolean {
   const p = getModuleProgress(slug);
-  return p.lesson && p.assignment;
+  return hasAssignment ? (p.lesson && p.assignment) : p.lesson;
 }
 
 function extractPartNumber(label: string): string {
@@ -52,11 +53,13 @@ interface BuiltPart {
     slug: string;
     title: string;
     path: string;
+    hasAssignment: boolean;
     children: Array<{
       slug: string;
       title: string;
       path: string;
       position: number;
+      hasAssignment: boolean;
     }>;
     position: number;
   }>;
@@ -86,12 +89,14 @@ function buildPartsFromRegistry(data: RegistryData): BuiltPart[] {
           title: m.title,
           path: m.path,
           position: m.position,
+          hasAssignment: m.hasAssignment,
         }));
 
       return {
         slug: mod.slug,
         title: mod.title,
         path: mod.path,
+        hasAssignment: mod.hasAssignment,
         children,
         position: mod.position,
       };
@@ -112,7 +117,7 @@ function AccordionModule({
 }): ReactNode {
   const [expanded, setExpanded] = useState(false);
 
-  const childComplete = mod.children.filter(c => isModuleComplete(c.slug)).length;
+  const childComplete = mod.children.filter(c => isModuleComplete(c.slug, c.hasAssignment)).length;
   const allChildrenComplete = childComplete === mod.children.length;
 
   return (
@@ -142,7 +147,7 @@ function AccordionModule({
       {expanded && (
         <ul className="part-section__submodules">
           {mod.children.map(child => {
-            const complete = isModuleComplete(child.slug);
+            const complete = isModuleComplete(child.slug, child.hasAssignment);
             return (
               <li key={child.slug} className="part-section__module part-section__module--sub">
                 <span
@@ -164,25 +169,25 @@ export default function ProgressOverview(): ReactNode {
   const registryData = usePluginData('module-registry') as RegistryData;
   const builtParts = buildPartsFromRegistry(registryData);
 
-  // Collect all leaf-level slugs for progress counting
-  const allLeafSlugs: string[] = [];
+  // Collect all leaf-level modules for progress counting
+  const allLeafModules: Array<{slug: string; hasAssignment: boolean}> = [];
   for (const part of builtParts) {
     for (const mod of part.modules) {
       if (mod.children.length > 0) {
-        allLeafSlugs.push(...mod.children.map(c => c.slug));
+        allLeafModules.push(...mod.children.map(c => ({slug: c.slug, hasAssignment: c.hasAssignment})));
       } else {
-        allLeafSlugs.push(mod.slug);
+        allLeafModules.push({slug: mod.slug, hasAssignment: mod.hasAssignment});
       }
     }
   }
 
   const [completedCount, setCompletedCount] = useState(0);
-  const totalModules = allLeafSlugs.length;
+  const totalModules = allLeafModules.length;
 
   const recalculate = useCallback(() => {
-    const count = allLeafSlugs.filter(slug => isModuleComplete(slug)).length;
+    const count = allLeafModules.filter(m => isModuleComplete(m.slug, m.hasAssignment)).length;
     setCompletedCount(count);
-  }, [allLeafSlugs]);
+  }, [allLeafModules]);
 
   useEffect(() => {
     recalculate();
@@ -193,14 +198,14 @@ export default function ProgressOverview(): ReactNode {
   const handleReset = useCallback(() => {
     if (typeof window === 'undefined') return;
     if (window.confirm('Reset all progress? This cannot be undone.')) {
-      for (const slug of allLeafSlugs) {
+      for (const {slug} of allLeafModules) {
         localStorage.removeItem(`progress:${slug}:lesson`);
         localStorage.removeItem(`progress:${slug}:assignment`);
       }
       window.dispatchEvent(new Event('progress-updated'));
       recalculate();
     }
-  }, [allLeafSlugs, recalculate]);
+  }, [allLeafModules, recalculate]);
 
   const pct = totalModules > 0 ? Math.round((completedCount / totalModules) * 100) : 0;
 
@@ -231,10 +236,10 @@ export default function ProgressOverview(): ReactNode {
           for (const mod of part.modules) {
             if (mod.children.length > 0) {
               partLeafCount += mod.children.length;
-              partLeafComplete += mod.children.filter(c => isModuleComplete(c.slug)).length;
+              partLeafComplete += mod.children.filter(c => isModuleComplete(c.slug, c.hasAssignment)).length;
             } else {
               partLeafCount += 1;
-              partLeafComplete += isModuleComplete(mod.slug) ? 1 : 0;
+              partLeafComplete += isModuleComplete(mod.slug, mod.hasAssignment) ? 1 : 0;
             }
           }
 
@@ -244,7 +249,7 @@ export default function ProgressOverview(): ReactNode {
             <div key={part.label} className="part-section">
               <Link to={firstModulePath} className="part-section__header">
                 <div className="part-section__top-row">
-                  <span className="part-section__number">Part {partNum}</span>
+                  <span className="part-section__number">{partNum ? `Part ${partNum}` : partName}</span>
                   <span className="part-section__count">
                     {partLeafComplete}/{partLeafCount}
                   </span>
@@ -257,7 +262,7 @@ export default function ProgressOverview(): ReactNode {
                   if (mod.children.length > 0) {
                     return <AccordionModule key={mod.slug} mod={mod} />;
                   }
-                  const complete = isModuleComplete(mod.slug);
+                  const complete = isModuleComplete(mod.slug, mod.hasAssignment);
                   return (
                     <li key={mod.slug} className="part-section__module">
                       <span

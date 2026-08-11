@@ -9,6 +9,7 @@ interface ModuleEntry {
   parent?: string;
   part: string;
   position: number;
+  hasAssignment: boolean;
 }
 
 interface PartEntry {
@@ -36,7 +37,7 @@ export default function moduleRegistryPlugin(context: LoadContext): Plugin {
 
       // Read top-level part directories
       const topDirs = fs.readdirSync(docsDir, {withFileTypes: true})
-        .filter(d => d.isDirectory() && d.name.startsWith('part-'));
+        .filter(d => d.isDirectory() && (d.name.startsWith('part-') || d.name === 'introduction'));
 
       for (const partDir of topDirs) {
         const partPath = path.join(docsDir, partDir.name);
@@ -152,6 +153,7 @@ function processDirectory(
           path: derivePermalink(indexFile, path.resolve(dirPath, '..')),
           part: partName,
           position: getDirectoryPosition(fullPath),
+          hasAssignment: fm.has_assignment !== false,
         }, indexFile, modules, slugsSeen);
       }
 
@@ -166,6 +168,7 @@ function processDirectory(
         path: derivePermalink(fullPath, path.resolve(dirPath, parentSlug !== undefined ? '../..' : '..')),
         part: partName,
         position: fm.sidebar_position ?? 0,
+        hasAssignment: fm.has_assignment !== false,
       };
 
       if (parentSlug !== undefined) {

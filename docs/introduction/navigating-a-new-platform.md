@@ -1,4 +1,5 @@
 ---
+has_assignment: false
 sidebar_position: 4
 title: "Navigating a New Platform"
 description: "Practical advice for learning MCA, managing expectations about the learning curve, and using AI tools effectively."

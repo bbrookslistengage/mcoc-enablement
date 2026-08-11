@@ -1,4 +1,5 @@
 ---
+has_assignment: false
 sidebar_position: 2
 title: "MCA vs. MCE"
 description: "A high-level orientation to MCA's architecture and how it differs from Marketing Cloud Engagement."

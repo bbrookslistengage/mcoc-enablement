@@ -1,1 +1,5 @@
-{"label": "Introduction", "position": 0}
+{
+  "label": "Introduction",
+  "position": 0,
+  "description": "How this course works, the MCA platform overview, and what to expect before you start building."
+}
