@@ -85,6 +85,17 @@ function derivePermalink(filePath: string, docsRoot: string): string {
   return '/' + withoutIndex;
 }
 
+function getDirectoryPosition(dirPath: string): number {
+  const categoryFile = path.join(dirPath, '_category_.json');
+  if (!fs.existsSync(categoryFile)) return 0;
+  try {
+    const cat = JSON.parse(fs.readFileSync(categoryFile, 'utf-8'));
+    return cat.position ?? 0;
+  } catch {
+    return 0;
+  }
+}
+
 function processDirectory(
   dirPath: string,
   partName: string,
@@ -92,26 +103,41 @@ function processDirectory(
   modules: Record<string, ModuleEntry>,
   slugsSeen: Map<string, string>,
 ): void {
-  const entries = fs.readdirSync(dirPath, {withFileTypes: true});
-  const docsRoot = path.resolve(dirPath, '..', '..');
+  const rawEntries = fs.readdirSync(dirPath, {withFileTypes: true});
 
-  // Check if this is a subcategory directory (has _category_.json and is not a part dir)
-  const isSubcategory = parentSlug === undefined
-    ? false
-    : fs.existsSync(path.join(dirPath, '_category_.json'));
-
-  // Determine the parent slug for items in subcategory directories
-  let subcategoryParent = parentSlug;
+  // Sort entries: directories by their _category_.json position, files by sidebar_position
+  // Read positions up-front so we can sort before processing
+  const entries = rawEntries
+    .filter(e => {
+      if (e.isDirectory()) {
+        return fs.existsSync(path.join(dirPath, e.name, '_category_.json'));
+      }
+      return e.name.match(/\.(md|mdx)$/) && e.name !== 'index.md' && e.name !== 'index.mdx';
+    })
+    .sort((a, b) => {
+      const posA = a.isDirectory()
+        ? getDirectoryPosition(path.join(dirPath, a.name))
+        : (() => {
+            try {
+              const {data: fm} = matter(fs.readFileSync(path.join(dirPath, a.name), 'utf-8'));
+              return fm.sidebar_position ?? 0;
+            } catch { return 0; }
+          })();
+      const posB = b.isDirectory()
+        ? getDirectoryPosition(path.join(dirPath, b.name))
+        : (() => {
+            try {
+              const {data: fm} = matter(fs.readFileSync(path.join(dirPath, b.name), 'utf-8'));
+              return fm.sidebar_position ?? 0;
+            } catch { return 0; }
+          })();
+      return posA - posB;
+    });
 
   for (const entry of entries) {
     const fullPath = path.join(dirPath, entry.name);
 
     if (entry.isDirectory()) {
-      // This is a subcategory (e.g., getting-started/, domain-setup/)
-      const subCategoryFile = path.join(fullPath, '_category_.json');
-      if (!fs.existsSync(subCategoryFile)) continue;
-
-      // The directory name becomes the parent slug for its children
       const dirSlug = entry.name;
 
       // Check for index.md in the subcategory
@@ -125,13 +151,13 @@ function processDirectory(
           title: fm.title ?? entry.name,
           path: derivePermalink(indexFile, path.resolve(dirPath, '..')),
           part: partName,
-          position: fm.sidebar_position ?? 0,
+          position: getDirectoryPosition(fullPath),
         }, indexFile, modules, slugsSeen);
       }
 
       // Process children with this directory as parent
       processDirectory(fullPath, partName, dirSlug, modules, slugsSeen);
-    } else if (entry.name.match(/\.(md|mdx)$/) && entry.name !== 'index.md' && entry.name !== 'index.mdx') {
+    } else {
       const {data: fm} = matter(fs.readFileSync(fullPath, 'utf-8'));
       const slug = deriveSlug(fullPath);
 
@@ -142,7 +168,6 @@ function processDirectory(
         position: fm.sidebar_position ?? 0,
       };
 
-      // If we're inside a subcategory, set the parent
       if (parentSlug !== undefined) {
         moduleEntry.parent = parentSlug;
       }
