@@ -68,8 +68,6 @@ You have the skills. You have the experience. You have the tools.
 
 The course is structured to build your knowledge progressively. No module assumes you know something you have not been taught yet. The "Coming from MCE?" callouts orient you at every step if you have MCE background. If you do not, the course works just as well without them.
 
-Every consultant who has gone through this material started in the same place: staring at an unfamiliar platform and wondering where to begin. The answer is the same for everyone. Start with the Getting Started module, follow the modules in order, build things, and trust the process. By the time you reach the later modules, the platform that felt foreign today will feel like familiar ground.
-
 ## Assignment
 
 1. If you plan to use AI tools during the course, open your preferred AI tool and confirm that it understands the difference between MCA and MCE. Ask it to explain the distinction. Compare its response to what you learned in the MCA vs. MCE module.
