@@ -12,7 +12,7 @@ This is a fundamentally different model from anything in Marketing Cloud Engagem
 
 This module is worth reading carefully before going into any sizing or scoping conversation. The credit rate card here is the same rate card your client's Salesforce Account Executive uses. Knowing it lets you give credible advice about where their money goes and where to be careful with design decisions.
 
-Before working through this module, you should have completed the data streams, identity resolution, and segmentation modules. The consumption concepts here refer to work you have already done in your SDO. The numbers will be more concrete if you can picture the actual configurations they describe.
+The concepts in this module will come up again throughout the course as you build data streams, configure identity resolution, define segments, and set up activation. Reading this now means the credit implications will be in the back of your mind as you make design decisions in each of those areas, rather than discovering them after the fact.
 
 ## Lesson overview
 
@@ -161,7 +161,7 @@ LEOptical's data graph has segments with different traversal depths:
 
 The SeeClear Enthusiasts segment traverses 3 DMO relationships. Each hop multiplies the row count the segment query must process. At LEOptical's current scale this difference is small in absolute credits, but the pattern matters for advice you give as the data model grows.
 
-Research from practitioner guides suggests that data models requiring complex joins can cost 20-40% more in activation credits than flatter models producing the same output. The design principle is to create only the DMO relationships that segments actually need to traverse, and to target 1-2 DMO hops for frequently-run operations.
+Research from practitioner guides suggests that data models requiring complex joins can cost 20-40% more in activation credits than flatter models producing the same output ([jitendrazaa, March 2026](https://www.jitendrazaa.com/blog/salesforce/salesforce-data-360-credit-optimization-guide-march-2026/)). {/* VERIFY: The 20-40% figure comes from a single practitioner source and is not corroborated by a second independent source or official Salesforce documentation. Treat as a practitioner estimate, not a published Salesforce specification */} The design principle is to create only the DMO relationships that segments actually need to traverse, and to target 1-2 DMO hops for frequently-run operations.
 
 ## Messaging credit mechanics
 
@@ -183,7 +183,7 @@ MCA ships with different credit allocations depending on the edition purchased.
 
 **Marketing Cloud Advanced Edition** (~$3,250/org/month, billed annually) includes approximately 480,000 Data 360 Service credits, 20,000 Segment and Activation credits, 360,000 Email Credits, and 100,000 AI Request Credits annually, with 1 TB storage.
 
-{/* VERIFY: These credit allocation numbers come from a single community source (The Agentic Marketer) and have not been confirmed against an official Salesforce help page or order form. Official pricing pages list starting prices but do not publish included credit allocations publicly. Treat these as approximate until confirmed against Salesforce documentation or a client order form */}
+Source: [The Agentic Marketer, MCN Survival Guide for Marketers](https://the-agentic-marketer.com/marketing-cloud-next-deep-dives/data-cloud-survival-guide-for-marketers/). {/* VERIFY: These credit allocation numbers come from a single community source and have not been confirmed against an official Salesforce help page or order form. Official pricing pages list starting prices but do not publish included credit allocations publicly. Treat these as approximate until confirmed against Salesforce documentation or a client order form */}
 
 Both editions include email sends. SMS and WhatsApp are add-ons.
 
@@ -229,7 +229,7 @@ These are documented anti-patterns from practitioner research:
 
 4. **Running unfiltered exploratory queries.** Data Queries cost only 2 credits/million rows, but unfiltered queries across large datasets accumulate in aggregate when run frequently. Always filter before running exploratory queries against production data.
 
-5. **Over-complex data models that force deep DMO traversal.** 20-40% higher activation costs have been documented from data models requiring excessive DMO hops. Design your data model against actual query patterns, not theoretical completeness.
+5. **Over-complex data models that force deep DMO traversal.** 20-40% higher activation costs have been documented from data models requiring excessive DMO hops ([jitendrazaa, March 2026](https://www.jitendrazaa.com/blog/salesforce/salesforce-data-360-credit-optimization-guide-march-2026/)). {/* VERIFY: Same single-source figure as noted above — practitioner estimate, not a Salesforce-published specification */} Design your data model against actual query patterns, not theoretical completeness.
 
 ## Scaling considerations for LEOptical
 

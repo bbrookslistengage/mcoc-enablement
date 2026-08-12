@@ -49,7 +49,7 @@ Written, reviewed, and verified against a live SDO.
 | 1 | 1 | Getting Started | Done | - | Draft (9 VERIFY) | - | - |
 | 1 | 2 | Domain Setup | Done | - | Draft (7 VERIFY) | - | - |
 | 1 | 3 | Business Units and Governance | Done | - | Draft (8 VERIFY) | - | - |
-| 1 | 4 | Consumption and Entitlements | Done | - | - | - | - |
+| 1 | 4 | Consumption and Entitlements | Done | - | Draft (6 VERIFY) | - | - |
 | 1 | 5 | Consent Fundamentals | Done | - | Draft (3 VERIFY) | - | - |
 | 1 | 6 | Consent Configuration | Done | - | Draft (4 VERIFY) | - | - |
 | 2 | 7 | Working with Data 360 (multi-subpage) | Restructured | - | - | - | - |
