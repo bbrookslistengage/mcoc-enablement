@@ -39,18 +39,18 @@ See `.planning/specs/2026-08-12-course-restructure-design.md` for the full restr
 | 28 | Landing Pages: Advanced |
 | 29 | Web Connector (multi-subpage) |
 
-**Part 7: AI & Intelligence**
+**Part 7: Campaigns & Analytics**
 | # | Module |
 |---|--------|
-| 30 | Agentforce for Marketing |
-| 31 | Conversational Messaging |
-| 32 | Predictive AI |
+| 30 | Campaigns in MCA |
+| 31 | Reporting & Dashboards |
 
-**Part 8: Campaigns & Analytics**
+**Part 8: AI & Intelligence**
 | # | Module |
 |---|--------|
-| 33 | Campaigns in MCA |
-| 34 | Reporting & Dashboards |
+| 32 | Agentforce for Marketing |
+| 33 | Conversational Messaging |
+| 34 | Predictive AI |
 
 **Part 9: Capstone**
 | # | Module |
@@ -312,7 +312,7 @@ Additionally, learn how to query segment members directly via the **Unified Indi
 
 ---
 
-### Module 11 — Consumption & Entitlements
+### Module 10 — Consumption & Entitlements
 
 > **The client wants:** Before LEOptical goes live, they need to understand how their Data 360 usage impacts their entitlements.
 
@@ -711,89 +711,9 @@ Build two flows:
 
 ---
 
-## Part 7: AI & Intelligence
+## Part 7: Campaigns & Analytics
 
-### Module 30 — Agentforce for Marketing
-
-> **The client wants:** LEOptical's marketing team is small. They want to use AI to speed up campaign creation for their upcoming Back-to-School promotion.
-
-**Assignment:**
-- Use Agentforce to generate a campaign brief for LEOptical's "Back to School" promotion
-- Use Agentforce to recommend audience segments from existing Data 360 data
-- Use Agentforce to generate email subject lines and body copy
-- Review and refine the AI-generated outputs — document what you'd change and why
-
-**Success Criteria:**
-- [ ] Campaign brief is generated via Agentforce
-- [ ] Audience segment recommendations are produced
-- [ ] Email content is AI-generated and reviewed
-- [ ] Written assessment: what did Agentforce get right? What needed human editing?
-
----
-
-### Module 31 — Conversational Messaging
-
-> **Deferred.** Requires SMS/WhatsApp channel configuration. Reserved for future expansion.
-
----
-
-### Module 32 — Predictive AI
-
-> **The client wants:** LEOptical wants to identify which loyalty members are at risk of churning and optimize email send frequency. Before building these capabilities, they need to understand what Einstein's predictive features require and how to plan for them.
-
-**Important: This module is conceptual + configuration-only.** Einstein Engagement Scoring and Engagement Frequency require real email engagement history to generate predictions. In a training environment with seed data and no actual send history, the models will not produce scores. This module teaches learners how to configure, interpret, and plan for these features — skills they'll apply on production implementations where the data exists.
-
-**Reference:** [Agentforce Marketing: Einstein Decision (Engagement Frequency and Scoring)](https://the-agentic-marketer.com/marketing-cloud-next-deep-dives/agentforce-marketing-einstein-decision-engagement-frequency-scoring/)
-
-**Lesson Focus — Einstein Predictive AI in MCA:**
-
-- **Einstein Engagement Scoring** — predicts likelihood of opens, clicks, and unsubscribes
-  - Classifies contacts into personas: Loyalists, Window Shoppers, Selective Subscribers, Winback/Dormant
-  - **Prerequisites:** 1,000+ engagement events (sends, opens, clicks, bounces, unsubscribes) across the business unit in the prior 90 days; at least 1 email send per contact to receive a score
-  - Scores refresh continuously; persona trends visible after 14 days of evaluation
-  - Uses the Einstein Decision element in flows for path splitting based on engagement score
-- **Einstein Engagement Frequency** — recommends optimal send frequency per contact
-  - Classifies contacts as: Saturated, Almost Saturated, On Target, Undersaturated, Default (insufficient data)
-  - **Prerequisites:** 5+ promotional emails sent in the past 28 days to 10+ subscribers across 5 different send intervals
-  - Contacts without enough history fall into the "Default" bucket
-- **Both features require:**
-  - MCA Advanced Edition (not Growth)
-  - Data Graph configured with Unified Individual as Primary DMO
-  - Unified Link Individual bridging to Individual
-  - Contact Point Email linked to enable engagement metrics
-  - Email Engagement Score DMO and Email Engagement Frequency DMO added to the Data Graph
-- **Key consulting insight:** These features cannot be demonstrated during implementation until the client has been sending for at least 90 days. Plan for a "Phase 2" enablement milestone where scoring is activated post-launch.
-
-**Assignment:**
-- Configure the prerequisites for Einstein Engagement Scoring:
-  - Verify Data Graph has Unified Individual as Primary DMO
-  - Add the Email Engagement Score DMO to the Data Graph
-  - Enable Einstein Engagement Scoring in setup
-- Configure the prerequisites for Einstein Engagement Frequency:
-  - Add the Email Engagement Frequency DMO to the Data Graph
-  - Enable Einstein Engagement Frequency in setup
-- Review the Einstein Decision flow element — understand how it creates conditional paths based on engagement score and frequency classification
-- Design a "Churn Risk" strategy document for LEOptical:
-  - Define what "churn risk" means for LEOptical (combine engagement score personas with purchase recency and loyalty tier)
-  - Describe how you would build a "Churn Risk" segment once scoring data is available
-  - Propose a flow that uses the Einstein Decision element to route high-risk contacts to a re-engagement campaign
-  - Recommend a send frequency strategy by loyalty tier
-- Document which predictive AI feature addresses which business problem and what data each requires
-
-**Success Criteria:**
-- [ ] Einstein Engagement Scoring prerequisites are configured (Data Graph, DMO, enabled in setup)
-- [ ] Einstein Engagement Frequency prerequisites are configured
-- [ ] You can explain why scores are not yet available (no engagement history) and when they would activate
-- [ ] Einstein Decision flow element is reviewed and understood
-- [ ] Churn Risk strategy document is complete with segment definition, flow design, and frequency recommendations
-- [ ] You can advise a client on implementation timeline: when to enable scoring (post-launch, after 90 days of sends)
-- [ ] You can explain the difference between Engagement Scoring (who to target) and Engagement Frequency (how often to send)
-
----
-
-## Part 8: Campaigns & Analytics
-
-### Module 33 — Campaigns in MCA
+### Module 30 — Campaigns in MCA
 
 > **The client wants:** (assignment not yet designed — pending research into MCA campaigns feature)
 
@@ -801,7 +721,7 @@ Build two flows:
 
 ---
 
-### Module 34 — Reporting & Dashboards
+### Module 31 — Reporting & Dashboards
 
 > **The client wants:** LEOptical's VP of Marketing wants a dashboard to understand campaign performance, channel engagement, and loyalty program growth. The marketing team also wants engagement data visible on individual customer records.
 
@@ -862,6 +782,86 @@ MCA has two distinct reporting layers. Learners need to understand both:
 
 ---
 
+## Part 8: AI & Intelligence
+
+### Module 32 — Agentforce for Marketing
+
+> **The client wants:** LEOptical's marketing team is small. They want to use AI to speed up campaign creation for their upcoming Back-to-School promotion.
+
+**Assignment:**
+- Use Agentforce to generate a campaign brief for LEOptical's "Back to School" promotion
+- Use Agentforce to recommend audience segments from existing Data 360 data
+- Use Agentforce to generate email subject lines and body copy
+- Review and refine the AI-generated outputs — document what you'd change and why
+
+**Success Criteria:**
+- [ ] Campaign brief is generated via Agentforce
+- [ ] Audience segment recommendations are produced
+- [ ] Email content is AI-generated and reviewed
+- [ ] Written assessment: what did Agentforce get right? What needed human editing?
+
+---
+
+### Module 33 — Conversational Messaging
+
+> **Deferred.** Requires SMS/WhatsApp channel configuration. Reserved for future expansion.
+
+---
+
+### Module 34 — Predictive AI
+
+> **The client wants:** LEOptical wants to identify which loyalty members are at risk of churning and optimize email send frequency. Before building these capabilities, they need to understand what Einstein's predictive features require and how to plan for them.
+
+**Important: This module is conceptual + configuration-only.** Einstein Engagement Scoring and Engagement Frequency require real email engagement history to generate predictions. In a training environment with seed data and no actual send history, the models will not produce scores. This module teaches learners how to configure, interpret, and plan for these features — skills they'll apply on production implementations where the data exists.
+
+**Reference:** [Agentforce Marketing: Einstein Decision (Engagement Frequency and Scoring)](https://the-agentic-marketer.com/marketing-cloud-next-deep-dives/agentforce-marketing-einstein-decision-engagement-frequency-scoring/)
+
+**Lesson Focus — Einstein Predictive AI in MCA:**
+
+- **Einstein Engagement Scoring** — predicts likelihood of opens, clicks, and unsubscribes
+  - Classifies contacts into personas: Loyalists, Window Shoppers, Selective Subscribers, Winback/Dormant
+  - **Prerequisites:** 1,000+ engagement events (sends, opens, clicks, bounces, unsubscribes) across the business unit in the prior 90 days; at least 1 email send per contact to receive a score
+  - Scores refresh continuously; persona trends visible after 14 days of evaluation
+  - Uses the Einstein Decision element in flows for path splitting based on engagement score
+- **Einstein Engagement Frequency** — recommends optimal send frequency per contact
+  - Classifies contacts as: Saturated, Almost Saturated, On Target, Undersaturated, Default (insufficient data)
+  - **Prerequisites:** 5+ promotional emails sent in the past 28 days to 10+ subscribers across 5 different send intervals
+  - Contacts without enough history fall into the "Default" bucket
+- **Both features require:**
+  - MCA Advanced Edition (not Growth)
+  - Data Graph configured with Unified Individual as Primary DMO
+  - Unified Link Individual bridging to Individual
+  - Contact Point Email linked to enable engagement metrics
+  - Email Engagement Score DMO and Email Engagement Frequency DMO added to the Data Graph
+- **Key consulting insight:** These features cannot be demonstrated during implementation until the client has been sending for at least 90 days. Plan for a "Phase 2" enablement milestone where scoring is activated post-launch.
+
+**Assignment:**
+- Configure the prerequisites for Einstein Engagement Scoring:
+  - Verify Data Graph has Unified Individual as Primary DMO
+  - Add the Email Engagement Score DMO to the Data Graph
+  - Enable Einstein Engagement Scoring in setup
+- Configure the prerequisites for Einstein Engagement Frequency:
+  - Add the Email Engagement Frequency DMO to the Data Graph
+  - Enable Einstein Engagement Frequency in setup
+- Review the Einstein Decision flow element — understand how it creates conditional paths based on engagement score and frequency classification
+- Design a "Churn Risk" strategy document for LEOptical:
+  - Define what "churn risk" means for LEOptical (combine engagement score personas with purchase recency and loyalty tier)
+  - Describe how you would build a "Churn Risk" segment once scoring data is available
+  - Propose a flow that uses the Einstein Decision element to route high-risk contacts to a re-engagement campaign
+  - Recommend a send frequency strategy by loyalty tier
+- Document which predictive AI feature addresses which business problem and what data each requires
+
+**Success Criteria:**
+- [ ] Einstein Engagement Scoring prerequisites are configured (Data Graph, DMO, enabled in setup)
+- [ ] Einstein Engagement Frequency prerequisites are configured
+- [ ] You can explain why scores are not yet available (no engagement history) and when they would activate
+- [ ] Einstein Decision flow element is reviewed and understood
+- [ ] Churn Risk strategy document is complete with segment definition, flow design, and frequency recommendations
+- [ ] You can advise a client on implementation timeline: when to enable scoring (post-launch, after 90 days of sends)
+- [ ] You can explain the difference between Engagement Scoring (who to target) and Engagement Frequency (how often to send)
+
+---
+
 ## Part 9: Capstone
 
 ### Module 35 — Capstone Project
@@ -893,7 +893,7 @@ Module 1 (Setup + Seed Data)
   |                 |-> Module 9 (IDR)
   |                       |-> Module 10 (Segmentation)
   |                             |-> Module 23 (Activation Templates)
-  |-> Module 11 (Consumption - can be done after Module 10)
+  |-> Module 10 (Consumption - can be done after Module 9)
   |
   Module 15 (Marketing Objects) -- after Module 8 (Data Graphs)
   Module 22 (Flow Fundamentals) -- after Module 14 + Module 8
@@ -905,9 +905,10 @@ Module 1 (Setup + Seed Data)
   |-> Module 28 (Landing Pages: Advanced)
   |-> Module 29 (Web Connector)
   |
-  Module 30 (Agentforce - after Module 10 + Module 14)
-  Module 32 (Predictive AI - after Module 10)
-  Module 33 (Campaigns in MCA)
-  Module 34 (Reporting - after Module 24)
+  Module 30 (Campaigns in MCA)
+  Module 31 (Reporting - after Module 24)
+  Module 32 (Agentforce - after Module 10 + Module 14)
+  Module 33 (Conversational Messaging)
+  Module 34 (Predictive AI - after Module 10)
   Module 35 (Capstone - after everything)
 ```

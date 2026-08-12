@@ -16,7 +16,7 @@ All records use `@example.com` emails (IETF-reserved per RFC 2606 — nothing de
 
 10 contacts included in `contacts.csv` with `@example.com` placeholder emails. These are pre-configured across loyalty tiers and purchase histories so the learner can test personalization for different scenarios.
 
-In Module 4, the learner runs anonymous Apex to update the 10 protagonist emails to their own address using `+alias` patterns (e.g., `learner+mariac@gmail.com`). Data 360's CRM data stream uses Upsert mode, so the original `@example.com` Contact Point Email record is preserved alongside the new one. This means ecommerce orders (which reference the `@example.com` email) remain linked via IDR, while the learner can receive test emails at their real address.
+In Module 5, the learner runs anonymous Apex to update the 10 protagonist emails to their own address using `+alias` patterns (e.g., `learner+mariac@gmail.com`). Data 360's CRM data stream uses Upsert mode, so the original `@example.com` Contact Point Email record is preserved alongside the new one. This means ecommerce orders (which reference the `@example.com` email) remain linked via IDR, while the learner can receive test emails at their real address.
 
 | Name | Loyalty Tier | Purchase History | Exam Status | Test Scenario |
 |------|-------------|-----------------|-------------|---------------|
@@ -68,7 +68,7 @@ Run `seed-products-campaigns.apex` in Developer Console > Execute Anonymous. Cre
 - Maria Chen exists with Loyalty Tier = Gold
 - Wei Zhang exists with Loyalty Tier = Platinum
 
-## Module 4 — Update Protagonist Emails
+## Module 5 — Update Protagonist Emails
 
 The learner runs anonymous Apex to update the 10 protagonist contacts' Email field to their own `+alias` addresses. The `SeedScript` component on the page generates this Apex dynamically based on the email address the learner enters.
 
@@ -114,7 +114,7 @@ The Python script maintains a master registry of all generated people. When a pe
 
 The seed data intentionally includes realistic data quality problems. These are NOT called out to the learner upfront — they discover them as they work through modules, just like on a real engagement.
 
-### Category 1: Identity & Matching Problems (surfaces in Module 9 — IDR)
+### Category 1: Identity & Matching Problems (surfaces in Module 7 — IDR)
 
 | Problem | How It Appears | Real-World Parallel |
 |---------|---------------|---------------------|
@@ -124,7 +124,7 @@ The seed data intentionally includes realistic data quality problems. These are 
 | Typos in email | `sofia.reyez@example.com` vs `sofia.reyes@example.com` — one character off | Data entry errors |
 | Duplicate CRM records | 2-3 Contacts that are clearly the same person created twice (same name, slightly different data) | CRM hygiene issues every client has |
 | Case inconsistency | `John.Smith@Example.com` vs `john.smith@example.com` | Systems that don't normalize case |
-| Multiple emails per person | Protagonist contacts have both @example.com and learner's +alias email after Module 4 update | Real customers have work + personal emails |
+| Multiple emails per person | Protagonist contacts have both @example.com and learner's +alias email after Module 5 update | Real customers have work + personal emails |
 
 ### Category 2: Data Quality Problems (surfaces in Modules 6-8 — Data Model & Graphs)
 
@@ -145,7 +145,7 @@ The seed data intentionally includes realistic data quality problems. These are 
 | Contradictory consent signals | A few loyalty CSV records have `email_optin=true` but also `unsubscribed_date` populated | Conflicting source-of-truth |
 | Consent without contact point | Some Individuals get consent records but their Contact Point Email hasn't been created yet | Data stream refresh ordering |
 
-### Category 4: Segmentation Edge Cases (surfaces in Module 10)
+### Category 4: Segmentation Edge Cases (surfaces in Module 9)
 
 | Problem | How It Appears | Real-World Parallel |
 |---------|---------------|---------------------|
@@ -159,6 +159,6 @@ The dirt is NOT called out upfront. Learners discover it naturally:
 
 - **Module 6 (Data Ingestion):** CSVs just have the problems in them. When learners ingest and check record counts, numbers won't match expectations.
 - **Module 8 (Data Graphs):** Orphaned orders with missing product references cause relationship gaps.
-- **Module 9 (IDR):** Identity problems hit hardest here. Cross-source email mismatches, name variations, and duplicate records all surface.
-- **Module 10 (Segmentation):** Boundary cases and overlap surface during spot-checks.
-- **Module 11 (Consumption):** Dirty data inflates consumption. Learners estimate savings from cleanup.
+- **Module 7 (IDR):** Identity problems hit hardest here. Cross-source email mismatches, name variations, and duplicate records all surface.
+- **Module 9 (Segmentation):** Boundary cases and overlap surface during spot-checks.
+- **Module 10 (Consumption):** Dirty data inflates consumption. Learners estimate savings from cleanup.

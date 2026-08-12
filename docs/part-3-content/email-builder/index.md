@@ -1,5 +1,5 @@
 ---
-sidebar_position: 2
+sidebar_position: 1
 title: "The Email Builder"
 description: "The drag-and-drop editor, builder elements, sections, and preview and test."
 ---

@@ -328,7 +328,7 @@ LEOptical has four communication subscriptions, configured in Modules 4-5. Learn
 | **Eye Health Reminders** | Marketing | Yes — opt-in/out toggle | Exam overdue notices, annual checkup reminders |
 | **Order Updates** | Transactional | No — not shown | Order confirmations, shipping updates, review requests |
 
-> **Teaching moment (Module 4):** "Order Updates" is transactional — it can be sent without marketing opt-in. This is how the post-purchase review request flow (Module 16) reaches customers who haven't opted into marketing. Learners verify this by sending an order update to a contact without marketing consent and confirming delivery.
+> **Teaching moment (Module 4):** "Order Updates" is transactional — it can be sent without marketing opt-in. This is how the post-purchase review request flow (Module 24) reaches customers who haven't opted into marketing. Learners verify this by sending an order update to a contact without marketing consent and confirming delivery.
 
 ## Data Graph Structure
 

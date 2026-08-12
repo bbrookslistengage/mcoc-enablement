@@ -126,22 +126,22 @@ Modules are ordered so each assignment builds on prior work. The outline is mapp
 | 28 | Landing Pages: Advanced | Hidden fields, UTM, consent capture |
 | 29 | Web Connector (multi-subpage) | Web connector, tracking, events |
 
-### Part 7: AI & Intelligence
-**Exam mapping: Section 5 (Agentforce & AI Innovation, 11%)**
-
-| # | Module | Exam Topics |
-|---|--------|-------------|
-| 30 | Agentforce for Marketing | Agentforce |
-| 31 | Conversational Messaging | SMS/WhatsApp |
-| 32 | Predictive AI | Einstein features |
-
-### Part 8: Campaigns & Analytics
+### Part 7: Campaigns & Analytics
 **Exam mapping: Section 6 (Analytics & Performance Insights, 8%)**
 
 | # | Module | Exam Topics |
 |---|--------|-------------|
-| 33 | Campaigns in MCA | Campaign workspace, metrics |
-| 34 | Reporting & Dashboards | Dashboards, reporting |
+| 30 | Campaigns in MCA | Campaign workspace, metrics |
+| 31 | Reporting & Dashboards | Dashboards, reporting |
+
+### Part 8: AI & Intelligence
+**Exam mapping: Section 5 (Agentforce & AI Innovation, 11%)**
+
+| # | Module | Exam Topics |
+|---|--------|-------------|
+| 32 | Agentforce for Marketing | Agentforce |
+| 33 | Conversational Messaging | SMS/WhatsApp |
+| 34 | Predictive AI | Einstein features |
 
 ### Part 9: Capstone
 
@@ -191,8 +191,8 @@ Each module includes a collapsible callout mapping MCA concepts to their MCE equ
 | Consent | 13% | Part 1 | 4-5 |
 | Data Modeling, IDR & Segmentation | 25% | Part 2 | 6-10 |
 | Campaign Design, Flow & Content | 30% | Parts 3-6 | 11-29 |
-| Agentforce & AI Innovation | 11% | Part 7 | 30-32 |
-| Analytics & Performance Insights | 8% | Part 8 | 33-34 |
+| Analytics & Performance Insights | 8% | Part 7 | 30-31 |
+| Agentforce & AI Innovation | 11% | Part 8 | 32-34 |
 
 ## Out of Scope (for now)
 

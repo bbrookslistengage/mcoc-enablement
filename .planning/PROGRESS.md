@@ -56,12 +56,12 @@ Written, reviewed, and verified against a live SDO.
 | 2 | 8 | Data Graphs (multi-subpage) | Restructured | - | Draft (4 VERIFY) | - | - |
 | 2 | 9 | Segmentation | Done | - | Draft (24 VERIFY) | - | - |
 | 2 | 10 | Consumption and Entitlements | Done | - | - | - | - |
-| 3 | 11 | Salesforce CMS and Content Management | Done | - | - | - | - |
-| 3 | 12 | The Email Builder | Needs update | - | - | - | - |
-| 3 | 13 | Content Blocks | - | - | - | - | - |
-| 3 | 14 | Email Templates | - | - | - | - | - |
-| 4 | 15 | Marketing Objects | - | - | - | - | - |
-| 4 | 16 | Merge Fields and Dynamic Content | - | - | - | - | - |
+| 3 | 11 | Salesforce CMS and Content Management (multi-subpage) | Done | - | - | - | - |
+| 3 | 12 | The Email Builder (multi-subpage) | Needs update | - | - | - | - |
+| 3 | 13 | Content Blocks (multi-subpage) | - | - | - | - | - |
+| 3 | 14 | Email Templates (multi-subpage) | - | - | - | - | - |
+| 4 | 15 | Marketing Objects (multi-subpage) | - | - | - | - | - |
+| 4 | 16 | Merge Fields and Dynamic Content (multi-subpage) | - | - | - | - | - |
 | 4 | 17 | Handlebars: Foundations | - | - | - | - | - |
 | 4 | 18 | Handlebars: Working with Data | - | - | - | - | - |
 | 4 | 19 | Handlebars: Advanced Techniques | - | - | - | - | - |
@@ -75,11 +75,11 @@ Written, reviewed, and verified against a live SDO.
 | 6 | 27 | Landing Pages and Forms | Done | - | - | - | - |
 | 6 | 28 | Landing Pages: Advanced | Done | - | - | - | - |
 | 6 | 29 | Web Connector (multi-subpage) | - | - | - | - | - |
-| 7 | 30 | Agentforce for Marketing | Done | - | - | - | - |
-| 7 | 31 | Conversational Messaging | Deferred | - | - | - | - |
-| 7 | 32 | Predictive AI | Done | - | - | - | - |
-| 8 | 33 | Campaigns in MCA | - | - | - | - | - |
-| 8 | 34 | Reporting and Dashboards | Done | - | - | - | - |
+| 7 | 30 | Campaigns in MCA | - | - | - | - | - |
+| 7 | 31 | Reporting and Dashboards | Done | - | - | - | - |
+| 8 | 32 | Agentforce for Marketing | Done | - | - | - | - |
+| 8 | 33 | Conversational Messaging | Deferred | - | - | - | - |
+| 8 | 34 | Predictive AI | Done | - | - | - | - |
 | 9 | 35 | Capstone Project | Deferred | - | - | - | - |
 
 Status values: `-` (not started), `In Progress`, `Done`, `Blocked`

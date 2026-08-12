@@ -7,7 +7,7 @@ description: "Course structure, the LEOptical client scenario, and the learning 
 
 ## Overview
 
-You are about to build a complete MCA implementation from scratch. Over the course of roughly 25 modules, you will configure data ingestion, identity resolution, segmentation, consent, email, flows, landing pages, and more. By the end, you will have hands-on experience with every major area of the platform.
+You are about to build a complete MCA implementation from scratch. Over the course of roughly 35 modules, you will configure data ingestion, identity resolution, segmentation, consent, email, flows, landing pages, and more. By the end, you will have hands-on experience with every major area of the platform.
 
 This course is built for experienced Salesforce consultants. You do not need to be an MCA expert. You do not need Data 360 experience. You just need a Salesforce background and the willingness to get hands-on. Your platform knowledge, your understanding of data modeling, your experience working with clients, all of that transfers directly. The specifics of MCA are new. The skills you bring are not.
 

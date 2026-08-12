@@ -22,7 +22,7 @@ A single welcome/orientation page that sits above Part 1 in the sidebar. Not a m
 
 ### 1. Overview (~150 words)
 
-Welcome. Who this course is for: experienced Salesforce consultants learning MCA. Not beginners. You will build a real MCA implementation from scratch across ~25 modules. By the end you will have configured data ingestion, identity resolution, segmentation, email, flows, landing pages, and more — all for a fictional client.
+Welcome. Who this course is for: experienced Salesforce consultants learning MCA. Not beginners. You will build a real MCA implementation from scratch across ~35 modules. By the end you will have configured data ingestion, identity resolution, segmentation, email, flows, landing pages, and more — all for a fictional client.
 
 Set the tone immediately: direct, honest, no filler.
 
