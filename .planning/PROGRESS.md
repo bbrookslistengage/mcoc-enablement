@@ -62,15 +62,15 @@ Written, reviewed, and verified against a live SDO.
 | 3 | 14 | Email Templates (multi-subpage) | - | - | - | - | - |
 | 4 | 15 | Marketing Objects (multi-subpage) | - | - | - | - | - |
 | 4 | 16 | Merge Fields and Dynamic Content (multi-subpage) | - | - | - | - | - |
-| 4 | 17 | Handlebars: Foundations | - | - | - | - | - |
-| 4 | 18 | Handlebars: Working with Data | - | - | - | - | - |
-| 4 | 19 | Handlebars: Advanced Techniques | - | - | - | - | - |
+| 4 | 17 | Handlebars: Foundations (multi-subpage) | - | - | - | - | - |
+| 4 | 18 | Handlebars: Working with Data (multi-subpage) | - | - | - | - | - |
+| 4 | 19 | Handlebars: Advanced Techniques (multi-subpage) | - | - | - | - | - |
 | 4 | 20 | AMPscript in MCA | - | - | - | - | - |
 | 4 | 21 | Project: Personalized Campaign Email | - | - | - | - | - |
-| 5 | 22 | Flow Fundamentals | Done | - | - | - | - |
-| 5 | 23 | Activation Templates | Done | - | - | - | - |
-| 5 | 24 | Flows: Orchestration and Logic | Needs update | - | - | - | - |
-| 5 | 25 | Flows: Advanced | - | - | - | - | - |
+| 5 | 22 | Flow Fundamentals (multi-subpage) | Done | - | - | - | - |
+| 5 | 23 | Activation Templates (multi-subpage) | Done | - | - | - | - |
+| 5 | 24 | Flows: Orchestration and Logic (multi-subpage) | Needs update | - | - | - | - |
+| 5 | 25 | Flows: Advanced (multi-subpage) | - | - | - | - | - |
 | 5 | 26 | Project: Consent Automation Flow | - | - | - | - | - |
 | 6 | 27 | Landing Pages and Forms | Done | - | - | - | - |
 | 6 | 28 | Landing Pages: Advanced | Done | - | - | - | - |

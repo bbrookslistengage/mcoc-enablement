@@ -1,5 +1,5 @@
 ---
-sidebar_position: 2
+sidebar_position: 1
 title: "Activation Templates"
 description: "Configuring activation templates and selecting appropriate contact point values."
 ---
