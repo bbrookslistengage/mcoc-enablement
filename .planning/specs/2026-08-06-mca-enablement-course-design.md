@@ -68,20 +68,19 @@ Modules are ordered so each assignment builds on prior work. The outline is mapp
 | 1 | Getting Started | SDO provisioning, Core Org Edition requirements, Data 360 provisioning, Marketing Data Kit installation, permission sets, platform tour |
 | 2 | Domain Setup | Email domain authentication (self-service), landing page domains, link branding domains, DNS configuration |
 | 3 | Business Units & Governance | When BUs are required, roles and permissions, Enhanced CMS Workspaces, content governance model |
-| 4 | Consent Fundamentals | Consent management concepts, role of consent in engagement and compliance, platform consent objects and their relationships |
-| 5 | Consent Configuration | Creating/managing/updating consent records, consent banners on marketing landing pages and external pages |
+| 4 | Consumption & Entitlements | Data 360 consumption-based entitlements, credit types, rate card, how design decisions impact credit spend |
+| 5 | Consent Fundamentals | Consent management concepts, role of consent in engagement and compliance, platform consent objects and their relationships |
+| 6 | Consent Configuration | Creating/managing/updating consent records, consent banners on marketing landing pages and external pages |
 
 ### Part 2: Data & Audiences
 **Exam mapping: Section 3 (Data Modeling, Identity Resolution & Segmentation, 25%)**
 
 | # | Module | Key Topics |
 |---|--------|------------|
-| 6 | Data 360 & Data Model Objects | DMO concepts, connecting/harmonizing/unifying customer data, how DMOs relate to each other |
-| 7 | CRM Data Ingestion | CRM objects, records, Actionable Lists — how CRM data feeds into segmentation, activation, and personalization |
-| 8 | Data Graphs | Building data graphs, structuring relationships between DMOs, creating views of unified data |
-| 9 | Identity Resolution | Configuring IDR rulesets, linking multiple data sources into unified profiles |
-| 10 | Segmentation | Building Data Cloud segments, filtering Data 360 data, using unified data for audience targeting |
-| 11 | Consumption & Entitlements | Data 360 consumption-based entitlements, how marketing automation design decisions impact platform consumption and usage |
+| 7 | Working with Data 360 | DMO concepts, data streams, CRM data review, CSV ingestion, refresh chain, the LEOptical data model |
+| 8 | Identity Resolution | Configuring IDR rulesets, linking multiple data sources into unified profiles |
+| 9 | Data Graphs | Building data graphs, structuring relationships between DMOs, creating views of unified data |
+| 10 | Segmentation | Building Data 360 segments, filtering Data 360 data, using unified data for audience targeting |
 
 ### Part 3: Content & Email Building
 **Exam mapping: Section 4 (Campaign Design, Flow Orchestration & Content, 30%)**
@@ -100,54 +99,52 @@ Modules are ordered so each assignment builds on prior work. The outline is mapp
 |---|--------|-------------|
 | 15 | Marketing Objects | Marketing Objects |
 | 16 | Merge Fields & Dynamic Content | Merge fields, dynamic content |
-| 17 | Handlebars: Foundations | Handlebars syntax, conditionals |
-| 18 | Handlebars: Working with Data | Loops, filtering, data graph navigation |
-| 19 | Handlebars: Advanced Techniques | Math/date helpers, lookups, debugging |
-| 20 | AMPscript in MCA | AMPscript support |
-| 21 | Project: Personalized Campaign Email | Integration project |
+| 17 | Handlebars Essentials | Handlebars syntax, conditionals, loops, AMPscript comparison |
+| 18 | Handlebars: Going Deeper | Math/date helpers, lookups, formatting, debugging (reference material) |
+| 19 | Project: Personalized Campaign Email | Integration project |
 
 ### Part 5: Flows & Automation
 **Exam mapping: Section 4 (Campaign Design, Flow Orchestration & Content, 30%)**
 
 | # | Module | Exam Topics |
 |---|--------|-------------|
-| 22 | Flow Fundamentals | Flow types, triggers, elements |
-| 23 | Activation Templates | Activation templates, contact points |
-| 24 | Flows: Orchestration & Logic | Decisions, experiments, waits |
-| 25 | Flows: Advanced | Subflows, batching, re-entry |
-| 26 | Project: Consent Automation Flow | Consent automation project |
+| 20 | Flow Fundamentals | Flow types, triggers, elements |
+| 21 | Activation Templates | Activation templates, contact points |
+| 22 | Flows: Orchestration & Logic | Decisions, experiments, waits |
+| 23 | Flows: Advanced | Subflows, batching, re-entry |
+| 24 | Project: Consent Automation Flow | Consent automation project |
 
 ### Part 6: Landing Pages & Web
 **Exam mapping: Section 4 (Campaign Design, Flow Orchestration & Content, 30%)**
 
 | # | Module | Exam Topics |
 |---|--------|-------------|
-| 27 | Landing Pages & Forms | Page builder, forms |
-| 28 | Landing Pages: Advanced | Hidden fields, UTM, consent capture |
-| 29 | Web Connector (multi-subpage) | Web connector, tracking, events |
+| 25 | Landing Pages & Forms | Page builder, forms |
+| 26 | Landing Pages: Advanced | Hidden fields, UTM, consent capture |
+| 27 | Web Connector (multi-subpage) | Web connector, tracking, events |
 
 ### Part 7: Campaigns & Analytics
 **Exam mapping: Section 6 (Analytics & Performance Insights, 8%)**
 
 | # | Module | Exam Topics |
 |---|--------|-------------|
-| 30 | Campaigns in MCA | Campaign workspace, metrics |
-| 31 | Reporting & Dashboards | Dashboards, reporting |
+| 28 | Campaigns in MCA | Campaign workspace, metrics |
+| 29 | Reporting & Dashboards | Dashboards, reporting |
 
 ### Part 8: AI & Intelligence
 **Exam mapping: Section 5 (Agentforce & AI Innovation, 11%)**
 
 | # | Module | Exam Topics |
 |---|--------|-------------|
-| 32 | Agentforce for Marketing | Agentforce |
-| 33 | Conversational Messaging | SMS/WhatsApp |
-| 34 | Predictive AI | Einstein features |
+| 30 | Agentforce for Marketing | Agentforce |
+| 31 | Conversational Messaging | SMS/WhatsApp |
+| 32 | Predictive AI | Einstein features |
 
 ### Part 9: Capstone
 
 | # | Module | Exam Topics |
 |---|--------|-------------|
-| 35 | Capstone Project | All topics |
+| 33 | Capstone Project | All topics |
 
 ## Assignment Philosophy
 
@@ -187,12 +184,12 @@ Each module includes a collapsible callout mapping MCA concepts to their MCE equ
 
 | Exam Section | Weight | Course Parts | Modules |
 |---|---|---|---|
-| Platform Setup & Governance | 13% | Part 1 | 1-3 |
-| Consent | 13% | Part 1 | 4-5 |
-| Data Modeling, IDR & Segmentation | 25% | Part 2 | 6-10 |
-| Campaign Design, Flow & Content | 30% | Parts 3-6 | 11-29 |
-| Analytics & Performance Insights | 8% | Part 7 | 30-31 |
-| Agentforce & AI Innovation | 11% | Part 8 | 32-34 |
+| Platform Setup & Governance | 13% | Part 1 | 1-4 |
+| Consent | 13% | Part 1 | 5-6 |
+| Data Modeling, IDR & Segmentation | 25% | Part 2 | 7-10 |
+| Campaign Design, Flow & Content | 30% | Parts 3-6 | 11-27 |
+| Analytics & Performance Insights | 8% | Part 7 | 28-29 |
+| Agentforce & AI Innovation | 11% | Part 8 | 30-32 |
 
 ## Out of Scope (for now)
 

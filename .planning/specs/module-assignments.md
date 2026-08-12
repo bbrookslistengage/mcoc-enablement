@@ -17,45 +17,43 @@ See `.planning/specs/2026-08-12-course-restructure-design.md` for the full restr
 |---|--------|
 | 15 | Marketing Objects |
 | 16 | Merge Fields & Dynamic Content |
-| 17 | Handlebars: Foundations |
-| 18 | Handlebars: Working with Data |
-| 19 | Handlebars: Advanced Techniques |
-| 20 | AMPscript in MCA |
-| 21 | Project: Personalized Campaign Email |
+| 17 | Handlebars Essentials |
+| 18 | Handlebars: Going Deeper |
+| 19 | Project: Personalized Campaign Email |
 
 **Part 5: Flows & Automation**
 | # | Module |
 |---|--------|
-| 22 | Flow Fundamentals |
-| 23 | Activation Templates |
-| 24 | Flows: Orchestration & Logic |
-| 25 | Flows: Advanced |
-| 26 | Project: Consent Automation Flow |
+| 20 | Flow Fundamentals |
+| 21 | Activation Templates |
+| 22 | Flows: Orchestration & Logic |
+| 23 | Flows: Advanced |
+| 24 | Project: Consent Automation Flow |
 
 **Part 6: Landing Pages & Web**
 | # | Module |
 |---|--------|
-| 27 | Landing Pages & Forms |
-| 28 | Landing Pages: Advanced |
-| 29 | Web Connector (multi-subpage) |
+| 25 | Landing Pages & Forms |
+| 26 | Landing Pages: Advanced |
+| 27 | Web Connector (multi-subpage) |
 
 **Part 7: Campaigns & Analytics**
 | # | Module |
 |---|--------|
-| 30 | Campaigns in MCA |
-| 31 | Reporting & Dashboards |
+| 28 | Campaigns in MCA |
+| 29 | Reporting & Dashboards |
 
 **Part 8: AI & Intelligence**
 | # | Module |
 |---|--------|
-| 32 | Agentforce for Marketing |
-| 33 | Conversational Messaging |
-| 34 | Predictive AI |
+| 30 | Agentforce for Marketing |
+| 31 | Conversational Messaging |
+| 32 | Predictive AI |
 
 **Part 9: Capstone**
 | # | Module |
 |---|--------|
-| 35 | Capstone Project |
+| 33 | Capstone Project |
 
 ---
 
@@ -129,7 +127,31 @@ See `.planning/specs/2026-08-12-course-restructure-design.md` for the full restr
 
 ---
 
-### Module 4 — Consent Fundamentals
+### Module 4 — Consumption & Entitlements
+
+> **The client wants:** Before LEOptical goes live, they need to understand how their Data 360 usage impacts their entitlements and what they should monitor as they scale.
+
+**Assignment:**
+- Review Data 360 consumption metrics in your org
+- Use the [credit consumption calculator](https://calculate.endpoint.marketing/) to estimate LEOptical's consumption footprint
+- Calculate the impact of current design decisions: data streams, unified profiles, segment refresh frequency, data retention
+- Identify which design decisions have the biggest consumption impact
+- Assess the consumption impact of dirty data: how many credits are consumed by duplicate records, unresolved identities, and orphaned data? What would cleanup save?
+- Write a recommendation memo: what should LEOptical monitor as they scale from 80,000 to 600,000 customers?
+
+**Success Criteria:**
+- [ ] Consumption metrics are reviewed and documented
+- [ ] Credit consumption calculator has been used to model LEOptical's usage
+- [ ] Impact of design decisions on consumption is assessed
+- [ ] Dirty data consumption impact is assessed (duplicates, orphans, unresolved identities)
+- [ ] Scaling recommendation memo is written (1 page)
+- [ ] You can advise a client on consumption optimization without sacrificing functionality
+
+> **Terminology note:** The product is called **Data 360**, not "Data Cloud." We use "Data 360" consistently throughout this course.
+
+---
+
+### Module 5 — Consent Fundamentals
 
 > **The client wants:** LEOptical plans to communicate with customers via email. Before building anything, they need a consent strategy that works with MCA's consent model.
 
@@ -154,7 +176,7 @@ See `.planning/specs/2026-08-12-course-restructure-design.md` for the full restr
 
 ---
 
-### Module 5 — Consent Configuration
+### Module 6 — Consent Configuration
 
 > **The client wants:** Build the consent infrastructure. Create consent records, configure a consent banner, and — critically — set up the automation that grants consent to new individuals as they enter the system.
 
@@ -191,7 +213,7 @@ See `.planning/specs/2026-08-12-course-restructure-design.md` for the full restr
 
 ## Part 2: Data & Audiences
 
-### Module 6 — Data 360 & Data Model Objects
+### Module 7 — Working with Data 360
 
 > **The client wants:** LEOptical has customer data in three places: Salesforce CRM (from the seed data), their VisionCare Rewards loyalty platform (CSV), and their ecommerce store (CSV). They need all of this in Data 360 so they can build a unified view of their customers.
 
@@ -217,51 +239,11 @@ See `.planning/specs/2026-08-12-course-restructure-design.md` for the full restr
 
 ---
 
-### Module 7 — CRM Data Ingestion
-
-> **The client wants:** Their Salesforce CRM is the system of record for Contacts, Accounts, and product catalog. They need this CRM data flowing into Data 360.
-
-**Assignment:**
-- Understand that MCA setup auto-installs the CRM data streams and data kits — review what was automatically configured
-- Verify CRM objects are mapped to DMOs (Contact -> Individual, Account -> Account, etc.)
-- Review the auto-configured mappings and adjust if needed to match the LEOptical target data model
-- Create an Actionable List from CRM data — specifically, a list of Contacts who are Campaign Members in the "VisionCare Rewards Launch" Campaign
-- Verify CRM data is visible in Data 360 and matches your seed data
-
-**Success Criteria:**
-- [ ] CRM data streams (auto-installed) are reviewed and understood
-- [ ] CRM-to-DMO mappings are correct per the target data model
-- [ ] Actionable List "VisionCare Rewards Members" is created and populated from Campaign membership
-- [ ] Record counts in Data 360 match expected CRM record counts
-- [ ] You understand the difference between manually created data streams and auto-installed ones
+> **Note:** CRM Data Ingestion was previously a separate module. It has been absorbed into Working with Data 360 (subpage: Exploring Your Org). CRM data stream review, mapping verification, and Actionable List creation are covered there.
 
 ---
 
-### Module 8 — Data Graphs
-
-> **The client wants:** LEOptical needs to answer questions like "Show me Gold loyalty members who purchased SeeClear lenses online in the last 90 days." Build the data graph that makes this possible.
-
-**Assignment:**
-- Build a Data Graph connecting: Individual -> Contact Point Email -> Sales Orders -> Products, and Individual -> Loyalty Program Member (custom DMO)
-- Define the relationships between DMOs in the graph
-- Set the default Data Graph for MCA in Setup
-- Test the graph by exploring unified profiles that span multiple data sources
-- Understand that this Data Graph is what powers dynamic content in emails — without it, Handlebars personalization won't resolve
-- Understand a critical Data Graph gotcha: **if an Individual doesn't have data populated for a field, the Data Graph won't include that field in the JSON at all — it won't be null, it simply won't exist.** This matters for Handlebars: there's nothing for the expression to "hook onto." You'll deal with this directly in the Handlebars modules when writing personalization logic
-
-**Success Criteria:**
-- [ ] Data Graph is created with all relevant DMO relationships
-- [ ] Graph connects CRM, loyalty, and ecommerce data through the Individual
-- [ ] Default Data Graph is set in MCA Setup
-- [ ] You can navigate unified profiles and see data from multiple sources
-- [ ] You understand the dependency: Data Stream refresh -> IDR run -> Data Graph refresh -> dynamic email content resolves
-- [ ] You understand the null field gotcha: missing data means the field is absent from the graph JSON, not null
-
-**Introduce:** Activation Templates concept — explain what they are and the required fields. Learners will configure them in the Flows part, but they need to know the concept now as they're building the data model.
-
----
-
-### Module 9 — Identity Resolution
+### Module 8 — Identity Resolution
 
 > **The client wants:** The same customer might be `maria.chen@example.com` in Salesforce, `m.chen@gmail.com` in the loyalty program, and `maria.c@work.com` in ecommerce orders. They need these resolved into unified profiles.
 
@@ -287,6 +269,30 @@ See `.planning/specs/2026-08-12-course-restructure-design.md` for the full restr
 
 ---
 
+### Module 9 — Data Graphs
+
+> **The client wants:** LEOptical needs to answer questions like "Show me Gold loyalty members who purchased SeeClear lenses online in the last 90 days." Build the data graph that makes this possible.
+
+**Assignment:**
+- Build a Data Graph connecting: Individual -> Contact Point Email -> Sales Orders -> Products, and Individual -> Loyalty Program Member (custom DMO)
+- Define the relationships between DMOs in the graph
+- Set the default Data Graph for MCA in Setup
+- Test the graph by exploring unified profiles that span multiple data sources
+- Understand that this Data Graph is what powers dynamic content in emails — without it, Handlebars personalization won't resolve
+- Understand a critical Data Graph gotcha: **if an Individual doesn't have data populated for a field, the Data Graph won't include that field in the JSON at all — it won't be null, it simply won't exist.** This matters for Handlebars: there's nothing for the expression to "hook onto." You'll deal with this directly in the Handlebars modules when writing personalization logic
+
+**Success Criteria:**
+- [ ] Data Graph is created with all relevant DMO relationships
+- [ ] Graph connects CRM, loyalty, and ecommerce data through the Individual
+- [ ] Default Data Graph is set in MCA Setup
+- [ ] You can navigate unified profiles and see data from multiple sources
+- [ ] You understand the dependency: Data Stream refresh -> IDR run -> Data Graph refresh -> dynamic email content resolves
+- [ ] You understand the null field gotcha: missing data means the field is absent from the graph JSON, not null
+
+**Introduce:** Activation Templates concept — explain what they are and the required fields. Learners will configure them in the Flows part, but they need to know the concept now as they're building the data model.
+
+---
+
 ### Module 10 — Segmentation
 
 > **The client wants:** With unified data in place, LEOptical needs audience segments for their marketing campaigns.
@@ -309,30 +315,6 @@ Additionally, learn how to query segment members directly via the **Unified Indi
 - [ ] You've spot-checked at least 2 profiles per segment
 - [ ] You can explain the filter logic for each segment
 - [ ] You've queried the Unified Individual - Latest DMO to view segment membership
-
----
-
-### Module 10 — Consumption & Entitlements
-
-> **The client wants:** Before LEOptical goes live, they need to understand how their Data 360 usage impacts their entitlements.
-
-**Assignment:**
-- Review Data 360 consumption metrics in your org
-- Use the [credit consumption calculator](https://calculate.endpoint.marketing/) to estimate LEOptical's consumption footprint
-- Calculate the impact of current design decisions: data streams, unified profiles, segment refresh frequency, data retention
-- Identify which design decisions have the biggest consumption impact
-- Assess the consumption impact of dirty data: how many credits are consumed by duplicate records, unresolved identities, and orphaned data? What would cleanup save?
-- Write a recommendation memo: what should LEOptical monitor as they scale from 80,000 to 600,000 customers?
-
-**Success Criteria:**
-- [ ] Consumption metrics are reviewed and documented
-- [ ] Credit consumption calculator has been used to model LEOptical's usage
-- [ ] Impact of design decisions on consumption is assessed
-- [ ] Dirty data consumption impact is assessed (duplicates, orphans, unresolved identities)
-- [ ] Scaling recommendation memo is written (1 page)
-- [ ] You can advise a client on consumption optimization without sacrificing functionality
-
-> **Terminology note:** The product is called **Data 360**, not "Data Cloud." We use "Data 360" consistently throughout this course.
 
 ---
 
@@ -452,39 +434,51 @@ Additionally:
 
 ---
 
-### Module 17 — Handlebars: Foundations
+### Module 17 — Handlebars Essentials
 
-> **The client wants:** (assignment not yet designed)
+> **The client wants:** LEOptical's emails need dynamic personalization beyond no-code merge fields. The marketing team needs to understand Handlebars syntax well enough to build conditional greetings, loop over order history, and handle dirty data gracefully.
 
-**Assignment:** TBD
+**Lesson Focus:**
 
----
+Consolidated from the previous three Handlebars modules and AMPscript module. This is an enablement course, not a Handlebars bootcamp. Teach the essentials that cover 80% of real-world use cases and link to official documentation for further study.
 
-### Module 18 — Handlebars: Working with Data
-
-> **The client wants:** (assignment not yet designed)
-
-**Assignment:** TBD
-
----
-
-### Module 19 — Handlebars: Advanced Techniques
-
-> **The client wants:** (assignment not yet designed)
+- Handlebars expression syntax: double curly braces, helpers, block helpers
+- `get` vs dot notation for accessing data graph attributes
+- `with` for setting context and shortening repeated paths
+- Accessing unified individual, related lists, and calculated insights from the data graph
+- Conditional logic: `if`, `unless`, `equals`
+- Fallback values for missing or null data
+- String helpers for formatting names and text
+- `each` for looping over related records (e.g., order history)
+- **AMPscript vs Handlebars:** AMPscript exists in MCA but compiles to Handlebars under the hood. Short comparison section covering when you might encounter AMPscript and why Handlebars is the native language to invest in
 
 **Assignment:** TBD
 
 ---
 
-### Module 20 — AMPscript in MCA
+### Module 18 — Handlebars: Going Deeper
 
-> **The client wants:** (assignment not yet designed — pending research into supported AMPscript functions)
+> **The client wants:** Some LEOptical email personalization requires calculations, date logic, and lookups against Marketing Objects. This module is reference material for when projects demand it.
+
+**Lesson Focus:**
+
+Framed as "reference this when you need it" rather than required mastery. Filtering, sorting, and the more specialized helpers.
+
+- Math helpers for arithmetic in email content
+- Date helpers: `DateDiff`, `DateAdd`, `Now`, `TimeZoneConversion`
+- Formatting: `Format`, `FormatCurrency`, `FormatNumber`
+- `Query` and `QueryFirst` for Marketing Object lookups
+- `GetContentBlock` for pulling reusable content blocks into emails
+- `Set` and `Hash` for local variables
+- `JSONPath` for navigating complex data structures
+- `RaiseError` for debugging during development
+- Filtering and sorting related lists within Handlebars expressions
 
 **Assignment:** TBD
 
 ---
 
-### Module 21 — Project: Personalized Campaign Email
+### Module 19 — Project: Personalized Campaign Email
 
 > **The client wants:** LEOptical needs a complete personalized email for their upcoming VisionCare Rewards campaign, pulling data from the data graph and marketing objects, using templates and content blocks, with Handlebars personalization throughout.
 
@@ -494,7 +488,7 @@ Additionally:
 
 ## Part 5: Flows & Automation
 
-### Module 22 — Flow Fundamentals
+### Module 20 — Flow Fundamentals
 
 > **The client wants:** LEOptical needs automated marketing workflows. Before building complex orchestrations, get comfortable with the flow builder and understand all available elements.
 
@@ -568,7 +562,7 @@ Cover all base flow elements and liken them to Journey Builder where applicable:
 
 ---
 
-### Module 23 — Activation Templates
+### Module 21 — Activation Templates
 
 > **The client wants:** LEOptical wants to send targeted campaigns to their Data 360 segments. Configure activation templates so segments can be activated for marketing sends.
 
@@ -596,7 +590,7 @@ Cover all base flow elements and liken them to Journey Builder where applicable:
 
 ---
 
-### Module 24 — Flows: Orchestration and Logic
+### Module 22 — Flows: Orchestration and Logic
 
 > **The client wants:** Expand the welcome flow into a proper nurture series AND build a post-purchase review request flow.
 
@@ -629,7 +623,7 @@ Build two flows:
 
 ---
 
-### Module 25 — Flows: Advanced
+### Module 23 — Flows: Advanced
 
 > **The client wants:** (assignment not yet designed — pending research into batching, interviews, re-entry, Unified Individual ID mutability)
 
@@ -637,7 +631,7 @@ Build two flows:
 
 ---
 
-### Module 26 — Project: Consent Automation Flow
+### Module 24 — Project: Consent Automation Flow
 
 > **The client wants:** Build the permanent consent automation infrastructure. The consent flow is a Data 360-Triggered Flow that fires on the Individual DMO and creates OPT_IN records for new individuals.
 
@@ -647,7 +641,7 @@ Build two flows:
 
 ## Part 6: Landing Pages & Web
 
-### Module 27 — Landing Pages & Forms
+### Module 25 — Landing Pages & Forms
 
 > **The client wants:** A landing page for VisionCare Rewards signup. Visitors should be able to join the loyalty program by filling out a form. The page should include the consent banner from the Consent Configuration module.
 
@@ -678,7 +672,7 @@ Build two flows:
 
 ---
 
-### Module 28 — Landing Pages: Advanced
+### Module 26 — Landing Pages: Advanced
 
 > **The client wants:** LEOptical is running a product launch campaign for the Visionaire UltraLux lens via paid ads and email. They want to track which campaign drove each signup, with form submissions automatically added to the correct Salesforce Campaign.
 
@@ -703,7 +697,7 @@ Build two flows:
 
 ---
 
-### Module 29 — Web Connector
+### Module 27 — Web Connector
 
 > **The client wants:** LEOptical's external website (hosted on Netlify) needs to send visitor behavior data back to Data 360 so the marketing team can use website activity in segments and flows.
 
@@ -713,7 +707,7 @@ Build two flows:
 
 ## Part 7: Campaigns & Analytics
 
-### Module 30 — Campaigns in MCA
+### Module 28 — Campaigns in MCA
 
 > **The client wants:** (assignment not yet designed — pending research into MCA campaigns feature)
 
@@ -721,7 +715,7 @@ Build two flows:
 
 ---
 
-### Module 31 — Reporting & Dashboards
+### Module 29 — Reporting & Dashboards
 
 > **The client wants:** LEOptical's VP of Marketing wants a dashboard to understand campaign performance, channel engagement, and loyalty program growth. The marketing team also wants engagement data visible on individual customer records.
 
@@ -784,7 +778,7 @@ MCA has two distinct reporting layers. Learners need to understand both:
 
 ## Part 8: AI & Intelligence
 
-### Module 32 — Agentforce for Marketing
+### Module 30 — Agentforce for Marketing
 
 > **The client wants:** LEOptical's marketing team is small. They want to use AI to speed up campaign creation for their upcoming Back-to-School promotion.
 
@@ -802,13 +796,13 @@ MCA has two distinct reporting layers. Learners need to understand both:
 
 ---
 
-### Module 33 — Conversational Messaging
+### Module 31 — Conversational Messaging
 
 > **Deferred.** Requires SMS/WhatsApp channel configuration. Reserved for future expansion.
 
 ---
 
-### Module 34 — Predictive AI
+### Module 32 — Predictive AI
 
 > **The client wants:** LEOptical wants to identify which loyalty members are at risk of churning and optimize email send frequency. Before building these capabilities, they need to understand what Einstein's predictive features require and how to plan for them.
 
@@ -864,7 +858,7 @@ MCA has two distinct reporting layers. Learners need to understand both:
 
 ## Part 9: Capstone
 
-### Module 35 — Capstone Project
+### Module 33 — Capstone Project
 
 > **Deferred.** Capstone requirements will be designed after all other modules are finalized. The capstone should combine data modeling, segmentation, content creation, flow orchestration, and analytics into a new LEOptical business requirement (e.g., launching a kids' eyewear line, expanding to a new market, or adding a B2B wholesale channel).
 
@@ -881,34 +875,33 @@ Module 1 (Setup + Seed Data)
   |                 |-> Module 13 (Content Blocks)
   |                       |-> Module 14 (Email Templates)
   |                             |-> Module 16 (Merge Fields & Dynamic Content)
-  |                                   |-> Module 17-19 (Handlebars)
-  |                                         |-> Module 20 (AMPscript)
-  |                                               |-> Module 21 (Project: Personalized Email)
-  |-> Module 4 (Consent Concepts)
-  |     |-> Module 5 (Consent Config + Triggered Flow)
-  |           |-> Module 27 (Landing Pages - uses consent banner)
-  |-> Module 6 (DMOs + CSV Data Streams)
-  |     |-> Module 7 (CRM Ingestion)
-  |           |-> Module 8 (Data Graphs)
-  |                 |-> Module 9 (IDR)
-  |                       |-> Module 10 (Segmentation)
-  |                             |-> Module 23 (Activation Templates)
-  |-> Module 10 (Consumption - can be done after Module 9)
+  |                                   |-> Module 17 (Handlebars Essentials)
+  |                                         |-> Module 18 (Handlebars: Going Deeper)
+  |                                               |-> Module 19 (Project: Personalized Email)
+  |-> Module 4 (Consumption & Entitlements)
+  |-> Module 5 (Consent Concepts)
+  |     |-> Module 6 (Consent Config + Triggered Flow)
+  |           |-> Module 25 (Landing Pages - uses consent banner)
+  |-> Module 7 (Working with Data 360 - DMOs, CSV Data Streams, CRM review)
+  |     |-> Module 8 (Identity Resolution)
+  |           |-> Module 9 (Data Graphs)
+  |                 |-> Module 10 (Segmentation)
+  |                       |-> Module 21 (Activation Templates)
   |
-  Module 15 (Marketing Objects) -- after Module 8 (Data Graphs)
-  Module 22 (Flow Fundamentals) -- after Module 14 + Module 8
-  |-> Module 24 (Flows: Orchestration and Logic)
-  |-> Module 25 (Flows: Advanced)
-  |-> Module 26 (Project: Consent Automation Flow)
+  Module 15 (Marketing Objects) -- after Module 9 (Data Graphs)
+  Module 20 (Flow Fundamentals) -- after Module 14 + Module 9
+  |-> Module 22 (Flows: Orchestration and Logic)
+  |-> Module 23 (Flows: Advanced)
+  |-> Module 24 (Project: Consent Automation Flow)
   |
-  Module 27 (Landing Pages)
-  |-> Module 28 (Landing Pages: Advanced)
-  |-> Module 29 (Web Connector)
+  Module 25 (Landing Pages)
+  |-> Module 26 (Landing Pages: Advanced)
+  |-> Module 27 (Web Connector)
   |
-  Module 30 (Campaigns in MCA)
-  Module 31 (Reporting - after Module 24)
-  Module 32 (Agentforce - after Module 10 + Module 14)
-  Module 33 (Conversational Messaging)
-  Module 34 (Predictive AI - after Module 10)
-  Module 35 (Capstone - after everything)
+  Module 28 (Campaigns in MCA)
+  Module 29 (Reporting - after Module 22)
+  Module 30 (Agentforce - after Module 10 + Module 14)
+  Module 31 (Conversational Messaging)
+  Module 32 (Predictive AI - after Module 10)
+  Module 33 (Capstone - after everything)
 ```
