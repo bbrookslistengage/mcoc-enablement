@@ -131,8 +131,6 @@ MCA also maintains a `ConsentAuditTrailV2` Data Lake Object (DLO) that logs ever
 
 <Screenshot src="/img/consent-fundamentals/04-consent-audit-trail-dlo.png" alt="ConsentAuditTrailV2 Data Lake Object detail page showing Category Other, Total Records 0, and Fields mapped 0/0 in the Data Mapping section" caption="The ConsentAuditTrailV2 DLO in Data 360. Note that it is a Data Lake Object, not a Data Model Object, and has 0 fields mapped. It logs consent changes but plays no role in send-time enforcement. Your org's DLO name will include your org ID." />
 
-{/* VERIFY: ConsentAuditTrailV2 DLO existence and behavior sourced from The Agentic Marketer consent deep dive. Confirm DLO name and that it is not mapped to a DMO in a live SDO. */}
-
 ## The 90-Day Consent Cache
 
 MCA uses a consent cache to speed up enforcement at send time. When a send occurs, the platform checks the cache, not the live DMO state. The cache has a 90-day TTL.
@@ -171,8 +169,6 @@ There are exactly five ways to create or update consent records that MCA will ac
 
 5. **Unsubscribe link clicks:** When a subscriber clicks the unsubscribe link in an email, MCA writes OPT_OUT to the DMO and refreshes the cache.
 
-{/* VERIFY: Navigation path for Consent Imports — research file lists "Marketing Cloud App → Consent → Consent Imports → Import" sourced from Mavlers. Confirm this exact path in a live SDO before the module is marked verified. */}
-
 ## The Party Field Gotcha
 
 This is the most architecturally confusing aspect of MCA consent. The Communication Subscription Consent DMO has a `Party` field intended to link to the Individual DMO via `Individual ID`. When a person opts in or out, MCA does not populate this field.
@@ -202,8 +198,6 @@ When a customer makes a change in the preference center, MCA writes OPT_IN or OP
 :::warning
 Deleting a Communication Subscription permanently and irrecoverably deletes all related Communication Subscription Consent records. This is not reversible. There is no soft-delete or archive state that preserves consent history. Before removing a subscription, remove it from all Preference Pages first, then retire it rather than deleting it if you need to preserve historical consent data.
 :::
-
-{/* VERIFY: Confirmed via Mavlers and The Agentic Marketer that deleting a Communication Subscription deletes all related consent records. Verify this behavior in a live SDO before the module is marked verified — specifically confirm that Communication Subscription Consent records are deleted, not just orphaned. */}
 
 How to configure which subscriptions appear on the preference page and how to insert the preference center link in emails is covered in the Consent Configuration module.
 

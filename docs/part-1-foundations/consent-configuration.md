@@ -232,7 +232,9 @@ The default configuration:
 - SMS: consent checks enabled
 - WhatsApp: consent checks enabled
 
-{/* VERIFY: Exact navigation path to org-wide consent settings in Setup. The research file notes "Salesforce Setup > [exact path UNVERIFIED]." Confirm the full path in a live SDO before the module is marked verified. */}
+To reach these settings: **Setup > Marketing Cloud > Assisted Setup > Channels > Email**, then scroll to the **Manage Consent Validation** section.
+
+<Screenshot src="/img/consent-configuration/02-consent-toggles.png" alt="Manage Consent Validation section in Setup showing promotional email consent enabled and transactional email consent disabled" caption="Setup > Marketing Cloud > Assisted Setup > Channels > Email. The Manage Consent Validation section controls which message types require a Communication Subscription to validate consent." />
 
 The default configuration is correct for LEOptical's current setup. Order Updates (transactional) do not require consent under default settings. Do not change the transactional email consent setting without discussing the implications with the client. Enabling it will block Order Updates to any contact without an explicit OPT_IN for that subscription.
 
