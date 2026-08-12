@@ -8,31 +8,20 @@ description: "How segmentation works in Data 360: segment types, the builder can
 
 You have Unified Individuals. Now you use them. Segmentation is the first place in MCA where all the upstream work pays off: the ingested data, the identity resolution, the Data Graph. A segment takes that unified view and answers one question: who is in this audience?
 
-This lesson covers the mechanics of the segment builder in full. You will learn what each segment type is for, how the canvas is structured, how containers work, how the lookback window affects evaluation, and exactly what happens when you click Publish. You need all of this before you touch the UI, because the segment builder has several behaviors that are not obvious from context and that will cost you hours of debugging if you encounter them without warning.
+This lesson covers the mechanics of the segment builder in full. You will learn what each segment type is for, how the canvas is structured, how containers work, how the lookback window affects evaluation, and exactly what happens when you click Publish.
 
 The guided walkthrough and the four LEOptical segments are in the next lesson. Read this one first.
-
-:::tip[Coming from MCE?]
-In MCE, building an audience meant creating a filtered Data Extension and running a Filter Activity to populate it before each send. The filter operated on a flat, pre-joined DE. You had to pre-calculate fields like "total spend" or "most recent order date" before you could filter on them.
-
-MCA's segment builder is a different mental model:
-
-- You segment against the **Unified Individual DMO**, not a flat DE. Cross-source data is already merged.
-- **Containers** handle one-to-many relationships natively. You do not pre-join or pre-aggregate data.
-- **Aggregation** (count, sum, average, min, max) runs at segment evaluation time. No pre-calculated fields needed.
-- **Include/Exclude** tabs replace MCE's exclude lists, which lived in the Send Definition rather than in the audience definition itself.
-- MCE had no native lookback window. Date filters required manual field management.
-:::
 
 ## Lesson overview
 
 This section contains a general overview of topics that you will learn in this lesson.
 
-- What the five segment types are and when to use each.
+- What the four segment types are and when to use each.
 - The segment builder canvas: Segment On, Include/Exclude tabs, and the attribute sidebar.
 - Direct attributes vs related attributes, and why the distinction matters.
 - Containers: how they evaluate, what aggregation options are available, and how the lookback window works.
-- Traversal paths: when they appear and how to choose.
+- Traversal paths: when they appear, how to choose, and why the path affects segment results.
+- Using published segments as criteria: Include and Exclude tabs, copy criteria vs. last published, and rank and limit.
 - Logic operators at the filter level and the container level.
 - Population counts and the on-demand preview.
 - The publish lifecycle: why a Draft segment has no members and what happens during first publish.
@@ -41,21 +30,22 @@ This section contains a general overview of topics that you will learn in this l
 
 ## Segment types
 
-MCA supports five segment types. This course builds **Standard** segments throughout. You should know the others exist so you recognize them when clients ask.
+MCA supports four segment types. This course builds **Standard** segments throughout. You should know the others exist so you recognize them when clients ask.
 
-| Type | What it is | Cadence | Data window | Targets |
-|------|-----------|---------|-------------|---------|
-| **Standard** | DMO-based segment with persisted membership. The default. | 12 hrs or 24 hrs | Up to 2 years | All activation targets |
-{/* VERIFY: Research describes Real-Time as designed for instant decisioning and real-time personalization, not specifically "Agentforce interactions." Confirm the correct label for supported targets in current docs. */}
-| **Real-Time** | Evaluates in milliseconds against a real-time data graph | On demand only | Current state | Agentforce interactions |
-{/* VERIFY: Research confirms Waterfall uses Standard Publish only and data window up to 2 years, but does not explicitly confirm supported activation targets. Confirm in official docs. */}
-| **Waterfall** | Ordered list of segments, each member lands in first match only | Standard only | Up to 2 years | All activation targets |
-{/* VERIFY: Cadence, data window, and activation targets for Nested segments are not confirmed in research. Confirm in official docs or SDO. */}
-| **Nested** | An existing published segment used as a filter criterion inside another segment | Inherits parent schedule | Inherits parent | All activation targets |
-{/* VERIFY: Research confirms Dynamic segments are API-triggered, but does not confirm the data window as "Varies" or activation targets. Confirm both in official docs. */}
-| **Dynamic** | Parameterized definition. External API caller passes values at runtime. | API-triggered | Varies | All activation targets |
+| Type | What it is | Cadence | Data window |
+|------|-----------|---------|-------------|
+| **Standard** | DMO-based segment with persisted membership. The default. | 12 hrs, 24 hrs, or Manual | Up to 2 years |
+| **Waterfall** | Ordered list of segments. Each individual lands in the first segment they qualify for only. Built from existing Standard segments. | Inherits constituent schedule | Up to 2 years |
+| **Real-Time** | Evaluates in milliseconds against a real-time data graph. No exclusion criteria, no population counts. | On demand only | Current state |
+| **Dynamic** | Parameterized definition. An external caller passes filter values at runtime. No membership DMO is persisted. | API-triggered | Varies |
+
+For the full reference on segment types and statuses, see the [Salesforce Help article on Segment Types and Statuses](https://help.salesforce.com/s/articleView?id=data.c360_a_segment_types_statuses.htm).
 
 **Standard** is the right choice for virtually every email campaign audience. Use the others when you have a specific reason to.
+
+:::info
+"Nested segment" is not a segment type. It describes what happens when you use an existing published Standard segment as a filter criterion inside another segment. You build it with the same Standard type. The nesting is a configuration choice, not a separate type.
+:::
 
 **Rapid Publish** is not a segment type. It is a publish mode you can enable on a Standard segment when you need 1-hour or 4-hour refresh cadences. It has restrictions: it only looks at the last 7 days of data, is limited to 20 segments per org, and only activates to MCE and cloud file storage targets.
 
@@ -91,14 +81,14 @@ Real-Time segments do not have an Exclude tab.
 
 The attribute sidebar shows all available filters, organized into two categories:
 
-- **Direct attributes:** fields with a one-to-one relationship to the Segment On DMO. One value per Unified Individual. Examples: first name, birth date, city.
-- **Related attributes:** fields from DMOs with a one-to-many relationship to the Segment On DMO. Multiple records per Unified Individual. Examples: Sales Orders, Eye Exams, email engagement events.
+- **Direct attributes:** fields that resolve to a single value per Unified Individual. This includes fields unified directly onto the Unified Individual DMO (like first name, birth date, city) and fields from any DMO that has a one-to-one relationship with Unified Individual.
+- **Related attributes:** fields from DMOs with a one-to-many relationship to the Segment On DMO. Multiple records can exist per Unified Individual. Examples: Sales Orders, Eye Exams, email engagement events.
 
 Dragging a direct attribute onto the canvas adds a simple filter. Dragging a related attribute creates a **container** for that DMO.
 
 ## Direct attributes
 
-A direct attribute is a field that has exactly one value per Unified Individual. Drag it onto the canvas and it adds a filter row with an operator and a value input.
+A direct attribute is a field that resolves to exactly one value per Unified Individual. This covers two categories: fields that are unified directly onto the Unified Individual record (identity fields, profile fields from CRM), and fields from DMOs that have a strict one-to-one relationship with Unified Individual. Drag a direct attribute onto the canvas and it adds a simple filter row with an operator and a value input. No container is needed.
 
 Filter operators vary by data type:
 
@@ -108,8 +98,6 @@ Filter operators vary by data type:
 | Number | Is Equal To, Is Not Equal To, Is Less Than, Is Less Than Or Equal To, Is Greater Than, Is Greater Than Or Equal To, Is Between |
 | Date / DateTime | Is Anniversary Of, Is Before, Is After, Is Between, Last Number Of Days, Next Number Of Days, Day Of Week |
 | Boolean | Has Value, Has No Value, Is True, Is False |
-
-{/* VERIFY: Full operator list per type in the current Summer '26 UI — the research confirmed these from Trailhead but the platform may show slightly different labels. Particularly confirm "Is In" for text (needed for Loyalty Tier = Gold OR Platinum in one filter) and "Last Number Of Days" for date (needed for Lapsed Buyers). */}
 
 You can combine multiple direct attribute filters with AND or OR logic. The population count updates per filter as you build.
 
@@ -158,11 +146,9 @@ The aggregation you choose determines what the filter operator applies to. If yo
 
 ### The lookback window
 
-The lookback window limits how far back in time the segment engine looks at related records. The default is 90 days.
+The lookback window limits how far back in time the segment engine looks at related records. The default is 90 days. You set it once in the segment creation wizard. It applies at the segment level and cannot be adjusted per container after the segment is created.
 
 For a Sales Order container with a 90-day lookback, the engine only considers orders placed in the last 90 days. An order from two years ago does not exist from the segment's perspective.
-
-{/* VERIFY: Exact location of the lookback window setting in the Summer '26 UI — research indicates it may be at the segment level (set during segment creation), at the container level (override per container), or both. One source says container-level overrides segment-level. Confirm in SDO. */}
 
 The lookback window is a design decision, not just a setting. A shorter lookback is faster to process and consumes fewer credits. A longer lookback captures more history but increases processing time and cost. For LEOptical's Exam Overdue segment (detecting contacts with no exam in 12 months), a lookback window of at least 365 days or more is required, or the segment will miss contacts whose last exam was more than 90 days ago.
 
@@ -173,8 +159,6 @@ Profile data (direct attributes on Unified Individual) has no lookback window. L
 ### Filters within a container
 
 You can add multiple filters inside a single container and combine them with AND or OR logic. The filters all evaluate against the same related DMO's records.
-
-{/* VERIFY: Maximum number of filters per container in the current UI — the prompt context cited 20 filters per container but this could not be confirmed from the research sources. Verify in SDO. */}
 
 ### Between containers
 
@@ -188,25 +172,80 @@ When containers are connected by OR, qualifying for either container is enough.
 
 You can nest operator logic multiple levels deep inside a segment. This enables complex boolean expressions. The platform supports multiple levels of nesting.
 
-{/* VERIFY: Exact maximum nesting depth in Summer '26 — research found conflicting numbers (5 vs 10 levels). Verify in SDO. */}
+{/* VERIFY: Exact maximum nesting depth in Summer '26. Research found conflicting numbers (5 vs 10 levels). Verify in SDO. */}
 
 ## Traversal paths
 
-A traversal path defines the relationship chain the segment engine follows to reach a related attribute.
+A traversal path defines the relationship chain the segment engine follows to reach a related attribute. When there is only one path from the Segment On DMO to the attribute you want, the engine uses it automatically. When the same attribute is reachable by more than one chain, the builder prompts you to choose.
 
-When a related attribute can be reached from the Segment On DMO via only one relationship chain, the engine uses that chain automatically and no prompt appears.
+{/* VERIFY: Exact UI behavior when a traversal path prompt appears. Does it appear inline on the canvas when you drop the attribute, or as a modal dialog? Confirm in SDO when building SeeClear Enthusiasts. */}
 
-When the same attribute can be reached via more than one relationship chain, the builder prompts you to choose which path to use.
+Why does the path matter? Different paths traverse different relationship edges, which means they filter against different sets of related records. Two paths that lead to the same DMO can produce completely different segment populations.
 
-{/* VERIFY: Exact UI behavior when a traversal path prompt appears — does it appear inline on the canvas when you drop the attribute, or as a modal dialog? Confirm in SDO when building SeeClear Enthusiasts. */}
+Consider a hypothetical where **Product** can be reached two ways from Unified Individual:
 
-For LEOptical, this situation arises if the same DMO is connected to Unified Individual through multiple different relationship paths. The correct path depends on what you want the segment to mean.
+```mermaid
+graph LR
+    UI[Unified Individual]
+    SO[Sales Order]
+    SOP[Sales Order Product]
+    P[Product]
+    WL[Wishlist Item]
 
-An important constraint: **linked field values are case-sensitive**. If the join key value is `SeeClear` in one DMO and `seeclear` in another, the relationship does not resolve. This matters when filtering on text fields that traverse DMO relationships.
+    UI -->|"Path A"| SO --> SOP --> P
+    UI -->|"Path B"| WL --> P
+```
+
+- **Path A** (through Sales Order → Sales Order Product → Product) finds individuals who **purchased** a product matching your filter.
+- **Path B** (through Wishlist Item → Product) finds individuals who **wishlisted** a product matching your filter.
+
+Both paths end at the Product DMO, but they mean completely different things. If you choose the wrong path, your segment finds the wrong people, with no error or warning to tell you.
+
+For LEOptical, the SeeClear Enthusiasts segment traverses Unified Individual → Sales Order → Sales Order Product → Product. There is only one path in the data model, so the prompt does not appear. But if a Wishlist DMO were added later and connected to Product, the prompt would appear and the correct path is the purchase path.
+
+An important constraint: **linked field values are case-sensitive**. If the join key value is `SeeClear` in one DMO and `seeclear` in another, the relationship does not resolve.
 
 Only one traversal path per container.
 
 <ScreenshotPlaceholder alt="Traversal path selection UI showing a dropdown or modal with two relationship chain options to reach the Product DMO, with one option highlighted" />
+
+## Using segments as criteria
+
+Published segments can be used as filter criteria inside another segment. This is how the Nested segment type works, and it is one of the more useful patterns in the builder.
+
+### Where to use them
+
+You can use a segment as a criterion on both the **Include tab** and the **Exclude tab**. On the Include tab, adding a segment as a criterion restricts the population to individuals already in that segment. On the Exclude tab, it removes from the current segment anyone who is already in the referenced segment.
+
+This is useful for suppression patterns. If "All Consented Customers" is a published segment, you can reference it on the Include tab of every promotional segment to enforce consent without duplicating the filter logic.
+
+### Copy criteria vs. last published
+
+When you add a segment as a criterion, the builder offers two options for how to evaluate it:
+
+- **Copy criteria:** The referenced segment's filter logic is copied into the current segment at save time. Changes to the referenced segment do not automatically propagate. The current segment evaluates the copied logic independently.
+- **Use last published:** The current segment evaluates against the most recent published membership list of the referenced segment. If the referenced segment has not been published since its last change, the current segment uses the prior membership state.
+
+{/* VERIFY: Confirm the exact UI labels for these two options in the Summer '26 builder. "Copy criteria" and "Use last published" are the expected labels based on research but confirm in SDO. */}
+
+Use "copy criteria" when you want a self-contained segment that is not affected by changes to the referenced segment. Use "last published" when you want the current segment to stay synchronized with the referenced segment's current membership.
+
+### Rank and limit
+
+{/* VERIFY: Confirm that rank and limit are available in the segment builder as described. Confirm the exact UI location (segment level vs container level) and the options available. */}
+
+The segment builder supports **rank** and **limit** options, which let you control which individuals are included when the population is larger than you want.
+
+- **Rank** orders the population by a field value (for example, most recent order date, highest spend, or loyalty points balance) before the limit is applied.
+- **Limit** caps the segment at a specific number of individuals. After ranking, the top N individuals are included and the rest are excluded.
+
+This is useful when you want to target, for example, the 500 highest-spending customers, not just everyone over a threshold.
+
+### Limits on nested segments
+
+{/* VERIFY: Confirm current limits on nested segments in the Summer '26 release. Research cited a maximum nesting depth but the number was not confirmed. Also confirm whether Dynamic segments or segments in Error/Inactive status can be nested. */}
+
+You cannot nest a Dynamic segment or a segment in Error or Inactive status. The referenced segment must be in Published/Active status for the "use last published" option to return members. A segment nested via "copy criteria" does not require the referenced segment to be published, since the logic is copied at save time rather than evaluated against the membership list.
 
 ## Exclusions
 
@@ -242,22 +281,38 @@ This section is the most important one for avoiding errors in production.
 
 ### Segment statuses
 
-| Status | What it means |
-|--------|--------------|
-| **Draft** | Segment created, never published. Zero members. Population count in the builder is a preview only. |
-| **Processing / Publishing** | First publish or scheduled refresh in progress. Zero members available downstream. |
-| **Active / Published** | Member list is materialized and current as of last publish. Members are available in activations, flows, and list views. |
+Data 360 tracks two distinct status fields per segment: Segment Status and Publish Status. They are separate fields with separate values.
+
+**Segment Status** reflects the state of the segment definition itself.
+
+| Segment Status | What it means |
+|----------------|--------------|
+| **Active** | Segment created and all segment functionality available. |
+| **Processing** | First publish or scheduled refresh in progress. Members are not yet available downstream. |
 | **Recounting** | Population count recalculation in progress. |
-| **Deferred** | Queued due to concurrent publish limits. Will run when capacity is available. |
-| **Skipped** | Delayed due to concurrent publish load. Will retry. |
-| **Error / Failed** | Publish errored. Investigate the run log. |
-| **Inactive** | Segment is deactivated. Cannot be published. Can be deleted. |
+| **Error** | Segment is active but cannot be manually published. Check the run log. |
+| **Inactive** | Segment can only be deleted. Cannot be published or activated. |
+
+{/* VERIFY: Confirm what status a newly created, never-published segment shows in the Summer '26 UI. The module previously said Draft but that label does not appear in the official Segment Status list. Check in SDO. */}
+
+**Publish Status** reflects the result of the most recent publish attempt to an activation target.
+
+| Publish Status | What it means |
+|----------------|--------------|
+| **Success** | Segment published successfully to the activation target. |
+| **Publishing** | Publish in progress. Data from the last publish is available until this completes. |
+| **Deferred** | Publish time pushed out due to exceeding the maximum number of simultaneous publishes. |
+| **Skipped** | Publishing temporarily delayed 30 minutes due to the maximum number of segments publishing simultaneously. |
+| **Error** | Segment failed to publish. Contact Salesforce Support. |
+| *(blank)* | Segment was created but has never been published. |
+
+For the authoritative list of statuses, see [Segment Types and Statuses](https://help.salesforce.com/s/articleView?id=data.c360_a_segment_types_statuses.htm) in Salesforce Help.
 
 ### What happens at first publish
 
 When you click Publish for the first time, the platform materializes the member list. This process:
 
-{/* VERIFY: Research confirms first publish materializes the member list but does not enumerate these four steps explicitly. The phrase "in the data space" is not confirmed by research sources. Confirm the accurate technical description of the first publish process in official docs. */}
+{/* VERIFY: Research confirms first publish materializes the member list but does not enumerate these steps explicitly. Confirm the accurate technical description of the first publish process in official docs. */}
 1. Reads all Unified Individual records in the data space
 2. Evaluates Include criteria for each individual
 3. Evaluates Exclude criteria and removes matching individuals
@@ -331,3 +386,5 @@ The following questions are an opportunity to reflect on key topics in this less
 - What is the difference between Rapid Publish mode and a Real-Time segment? When would you use each?
 - A colleague's segment-triggered flow shows "Completed" but no emails were sent. What is the most likely cause?
 - A Waterfall segment assigns each individual to exactly one group. When would you use this instead of separate independent segments, and what is the maximum number of segments a waterfall can contain?
+- You reference "All Consented Customers" as a nested segment criterion using "use last published." The referenced segment was last published three days ago but its filter logic was updated yesterday. Which membership list does the outer segment evaluate against?
+- What is the difference between using rank and limit in a segment versus using an aggregation filter? When would you use rank and limit instead of a threshold filter?
