@@ -1,5 +1,5 @@
 ---
-sidebar_position: 4
+sidebar_position: 5
 title: "Consent Fundamentals"
 description: "How MCA's explicit opt-in consent model works, the five consent objects and their relationships, and the platform gotchas that will break your sends if you don't know them."
 ---

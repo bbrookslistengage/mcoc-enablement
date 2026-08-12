@@ -49,38 +49,36 @@ Written, reviewed, and verified against a live SDO.
 | 1 | 1 | Getting Started | Done | - | Draft (9 VERIFY) | - | - |
 | 1 | 2 | Domain Setup | Done | - | Draft (7 VERIFY) | - | - |
 | 1 | 3 | Business Units and Governance | Done | - | Draft (8 VERIFY) | - | - |
-| 1 | 4 | Consent Fundamentals | Done | - | Draft (3 VERIFY) | - | - |
-| 1 | 5 | Consent Configuration | Done | - | Draft (4 VERIFY) | - | - |
-| 2 | 6 | Working with Data 360 (multi-subpage) | Restructured | - | - | - | - |
-| 2 | 7 | Identity Resolution (multi-subpage) | Restructured | - | Draft (5 VERIFY) | - | - |
-| 2 | 8 | Data Graphs (multi-subpage) | Restructured | - | Draft (4 VERIFY) | - | - |
-| 2 | 9 | Segmentation | Done | - | Draft (24 VERIFY) | - | - |
-| 2 | 10 | Consumption and Entitlements | Done | - | - | - | - |
+| 1 | 4 | Consumption and Entitlements | Done | - | - | - | - |
+| 1 | 5 | Consent Fundamentals | Done | - | Draft (3 VERIFY) | - | - |
+| 1 | 6 | Consent Configuration | Done | - | Draft (4 VERIFY) | - | - |
+| 2 | 7 | Working with Data 360 (multi-subpage) | Restructured | - | - | - | - |
+| 2 | 8 | Identity Resolution (multi-subpage) | Restructured | - | Draft (5 VERIFY) | - | - |
+| 2 | 9 | Data Graphs (multi-subpage) | Restructured | - | Draft (4 VERIFY) | - | - |
+| 2 | 10 | Segmentation | Done | - | Draft (24 VERIFY) | - | - |
 | 3 | 11 | Salesforce CMS and Content Management (multi-subpage) | Done | - | - | - | - |
 | 3 | 12 | The Email Builder (multi-subpage) | Needs update | - | - | - | - |
 | 3 | 13 | Content Blocks (multi-subpage) | - | - | - | - | - |
 | 3 | 14 | Email Templates (multi-subpage) | - | - | - | - | - |
 | 4 | 15 | Marketing Objects (multi-subpage) | - | - | - | - | - |
 | 4 | 16 | Merge Fields and Dynamic Content (multi-subpage) | - | - | - | - | - |
-| 4 | 17 | Handlebars: Foundations (multi-subpage) | - | - | - | - | - |
-| 4 | 18 | Handlebars: Working with Data (multi-subpage) | - | - | - | - | - |
-| 4 | 19 | Handlebars: Advanced Techniques (multi-subpage) | - | - | - | - | - |
-| 4 | 20 | AMPscript in MCA | - | - | - | - | - |
-| 4 | 21 | Project: Personalized Campaign Email | - | - | - | - | - |
-| 5 | 22 | Flow Fundamentals (multi-subpage) | Done | - | - | - | - |
-| 5 | 23 | Activation Templates (multi-subpage) | Done | - | - | - | - |
-| 5 | 24 | Flows: Orchestration and Logic (multi-subpage) | Needs update | - | - | - | - |
-| 5 | 25 | Flows: Advanced (multi-subpage) | - | - | - | - | - |
-| 5 | 26 | Project: Consent Automation Flow | - | - | - | - | - |
-| 6 | 27 | Landing Pages and Forms | Done | - | - | - | - |
-| 6 | 28 | Landing Pages: Advanced | Done | - | - | - | - |
-| 6 | 29 | Web Connector (multi-subpage) | - | - | - | - | - |
-| 7 | 30 | Campaigns in MCA | - | - | - | - | - |
-| 7 | 31 | Reporting and Dashboards | Done | - | - | - | - |
-| 8 | 32 | Agentforce for Marketing | Done | - | - | - | - |
-| 8 | 33 | Conversational Messaging | Deferred | - | - | - | - |
-| 8 | 34 | Predictive AI | Done | - | - | - | - |
-| 9 | 35 | Capstone Project | Deferred | - | - | - | - |
+| 4 | 17 | Handlebars Essentials (multi-subpage) | - | - | - | - | - |
+| 4 | 18 | Handlebars: Going Deeper (multi-subpage) | - | - | - | - | - |
+| 4 | 19 | Project: Personalized Campaign Email | - | - | - | - | - |
+| 5 | 20 | Flow Fundamentals (multi-subpage) | Done | - | - | - | - |
+| 5 | 21 | Activation Templates (multi-subpage) | Done | - | - | - | - |
+| 5 | 22 | Flows: Orchestration and Logic (multi-subpage) | Needs update | - | - | - | - |
+| 5 | 23 | Flows: Advanced (multi-subpage) | - | - | - | - | - |
+| 5 | 24 | Project: Consent Automation Flow | - | - | - | - | - |
+| 6 | 25 | Landing Pages and Forms | Done | - | - | - | - |
+| 6 | 26 | Landing Pages: Advanced | Done | - | - | - | - |
+| 6 | 27 | Web Connector (multi-subpage) | - | - | - | - | - |
+| 7 | 28 | Campaigns in MCA | - | - | - | - | - |
+| 7 | 29 | Reporting and Dashboards | Done | - | - | - | - |
+| 8 | 30 | Agentforce for Marketing | Done | - | - | - | - |
+| 8 | 31 | Conversational Messaging | Deferred | - | - | - | - |
+| 8 | 32 | Predictive AI | Done | - | - | - | - |
+| 9 | 33 | Capstone Project | Deferred | - | - | - | - |
 
 Status values: `-` (not started), `In Progress`, `Done`, `Blocked`
 
@@ -129,6 +127,9 @@ Record significant decisions here so we do not revisit them.
 | 2026-08-09 | Module 6 renamed to Working with Data 360 (multi-subpage) | Covers data streams, DLOs, DMOs, refresh chain, CSV ingestion, and the LEOptical data model. Replaces both old Module 6 and Module 7. |
 | 2026-08-12 | Course restructured from 6 parts to 9 parts | Part 3 was a monolith covering CMS, email, personalization, flows, landing pages, and activations. Split into dedicated sections: Content & Email Building (Part 3), Dynamic Content & Personalization (Part 4), Flows & Automation (Part 5), Landing Pages & Web (Part 6). AI moved to Part 7, Analytics merged with new Campaigns module into Part 8, Capstone becomes Part 9. Consent automation flow moved from Part 1 to Part 5. See `.planning/specs/2026-08-12-course-restructure-design.md`. |
 | 2026-08-12 | Handlebars split into 3 progressive modules | 44 helper functions cannot be covered in one module. Mirrors Odin Project JS section: foundations → working with data → advanced techniques |
+| 2026-08-12 | Handlebars consolidated from 3 to 2 modules | This is an enablement course, not a Handlebars bootcamp. Essentials covers the 80% case, Going Deeper is reference material. AMPscript absorbed into Essentials as a short comparison section. Links to official docs for further study. |
+| 2026-08-12 | Consumption and Entitlements moved from Part 2 to Part 1 | Fits better in the admin/governance grouping (after Business Units, before Consent). Learners understand what costs money before they start ingesting data in Part 2. |
+| 2026-08-12 | Campaigns & Analytics confirmed as Part 7, AI as Part 8 | Campaigns is more foundational (organizing and measuring work). AI features are extensions. Directory names (part-7-ai, part-8-analytics) don't match but sidebar positions are correct. |
 | 2026-08-12 | Email builder split into 3 modules (editor, content blocks, templates) | Each introduces one concept with its own propagation rule. Progressive complexity |
 | 2026-08-12 | Web connector added as multi-subpage module | Covers setup, consent banner, Data 360 integration, custom events, identity capture, and Interactions SDK |
 | 2026-08-12 | Campaigns and Analytics merged into Part 8 | Both about organizing and measuring marketing activity. Campaigns after flows means learners can link everything they have built |

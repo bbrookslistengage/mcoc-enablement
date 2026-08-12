@@ -1,5 +1,5 @@
 ---
-sidebar_position: 6
+sidebar_position: 4
 title: "Consumption and Entitlements"
 description: "Data 360 consumption-based entitlements and how design decisions impact platform usage."
 ---
