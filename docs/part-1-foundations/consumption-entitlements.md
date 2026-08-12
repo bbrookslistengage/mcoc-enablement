@@ -231,50 +231,18 @@ These are documented anti-patterns from practitioner research:
 
 5. **Over-complex data models that force deep DMO traversal.** 20-40% higher activation costs have been documented from data models requiring excessive DMO hops ([jitendrazaa, March 2026](https://www.jitendrazaa.com/blog/salesforce/salesforce-data-360-credit-optimization-guide-march-2026/)). {/* VERIFY: Same single-source figure as noted above — practitioner estimate, not a Salesforce-published specification */} Design your data model against actual query patterns, not theoretical completeness.
 
-## Scaling considerations for LEOptical
-
-LEOptical currently has approximately 49K CRM contacts, 40K loyalty members, and 100K order records. This is a small data footprint. The credit math at this scale is forgiving.
-
-The engagement scope is 600K customers. That is roughly a 12x increase from the current dataset. Credit consumption for IDR, segmentation, and ingestion scales proportionally if design patterns stay the same.
-
-Three scaling risks stand out:
-
-**Identity Resolution at scale.** At 600K customers with multi-source matching across CRM, loyalty, ecommerce, and exam data, a single IDR rule change could consume several hundred thousand credits in one run. Finalize the IDR ruleset before go-live and treat changes as high-cost operations requiring change management.
-
-**Segment refresh frequency.** If LEOptical adopts aggressive refresh schedules as they scale, the credit cost difference between hourly and daily refreshes is 96x. At 600K records this compounds quickly. Set refresh frequencies that match actual business need.
-
-**Unstructured data.** Unstructured data costs 60 credits/MB. LEOptical does not currently process unstructured data, but this is worth flagging as a future advisory point if they move toward AI-driven content or medical record processing.
-
-The assignment memo asks you to write a scaling recommendation. The frame is: what must LEOptical monitor as they grow, and what design decisions should they make now to avoid credit problems at 600K scale?
-
 ## Assignment
-
-> **The client wants:** Before LEOptical goes live, they need to understand how their Data 360 usage impacts their entitlements and what they should monitor as they scale.
 
 1. Navigate to **Digital Wallet** in your SDO (App Launcher > **Consumption Cards**). Review the current consumption state for each credit category. Take a screenshot of the Consumption Cards view.
 
-2. Use the [Endpoint Marketing credit consumption calculator](https://calculate.endpoint.marketing/) to model LEOptical's consumption footprint. Use the data from your SDO configuration: the number of data streams, source record counts, segment count and refresh frequency, and your current IDR ruleset. Document your inputs and the credit estimate it returns.
+2. Use the [Endpoint Marketing credit consumption calculator](https://calculate.endpoint.marketing/) to estimate your SDO's consumption footprint. Input your data stream counts, source record counts, segment count and refresh frequency, and IDR configuration. Document the credit estimate it returns.
 
-3. Using the operation rate card in this module, manually calculate the annual credit cost for each major operation in your LEOptical configuration:
-   - CRM ingestion (Contacts, Accounts, Products via Marketing Data Kit)
-   - CSV data streams (Loyalty, Ecommerce, Exam History): use your row counts from those data streams
-   - Identity Resolution: use your source profile count across all connected DMOs
-   - Each segment: use your configured refresh frequency and source DMO record counts
-   - Calculated Insights: use your current insight definitions and their source data volumes
-
-4. Assess the consumption impact of dirty data in the LEOptical dataset. For each dirty data type documented in the data model (duplicate contacts, unresolved loyalty-CRM email mismatches, orphaned Sales Order Products, mixed date formats requiring transforms), estimate the credit cost of the dirty state vs. the credit cost after cleanup. Which cleanup gives the best credit-per-effort return?
-
-5. Write a one-page scaling recommendation memo for LEOptical. Address: which design decisions have the largest credit consumption impact today, what changes in monitoring and governance they should put in place before scaling to 600K customers, and what the three highest-risk credit consumption scenarios are at that scale.
-
-6. **(Stretch)** Read the [jitendrazaa Data 360 Credit Optimization Guide (March 2026)](https://www.jitendrazaa.com/blog/salesforce/salesforce-data-360-credit-consumption-guide-march-2026/) in full. Compare its five costliest design mistakes against the LEOptical configuration you have built. Identify which of those patterns you have already introduced, and how you would refactor them.
+3. **(Stretch)** Read the [jitendrazaa Data 360 Credit Optimization Guide (March 2026)](https://www.jitendrazaa.com/blog/salesforce/salesforce-data-360-credit-optimization-guide-march-2026/) in full. It is the most complete publicly available practitioner reference on this topic and goes deeper than this module on several points.
 
 ## Success Criteria
 
 - [ ] Digital Wallet has been accessed in your SDO and a screenshot of the Consumption Cards view is saved.
-- [ ] The Endpoint Marketing calculator has been used with LEOptical-specific inputs and a credit estimate has been documented.
-- [ ] Manual credit calculations are completed for each major operation in your SDO configuration, using the formula and rate card from this module.
-- [ ] Dirty data impact has been assessed for at least three dirty data types from the LEOptical dataset, with credit cost estimates for the dirty vs. clean state.
-- [ ] The scaling recommendation memo is written (one page) and addresses monitoring, governance, and the three highest-risk credit scenarios at 600K customers.
+- [ ] The Endpoint Marketing calculator has been used and a credit estimate has been documented.
 - [ ] You can explain to a client why IDR rule changes are high-cost operations and what the operational governance implication is.
 - [ ] You can articulate the difference between Data Services Credits and Salesforce Message Credits and why they are tracked separately.
 
@@ -283,13 +251,11 @@ The assignment memo asks you to write a scaling recommendation. The frame is: wh
 The following questions are an opportunity to reflect on key topics in this lesson. If you can't answer a question, revisit the relevant section, but keep in mind you are not expected to memorize or master this knowledge.
 
 - What is the credit consumption formula for a Data 360 operation? Apply it to batch segmentation over a dataset of 3 million records.
-- Identity Resolution is the most expensive operation on the rate card. What specifically does it count as the "unit" for billing purposes, and why does this matter when LEOptical has duplicate CRM contacts?
-- A colleague proposes scheduling Calculated Insights to run every hour so segment data is always fresh. What is the credit cost difference between hourly and daily refresh for a large dataset, and what question would you ask before agreeing to the hourly schedule?
-- What happens when a client's Data Services Credit pool runs out mid-month? How does this differ from messaging credit exhaustion?
-- Explain in plain terms why modifying an IDR matching rule is a high-cost operation that should be treated as a change-controlled event at client scale.
-- LEOptical's loyalty CSV has some contacts whose email address differs from their CRM Contact email, preventing IDR from merging them. Name two distinct credit cost consequences of leaving these unresolved vs. fixing the data before ingestion.
-- Digital Wallet refreshes approximately hourly and shows near-real-time consumption estimates. A client sees a spike in their segmentation credits and asks if they have been billed. What do you tell them, and what is the authoritative source of their billing data?
-- As LEOptical scales from 80K to 600K customers without changing their IDR ruleset or segment refresh schedules, which single operation will drive the largest proportional increase in Data Services Credit consumption, and why?
+- What specifically does Identity Resolution count as the billing unit, and why does that matter for data quality upstream?
+- A colleague proposes scheduling Calculated Insights to run every hour so segment data is always fresh. What is the credit cost difference between hourly and daily refresh, and what question would you ask before agreeing?
+- What happens when a client's Data Services Credit pool runs out mid-month?
+- Explain why modifying an IDR matching rule is a high-cost operation that should be treated as a change-controlled event.
+- Digital Wallet shows a spike in segmentation credits. A client asks if they have been billed. What do you tell them, and what is the authoritative source of their billing data?
 
 ## Additional resources
 
@@ -302,6 +268,5 @@ These resources are not required. They are here if you want to go deeper on a sp
 - [Szymon Lewandowski: How to Use Digital Wallet in Data 360](https://www.szymonlewandowski.pl/blog/data-360/digital-wallet). Step-by-step guide to accessing and reading Digital Wallet, including the authoritative source caveat and how to set consumption alerts.
 - [Vantagepoint: Data 360 and Agentforce Pricing (Flex Credits Guide)](https://vantagepoint.io/blog/sf/data-360-agentforce-pricing-flex-credits-guide). Covers the Flex Credits model, cross-product contention, and what happens operationally when credits run out.
 - [Deloitte Digital: Data 360 Credit Consumption Evolution](https://www.deloittedigital.com/us/en/insights/perspective/salesforce-data-360-credit-consumption.html). Context on the shift from entitlement-based to credits-based pricing, with five optimization strategies from a practitioner perspective.
-- [Digital Mass: Hidden Costs of Data 360, Real TCO Analysis for 2026](https://digitalmass.com/how-we-think/the-hidden-costs-of-data-360-a-real-tco-analysis-for-2026/). Analysis of common underestimation patterns: storage costs, specialist talent costs, and data cleanup costs. Useful background for the scaling memo assignment.
 - [Data Services Billable Usage Types (Salesforce Help)](https://help.salesforce.com/s/articleView?id=data.c360_a_data_usage_types.htm&language=en_US&type=5). Official Salesforce Help article listing billable usage types. The page is JavaScript-heavy. Open it directly in your browser.
 - [Reduce Credit Consumption in Data 360 (Salesforce Help)](https://help.salesforce.com/s/articleView?id=data.c360_a_reduce_credit_consumption.htm&language=en_US&type=5). Official Salesforce Help article on optimization strategies. Open directly in your browser.
