@@ -8,10 +8,4 @@ description: "Configuring two-way conversational messaging, response handling, a
 
 ## Lesson overview
 
-## Assignment
-
-## Success Criteria
-
-## Knowledge check
-
-## Additional resources
+This module is deferred pending SMS and WhatsApp channel decisions. Content will be added once channel availability and configuration options are finalized.

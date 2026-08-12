@@ -5,3 +5,12 @@ description: "Configuring the consent banner for external sites, connecting to t
 ---
 
 ## Overview
+
+## Lesson overview
+
+This section contains a general overview of topics that you will learn in this lesson.
+
+- Configuring the consent banner for external sites
+- Connecting the web consent banner to the MCA consent model
+- How consent state affects data collection behavior
+- Testing consent capture and verifying consent records in Data 360

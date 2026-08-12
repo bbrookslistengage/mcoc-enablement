@@ -8,10 +8,4 @@ description: "A multi-channel client requirement combining data modeling, segmen
 
 ## Lesson overview
 
-## Assignment
-
-## Success Criteria
-
-## Knowledge check
-
-## Additional resources
+This module is deferred. The capstone is a multi-channel implementation project combining data modeling, segmentation, content creation, flow orchestration, and analytics. It will be designed after all other modules are finalized.
