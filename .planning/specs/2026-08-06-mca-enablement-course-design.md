@@ -56,6 +56,8 @@ Each module follows a consistent format:
 
 ## Module Outline
 
+> **Updated 2026-08-12:** Course restructured from 6 parts to 9 parts. See `.planning/specs/2026-08-12-course-restructure-design.md` for full rationale.
+
 Modules are ordered so each assignment builds on prior work. The outline is mapped to the Salesforce Certified Marketing Cloud Next Consultant exam sections and weights.
 
 ### Part 1: Setup & Foundations
@@ -81,42 +83,71 @@ Modules are ordered so each assignment builds on prior work. The outline is mapp
 | 10 | Segmentation | Building Data Cloud segments, filtering Data 360 data, using unified data for audience targeting |
 | 11 | Consumption & Entitlements | Data 360 consumption-based entitlements, how marketing automation design decisions impact platform consumption and usage |
 
-### Part 3: Building for the Client
+### Part 3: Content & Email Building
 **Exam mapping: Section 4 (Campaign Design, Flow Orchestration & Content, 30%)**
 
-| # | Module | Key Topics |
-|---|--------|------------|
-| 12 | Salesforce CMS & Content Management | CMS setup, Enhanced CMS Workspaces, asset organization, content types |
-| 13 | Email Templates: Structure | Template architecture, locked vs editable regions, consistent headers/footers/legal disclosures |
-| 14 | Personalization: Handlebars & AMPscript | Handlebars syntax, AMPscript basics, merge fields, repeaters, content variations, choosing the right data source for personalized content |
-| 15 | Landing Pages & Forms | Page builder, form creation, components, configuration, consent banner integration |
-| 16 | Landing Pages: Advanced | Hidden fields, UTM parameters, lead creation, consent capture, campaign assignment via hidden campaign IDs |
-| 17 | Flow Fundamentals | Flow types (marketing flows vs standard), trigger conditions, configuration settings, marketing flow elements |
-| 18 | Flow Orchestration | Branching, logic, wait steps, automating business processes and messaging activities |
-| 19 | Activation Templates | Configuring activation templates, selecting appropriate contact point values |
-| 20 | Messaging Channels | SMS, WhatsApp configuration, data sources for personalized channel content |
+| # | Module | Exam Topics |
+|---|--------|-------------|
+| 11 | Salesforce CMS & Content Management | Content management |
+| 12 | The Email Builder | Email creation |
+| 13 | Content Blocks | Content blocks, propagation |
+| 14 | Email Templates | Templates, locked regions |
 
-### Part 4: AI & Intelligence
+### Part 4: Dynamic Content & Personalization
+**Exam mapping: Section 4 (Campaign Design, Flow Orchestration & Content, 30%)**
+
+| # | Module | Exam Topics |
+|---|--------|-------------|
+| 15 | Marketing Objects | Marketing Objects |
+| 16 | Merge Fields & Dynamic Content | Merge fields, dynamic content |
+| 17 | Handlebars: Foundations | Handlebars syntax, conditionals |
+| 18 | Handlebars: Working with Data | Loops, filtering, data graph navigation |
+| 19 | Handlebars: Advanced Techniques | Math/date helpers, lookups, debugging |
+| 20 | AMPscript in MCA | AMPscript support |
+| 21 | Project: Personalized Campaign Email | Integration project |
+
+### Part 5: Flows & Automation
+**Exam mapping: Section 4 (Campaign Design, Flow Orchestration & Content, 30%)**
+
+| # | Module | Exam Topics |
+|---|--------|-------------|
+| 22 | Flow Fundamentals | Flow types, triggers, elements |
+| 23 | Activation Templates | Activation templates, contact points |
+| 24 | Flows: Orchestration & Logic | Decisions, experiments, waits |
+| 25 | Flows: Advanced | Subflows, batching, re-entry |
+| 26 | Project: Consent Automation Flow | Consent automation project |
+
+### Part 6: Landing Pages & Web
+**Exam mapping: Section 4 (Campaign Design, Flow Orchestration & Content, 30%)**
+
+| # | Module | Exam Topics |
+|---|--------|-------------|
+| 27 | Landing Pages & Forms | Page builder, forms |
+| 28 | Landing Pages: Advanced | Hidden fields, UTM, consent capture |
+| 29 | Web Connector (multi-subpage) | Web connector, tracking, events |
+
+### Part 7: AI & Intelligence
 **Exam mapping: Section 5 (Agentforce & AI Innovation, 11%)**
 
-| # | Module | Key Topics |
-|---|--------|------------|
-| 21 | Agentforce for Marketing | Automating campaign creation, audience segmentation, content generation using marketing agents |
-| 22 | Conversational Messaging | Configuring two-way conversational messaging, response handling, ongoing customer interactions across channels |
-| 23 | Predictive AI | Einstein Engagement Scoring, Einstein Engagement Frequency, determining which predictive AI feature to use |
+| # | Module | Exam Topics |
+|---|--------|-------------|
+| 30 | Agentforce for Marketing | Agentforce |
+| 31 | Conversational Messaging | SMS/WhatsApp |
+| 32 | Predictive AI | Einstein features |
 
-### Part 5: Analytics
+### Part 8: Campaigns & Analytics
 **Exam mapping: Section 6 (Analytics & Performance Insights, 8%)**
 
-| # | Module | Key Topics |
-|---|--------|------------|
-| 24 | Reporting & Dashboards | Pre-built dashboards, addressing reporting/analytics requirements, surfacing marketing data and insights across the Salesforce platform |
-
-### Part 6: Capstone
-
-| # | Module | Description |
+| # | Module | Exam Topics |
 |---|--------|-------------|
-| 25 | Capstone Project | A new multi-channel client requirement that combines data modeling, segmentation, content creation, flow orchestration, and analytics. Learner plans and builds with minimal guidance. Includes self-assessment rubric. |
+| 33 | Campaigns in MCA | Campaign workspace, metrics |
+| 34 | Reporting & Dashboards | Dashboards, reporting |
+
+### Part 9: Capstone
+
+| # | Module | Exam Topics |
+|---|--------|-------------|
+| 35 | Capstone Project | All topics |
 
 ## Assignment Philosophy
 
@@ -154,14 +185,14 @@ Each module includes a collapsible callout mapping MCA concepts to their MCE equ
 
 ## Exam Alignment Summary
 
-| Exam Section | Weight | Course Part | Modules |
+| Exam Section | Weight | Course Parts | Modules |
 |---|---|---|---|
 | Platform Setup & Governance | 13% | Part 1 | 1-3 |
 | Consent | 13% | Part 1 | 4-5 |
-| Data Modeling, IDR & Segmentation | 25% | Part 2 | 6-11 |
-| Campaign Design, Flow & Content | 30% | Part 3 | 12-20 |
-| Agentforce & AI Innovation | 11% | Part 4 | 21-23 |
-| Analytics & Performance Insights | 8% | Part 5 | 24 |
+| Data Modeling, IDR & Segmentation | 25% | Part 2 | 6-10 |
+| Campaign Design, Flow & Content | 30% | Parts 3-6 | 11-29 |
+| Agentforce & AI Innovation | 11% | Part 7 | 30-32 |
+| Analytics & Performance Insights | 8% | Part 8 | 33-34 |
 
 ## Out of Scope (for now)
 

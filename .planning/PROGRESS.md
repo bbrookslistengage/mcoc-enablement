@@ -35,41 +35,52 @@
 - [ ] Netlify site HTML pages built (index, products, contact/appointment)
 - [ ] Beacon/SDK placeholder code embedded in Netlify pages
 - [ ] Netlify site packaged as downloadable zip
-- [ ] HTML paste email snippet created (Module 13)
+- [ ] HTML paste email snippet created (Email Templates module)
 
 ### Phase 4: Module Content
 Written, reviewed, and verified against a live SDO.
 
-| # | Module | Spec | Skeleton | Content | Screenshots | Verified |
-|---|--------|------|----------|---------|-------------|----------|
-| I-1 | How This Course Works | Done | - | Draft (0 VERIFY) | N/A | - |
-| I-2 | MCA vs. MCE | Done | - | Draft (0 VERIFY) | N/A | - |
-| I-3 | Introduction to Data 360 | Done | - | Draft (0 VERIFY) | N/A | - |
-| I-4 | Navigating a New Platform | Done | - | Draft (0 VERIFY) | N/A | - |
-| 1 | Getting Started | Done | - | Draft (9 VERIFY) | - | - |
-| 2 | Domain Setup | Done | - | Draft (7 VERIFY) | - | - |
-| 3 | Business Units and Governance | Done | - | Draft (8 VERIFY) | - | - |
-| 4 | Consent Fundamentals | Done | - | Draft (3 VERIFY) | - | - |
-| 5 | Consent Configuration | Done | - | Draft (4 VERIFY) | - | - |
-| 6 | Working with Data 360 (multi-subpage) | Restructured | - | - | - | - |
-| 7 | Identity Resolution (multi-subpage) | Restructured | - | Draft (5 VERIFY) | - | - |
-| 8 | Data Graphs (multi-subpage) | Restructured | - | Draft (4 VERIFY) | - | - |
-| 9 | Segmentation | Done | - | Draft (24 VERIFY) | - | - |
-| 10 | Consumption and Entitlements | Done | - | - | - | - |
-| 11 | Salesforce CMS and Content Management | Done | - | - | - | - |
-| 12 | Email Builder Deep Dive | Done | - | - | - | - |
-| 13 | Personalization: Handlebars and AMPscript | Done | - | - | - | - |
-| 14 | Flow Fundamentals | Done | - | - | - | - |
-| 15 | Flow Orchestration | Done | - | - | - | - |
-| 16 | Landing Pages and Forms | Done | - | - | - | - |
-| 17 | Landing Pages: Advanced | Done | - | - | - | - |
-| 18 | Activation Templates | Done | - | - | - | - |
-| 19 | Messaging Channels | Deferred | - | - | - | - |
-| 20 | Agentforce for Marketing | Done | - | - | - | - |
-| 21 | Conversational Messaging | Deferred | - | - | - | - |
-| 22 | Predictive AI | Done | - | - | - | - |
-| 23 | Reporting and Dashboards | Done | - | - | - | - |
-| 24 | Capstone Project | Deferred | - | - | - | - |
+| Part | # | Module | Spec | Skeleton | Content | Screenshots | Verified |
+|------|---|--------|------|----------|---------|-------------|----------|
+| Intro | I-1 | How This Course Works | Done | - | Draft (0 VERIFY) | N/A | - |
+| Intro | I-2 | MCA vs. MCE | Done | - | Draft (0 VERIFY) | N/A | - |
+| Intro | I-3 | Introduction to Data 360 | Done | - | Draft (0 VERIFY) | N/A | - |
+| Intro | I-4 | Navigating a New Platform | Done | - | Draft (0 VERIFY) | N/A | - |
+| 1 | 1 | Getting Started | Done | - | Draft (9 VERIFY) | - | - |
+| 1 | 2 | Domain Setup | Done | - | Draft (7 VERIFY) | - | - |
+| 1 | 3 | Business Units and Governance | Done | - | Draft (8 VERIFY) | - | - |
+| 1 | 4 | Consent Fundamentals | Done | - | Draft (3 VERIFY) | - | - |
+| 1 | 5 | Consent Configuration | Done | - | Draft (4 VERIFY) | - | - |
+| 2 | 6 | Working with Data 360 (multi-subpage) | Restructured | - | - | - | - |
+| 2 | 7 | Identity Resolution (multi-subpage) | Restructured | - | Draft (5 VERIFY) | - | - |
+| 2 | 8 | Data Graphs (multi-subpage) | Restructured | - | Draft (4 VERIFY) | - | - |
+| 2 | 9 | Segmentation | Done | - | Draft (24 VERIFY) | - | - |
+| 2 | 10 | Consumption and Entitlements | Done | - | - | - | - |
+| 3 | 11 | Salesforce CMS and Content Management | Done | - | - | - | - |
+| 3 | 12 | The Email Builder | Needs update | - | - | - | - |
+| 3 | 13 | Content Blocks | - | - | - | - | - |
+| 3 | 14 | Email Templates | - | - | - | - | - |
+| 4 | 15 | Marketing Objects | - | - | - | - | - |
+| 4 | 16 | Merge Fields and Dynamic Content | - | - | - | - | - |
+| 4 | 17 | Handlebars: Foundations | - | - | - | - | - |
+| 4 | 18 | Handlebars: Working with Data | - | - | - | - | - |
+| 4 | 19 | Handlebars: Advanced Techniques | - | - | - | - | - |
+| 4 | 20 | AMPscript in MCA | - | - | - | - | - |
+| 4 | 21 | Project: Personalized Campaign Email | - | - | - | - | - |
+| 5 | 22 | Flow Fundamentals | Done | - | - | - | - |
+| 5 | 23 | Activation Templates | Done | - | - | - | - |
+| 5 | 24 | Flows: Orchestration and Logic | Needs update | - | - | - | - |
+| 5 | 25 | Flows: Advanced | - | - | - | - | - |
+| 5 | 26 | Project: Consent Automation Flow | - | - | - | - | - |
+| 6 | 27 | Landing Pages and Forms | Done | - | - | - | - |
+| 6 | 28 | Landing Pages: Advanced | Done | - | - | - | - |
+| 6 | 29 | Web Connector (multi-subpage) | - | - | - | - | - |
+| 7 | 30 | Agentforce for Marketing | Done | - | - | - | - |
+| 7 | 31 | Conversational Messaging | Deferred | - | - | - | - |
+| 7 | 32 | Predictive AI | Done | - | - | - | - |
+| 8 | 33 | Campaigns in MCA | - | - | - | - | - |
+| 8 | 34 | Reporting and Dashboards | Done | - | - | - | - |
+| 9 | 35 | Capstone Project | Deferred | - | - | - | - |
 
 Status values: `-` (not started), `In Progress`, `Done`, `Blocked`
 
@@ -87,9 +98,10 @@ Tracked here when they surface. Move to the relevant spec or module when resolve
 | Item | Context | Status |
 |------|---------|--------|
 | Identity event capture mechanism for web connector | Netlify site needs a way to link anonymous visitors to known Individuals. See spec for approaches. | Unsolved |
-| Module 25 capstone requirements | Needs design after all other modules are finalized | Not started |
-| Module 20 (Messaging Channels) scope | SMS/WhatsApp deferred. Decide whether to include as conceptual or remove entirely | Not started |
-| Module 22 (Conversational Messaging) scope | Depends on Module 20. Same decision needed | Not started |
+| Capstone project requirements | Needs design after all other modules are finalized | Not started |
+| Messaging Channels scope | SMS/WhatsApp deferred. Decide whether to include as conceptual or remove entirely | Not started |
+| Conversational Messaging scope | Depends on Messaging Channels. Same decision needed | Not started |
+| Campaigns in MCA feature scope | New module needs research: campaign workspace, metrics aggregation, Campaign Creation Agent | Not started |
 
 ## Decisions Log
 
@@ -110,8 +122,13 @@ Record significant decisions here so we do not revisit them.
 | 2026-08-06 | Netlify free tier for web beacon hosting | Drag-and-drop deploy, no git/CLI required |
 | 2026-08-06 | Consent workaround: Comm Sub Consent relates to Contact Point Email, not Party | MCA does not populate the Party field on Comm Sub Consent |
 | 2026-08-06 | Flows moved before Landing Pages in Part 3 | Learners need Flow Builder comfort before connecting form submissions to flows |
-| 2026-08-06 | Module 7 Actionable List is Campaign Member-based, not Opportunity-based | No Opportunities in the data model |
-| 2026-08-06 | Module 16 post-purchase is Automation Event Triggered Flow on Sales Order | Transactional send pattern |
+| 2026-08-06 | Actionable List is Campaign Member-based, not Opportunity-based | No Opportunities in the data model |
+| 2026-08-06 | Post-purchase flow is Automation Event Triggered Flow on Sales Order | Transactional send pattern |
 | 2026-08-09 | CRM Data Ingestion removed as standalone module | Content absorbed into Working with Data 360 subpages. CRM data stream tour moves to Exploring Your Org. Actionable List moves to Segmentation. |
 | 2026-08-09 | Identity Resolution moved before Data Graphs | IDR produces Unified Individuals that Data Graphs depend on. Matches the refresh chain dependency order taught in the course. |
 | 2026-08-09 | Module 6 renamed to Working with Data 360 (multi-subpage) | Covers data streams, DLOs, DMOs, refresh chain, CSV ingestion, and the LEOptical data model. Replaces both old Module 6 and Module 7. |
+| 2026-08-12 | Course restructured from 6 parts to 9 parts | Part 3 was a monolith covering CMS, email, personalization, flows, landing pages, and activations. Split into dedicated sections: Content & Email Building (Part 3), Dynamic Content & Personalization (Part 4), Flows & Automation (Part 5), Landing Pages & Web (Part 6). AI moved to Part 7, Analytics merged with new Campaigns module into Part 8, Capstone becomes Part 9. Consent automation flow moved from Part 1 to Part 5. See `.planning/specs/2026-08-12-course-restructure-design.md`. |
+| 2026-08-12 | Handlebars split into 3 progressive modules | 44 helper functions cannot be covered in one module. Mirrors Odin Project JS section: foundations → working with data → advanced techniques |
+| 2026-08-12 | Email builder split into 3 modules (editor, content blocks, templates) | Each introduces one concept with its own propagation rule. Progressive complexity |
+| 2026-08-12 | Web connector added as multi-subpage module | Covers setup, consent banner, Data 360 integration, custom events, identity capture, and Interactions SDK |
+| 2026-08-12 | Campaigns and Analytics merged into Part 8 | Both about organizing and measuring marketing activity. Campaigns after flows means learners can link everything they have built |

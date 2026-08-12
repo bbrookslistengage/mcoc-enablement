@@ -1,21 +1,61 @@
 # LEOptical — Module Assignments
 
-## Module Order Change
+## Course Structure (Revised 2026-08-12)
 
-Flows have been moved before Landing Pages & Forms so learners are comfortable with Flow Builder before they need to connect form submissions to flows.
+See `.planning/specs/2026-08-12-course-restructure-design.md` for the full restructure design spec.
 
-**Revised Part 3 order:**
+**Part 3: Content & Email Building**
 | # | Module |
 |---|--------|
-| 12 | Salesforce CMS & Content Management |
-| 13 | Email Builder Deep Dive |
-| 14 | Personalization: Handlebars & AMPscript |
-| 15 | Flow Fundamentals |
-| 16 | Flow Orchestration |
-| 17 | Landing Pages & Forms |
-| 18 | Landing Pages: Advanced |
-| 19 | Activation Templates |
-| 20 | Messaging Channels |
+| 11 | Salesforce CMS & Content Management |
+| 12 | The Email Builder |
+| 13 | Content Blocks |
+| 14 | Email Templates |
+
+**Part 4: Dynamic Content & Personalization**
+| # | Module |
+|---|--------|
+| 15 | Marketing Objects |
+| 16 | Merge Fields & Dynamic Content |
+| 17 | Handlebars: Foundations |
+| 18 | Handlebars: Working with Data |
+| 19 | Handlebars: Advanced Techniques |
+| 20 | AMPscript in MCA |
+| 21 | Project: Personalized Campaign Email |
+
+**Part 5: Flows & Automation**
+| # | Module |
+|---|--------|
+| 22 | Flow Fundamentals |
+| 23 | Activation Templates |
+| 24 | Flows: Orchestration & Logic |
+| 25 | Flows: Advanced |
+| 26 | Project: Consent Automation Flow |
+
+**Part 6: Landing Pages & Web**
+| # | Module |
+|---|--------|
+| 27 | Landing Pages & Forms |
+| 28 | Landing Pages: Advanced |
+| 29 | Web Connector (multi-subpage) |
+
+**Part 7: AI & Intelligence**
+| # | Module |
+|---|--------|
+| 30 | Agentforce for Marketing |
+| 31 | Conversational Messaging |
+| 32 | Predictive AI |
+
+**Part 8: Campaigns & Analytics**
+| # | Module |
+|---|--------|
+| 33 | Campaigns in MCA |
+| 34 | Reporting & Dashboards |
+
+**Part 9: Capstone**
+| # | Module |
+|---|--------|
+| 35 | Capstone Project |
 
 ---
 
@@ -123,7 +163,7 @@ Flows have been moved before Landing Pages & Forms so learners are comfortable w
 - Create Communication Subscriptions for email marketing (Promotional Offers, VisionCare Rewards Updates, Eye Health Reminders)
 - Add subscriptions to the default preference page
 - Add the Privacy Consent Status component to Contact and Lead record pages, activate as org default
-- Use CSV import to create OPT_IN records for protagonist contacts (consent banner and web connector configuration deferred to Modules 17-18)
+- Use CSV import to create OPT_IN records for protagonist contacts (consent banner and web connector configuration deferred to later modules)
 - Build a Data 360 Triggered Flow that automatically creates consent records for new individuals:
   - The flow listens for changes on the Individual DMO — specifically when a field like "Email Marketing Opt-In" becomes true
   - When triggered, the flow performs a Contact Point Email lookup for that individual
@@ -207,7 +247,7 @@ Flows have been moved before Landing Pages & Forms so learners are comfortable w
 - Set the default Data Graph for MCA in Setup
 - Test the graph by exploring unified profiles that span multiple data sources
 - Understand that this Data Graph is what powers dynamic content in emails — without it, Handlebars personalization won't resolve
-- Understand a critical Data Graph gotcha: **if an Individual doesn't have data populated for a field, the Data Graph won't include that field in the JSON at all — it won't be null, it simply won't exist.** This matters for Handlebars: there's nothing for the expression to "hook onto." You'll deal with this directly in Module 14 when writing personalization logic
+- Understand a critical Data Graph gotcha: **if an Individual doesn't have data populated for a field, the Data Graph won't include that field in the JSON at all — it won't be null, it simply won't exist.** This matters for Handlebars: there's nothing for the expression to "hook onto." You'll deal with this directly in the Handlebars modules when writing personalization logic
 
 **Success Criteria:**
 - [ ] Data Graph is created with all relevant DMO relationships
@@ -217,7 +257,7 @@ Flows have been moved before Landing Pages & Forms so learners are comfortable w
 - [ ] You understand the dependency: Data Stream refresh -> IDR run -> Data Graph refresh -> dynamic email content resolves
 - [ ] You understand the null field gotcha: missing data means the field is absent from the graph JSON, not null
 
-**Introduce:** Activation Templates concept — explain what they are and the required fields. Learners will configure them in Module 19, but they need to know the concept now as they're building the data model.
+**Introduce:** Activation Templates concept — explain what they are and the required fields. Learners will configure them in the Flows part, but they need to know the concept now as they're building the data model.
 
 ---
 
@@ -296,14 +336,14 @@ Additionally, learn how to query segment members directly via the **Unified Indi
 
 ---
 
-## Part 3: Building for the Client
+## Part 3: Content & Email Building
 
-### Module 12 — Salesforce CMS & Content Management
+### Module 11 — Salesforce CMS & Content Management
 
 > **The client wants:** A central place for marketing assets — logos, product images, legal copy, reusable content blocks.
 
 **Assignment:**
-- In the "LEOptical Marketing" CMS Workspace (created in Module 3), create a content organization structure with collections for: Brand Assets, Product Images, Email Content Blocks, Legal/Compliance
+- In the "LEOptical Marketing" CMS Workspace (created in the Business Units & Governance module), create a content organization structure with collections for: Brand Assets, Product Images, Email Content Blocks, Legal/Compliance
 - Upload LEOptical brand assets (logo, product images — provided in course resources)
 - Create reusable CMS content items: standard email header, standard footer with legal disclaimer, and product description blocks for each of the 4 lens families
 - Understand content types and how to create structured content (e.g., a "Product Feature" type with fields for name, description, image, price)
@@ -316,37 +356,69 @@ Additionally, learn how to query segment members directly via the **Unified Indi
 
 ---
 
-### Module 13 — Email Builder Deep Dive
+### Module 12 — The Email Builder
 
-> **The client wants:** Three email templates for their marketing team, plus the team needs to understand exactly how the email builder works. This is the tool they'll live in every day.
+> **The client wants:** The marketing team needs to understand exactly how the email builder works. This is the tool they'll live in every day.
 
 **Lesson Focus — Email Builder Mastery:**
 
 This module goes deep on the email builder. Learners should feel very confident using it by the end. Cover:
 
+- **All builder elements** — text, image, button, divider, HTML, dynamic content, etc.
 - **Data Sources tab** — how to connect data to an email, what data is available, how data sources relate to the Data Graph
 - **Content Variables** — what they are, how to create them, how to use them in email content and within flows
-- **All builder elements** — text, image, button, divider, HTML, dynamic content, etc.
+- **HTML paste email** — how to create an email from pasted HTML code
+- **Locked vs. editable regions** — how to lock sections so marketers can't modify headers/footers/legal content
+
+**Assignment:**
+- Build a scratch email using each major builder element type (text, image, button, divider, HTML block)
+- Explore the Data Sources tab: connect your Data Graph and review what data fields are available
+- Create at least 2 Content Variables in an email and understand how these get populated when the email is sent from a flow
+- Create an HTML paste email using a provided HTML snippet
+- Test the locked vs. editable region feature: lock a header section and verify a Content Creator role user cannot modify it
+
+**Success Criteria:**
+- [ ] You've used every major builder element at least once
+- [ ] You've connected the Data Graph via the Data Sources tab and can navigate available fields
+- [ ] Content Variables are created and you understand how they connect to flows
+- [ ] HTML paste email is created from provided snippet
+- [ ] Locked region behavior is tested and understood
+
+---
+
+### Module 13 — Content Blocks
+
+> **The client wants:** (assignment not yet designed — pending research)
+
+**Assignment:** TBD
+
+---
+
+### Module 14 — Email Templates
+
+> **The client wants:** Three email templates for their marketing team to use as starting points for campaigns.
+
+> **Note:** Template-related assignment content from the old Module 13 (Email Builder Deep Dive) should be moved here. The three templates (Monthly Newsletter, Product Spotlight, Loyalty Tier Notification) and the HTML paste email belong in this module.
+
+**Lesson Focus:**
+
 - **Content Blocks vs. Sections:**
   - A Content Block is a reusable component. When you update a Content Block, the change propagates to ALL emails and templates that use it
   - You can convert a Content Block to a Section to keep its structure but make the content independently editable. Once converted, updates to the original Content Block no longer affect that section
 - **Template behavior:** Template updates do NOT propagate to emails that already use the template. The template is a starting point, not a live link
-- **Locked vs. editable regions** — how to lock sections so marketers can't modify headers/footers/legal content
-- **HTML paste email** — how to create an email from pasted HTML code
+- **Locked vs. editable regions** — how to design templates for different marketer skill levels
 
 **Assignment:**
 Build three email templates:
 
 1. **"Monthly Newsletter"** — Locked header (logo + nav) and footer (legal + unsubscribe). The entire body section is an editable region — marketers can add whatever content they want.
 2. **"Product Spotlight"** — Locked header, footer, AND layout structure (hero image slot, two-column feature grid, CTA button). Marketers can only swap content within predefined blocks — they can't change the layout.
-3. **"Loyalty Tier Notification"** — Fully locked template. No editable regions. Content will be driven entirely by personalization (Module 14).
-4. **HTML Paste Email** — Create an email using the HTML paste method with a provided HTML snippet.
+3. **"Loyalty Tier Notification"** — Fully locked template. No editable regions. Content will be driven entirely by personalization (covered in Part 4).
 
 Additionally:
 - Create a Content Block for the LEOptical header and use it across all three templates
 - Create a Content Block for the LEOptical footer (legal + unsubscribe) and use it across all three templates
 - Explore: convert the header Content Block to a Section in one template and observe that future header block updates no longer affect that template
-- Review the Data Sources tab and understand what data is available for personalization
 
 **Success Criteria:**
 - [ ] Three templates created with consistent header/footer via Content Blocks
@@ -354,56 +426,75 @@ Additionally:
 - [ ] Template A (Newsletter) has a fully editable body region
 - [ ] Template B (Product Spotlight) has editable content within a locked layout
 - [ ] Template C (Loyalty Tier Notification) has no editable regions
-- [ ] HTML paste email is created
 - [ ] You understand the difference between Content Blocks and Sections
 - [ ] You can explain that Content Block updates propagate but template updates do not
-- [ ] A Content Creator role user (from Module 3) can edit Template A's body but cannot modify the header/footer
-- [ ] You've explored the Data Sources tab and understand how it connects to the Data Graph
+- [ ] A Content Creator role user (from the Business Units & Governance module) can edit Template A's body but cannot modify the header/footer
 
 ---
 
-### Module 14 — Personalization: Handlebars & AMPscript
+## Part 4: Dynamic Content & Personalization
 
-> **The client wants:** The Loyalty Tier Notification template should dynamically populate based on the member's data — greeting, tier, perks, and points to next tier.
+### Module 15 — Marketing Objects
 
-**Lesson Focus — Handlebars & AMPscript Intro:**
+> **The client wants:** (assignment not yet designed — pending research into Marketing Objects feature)
 
-- **Recommendation:** Learn Handlebars. It is the primary personalization language in MCA
-- AMPscript is available in MCA but is not yet 1:1 with AMPscript in MCE — it's improving but has gaps
-- **Key concept:** AMPscript "resolves" to Handlebars at the end of the day
-- How to access data from the Data Graph in Handlebars expressions
-- How to access Content Variables from within a flow (assignment on adding content variables to a flow)
-- **Dynamic content variations** — how to create content that changes based on data values
-- **Repeaters** — how to loop over collections of data (e.g., list of recent purchases)
-- **Data Graph null behavior:** If an Individual doesn't have data for a field, the Data Graph JSON won't include that field at all — it's not null, it's absent. Handlebars expressions referencing missing fields silently render as empty. You must handle this with `{{#if}}` checks or default values. Test personalization against protagonist contacts like Sofia Reyes (Bronze, no purchases) to see what happens when data is missing
-- **Critical dependency chain for dynamic content to work:**
-  1. Data Stream must be refreshed (data ingested)
-  2. IDR must have run (individual unified)
-  3. Data Graph must have refreshed (relationships resolved)
-  4. Only then will dynamic content populate in an email
-
-**Assignment:**
-- Add Handlebars personalization to Template C (Loyalty Tier Notification):
-  - `{{FirstName}}` for greeting
-  - `{{LoyaltyTier}}` for current tier name
-  - Dynamic content variations: show different perks based on tier (Silver: "Complimentary frame adjustment + Birthday discount"; Gold: "Free shipping + Free lens upgrade"; Platinum: "Priority scheduling + Exclusive previews")
-  - Points-to-next-tier calculation
-- Create a repeater that displays the member's last 3 purchases (product name + date)
-- Create content variables in the email and understand how these get populated when the email is sent from a flow
-- Send test emails using preview-as-contact for different loyalty tiers to verify personalization renders
-
-**Success Criteria:**
-- [ ] Template C renders personalized greetings and tier names via Handlebars
-- [ ] Dynamic content variations correctly show different perks per tier
-- [ ] Repeater displays purchase history
-- [ ] Content variables are created and you understand how they connect to flows
-- [ ] Test sends show correct personalization for at least 3 different contacts
-- [ ] You can explain the data refresh dependency chain (Data Stream -> IDR -> Data Graph -> content resolves)
-- [ ] You understand when to use Handlebars vs. AMPscript and why Handlebars is recommended
+**Assignment:** TBD
 
 ---
 
-### Module 15 — Flow Fundamentals (moved before Landing Pages)
+### Module 16 — Merge Fields & Dynamic Content
+
+> **The client wants:** (assignment not yet designed)
+
+**Assignment:** TBD
+
+> **Note:** The no-code personalization content from the old Module 14 (data sources tab, content variables, dynamic variations) belongs here.
+
+---
+
+### Module 17 — Handlebars: Foundations
+
+> **The client wants:** (assignment not yet designed)
+
+**Assignment:** TBD
+
+---
+
+### Module 18 — Handlebars: Working with Data
+
+> **The client wants:** (assignment not yet designed)
+
+**Assignment:** TBD
+
+---
+
+### Module 19 — Handlebars: Advanced Techniques
+
+> **The client wants:** (assignment not yet designed)
+
+**Assignment:** TBD
+
+---
+
+### Module 20 — AMPscript in MCA
+
+> **The client wants:** (assignment not yet designed — pending research into supported AMPscript functions)
+
+**Assignment:** TBD
+
+---
+
+### Module 21 — Project: Personalized Campaign Email
+
+> **The client wants:** LEOptical needs a complete personalized email for their upcoming VisionCare Rewards campaign, pulling data from the data graph and marketing objects, using templates and content blocks, with Handlebars personalization throughout.
+
+**Assignment:** TBD — ties together everything from Parts 3-4.
+
+---
+
+## Part 5: Flows & Automation
+
+### Module 22 — Flow Fundamentals
 
 > **The client wants:** LEOptical needs automated marketing workflows. Before building complex orchestrations, get comfortable with the flow builder and understand all available elements.
 
@@ -473,100 +564,11 @@ Cover all base flow elements and liken them to Journey Builder where applicable:
 - [ ] Campaign Member is created
 - [ ] End-to-end test works: Lead created -> flow triggers -> email sent -> Campaign Member created
 
-> **Consent reminder:** For emails to actually send, the recipient must have an explicit consent record (Module 5). Make sure your test Lead has consent, and that you're using your own email address so you can verify receipt.
+> **Consent reminder:** For emails to actually send, the recipient must have an explicit consent record (from the Consent Configuration module). Make sure your test Lead has consent, and that you're using your own email address so you can verify receipt.
 
 ---
 
-### Module 16 — Flow Orchestration
-
-> **The client wants:** Expand the welcome flow into a proper nurture series AND build a post-purchase review request flow.
-
-**Assignment:**
-Build two flows:
-
-1. **Welcome Nurture Series** (expand the Module 15 flow):
-   - Email 1: Welcome (immediate — already built)
-   - Wait 3 days
-   - Email 2: "Meet Our Lens Families" — product education (use Template B)
-   - Wait 5 days
-   - Decision branch: Did the Lead engage with Email 2?
-     - **Yes** -> Email 3: Personalized recommendation (Template B variant with dynamic content)
-     - **No** -> Email 3: "Still Exploring? Here's What Others Love" (different content)
-
-2. **Post-Purchase Review Request** (Automation Event Triggered Flow):
-   - Trigger: New Sales Order record appears in Data 360 with Status = "Completed"
-   - Wait 14 days
-   - Send a **transactional** email: "How are you loving your {Product Name}? Leave a review" (uses the "Order Updates" communication subscription)
-   - This email sends even if the customer has NOT opted into marketing — verify this by testing with a contact who lacks marketing consent
-
-**Success Criteria:**
-- [ ] Welcome nurture has 3 emails with wait steps and a decision branch
-- [ ] Post-purchase flow is an Automation Event Triggered Flow on Sales Order
-- [ ] Post-purchase email is transactional and sends without marketing consent
-- [ ] Content Variables are used to pass personalization data in both flows
-- [ ] Both flows are activated and tested
-- [ ] You understand how wait steps and decision branches affect flow timing
-- [ ] You can explain the difference between marketing and transactional sends
-
----
-
-### Module 17 — Landing Pages & Forms
-
-> **The client wants:** A landing page for VisionCare Rewards signup. Visitors should be able to join the loyalty program by filling out a form. The page should include the consent banner from Module 5.
-
-**Lesson Focus:**
-- Landing page builder orientation
-- Form components and configuration
-- Connecting landing pages to Data 360 (the Experience Cloud Marketing Landing Pages / All Sites screen)
-- Configuring tracking and security elements
-- Required fields: call out that required fields must be provided and mapped in the flow, otherwise the Lead will not be created
-
-**Assignment:**
-- Build a marketing landing page using the page builder with LEOptical branding
-- Create a form with fields: First Name, Last Name, Email, Phone, "How did you hear about us?" (picklist)
-- Add the consent banner from Module 5 — visitors must consent to email communications
-- Configure the form to create a Lead on submission — ensure all required fields are mapped
-- Review the Experience Cloud Marketing Landing Pages screen to understand Data 360 connection and tracking configuration
-- Test the page: submit the form and verify a Lead is created with consent captured
-
-**Success Criteria:**
-- [ ] Landing page is published and accessible via URL
-- [ ] Form captures all required fields
-- [ ] Consent banner is visible and functional
-- [ ] Form submission creates a Lead (all required fields are mapped correctly)
-- [ ] Consent record is created and linked to the new Lead
-- [ ] You've reviewed the All Sites configuration screen and understand tracking options
-
-> **Stretch goal:** Configure security elements that allow hosting forms on external sites.
-
----
-
-### Module 18 — Landing Pages: Advanced
-
-> **The client wants:** LEOptical is running a product launch campaign for the Visionaire UltraLux lens via paid ads and email. They want to track which campaign drove each signup, with form submissions automatically added to the correct Salesforce Campaign.
-
-**Pre-work:** Ensure you have your seeded Campaign IDs documented from Module 1.
-
-**Assignment:**
-- Build a product launch landing page for Visionaire UltraLux
-- Add hidden form fields for: `utm_source`, `utm_medium`, `utm_campaign`, and a hidden `CampaignId` field
-- Configure the hidden fields to auto-populate from URL parameters
-- Configure form submission to: create a Lead AND add the Lead as a Campaign Member to the Campaign specified by the hidden `CampaignId`
-- Test with multiple URLs using your documented Campaign IDs:
-  - `?utm_source=google&utm_medium=cpc&utm_campaign=ultralux_launch&CampaignId={your_campaign_id}`
-  - `?utm_source=email&utm_medium=newsletter&utm_campaign=ultralux_launch&CampaignId={your_campaign_id}`
-- Verify both submissions create Leads with correct UTM values and correct Campaign membership
-
-**Success Criteria:**
-- [ ] Landing page is published with hidden fields
-- [ ] Hidden fields populate from URL parameters
-- [ ] Lead is created with UTM values stored on the record
-- [ ] Lead is added as Campaign Member to the correct Campaign
-- [ ] Two test submissions from different UTM sources show different field values but same Campaign
-
----
-
-### Module 19 — Activation Templates
+### Module 23 — Activation Templates
 
 > **The client wants:** LEOptical wants to send targeted campaigns to their Data 360 segments. Configure activation templates so segments can be activated for marketing sends.
 
@@ -594,15 +596,124 @@ Build two flows:
 
 ---
 
-### Module 20 — Messaging Channels
+### Module 24 — Flows: Orchestration and Logic
 
-> **Deferred.** SMS and WhatsApp are out of scope for the current version of this course. This module slot is reserved for future expansion.
+> **The client wants:** Expand the welcome flow into a proper nurture series AND build a post-purchase review request flow.
+
+**Assignment:**
+Build two flows:
+
+1. **Welcome Nurture Series** (expand the Flow Fundamentals flow):
+   - Email 1: Welcome (immediate — already built)
+   - Wait 3 days
+   - Email 2: "Meet Our Lens Families" — product education (use Template B)
+   - Wait 5 days
+   - Decision branch: Did the Lead engage with Email 2?
+     - **Yes** -> Email 3: Personalized recommendation (Template B variant with dynamic content)
+     - **No** -> Email 3: "Still Exploring? Here's What Others Love" (different content)
+
+2. **Post-Purchase Review Request** (Automation Event Triggered Flow):
+   - Trigger: New Sales Order record appears in Data 360 with Status = "Completed"
+   - Wait 14 days
+   - Send a **transactional** email: "How are you loving your {Product Name}? Leave a review" (uses the "Order Updates" communication subscription)
+   - This email sends even if the customer has NOT opted into marketing — verify this by testing with a contact who lacks marketing consent
+
+**Success Criteria:**
+- [ ] Welcome nurture has 3 emails with wait steps and a decision branch
+- [ ] Post-purchase flow is an Automation Event Triggered Flow on Sales Order
+- [ ] Post-purchase email is transactional and sends without marketing consent
+- [ ] Content Variables are used to pass personalization data in both flows
+- [ ] Both flows are activated and tested
+- [ ] You understand how wait steps and decision branches affect flow timing
+- [ ] You can explain the difference between marketing and transactional sends
 
 ---
 
-## Part 4: AI & Intelligence
+### Module 25 — Flows: Advanced
 
-### Module 21 — Agentforce for Marketing
+> **The client wants:** (assignment not yet designed — pending research into batching, interviews, re-entry, Unified Individual ID mutability)
+
+**Assignment:** TBD
+
+---
+
+### Module 26 — Project: Consent Automation Flow
+
+> **The client wants:** Build the permanent consent automation infrastructure. The consent flow is a Data 360-Triggered Flow that fires on the Individual DMO and creates OPT_IN records for new individuals.
+
+**Assignment:** Content exists in `docs/part-5-flows/consent-flow-project.md` — expand into a full project assignment with testing phases.
+
+---
+
+## Part 6: Landing Pages & Web
+
+### Module 27 — Landing Pages & Forms
+
+> **The client wants:** A landing page for VisionCare Rewards signup. Visitors should be able to join the loyalty program by filling out a form. The page should include the consent banner from the Consent Configuration module.
+
+**Lesson Focus:**
+- Landing page builder orientation
+- Form components and configuration
+- Connecting landing pages to Data 360 (the Experience Cloud Marketing Landing Pages / All Sites screen)
+- Configuring tracking and security elements
+- Required fields: call out that required fields must be provided and mapped in the flow, otherwise the Lead will not be created
+
+**Assignment:**
+- Build a marketing landing page using the page builder with LEOptical branding
+- Create a form with fields: First Name, Last Name, Email, Phone, "How did you hear about us?" (picklist)
+- Add the consent banner from the Consent Configuration module — visitors must consent to email communications
+- Configure the form to create a Lead on submission — ensure all required fields are mapped
+- Review the Experience Cloud Marketing Landing Pages screen to understand Data 360 connection and tracking configuration
+- Test the page: submit the form and verify a Lead is created with consent captured
+
+**Success Criteria:**
+- [ ] Landing page is published and accessible via URL
+- [ ] Form captures all required fields
+- [ ] Consent banner is visible and functional
+- [ ] Form submission creates a Lead (all required fields are mapped correctly)
+- [ ] Consent record is created and linked to the new Lead
+- [ ] You've reviewed the All Sites configuration screen and understand tracking options
+
+> **Stretch goal:** Configure security elements that allow hosting forms on external sites.
+
+---
+
+### Module 28 — Landing Pages: Advanced
+
+> **The client wants:** LEOptical is running a product launch campaign for the Visionaire UltraLux lens via paid ads and email. They want to track which campaign drove each signup, with form submissions automatically added to the correct Salesforce Campaign.
+
+**Pre-work:** Ensure you have your seeded Campaign IDs documented from the Getting Started module.
+
+**Assignment:**
+- Build a product launch landing page for Visionaire UltraLux
+- Add hidden form fields for: `utm_source`, `utm_medium`, `utm_campaign`, and a hidden `CampaignId` field
+- Configure the hidden fields to auto-populate from URL parameters
+- Configure form submission to: create a Lead AND add the Lead as a Campaign Member to the Campaign specified by the hidden `CampaignId`
+- Test with multiple URLs using your documented Campaign IDs:
+  - `?utm_source=google&utm_medium=cpc&utm_campaign=ultralux_launch&CampaignId={your_campaign_id}`
+  - `?utm_source=email&utm_medium=newsletter&utm_campaign=ultralux_launch&CampaignId={your_campaign_id}`
+- Verify both submissions create Leads with correct UTM values and correct Campaign membership
+
+**Success Criteria:**
+- [ ] Landing page is published with hidden fields
+- [ ] Hidden fields populate from URL parameters
+- [ ] Lead is created with UTM values stored on the record
+- [ ] Lead is added as Campaign Member to the correct Campaign
+- [ ] Two test submissions from different UTM sources show different field values but same Campaign
+
+---
+
+### Module 29 — Web Connector
+
+> **The client wants:** LEOptical's external website (hosted on Netlify) needs to send visitor behavior data back to Data 360 so the marketing team can use website activity in segments and flows.
+
+**Assignment:** TBD — multi-subpage module covering setup, consent banner, Data 360 integration, custom events, identity capture, and Interactions SDK.
+
+---
+
+## Part 7: AI & Intelligence
+
+### Module 30 — Agentforce for Marketing
 
 > **The client wants:** LEOptical's marketing team is small. They want to use AI to speed up campaign creation for their upcoming Back-to-School promotion.
 
@@ -620,13 +731,13 @@ Build two flows:
 
 ---
 
-### Module 22 — Conversational Messaging
+### Module 31 — Conversational Messaging
 
-> **Deferred.** Requires SMS/WhatsApp channel configuration (Module 20). Reserved for future expansion.
+> **Deferred.** Requires SMS/WhatsApp channel configuration. Reserved for future expansion.
 
 ---
 
-### Module 23 — Predictive AI
+### Module 32 — Predictive AI
 
 > **The client wants:** LEOptical wants to identify which loyalty members are at risk of churning and optimize email send frequency. Before building these capabilities, they need to understand what Einstein's predictive features require and how to plan for them.
 
@@ -680,9 +791,17 @@ Build two flows:
 
 ---
 
-## Part 5: Analytics
+## Part 8: Campaigns & Analytics
 
-### Module 24 — Reporting & Dashboards
+### Module 33 — Campaigns in MCA
+
+> **The client wants:** (assignment not yet designed — pending research into MCA campaigns feature)
+
+**Assignment:** TBD
+
+---
+
+### Module 34 — Reporting & Dashboards
 
 > **The client wants:** LEOptical's VP of Marketing wants a dashboard to understand campaign performance, channel engagement, and loyalty program growth. The marketing team also wants engagement data visible on individual customer records.
 
@@ -722,7 +841,7 @@ MCA has two distinct reporting layers. Learners need to understand both:
 - Navigate to a Campaign and explore the campaign-specific performance view via the Insights menu
 - Review the Analytics tab — explore the pre-built Email Engagement and Forms Engagement dashboards
 - Customize an Analytics tab dashboard: rearrange widgets and apply filters relevant to LEOptical (e.g., filter by campaign, date range)
-- Review flow-level analytics on one of the flows built in Module 16
+- Review flow-level analytics on one of the flows built in the Flows: Orchestration and Logic module
 - Surface marketing data on a Salesforce record page — add a marketing engagement component to the Contact layout
 - Write a reporting brief for LEOptical's VP of Marketing:
   - What dashboards are available out of the box?
@@ -743,9 +862,9 @@ MCA has two distinct reporting layers. Learners need to understand both:
 
 ---
 
-## Part 6: Capstone
+## Part 9: Capstone
 
-### Module 25 — Capstone Project
+### Module 35 — Capstone Project
 
 > **Deferred.** Capstone requirements will be designed after all other modules are finalized. The capstone should combine data modeling, segmentation, content creation, flow orchestration, and analytics into a new LEOptical business requirement (e.g., launching a kids' eyewear line, expanding to a new market, or adding a B2B wholesale channel).
 
@@ -757,29 +876,38 @@ MCA has two distinct reporting layers. Learners need to understand both:
 Module 1 (Setup + Seed Data)
   |-> Module 2 (Domain)
   |-> Module 3 (Governance + CMS Workspace)
-  |     |-> Module 12 (CMS Content)
-  |           |-> Module 13 (Email Builder)
-  |                 |-> Module 14 (Personalization)
+  |     |-> Module 11 (CMS Content)
+  |           |-> Module 12 (Email Builder)
+  |                 |-> Module 13 (Content Blocks)
+  |                       |-> Module 14 (Email Templates)
+  |                             |-> Module 16 (Merge Fields & Dynamic Content)
+  |                                   |-> Module 17-19 (Handlebars)
+  |                                         |-> Module 20 (AMPscript)
+  |                                               |-> Module 21 (Project: Personalized Email)
   |-> Module 4 (Consent Concepts)
   |     |-> Module 5 (Consent Config + Triggered Flow)
-  |           |-> Module 17 (Landing Pages - uses consent banner)
+  |           |-> Module 27 (Landing Pages - uses consent banner)
   |-> Module 6 (DMOs + CSV Data Streams)
   |     |-> Module 7 (CRM Ingestion)
   |           |-> Module 8 (Data Graphs)
   |                 |-> Module 9 (IDR)
   |                       |-> Module 10 (Segmentation)
-  |                             |-> Module 19 (Activation Templates)
+  |                             |-> Module 23 (Activation Templates)
   |-> Module 11 (Consumption - can be done after Module 10)
   |
-  Module 14 + Module 15 (Flow Fundamentals) -- can be parallel
-  |-> Module 16 (Flow Orchestration)
-  |-> Module 17 (Landing Pages)
-  |     |-> Module 18 (Landing Pages Advanced)
+  Module 15 (Marketing Objects) -- after Module 8 (Data Graphs)
+  Module 22 (Flow Fundamentals) -- after Module 14 + Module 8
+  |-> Module 24 (Flows: Orchestration and Logic)
+  |-> Module 25 (Flows: Advanced)
+  |-> Module 26 (Project: Consent Automation Flow)
   |
-  Module 19 (Activation Templates - after Module 10 + Module 8)
+  Module 27 (Landing Pages)
+  |-> Module 28 (Landing Pages: Advanced)
+  |-> Module 29 (Web Connector)
   |
-  Module 21 (Agentforce - after Module 10 + Module 13)
-  Module 23 (Predictive AI - after Module 10)
-  Module 24 (Reporting - after Module 16)
-  Module 25 (Capstone - after everything)
+  Module 30 (Agentforce - after Module 10 + Module 14)
+  Module 32 (Predictive AI - after Module 10)
+  Module 33 (Campaigns in MCA)
+  Module 34 (Reporting - after Module 24)
+  Module 35 (Capstone - after everything)
 ```

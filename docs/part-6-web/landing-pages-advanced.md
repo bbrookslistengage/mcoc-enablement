@@ -1,5 +1,5 @@
 ---
-sidebar_position: 7
+sidebar_position: 2
 title: "Landing Pages: Advanced"
 description: "Hidden fields, UTM parameters, lead creation, consent capture, and campaign assignment."
 ---

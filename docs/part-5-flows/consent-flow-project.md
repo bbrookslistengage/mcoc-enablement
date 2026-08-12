@@ -1,5 +1,5 @@
 ---
-sidebar_position: 6
+sidebar_position: 5
 sidebar_label: "▶ Consent Automation Flow"
 title: "Project: Consent Automation Flow"
 description: "Build the Data 360-Triggered Flow that automatically creates consent records for new individuals in LEOptical's org."

@@ -1,5 +1,5 @@
 ---
-sidebar_position: 1
+sidebar_position: 2
 title: "Reporting and Dashboards"
 description: "Pre-built dashboards, addressing reporting requirements, and surfacing marketing data across Salesforce."
 ---

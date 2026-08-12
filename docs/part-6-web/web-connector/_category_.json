@@ -1,0 +1,7 @@
+{
+  "label": "Web Connector",
+  "position": 3,
+  "collapsible": true,
+  "collapsed": true,
+  "description": "Instrument external sites with tracking, consent capture, custom events, and identity resolution."
+}

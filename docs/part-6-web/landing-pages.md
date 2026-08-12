@@ -1,5 +1,5 @@
 ---
-sidebar_position: 6
+sidebar_position: 1
 title: "Landing Pages and Forms"
 description: "Page builder, form creation, components, configuration, and consent banner integration."
 ---

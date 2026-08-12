@@ -212,7 +212,7 @@ The fix is the `{{fallback}}` helper:
 {{fallback (get (get @root "$dataGraph") "ssot__FirstName__c") "Valued Customer"}}
 ```
 
-This returns "Valued Customer" when the field is missing. You will use this pattern in the <ModuleLink slug="personalization" /> module. For now, understand the problem. The Data Graph is not null-safe by default.
+This returns "Valued Customer" when the field is missing. You will use this pattern in the <ModuleLink slug="merge-fields-dynamic-content" /> module. For now, understand the problem. The Data Graph is not null-safe by default.
 
 ## Connecting the Data Graph to MCA
 

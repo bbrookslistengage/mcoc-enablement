@@ -220,7 +220,7 @@ For external websites (like the LEOptical site you will build on Netlify), track
 
 Not every client uses the MCA consent banner on their external sites. Some clients use their own consent management platform (OneTrust, Cookiebot, or similar) and do not want a second consent banner from MCA. The web connector toggle lets you disable the MCA banner in those cases while still capturing behavioral data once the visitor has consented through the client's own tool.
 
-You will configure the web connector in <ModuleLink slug="landing-pages-advanced" />. There is nothing to configure here.
+You will configure the web connector in <ModuleLink slug="web-connector" />. There is nothing to configure here.
 
 ## Org-wide consent settings
 

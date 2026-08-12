@@ -1,5 +1,5 @@
 ---
-sidebar_position: 4
+sidebar_position: 1
 title: "Flow Fundamentals"
 description: "Flow types, trigger conditions, configuration settings, and marketing flow elements."
 ---

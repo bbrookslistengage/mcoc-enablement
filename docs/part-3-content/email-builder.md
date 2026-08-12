@@ -1,7 +1,7 @@
 ---
 sidebar_position: 2
-title: "Email Builder Deep Dive"
-description: "Template architecture, locked vs editable regions, headers, footers, and legal disclosures."
+title: "The Email Builder"
+description: "The drag-and-drop editor, builder elements, sections, and preview and test."
 ---
 
 ## Overview

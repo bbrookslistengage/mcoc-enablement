@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-Self-paced enablement course for Salesforce Marketing Cloud Advanced (MCA), built with Docusaurus 3.10. Fictional client: **LEOptical** (eyecare/eyewear, B2C). 25 modules across 6 parts, modeled after The Odin Project's teaching philosophy.
+Self-paced enablement course for Salesforce Marketing Cloud Advanced (MCA), built with Docusaurus 3.10. Fictional client: **LEOptical** (eyecare/eyewear, B2C). 35 modules across 9 parts, modeled after The Odin Project's teaching philosophy.
 
 ## Commands
 
@@ -42,7 +42,7 @@ Agents (dispatched by the commands, not invoked directly):
 
 **Course overview page:** `src/pages/index.tsx` renders the hero and `ProgressOverview`. The module list is dynamically built from the module registry — no manual updates needed when adding, removing, or reordering modules. Nested modules render with an accordion UI.
 
-**Content:** `docs/` contains module markdown organized by part (`part-1-foundations/`, `part-2-data/`, etc.). Each part has a `_category_.json` for sidebar ordering.
+**Content:** `docs/` contains module markdown organized by part (`part-1-foundations/`, `part-2-data/`, `part-3-content/`, `part-4-personalization/`, `part-5-flows/`, `part-6-web/`, `part-7-ai/`, `part-8-analytics/`, `part-9-capstone/`). Each part has a `_category_.json` for sidebar ordering.
 
 **Screenshot component:** `src/components/Screenshot.tsx` is globally registered via `src/theme/MDXComponents.tsx`. Use it in any `.md` or `.mdx` file without importing:
 ```mdx
