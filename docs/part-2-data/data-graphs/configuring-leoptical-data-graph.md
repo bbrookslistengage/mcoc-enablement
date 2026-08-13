@@ -97,9 +97,8 @@ Sales Order also connects directly to Unified Individual. This is a 1:many relat
    - `Order Date`
    - `Total Amount`
    - `Status`
-   - `Customer Email`
 
-<ScreenshotPlaceholder alt="Right panel showing Sales Order field list with Order Date, Total Amount, Status, and Customer Email checked" />
+<ScreenshotPlaceholder alt="Right panel showing Sales Order field list with Order Date, Total Amount, and Status checked" />
 
 :::info
 Sales Order supports Sort and Limit Filters (a feature released in October 2025). You can use these to limit the graph to, for example, the 5 most recent orders per individual. For now, leave Sort and Limit at the default. You can edit the graph to add these later if needed.
@@ -133,7 +132,11 @@ Product connects to Sales Order Product.
 
 <ScreenshotPlaceholder alt="Right panel showing Product field list with Product Name, Product SKU, and Product Family checked" />
 
-### Add Eye Exam
+:::info
+This step requires clinic data from the stretch goal in the <ModuleLink slug="ingesting-external-data" /> module. Skip if you did not ingest clinic data.
+:::
+
+### Add Eye Exam (Stretch)
 
 Eye Exam is a custom DMO that connects directly to Unified Individual.
 
@@ -161,7 +164,7 @@ Unified Individual
   ├── Sales Order
   │     └── Sales Order Product
   │           └── Product
-  └── Eye Exam
+  └── Eye Exam  (Stretch: only if clinic data was ingested)
 ```
 
 <ScreenshotPlaceholder alt="Data Graph editor left panel showing the complete LEOptical graph tree with all DMOs expanded as listed in the structure above" />
@@ -254,7 +257,8 @@ If the Data Graph is present in the Data Sources tab and the field tree reflects
 
 - [ ] The Data Graph named **Marketing Content Personalization** shows **Active** status in the Data Graphs list view.
 - [ ] The Last Run timestamp on the Data Graph reflects a completed build (not still building).
-- [ ] The graph structure includes all five LEOptical DMOs: Loyalty Program Member, Sales Order, Sales Order Product, Product, and Eye Exam.
+- [ ] The graph structure includes Loyalty Program Member, Sales Order, Sales Order Product, and Product.
+- [ ] **(Stretch)** Eye Exam is also included in the graph if clinic data was ingested in the Ingesting External Data module.
 - [ ] The graph includes the Unified Link Individual → Individual → Contact Point Email traversal path.
 - [ ] **Configure Basic Personalization** in MCA Setup points to **Marketing Content Personalization**.
 - [ ] The email builder Data Sources tab shows the Data Graph with the correct field tree.

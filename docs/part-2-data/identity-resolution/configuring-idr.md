@@ -96,7 +96,7 @@ For LEOptical's seed data, expect most records to have at least one email-based 
 
 ## Assignment
 
-> **The client wants:** The same customer might be `maria.chen@example.com` in Salesforce, `m.chen@gmail.com` in the loyalty program, and `maria.c@work.com` in ecommerce orders. They need these resolved into unified profiles.
+> **The client wants:** The same customer might be `maria.chen@example.com` in Salesforce, `m.chen@gmail.com` in the loyalty program, and `maria.c@work.com` in the ecommerce customer master. They need these resolved into unified profiles.
 
 Using the data streams you configured in the previous modules, configure Identity Resolution for LEOptical's multi-source data.
 

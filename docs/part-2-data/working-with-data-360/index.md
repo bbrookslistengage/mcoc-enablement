@@ -8,7 +8,7 @@ description: "Tour your org's data infrastructure, learn the refresh chain, inge
 
 [Introduction to Data 360](/introduction/intro-to-data-360) gave you the vocabulary and mental model. You learned what data streams, DLOs, DMOs, identity resolution, and segments are at a conceptual level. This module is where you open your SDO and see it all in practice.
 
-You will tour the data streams, DLOs, and DMOs that the Marketing Data Kit set up automatically during <ModuleLink slug="getting-started" />. You will learn the operational mechanics that govern how data moves through the platform, including the refresh dependency chain that will most likely trip you up at some point during this course. You will ingest LEOptical's external data sources (loyalty members, ecommerce orders, and eye exam records) by creating your own data streams. And you will review the target data model you will build throughout the rest of the course.
+You will tour the data streams, DLOs, and DMOs that the Marketing Data Kit set up automatically during <ModuleLink slug="getting-started" />. You will learn the operational mechanics that govern how data moves through the platform, including the refresh dependency chain that will most likely trip you up at some point during this course. You will ingest LEOptical's external data sources (loyalty member profiles, ecommerce customer records, and ecommerce orders) by creating your own data streams. Clinic patient and exam data is a stretch goal covered at the end of the module. And you will review the target data model you will build throughout the rest of the course.
 
 Throughout this course, you use CSV data streams for simplicity. In production, data streams almost always connect to external systems through connectors (S3 buckets, Azure Blob Storage, Lakehouse, etc.). The principles are the same regardless of connector: you pick a source, create a data lake object, map fields to DMOs, and set a refresh schedule. CSV lets you focus on the concepts without the overhead of configuring external system credentials.
 
@@ -24,7 +24,7 @@ This section contains a general overview of topics that you will learn in this l
 - Understanding full refresh vs. incremental refresh and when each applies
 - The refresh dependency chain: data streams, identity resolution, and Data Graphs
 - Data Transforms and where they fit in the pipeline (light touch)
-- Creating CSV data streams for LEOptical's loyalty, ecommerce, and eye exam data
+- Creating CSV data streams for LEOptical's loyalty, ecommerce customer, and ecommerce order data (plus clinic data as a stretch goal)
 - Standard DMOs vs. custom DMOs and when to use each
 - Field mapping mechanics and ingestion troubleshooting
 - The full LEOptical data model: every DMO, relationship, and design decision

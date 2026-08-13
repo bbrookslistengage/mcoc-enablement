@@ -68,22 +68,22 @@ erDiagram
     }
 
     LOYALTY_MEMBERSHIP {
-        string membership_number PK
+        string loyalty_member_id PK
         string member_name
         string email_address
-        string loyalty_tier
-        number points_balance
-        date enrollment_date
+        string tier
+        number points
+        date join_date
         string status
+        boolean email_optin
     }
 
     ORDER {
         string order_id PK
-        string customer_email
+        string ecom_customer_id FK
         date order_date
         number order_total
         string order_status
-        string order_source
     }
 
     ORDER_LINE_ITEM {
@@ -105,11 +105,8 @@ erDiagram
 
     EYE_EXAM {
         string exam_id PK
-        string patient_email
-        string patient_first_name
-        string patient_last_name
+        string patient_id FK
         date exam_date
-        date next_exam_due
         string exam_type
         string provider
     }
@@ -135,18 +132,19 @@ Each business entity maps to a Data 360 DMO. Some map to standard DMOs that ship
 | Email Address | **Contact Point Email** | Standard | CRM Contact + CSV email fields via IDR | Auto + IDR |
 | Phone Number | **Contact Point Phone** | Standard | CRM Contact | Auto (CRM) |
 | Account | **Account** | Standard | CRM Account | Auto (CRM) |
-| Loyalty Membership | **Loyalty Program Member** | Standard + custom fields | `loyalty_members.csv` | CSV data stream |
-| Order | **Sales Order** | Standard (manually enabled) | `ecommerce_orders.csv` | CSV data stream |
-| Order Line Item | **Sales Order Product** | Standard (manually enabled) | `ecommerce_orders.csv` | CSV data stream |
+| Loyalty Member | **Loyalty Program Member** | Standard + custom fields | `loyalty.csv` | CSV data stream (maps to 3 DMOs) |
+| Ecommerce Customer | **Individual** + **Contact Point Email** | Standard | `ecom_customers.csv` | CSV data stream (Profile) |
+| Order | **Sales Order** | Standard (manually enabled) | `ecom_orders.csv` | CSV data stream |
+| Order Line Item | **Sales Order Product** | Standard (manually enabled) | `ecom_order_items.csv` | CSV data stream |
 | Product | **Product** | Standard | CRM Product (anonymous Apex) | Auto (CRM) |
-| Eye Exam | **Eye Exam** | **Custom** | `exam_history.csv` | CSV data stream |
+| Eye Exam | **Eye Exam** | **Custom** | `clinic_exams.csv` | CSV data stream **(Stretch)** |
 | Communication Consent | **Comm Subscription Consent** | Standard | Consent automation flow + landing page forms | Flow/form-created |
 | (resolved identity) | **Unified Individual** | Standard | System-generated post-IDR | Automatic |
 
 A few things to notice:
 
 - **Most entities use standard DMOs.** Data 360 ships with 89+ standard DMOs across subject areas like Party, Commerce, Loyalty, Privacy, and Sales Order. The official recommendation is to use standard DMOs before creating custom ones.
-- **Loyalty Program Member is standard but has custom fields.** The standard DMO covers membership number, name, enrollment date, and status. LEOptical's tier and points data required custom fields added to the standard DMO.
+- **Loyalty Program Member is standard but has custom fields.** The standard DMO covers `loyalty_member_id`, name, `join_date`, and status. LEOptical's tier and points data required custom fields added to the standard DMO. `loyalty.csv` maps to three DMOs from a single Profile-category data stream: Individual, Contact Point Email, and Loyalty Program Member.
 - **Eye Exam is the only custom DMO.** No standard DMO exists for clinical exam records. This is a common pattern: most B2C concepts fit the standard model, but industry-specific entities (eye exams, insurance policies, patient records) need custom DMOs.
 - **Unified Individual is not something you create.** It is generated automatically after identity resolution runs. You will configure that in the <ModuleLink slug="identity-resolution" /> module.
 
@@ -162,15 +160,15 @@ Custom DMOs do not get this benefit. You must explicitly define every relationsh
 
 ### Key relationship decisions
 
-**Individual to Contact Point Email (1:many).** A customer can have multiple email addresses across systems. CRM has one, the loyalty platform might have another, the ecommerce system might have a third. Each becomes a separate Contact Point Email record. This is critical for identity resolution, which matches Unified Individuals across sources using email addresses.
+**Individual to Contact Point Email (1:many).** A customer can have multiple email addresses across systems. CRM has one, the loyalty platform might have another, the ecommerce system might have a third. Each becomes a separate Contact Point Email record. This is critical for identity resolution, which matches Unified Individuals across sources using email addresses. Each Profile-category data source (`loyalty.csv`, `ecom_customers.csv`, and `clinic_patients.csv` if doing the stretch) explicitly maps to both Individual and Contact Point Email via its own Profile-category data stream.
 
-**Individual to Sales Order (1:many).** A customer places many orders over time. This relationship enables the "Lapsed Buyers" segment: find Unified Individuals whose most recent Sales Order is older than 180 days.
+**Individual to Sales Order (1:many).** A customer places many orders over time. This relationship enables the "Lapsed Buyers" segment: find Unified Individuals whose most recent Sales Order is older than 180 days. Sales Order connects to Individual via the `Sold To Customer` field, which is populated from `ecom_customer_id` in the source data.
 
 **Sales Order to Sales Order Product (1:many).** Each order contains line items. Each line item references a Product. This two-hop relationship (Sales Order to Sales Order Product to Product) is what powers the "SeeClear Enthusiasts" segment: find customers who bought products in the SeeClear family.
 
 **Individual to Loyalty Program Member (1:1).** Each customer has at most one loyalty membership. This enables segments based on tier (`Loyalty Tier` = Gold or Platinum) and points balance.
 
-**Individual to Eye Exam (1:many).** A customer can have multiple eye exams over time. This is the relationship that powers the "Exam Overdue" segment: find customers whose last exam was more than 12 months ago.
+**Individual to Eye Exam (1:many). (Stretch)** A patient can have multiple eye exams over time. This is the relationship that powers the "Exam Overdue" segment: find customers whose last exam was more than 12 months ago. Eye Exam connects to Individual via the `patient_id` FK, which must be explicitly configured as a custom relationship on the Eye Exam DMO.
 
 **Comm Subscription Consent to Contact Point Email.** Consent records relate to an email address, not directly to an Individual. This is a platform-specific design choice covered in <ModuleLink slug="consent-configuration" />.
 
@@ -183,7 +181,7 @@ Here is a preview of what segments this data model supports. You will build thes
 | VIP Customers | Unified Individual > Loyalty Program Member > `Loyalty Tier` = Gold or Platinum |
 | Lapsed Buyers | Unified Individual > Sales Order > `Order Date` (most recent) > 180 days ago |
 | SeeClear Enthusiasts | Unified Individual > Sales Order > Sales Order Product > Product > `Product Family` = "SeeClear" |
-| Exam Overdue | Unified Individual > Eye Exam > `Exam Date` > 12 months ago |
+| Exam Overdue (Stretch) | Unified Individual > Eye Exam > `Exam Date` > 12 months ago |
 
 A simpler data model with only Individual and Contact Point Email could not support any of these segments. Every additional DMO and relationship you define expands what you can do with segmentation and personalization.
 
@@ -249,7 +247,8 @@ For more details, see [Data Model Object Relationships (Salesforce Help)](https:
 
 ## Success criteria
 
-- [ ] All DMOs from the target data model exist in your org (Individual, Contact Point Email, Contact Point Phone, Account, Loyalty Program Member, Sales Order, Sales Order Product, Product, Eye Exam, Comm Subscription Consent, Unified Individual)
+- [ ] All required DMOs from the target data model exist in your org (Individual, Contact Point Email, Contact Point Phone, Account, Loyalty Program Member, Sales Order, Sales Order Product, Product, Comm Subscription Consent, Unified Individual)
+- [ ] (Stretch) Eye Exam custom DMO exists in your org and is connected to Individual via the `patient_id` relationship
 - [ ] All relationships between DMOs are defined (verify via the Relationships tab on each DMO)
 - [ ] You can navigate the data model in **Data Model** and trace relationships between entities
 - [ ] Data model summary document is written (one paragraph per DMO)

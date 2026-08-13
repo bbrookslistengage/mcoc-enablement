@@ -20,18 +20,26 @@ This section contains a general overview of topics that you will learn in this l
 - File size and column limits for CSV uploads
 - The difference between standard and custom DMOs in practice
 - How to map DLO fields to DMO fields (including mismatched names and types)
-- How to create a custom DMO from scratch
+- How to create a custom DMO from the field mapping screen
 - How to troubleshoot records that fail to ingest
 
 ## CSV data streams
 
-LEOptical has three external data sources that arrive as CSV files:
+LEOptical has external data sources that arrive as CSV files. Four are required. Two are stretch goals.
 
-- `loyalty_members.csv` from the VisionCare Rewards loyalty platform (~40K members)
-- `ecommerce_orders.csv` from the online store (~100K orders)
-- `exam_history.csv` from the optical clinic scheduling tool
+**Required (4 files):**
 
-Each one needs its own data stream. The process is the same for all three, so the walkthrough below covers one file. You will repeat it for the other two in the assignment.
+- [`loyalty.csv`](/seed-data/loyalty.csv) from the VisionCare Rewards loyalty platform (~40K members). Maps to Individual, Contact Point Email, and Loyalty Program Member.
+- [`ecom_customers.csv`](/seed-data/ecom_customers.csv) from the online store (~30K customers). Maps to Individual and Contact Point Email.
+- [`ecom_orders.csv`](/seed-data/ecom_orders.csv) from the online store (~100K orders). Maps to Sales Order.
+- [`ecom_order_items.csv`](/seed-data/ecom_order_items.csv) from the online store (~147K line items). Maps to Sales Order Product.
+
+**Stretch goal (2 files):**
+
+- [`clinic_patients.csv`](/seed-data/clinic_patients.csv) from the optical clinic scheduling tool (~25K patients). Maps to Individual and Contact Point Email.
+- [`clinic_exams.csv`](/seed-data/clinic_exams.csv) from the optical clinic scheduling tool (~34K exams). Maps to Eye Exam (custom DMO).
+
+Each file needs its own data stream. The process is the same for all of them, so the walkthrough below covers one file. You will repeat it for the others in the assignment.
 
 ### Creating a CSV data stream
 
@@ -75,9 +83,12 @@ Choosing the right primary key is a discovery question on real engagements. You 
 
 For LEOptical's CSV files:
 
-- `loyalty_members.csv`: `membership_number` (each loyalty membership is unique)
-- `ecommerce_orders.csv`: `order_id` (each order is unique, while line items use `line_item_id`)
-- `exam_history.csv`: `exam_id` (each exam record is unique)
+- `loyalty.csv`: `loyalty_member_id` (each loyalty membership is unique)
+- `ecom_customers.csv`: `ecom_customer_id` (each customer account is unique)
+- `ecom_orders.csv`: `order_id` (each order is unique)
+- `ecom_order_items.csv`: `order_item_id` (each line item is unique)
+- `clinic_patients.csv` (stretch): `patient_id` (each patient record is unique)
+- `clinic_exams.csv` (stretch): `exam_id` (each exam record is unique)
 
 ### File limits
 
@@ -126,18 +137,20 @@ The official Salesforce recommendation is to use standard DMOs before creating c
 
 For LEOptical, the mapping looks like this:
 
-| Data Source | Target DMO | Type | Why |
-|------------|-----------|------|-----|
-| `loyalty_members.csv` | Loyalty Program Member | Standard + custom fields | Standard DMO exists for loyalty. Add custom fields for `Loyalty Tier`, `Points Balance`, etc. |
-| `ecommerce_orders.csv` | Sales Order | Standard | Standard DMO exists for order headers. |
-| `ecommerce_orders.csv` | Sales Order Product | Standard | Standard DMO exists for order line items. |
-| `exam_history.csv` | Eye Exam | Custom | No standard DMO exists for eye exam records. This is industry-specific. |
+| Data Source | Target DMO(s) | Type | Notes |
+|------------|--------------|------|-------|
+| `loyalty.csv` | Individual + Contact Point Email + Loyalty Program Member | Standard + custom fields | One Profile-category data stream maps to 3 DMOs. Add custom fields for tier, points, etc. |
+| `ecom_customers.csv` | Individual + Contact Point Email | Standard | Profile-category. Each customer account resolves to an Individual and a Contact Point Email. |
+| `ecom_orders.csv` | Sales Order | Standard | Standard DMO exists for order headers. |
+| `ecom_order_items.csv` | Sales Order Product | Standard | Standard DMO exists for order line items. |
+| `clinic_patients.csv` (Stretch) | Individual + Contact Point Email | Standard | Profile-category. Same pattern as ecom_customers. |
+| `clinic_exams.csv` (Stretch) | Eye Exam | Custom | No standard DMO exists for eye exam records. This is industry-specific. |
 
 Here is why each DMO was chosen:
 
 - **Individual**: Represents a person. Maps from CRM Contact records. This is the core profile DMO that identity resolution uses to create Unified Individuals.
 - **Contact Point Email**: Represents an email address associated with a person. A single Individual can have multiple Contact Point Email records (work email, personal email, loyalty email). This separation is critical for identity resolution.
-- **Loyalty Program Member**: Represents a membership in a loyalty program. The standard DMO covers common loyalty fields (membership number, enrollment date, status). LEOptical adds custom fields for tier and points balance.
+- **Loyalty Program Member**: Represents a membership in a loyalty program. The standard DMO covers common loyalty fields (`loyalty_member_id`, `join_date`, status). LEOptical adds custom fields for tier and points balance. `loyalty.csv` maps to three DMOs from a single Profile-category data stream: Individual, Contact Point Email, and Loyalty Program Member.
 - **Sales Order / Sales Order Product**: Represent an order header and its line items. Sales Order holds the order-level data (date, total, status). Sales Order Product holds per-item data (SKU, quantity, price). This split is a standard commerce data pattern.
 - **Eye Exam (custom)**: No standard DMO exists for clinical exam records. This is industry-specific data that requires a custom DMO.
 
@@ -172,78 +185,67 @@ After deploying a data stream, you map its DLO fields to DMO fields. This is whe
 
 ### LEOptical field mappings
 
-Here are the key field mappings for each data source. The full field-level detail is in the data model spec, but these are the fields you need to get right during initial setup.
+These are the complete field mappings for each data source. Map every field listed here. Skipping identity fields (email, IDs) or type fields will cause downstream problems in identity resolution and segmentation.
 
 **Loyalty Program Member** (standard DMO + custom fields):
 
-| CSV Column | DMO Field | Standard/Custom | Notes |
-|-----------|-----------|-----------------|-------|
-| `membership_number` | Membership Number | Standard | Primary key |
-| `first_name` + `last_name` | Name | Standard | Concatenated |
-| `enrollment_date` | Enrollment Date | Standard | |
-| `status` | Loyalty Program Member Status | Standard | Active / Inactive |
-| `loyalty_tier` | Loyalty Tier | Custom | Bronze / Silver / Gold / Platinum |
-| `points_balance` | Points Balance | Custom | |
-| `email` | Email Address | Custom | Often differs from CRM email |
-| `email_optin` | Email Opt-In | Custom | Dirty data: sometimes contradicts `unsubscribed_date` |
+| CSV Column | DMO Field | Type | Standard/Custom | Notes |
+|-----------|-----------|------|-----------------|-------|
+| `loyalty_member_id` | Membership Number | Text | Standard | PK (e.g., LM-00001) |
+| `loyalty_member_id` | Party Id | Text | Standard | FK to Individual |
+| `first_name` + `last_name` | Name | Text | Standard | Concatenated |
+| `tier` | Loyalty Tier | Text | Custom | Bronze / Silver / Gold / Platinum |
+| `points` | Points Balance | Number | Custom | Current points |
+| `join_date` | Enrollment Date | DateTime | Standard | |
+| `email` | Email Address | Email | Custom | Often differs from CRM email. Key for identity resolution. |
+| `phone` | Phone | Phone | Custom | |
+| `email_optin` | Email Opt-In | Boolean | Custom | |
 
-**Sales Order** (standard DMO):
+**Sales Order** (standard DMO, from `ecom_orders.csv`):
 
-| CSV Column | DMO Field | Notes |
-|-----------|-----------|-------|
-| `order_id` | Sales Order Id | Primary key |
-| `order_date` | Order Date | Dirty data: mixed MM/DD/YYYY formats |
-| `order_total` | Total Amount | |
-| `order_status` | Status | Completed / Cancelled / Returned |
-| `customer_email` | Customer Email | Used for identity resolution |
-| `order_source` | Order Source | "ecommerce" |
+| CSV Column | DMO Field | Type | Notes |
+|-----------|-----------|------|-------|
+| `order_id` | Sales Order Id | Text | Primary key (e.g., ORD-100001) |
+| `ecom_customer_id` | Sold To Customer | Text | FK to Individual |
+| `order_date` | Order Date | DateTime | |
+| `order_total` | Total Amount | Number | |
+| `order_status` | Status | Text | Completed / Cancelled / Returned |
 
 **Sales Order Product** (standard DMO):
 
-| CSV Column | DMO Field | Notes |
-|-----------|-----------|-------|
-| `line_item_id` | Sales Order Product Id | Primary key |
-| `order_id` | Sales Order | Foreign key to Sales Order |
-| `product_sku` | Product | Foreign key to Product. Dirty data: some SKUs do not exist |
-| `quantity` | Quantity | |
-| `unit_price` | Unit Price | |
-| `line_total` | Line Total | |
+| CSV Column | DMO Field | Type | Notes |
+|-----------|-----------|------|-------|
+| `line_item_id` | Sales Order Product Id | Text | Primary key |
+| `order_id` | Sales Order | Text | Foreign key to Sales Order |
+| `product_sku` | Product | Text | Foreign key to Product |
+| `quantity` | Quantity | Number | |
+| `unit_price` | Unit Price | Number | |
+| `line_total` | Line Total | Number | |
 
-**Eye Exam** (custom DMO, covered in the next section):
+**Eye Exam** (custom DMO, Stretch: create this before mapping the `clinic_exams.csv` data stream):
 
-| CSV Column | DMO Field | Notes |
-|-----------|-----------|-------|
-| `exam_id` | Eye Exam Id | Primary key |
-| `patient_email` | Patient Email | Used for identity resolution |
-| `patient_first_name` | Patient First Name | |
-| `patient_last_name` | Patient Last Name | |
-| `exam_date` | Exam Date | Dirty data: DD-Mon-YYYY format |
-| `next_exam_due` | Next Exam Due | |
-{/* VERIFY: Data model spec lists Exam Type values as "Comprehensive / Follow-up / Contact Lens Fitting" but this table says "Full / Follow-up / Contact Lens Fitting". Check which is correct. */}
-| `exam_type` | Exam Type | Full / Follow-up / Contact Lens Fitting |
-| `provider_name` | Provider | |
+| CSV Column | DMO Field | Type | Required | Notes |
+|-----------|-----------|------|----------|-------|
+| `exam_id` | Eye Exam Id | Text | Yes | Primary key (e.g., EX-50001) |
+| `patient_id` | Patient Id | Text | Yes | FK to Individual |
+| `exam_date` | Exam Date | Date | Yes | |
+| `exam_type` | Exam Type | Text | No | Full / Follow-up / Contact Lens Fitting |
+| `provider` | Provider | Text | No | Examining doctor name |
 
 ## Creating a custom DMO
 
-Eye exam records have no standard DMO equivalent. You need to create one.
+Eye exam records have no standard DMO equivalent. You need to create one before you can map the `clinic_exams.csv` data stream.
 
-### Walkthrough
+You can create a custom DMO directly from the field mapping screen. You do not need to navigate to Data Model first. When you reach the step where you select a target DMO for the `clinic_exams` data stream, look for the option to create a new DMO inline. The screenshots in the assignment walkthrough will show this flow.
 
-1. Navigate to **Data Model**.
-2. Click **New DMO**.
-3. Fill in the form:
-   - **Object Label:** Eye Exam
-   - **Object API Name:** Eye_Exam (auto-generated from label)
-   - **Object Category:** Other (eye exams are neither Profile nor Engagement data)
-   - **Description:** Eye exam records from LEOptical optical clinics
+When creating the Eye Exam DMO, use these values:
 
-<Screenshot src="/img/ingesting-external-data/04-custom-dmo-creation.png" alt="Create a Custom Data Model Object form showing Object Label, Object API Name, Object Category dropdown, Object Description field, and a pre-populated field list with Data Source, Data Source Object, and Internal Organization fields" caption="The form pre-populates three system fields (Data Source, Data Source Object, Internal Organization). Leave these as-is and add your custom fields below them." />
+- **Object Label:** Eye Exam
+- **Object API Name:** Eye_Exam (auto-generated from the label)
+- **Object Category:** Other. Eye exams are not Profile data about a person, and they are not time-series Engagement events. They are mutable clinical records.
+- **Description:** Eye exam records from LEOptical optical clinics
 
-4. Use **Add Field** to create each field from the Eye Exam mapping table above. Set appropriate data types (Text, Email, Date).
-5. Assign `Eye Exam Id` as the **Primary Key**.
-6. Click **Save**.
-
-After saving, you can map the `exam_history.csv` DLO fields to this custom DMO using the same mapping process described above.
+Add each field from the Eye Exam mapping table above. Set data types to match the Type column (Text, Email, Date). Assign `Eye Exam Id` as the primary key.
 
 :::warning
 DMO relationships use only two cardinality options: N:1 (many-to-one) and 1:1 (one-to-one). To express "one Individual has many Eye Exams," you create the relationship from the Eye Exam DMO (the "many" side) as an N:1 relationship pointing to Individual. The DMO you are editing is always the left side of the relationship.
@@ -253,14 +255,13 @@ Cardinality cannot be changed after you create the relationship. If you set it w
 
 ## Troubleshooting ingestion
 
-The seed data has intentional dirty data. Some records will fail to ingest. This is normal and expected.
+Some records will fail to ingest. This is normal behavior on real engagements where source data does not perfectly match the target schema.
 
 ### Common failure causes
 
-- **Data type mismatches.** Text in a number field, or a non-standard date format the platform cannot parse.
+- **Data type mismatches.** Text in a number field, or a date format the platform cannot parse.
 - **Missing required fields.** Records missing a value for a required DMO field are rejected.
-- **Date format issues.** `exam_history.csv` uses DD-Mon-YYYY format (e.g., "15-Mar-2025"). If the platform expects ISO format, these records may fail.
-- **Orphaned foreign keys.** `ecommerce_orders.csv` contains product SKUs that do not exist in the Product DMO. Sales Order Product records referencing those SKUs cannot resolve their foreign key relationship.
+- **Orphaned foreign keys.** Records referencing a related record that does not exist in the target DMO cannot resolve their foreign key relationship.
 
 ### How Data 360 handles failures
 
@@ -288,32 +289,38 @@ For each data stream, note:
 - Total rows in the source CSV
 - Total records ingested (from Refresh History or DMO record count)
 - The difference between those numbers
-- Your best explanation for why specific records failed (based on the dirty data patterns described above)
+- Your best explanation for why specific records failed
 
-This is the kind of analysis you would do on a real client engagement when source data does not ingest cleanly.
+This is the kind of analysis you would do on a real engagement when source data does not ingest cleanly.
 
 ## Assignment
 
-> **The client wants:** LEOptical has customer data in three places: Salesforce CRM (already connected), their VisionCare Rewards loyalty platform (CSV), their ecommerce store (CSV), and eye exam records from their optical clinics (CSV). They need all of this in Data 360.
+> **The client wants:** LEOptical has customer data in multiple places: Salesforce CRM (already connected), their VisionCare Rewards loyalty platform (CSV), and their ecommerce store (CSV). They need all of this in Data 360 before segments can be built.
 
-1. Create a data stream for `loyalty_members.csv`. Set the DLO category to Profile. Map fields to the Loyalty Program Member DMO, adding custom fields as needed.
-2. Create a data stream for `ecommerce_orders.csv`. Map fields to both the Sales Order DMO and the Sales Order Product DMO.
-3. Create the custom Eye Exam DMO following the walkthrough above.
-4. Create a data stream for `exam_history.csv`. Map fields to the Eye Exam DMO.
-5. Refresh all three data streams.
-6. Verify record counts in each DMO. Compare them to the source CSV row counts.
-7. Investigate and document any record count discrepancies. Note which records failed and why.
+1. Create a data stream for `loyalty.csv`. Set the DLO category to Profile. Map fields to Individual, Contact Point Email, and Loyalty Program Member. Add custom fields to the Loyalty Program Member DMO as needed.
+2. Create a data stream for `ecom_customers.csv`. Set the DLO category to Profile. Map fields to Individual and Contact Point Email.
+3. Create a data stream for `ecom_orders.csv`. Map fields to the Sales Order DMO.
+4. Create a data stream for `ecom_order_items.csv`. Map fields to the Sales Order Product DMO.
+5. Refresh all four data streams. Verify record counts in each DMO against the source CSV row counts. Investigate and document any discrepancies.
+6. **(Stretch)** Create the custom Eye Exam DMO using the values from the Creating a custom DMO section above. Then create a data stream for `clinic_patients.csv` (Profile category) and map it to Individual and Contact Point Email. Create a data stream for `clinic_exams.csv` and map it to the Eye Exam DMO.
 
 ## Success criteria
 
-- [ ] Three data streams are created (loyalty, ecommerce, eye exams)
-- [ ] Loyalty data is mapped to the Loyalty Program Member DMO
-- [ ] Ecommerce data is mapped to Sales Order and Sales Order Product DMOs
-- [ ] Eye Exam custom DMO is created with all fields from the mapping table
-- [ ] Eye exam data is mapped to the Eye Exam DMO
-- [ ] All three data streams have been refreshed successfully
+- [ ] Four data streams are created (loyalty, ecom customers, ecom orders, ecom order items)
+- [ ] Loyalty data is mapped to Individual, Contact Point Email, and Loyalty Program Member DMOs
+- [ ] Ecom customer data is mapped to Individual and Contact Point Email DMOs
+- [ ] Ecom order data is mapped to Sales Order DMO
+- [ ] Ecom order item data is mapped to Sales Order Product DMO
+- [ ] All four data streams have been refreshed successfully
 - [ ] Record count discrepancies are investigated and documented
 - [ ] You can explain the difference between using a standard DMO and creating a custom one
+
+**Stretch:**
+
+- [ ] Eye Exam custom DMO is created with all fields from the mapping table
+- [ ] Clinic patient data stream is created and mapped to Individual and Contact Point Email
+- [ ] Clinic exam data stream is created and mapped to the Eye Exam DMO
+- [ ] Eye Exam is connected to Individual via the `patient_id` relationship
 
 ## Knowledge check
 
@@ -324,7 +331,7 @@ The following questions are an opportunity to reflect on key topics in this less
 - What happens to a DMO's category after the first DLO is mapped to it?
 - How do you investigate records that failed to ingest?
 - What file size and column limits apply to CSV uploads in Data 360?
-- How does the ecommerce data stream map to two different DMOs (Sales Order and Sales Order Product)?
+- The ecommerce data is split across three files (`ecom_customers`, `ecom_orders`, `ecom_order_items`). Why does Data 360 require this separation rather than a single denormalized file?
 
 ## Additional resources
 
