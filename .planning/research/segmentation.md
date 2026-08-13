@@ -27,7 +27,7 @@ Build four segments using Data 360 segmentation:
 1. "VIP Customers" — Gold or Platinum loyalty tier members
 2. "Lapsed Buyers" — Customers with no purchase in the last 180 days
 3. "SeeClear Enthusiasts" — Customers who've purchased any SeeClear product family lens
-4. "Exam Overdue" — Customers whose last eye exam was more than 12 months ago
+4. "Exam Overdue" — Customers whose last eye exam was more than 12 months ago (stretch — requires clinic data)
 
 For each segment, verify the member count and spot-check profiles to confirm accuracy.
 
@@ -400,7 +400,7 @@ A segment-triggered flow (Broadcast Flow) will **show a "Completed" status but s
 **Field reference (from data-model.md):**
 - DMO: Sales Order
 - Field: Order Date (DateTime) — maps from CSV column `order_date`
-- Relationship: Sales Order linked to Unified Individual via customer_email → IDR
+- Relationship: Sales Order linked to Individual via Sold To Customer (ecom_customer_id FK)
 
 ---
 
@@ -443,19 +443,19 @@ A segment-triggered flow (Broadcast Flow) will **show a "Completed" status but s
 - Add related attribute: Eye Exam > Exam Date
 - Aggregation: **Max** of Exam Date (= most recent exam date)
 - Filter: Max(Exam Date) Is Before [relative date: 12 months / 365 days ago]
-- This approach uses the actual exam history data from exam_history.csv
+- This approach uses the actual exam data from clinic_exams.csv (stretch goal)
 
 **Approach B — Using Individual direct attribute (simpler if available):**
 - Individual DMO has Last Exam Date custom field (mapped from Contact.Last_Exam_Date__c)
 - This could be a direct attribute filter: Last Exam Date Is Before [365 days ago]
-- Simpler but depends on whether this field is populated for all contacts (it comes from CRM Contact, not the exam_history.csv)
+- Simpler but depends on whether this field is populated for all contacts (it comes from CRM Contact, not clinic_exams.csv)
 
-**Recommendation for walkthrough:** Use Approach A (Eye Exam DMO) to demonstrate multi-hop traversal and aggregation. This also ensures the segment picks up exam records that were ingested via exam_history.csv, not just what's in the CRM.
+**Recommendation for walkthrough:** Use Approach A (Eye Exam DMO) to demonstrate multi-hop traversal and aggregation. This also ensures the segment picks up exam records that were ingested via clinic_exams.csv (stretch goal), not just what's in the CRM.
 
 **Field reference (from data-model.md):**
 - DMO: Eye Exam (custom)
 - Field: Exam Date (Date) — maps from CSV column `exam_date`
-- Relationship: Eye Exam linked to Unified Individual via patient_email → IDR
+- Relationship: Eye Exam linked to Individual via patient_id FK (stretch goal)
 
 <!-- VERIFY --> Whether the Eye Exam DMO relationship is correctly configured in the Data Graph so that it appears as a related attribute in the segment builder. If the relationship between Eye Exam and Unified Individual is not in the Data Graph, the Eye Exam attributes will not appear in the segment builder's related attributes panel.
 

@@ -205,7 +205,7 @@ Dirty data drives consumption in several ways:
 
 4. **Over-broad IDR rules create over-merges.** Over-merged profiles (two different people treated as one) cause incorrect segment membership, which can trigger additional segment refresh runs when downstream sends reveal the error.
 
-5. **Mixed date formats in CSVs (dirty data in exam_history.csv, ecommerce_orders.csv) require data transforms.** Each transform run consumes 400 credits/million rows (batch). More dirty data = more transforms needed.
+5. **Mixed date formats in CSVs (dirty data in clinic_exams.csv, ecom_orders.csv) require data transforms.** Each transform run consumes 400 credits/million rows (batch). More dirty data = more transforms needed.
 
 Source: Research synthesis from [jitendrazaa Credit Optimization Guide](https://www.jitendrazaa.com/blog/salesforce/salesforce-data-360-credit-consumption-guide-march-2026/), [Szymon Lewandowski Credits Guide](https://www.szymonlewandowski.pl/blog/data-360/credits-guide), module-assignments.md, data-model.md
 
@@ -381,7 +381,7 @@ Deeper traversal (SeeClear segment) costs more per segment run than shallower se
 - Ecommerce orders with mixed date formats (MM/DD/YYYY in CSV)
 - Exam history with DD-Mon-YYYY format
 - Orphaned Sales Order Products (SKUs that don't match Products)
-- Loyalty CSV: email_optin=true records with unsubscribed_date set (contradictory)
+- Cross-source consent conflict: email_optin=true in loyalty.csv but email_optin=false in ecom_customers.csv for the same person
 - Loyalty CSV: some rows have different email than CRM Contact (IDR matching challenge)
 
 These dirty data scenarios drive transform consumption and IDR reprocessing. Learners can calculate the credit impact of cleanup vs. tolerating dirty data as part of the assignment.

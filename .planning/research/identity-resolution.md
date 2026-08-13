@@ -55,7 +55,7 @@ Identity Resolution (IDR) is the process by which Data 360 matches records from 
 Without IDR, Maria Chen exists as three separate, disconnected records:
 - `maria.chen@example.com` in Salesforce CRM
 - `m.chen@gmail.com` in the VisionCare Rewards loyalty system
-- `maria.c@work.com` in ecommerce orders
+- `maria.c@work.com` in ecommerce customer account
 
 After IDR runs, those three records are linked into one Unified Individual. Every downstream MCA feature — segmentation, email personalization via Handlebars, activation templates — operates against the Unified Individual, not the raw source records.
 
@@ -429,7 +429,7 @@ Per the data model, three DMOs feed into IDR for LEOptical:
 - **Contact Point Email** (from CRM Contact — primary email; also created during IDR from loyalty, ecommerce, and exam CSV email fields)
 - **Loyalty Program Member** (custom fields include `Email Address` — often differs from CRM email; this is the key cross-source link)
 
-Eye Exam DMO has `patient_email` and name fields — also useful for matching.
+Clinic patient data (stretch goal) contributes Individual + Contact Point Email records for IDR matching via `clinic_patients.csv`.
 
 ### Proposed Base Match Rules
 
@@ -472,7 +472,7 @@ This rule catches cases where a person uses different email addresses across sys
 
 #### Deferred: Eye Exam Email Match
 
-The Eye Exam DMO has `patient_email`. If this field is mapped to Contact Point Email, it can participate in email-based matching. However, because eye exam records may be for different family members booked under the same email, this rule requires careful validation before enabling.
+Clinic patient data (stretch goal) maps `email` from `clinic_patients.csv` to Contact Point Email, which participates in email-based IDR matching. However, because clinic records may be for different family members booked under the same email, this rule requires careful validation before enabling.
 
 **Recommended:** Configure this as an additional rule after evaluating Rule 1 and 2 results. Include in the module's investigation phase (review match quality, find missed matches, decide whether to add).
 
@@ -687,12 +687,12 @@ Per data-model.md, the IDR inputs for LEOptical are:
 - Key fields for IDR: Email Address (Exact Normalized)
 - Additional CPE rows created from loyalty, ecommerce, exam email fields during data stream mapping <!-- VERIFY: confirm whether CPE rows from non-CRM sources are created at ingestion time or by IDR -->
 
-**Loyalty Program Member DMO** (from loyalty_members.csv)
-- Key field for IDR: Email Address (custom field) — "often differs from CRM email — key for IDR" (per data-model.md)
+**Loyalty Program Member DMO** (from loyalty.csv)
+- Key field for IDR: Email Address (custom field) — "often differs from CRM email — key for IDR"
 - Also has Phone (custom field, mixed formats — dirty data)
 
-**Eye Exam DMO** (from exam_history.csv)
-- Key fields for IDR: patient_email, patient_first_name, patient_last_name
+**Eye Exam DMO** (from clinic_exams.csv, stretch goal)
+- FK: patient_id (links to Individual via clinic_patients.csv)
 
 ### Dirty Data Implications for IDR
 
@@ -701,8 +701,8 @@ The seed data contains intentional dirty data that affects IDR:
 - **Contacts**: ~5% have missing Last Name (from data-model.md)
 - **Phone**: Mixed formats across CRM and Loyalty ("dirty data" noted explicitly)
 - **Loyalty email vs. CRM email**: Intentionally differ for many records — this is the primary IDR challenge
-- **Ecommerce email**: `customer_email` on Sales Order, may differ from CRM and loyalty emails
-- **Exam email**: `patient_email` on Eye Exam, may belong to a family member rather than the patient themselves
+- **Ecommerce email**: from `ecom_customers.csv`, may differ from CRM and loyalty emails
+- **Clinic email**: from `clinic_patients.csv` (stretch goal), may belong to a family member
 
 ### Contact Point Email Behavior After IDR
 

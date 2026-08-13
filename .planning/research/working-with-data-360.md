@@ -13,14 +13,14 @@ Sources: 28 sources consulted
 **Assignment:**
 - Review the Data Model Object (DMO) schema in Data 360 -- understand Individual, Contact Point Email, Sales Order, and other standard DMOs
 - Review the target data model for LEOptical (provided in the lesson) and understand why each DMO and relationship was chosen
-- Download `loyalty_members.csv` and `ecommerce_orders.csv` from the course resources
+- Download `loyalty.csv`, `ecom_customers.csv`, `ecom_orders.csv`, and `ecom_order_items.csv` from the course resources
 - Create Data Streams for each CSV source and ingest them into Data 360
 - Map the incoming fields to appropriate DMOs (standard or custom as specified in the target data model)
 - Verify data is flowing: check record counts in each DMO after ingestion
 
 **Success Criteria:**
 - [ ] You understand the target LEOptical data model and can explain the DMO relationships
-- [ ] Two Data Streams are configured (loyalty, ecommerce)
+- [ ] Four Data Streams are configured (loyalty, ecom_customers, ecom_orders, ecom_order_items)
 - [ ] CSV data is ingested and visible in Data 360
 - [ ] Fields are mapped to the correct DMOs per the target data model
 - [ ] You've investigated any record count discrepancies between source files and ingested DMOs
@@ -426,15 +426,15 @@ This module is the primary module for teaching the LEOptical data model. All DMO
 
 | DMO | Type | Source | Ingestion |
 |-----|------|--------|-----------|
-| Individual | Standard | CRM Contact | Auto (Marketing Data Kit) |
-| Contact Point Email | Standard | CRM Contact + CSV email fields via IDR | Auto + IDR |
+| Individual | Standard | CRM Contact, loyalty.csv, ecom_customers.csv | Auto + CSV data stream |
+| Contact Point Email | Standard | CRM Contact, loyalty.csv, ecom_customers.csv | Auto + CSV data stream |
 | Contact Point Phone | Standard | CRM Contact | Auto |
 | Account | Standard | CRM Account | Auto |
-| Loyalty Program Member | Standard + custom fields | loyalty_members.csv | CSV data stream |
-| Sales Order | Standard (manually enabled) | ecommerce_orders.csv | CSV data stream |
-| Sales Order Product | Standard (manually enabled) | ecommerce_orders.csv | CSV data stream |
+| Loyalty Program Member | Standard + custom fields | loyalty.csv | CSV data stream |
+| Sales Order | Standard (manually enabled) | ecom_orders.csv | CSV data stream |
+| Sales Order Product | Standard (manually enabled) | ecom_order_items.csv | CSV data stream |
 | Product | Standard | CRM Product (Apex script) | Auto |
-| Eye Exam | **Custom** | exam_history.csv | CSV data stream |
+| Eye Exam | **Custom** (Stretch) | clinic_exams.csv | CSV data stream |
 | Comm Subscription Consent | Standard | Flow-created (Module 5) | Flow/form |
 | Unified Individual | Standard | System-generated post-IDR | Automatic |
 
@@ -442,24 +442,28 @@ This module is the primary module for teaching the LEOptical data model. All DMO
 
 **Loyalty Program Member** (standard DMO + custom fields):
 - Standard fields: Membership Number (PK), Name, Enrollment Date, Status
-- Custom fields: Loyalty Tier, Points Balance, Email Address, Phone, Email Opt-In, Unsubscribed Date
-- Dirty data: email_optin sometimes contradicts unsubscribed_date
+- Custom fields: `loyalty_member_id`, `join_date`, `tier`, `points`, Email Address, Phone, Email Opt-In
+- Dirty data: `email_optin` values sometimes conflict across loyalty.csv and ecom_customers.csv
 
 **Sales Order** (standard DMO):
-- Fields: Sales Order Id (PK), Order Date, Total Amount, Status, Customer Email, Order Source
+- Fields: Sales Order Id (PK), Order Date, Total Amount, Status, Sold To Customer (FK to Individual, populated with `ecom_customer_id`)
 - Dirty data: Order Date has mixed MM/DD/YYYY formats
 
 **Sales Order Product** (standard DMO):
 - Fields: Sales Order Product Id (PK), Sales Order (FK), Product (FK to Product SKU), Quantity, Unit Price, Line Total
 - Dirty data: some product SKUs do not exist (orphaned orders)
 
-**Eye Exam** (custom DMO):
-- Fields: Eye Exam Id (PK), Patient Email, Patient First Name, Patient Last Name, Exam Date, Next Exam Due, Exam Type, Provider
+**Eye Exam** (custom DMO, stretch goal):
+- Fields: Eye Exam Id (PK), `patient_id` (FK to Individual), Exam Date, Exam Type, Provider
 - Dirty data: Exam Date format is DD-Mon-YYYY in CSV
 
 ### Data Graph Structure
 
-Rooted on Unified Individual. Includes: Contact Point Email (1:many), Contact Point Phone (1:many), Account (many:1), Sales Order (1:many), Sales Order Product (1:many via Sales Order), Product (many:1 via SOP), Loyalty Program Member (1:1), Eye Exam (1:many), Comm Subscription Consent (via email match).
+Rooted on Unified Individual. Includes: Contact Point Email (1:many), Contact Point Phone (1:many), Account (many:1), Sales Order (1:many via Sold To Customer), Sales Order Product (1:many via Sales Order), Product (many:1 via SOP), Loyalty Program Member (1:1), Eye Exam (1:many via patient_id — stretch), Comm Subscription Consent (via email match).
+
+Traversal paths:
+- Sales Order: Unified Individual → Individual → Sales Order (via Sold To Customer)
+- Eye Exam: Unified Individual → Individual → Eye Exam (via patient_id) — stretch
 
 ### Refresh Dependency Chain
 

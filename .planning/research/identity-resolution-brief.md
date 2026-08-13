@@ -25,7 +25,7 @@
 - Include the **custom IDR rules we'll need for LEOptical's data model**
   - Contacts with multiple email addresses
   - Loyalty data
-  - Eye exam records
+  - Clinic patient records (stretch goal)
   - (Research what rules make sense given the data model)
 
 ### Course Arc
