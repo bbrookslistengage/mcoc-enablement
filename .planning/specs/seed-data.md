@@ -33,16 +33,7 @@ In Module 5, the learner runs anonymous Apex to update the 10 protagonist emails
 
 ## Module 1 — CRM Seed Data
 
-### Step 1: Create custom fields on Contact
-
-| Field Label | API Name | Type | Settings |
-|---|---|---|---|
-| Loyalty Tier | `Loyalty_Tier__c` | Text | Length: 10 |
-| Loyalty Points | `Loyalty_Points__c` | Number | Length: 18, Decimal places: 0 |
-| Last Exam Date | `Last_Exam_Date__c` | Date | — |
-| Next Exam Due | `Next_Exam_Due__c` | Date | — |
-
-### Step 2: Import Contacts via Data Import Wizard
+### Step 1: Import Contacts via Data Import Wizard
 
 Download `contacts.csv` from course resources. Import using the browser-based Data Import Wizard (**Setup > Data Import Wizard**):
 

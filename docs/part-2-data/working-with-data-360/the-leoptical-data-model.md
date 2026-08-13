@@ -25,56 +25,35 @@ This section contains a general overview of topics that you will learn in this l
 
 ## The ERD
 
-Here is the full LEOptical data model. Every entity represents a DMO in Data 360, and every line represents a defined relationship between DMOs.
+Here is the LEOptical business data model. Every entity represents a real-world concept in LEOptical's business. The next section maps each entity to a specific Data 360 DMO.
 
 ```mermaid
 erDiagram
-    CUSTOMER ||--o{ EMAIL_ADDRESS : "has"
-    CUSTOMER ||--o{ PHONE_NUMBER : "has"
     CUSTOMER }o--|| ACCOUNT : "belongs to"
     CUSTOMER ||--o| LOYALTY_MEMBERSHIP : "may have"
     CUSTOMER ||--o{ ORDER : "places"
-    CUSTOMER ||--o{ EYE_EXAM : "attends"
-    CUSTOMER ||--o{ COMMUNICATION_CONSENT : "grants"
+    CUSTOMER ||--o{ EYE_EXAM : "attends (stretch)"
     ORDER ||--|{ ORDER_LINE_ITEM : "contains"
     ORDER_LINE_ITEM }o--|| PRODUCT : "references"
-    COMMUNICATION_CONSENT }o--|| EMAIL_ADDRESS : "applies to"
 
     CUSTOMER {
         string customer_id PK
         string first_name
         string last_name
-        date birth_date
-        date last_exam_date
-        date next_exam_due
-    }
-
-    EMAIL_ADDRESS {
-        string email_address PK
-        string email_type
-        boolean is_primary
-    }
-
-    PHONE_NUMBER {
-        string phone_number PK
-        string phone_type
+        string email
+        string phone
     }
 
     ACCOUNT {
         string account_id PK
         string account_name
-        string billing_city
-        string billing_state
     }
 
     LOYALTY_MEMBERSHIP {
         string loyalty_member_id PK
-        string member_name
-        string email_address
         string tier
         number points
         date join_date
-        string status
         boolean email_optin
     }
 
@@ -87,9 +66,9 @@ erDiagram
     }
 
     ORDER_LINE_ITEM {
-        string line_item_id PK
+        string order_item_id PK
         string order_id FK
-        string product_sku FK
+        string sku FK
         number quantity
         number unit_price
         number line_total
@@ -100,7 +79,6 @@ erDiagram
         string product_name
         string product_family
         number list_price
-        string description
     }
 
     EYE_EXAM {
@@ -110,17 +88,9 @@ erDiagram
         string exam_type
         string provider
     }
-
-    COMMUNICATION_CONSENT {
-        string consent_id PK
-        string email_address FK
-        string subscription_name
-        string consent_status
-        date consent_date
-    }
 ```
 
-This is a business-level ERD. It shows entities the way LEOptical thinks about them: customers, orders, exams, loyalty memberships. The next section maps each entity to a specific Data 360 DMO and explains the design decisions behind the mapping.
+This is a business-level ERD. It shows entities the way LEOptical thinks about them: customers, orders, exams, loyalty memberships. Platform-specific entities like Contact Point Email, Contact Point Phone, and Comm Subscription Consent are not shown here. Those are Data 360 DMOs that the platform creates or manages during data ingestion, identity resolution, and consent configuration. The DMO mapping table below explains where each business entity lands in Data 360.
 
 ## DMO mapping
 

@@ -69,7 +69,7 @@ Compare this to training where exercises are isolated and decontextualized. You 
 This is a lightweight assignment to get you oriented before you start building.
 
 1. Visit the [course overview page](/) and familiarize yourself with the module list and progress tracking. Check off a box to see how it works, then uncheck it.
-2. **(Stretch)** Browse the LEOptical seed data files in `static/seed-data/` to get a sense of what data you will be working with. Look at `contacts.csv`, `loyalty.csv`, `ecom_customers.csv`, `ecom_orders.csv`, and `ecom_order_items.csv`. If you completed the clinic stretch goal, also look at `clinic_patients.csv` and `clinic_exams.csv`. You do not need to understand every field yet. Just get a feel for the shape of the data.
+2. **(Stretch)** Download a few of LEOptical's seed data files and open them in a spreadsheet or text editor to get a sense of what data you will be working with: [`contacts.csv`](/seed-data/contacts.csv), [`loyalty.csv`](/seed-data/loyalty.csv), [`ecom_customers.csv`](/seed-data/ecom_customers.csv), [`ecom_orders.csv`](/seed-data/ecom_orders.csv), and [`ecom_order_items.csv`](/seed-data/ecom_order_items.csv). You do not need to understand every field yet. Just get a feel for the shape of the data.
 
 ## Success Criteria
 

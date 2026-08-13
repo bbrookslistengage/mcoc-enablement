@@ -446,7 +446,7 @@ A segment-triggered flow (Broadcast Flow) will **show a "Completed" status but s
 - This approach uses the actual exam data from clinic_exams.csv (stretch goal)
 
 **Approach B — Using Individual direct attribute (simpler if available):**
-- Individual DMO has Last Exam Date custom field (mapped from Contact.Last_Exam_Date__c)
+- Eye Exam data lives in the Eye Exam DMO (from clinic_exams.csv, stretch goal), not on Individual
 - This could be a direct attribute filter: Last Exam Date Is Before [365 days ago]
 - Simpler but depends on whether this field is populated for all contacts (it comes from CRM Contact, not clinic_exams.csv)
 

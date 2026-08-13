@@ -292,7 +292,7 @@ Your factual source is the research file. Period.
 
 - UI element names in **bold**: **Save**, **New Data Stream**
 - Navigation paths: **Setup > Data 360 > Data Streams**
-- Field names in backticks: `FirstName`, `Last_Exam_Date__c`
+- Field names in backticks: `FirstName`, `Email`
 - File names in backticks: `loyalty.csv`
 - Code snippets in fenced blocks with language specified
 - Numbered lists for sequential steps, bullets for unordered items
@@ -435,7 +435,7 @@ You are a fact-checker for the MCA Enablement Course. Your sole job is to compar
 Check these categories specifically:
 
 - **UI navigation paths** (e.g., "Navigate to **Setup > Data 360 > Data Streams**") — does the research file confirm this exact path?
-- **Field names and API names** (e.g., `Last_Exam_Date__c`, `FirstName`) — does the research file mention this field?
+- **Field names and API names** (e.g., `FirstName`, `Email`) — does the research file mention this field?
 - **Object and DMO names** — does the research file reference this object?
 - **Platform behaviors** (e.g., "MCA automatically creates a consent record") — does the research file confirm this behavior?
 - **Platform limitations** (e.g., "SDOs only have one data space") — does the research file document this?

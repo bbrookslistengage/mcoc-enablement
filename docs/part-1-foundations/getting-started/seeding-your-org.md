@@ -8,15 +8,12 @@ description: "Load LEOptical's course data into your SDO: custom fields, ~49,000
 
 Before you can do anything meaningful in MCA, you need data. This page walks you through loading LEOptical's fictional customer data into your SDO. By the end, your org will have:
 
-- 4 custom fields on the Contact object that the course uses throughout
-- ~48,672 contacts with realistic names, loyalty tiers, and exam history
+- ~48,672 contacts with realistic names, emails, and phone numbers
 - 5 Products and 3 Campaigns
 
 The contacts include 10 "protagonist" contacts that you will use to receive test emails later in the course. For now, all contacts (including protagonists) use `@example.com` placeholder emails. You will update the protagonist emails with your own address in <ModuleLink slug="consent-configuration" /> when you set up consent.
 
-The import uses the browser-based Data Import Wizard, which handles up to 50,000 records per import. No external tools are required. The total active work is about 15 minutes, plus a 5-10 minute wait while the contacts import processes in the background.
-
-**Do each step in order.** The custom fields must exist before you import contacts, because the CSV references those fields.
+The import uses the browser-based Data Import Wizard, which handles up to 50,000 records per import. No external tools are required. The total active work is about 10 minutes, plus a 5-10 minute wait while the contacts import processes in the background.
 
 :::info
 All contact emails use the `@example.com` domain, which is IETF-reserved (RFC 2606). Nothing sent to these addresses ever delivers to a real inbox. Emails "sent" to them will honor consent and appear in reporting, but will not reach anyone.
@@ -24,80 +21,7 @@ All contact emails use the `@example.com` domain, which is IETF-reserved (RFC 26
 
 ---
 
-## Step 1: Create the custom fields on Contact
-
-The seed data includes four custom fields on the Contact object. The Data Import Wizard cannot map to fields that do not exist, so you need to create them first.
-
-You will create each field through the Object Manager in Setup. This takes about 5 minutes.
-
-1. Click the **gear icon** in the top-right corner of your org and select **Setup**.
-
-2. In the Quick Find box at the top of the left sidebar, type `Object Manager` and click it when it appears.
-
-3. In the Object Manager list, find and click **Contact**.
-
-4. In the left sidebar of the Contact object page, click **Fields & Relationships**.
-
-5. Click **New** in the top-right corner.
-
-Now create each of the four fields below. For each one, you will go through the same wizard: choose the field type, fill in the details, and save. After saving each field, click **New** again to start the next one.
-
----
-
-### Field 1: Loyalty Tier
-
-6. On the "Choose a field type" screen, select **Text** and click **Next**.
-7. Fill in the details:
-   - **Field Label:** `Loyalty Tier`
-   - **Length:** `10`
-   - Leave everything else at the default.
-8. Click **Next**, then **Next** again, then **Save & New** to save and immediately start the next field.
-
----
-
-### Field 2: Loyalty Points
-
-9. On the "Choose a field type" screen, select **Number** and click **Next**.
-10. Fill in the details:
-    - **Field Label:** `Loyalty Points`
-    - **Length:** `18`
-    - **Decimal Places:** `0`
-    - Leave everything else at the default.
-11. Click **Next**, then **Next** again, then **Save & New**.
-
----
-
-### Field 3: Last Exam Date
-
-12. On the "Choose a field type" screen, select **Date** and click **Next**.
-13. Fill in the details:
-    - **Field Label:** `Last Exam Date`
-    - Leave everything else at the default.
-14. Click **Next**, then **Next** again, then **Save & New**.
-
----
-
-### Field 4: Next Exam Due
-
-15. On the "Choose a field type" screen, select **Date** and click **Next**.
-16. Fill in the details:
-    - **Field Label:** `Next Exam Due`
-    - Leave everything else at the default.
-17. Click **Next**, then **Next** again, then **Save** (not Save & New, this is the last field).
-
-:::warning
-The field API names are auto-generated from the labels. Confirm they match exactly before moving on:
-- `Loyalty_Tier__c`
-- `Loyalty_Points__c`
-- `Last_Exam_Date__c`
-- `Next_Exam_Due__c`
-
-You can see the API name in the field list next to the label. If there is a mismatch, the Data Import Wizard will not map the CSV columns to the correct fields.
-:::
-
----
-
-## Step 2: Import contacts
+## Step 1: Import contacts
 
 Now you will import ~48,672 contacts using the Data Import Wizard. This is a browser-based tool built into Salesforce Setup. No external software is needed.
 
@@ -105,7 +29,7 @@ Now you will import ~48,672 contacts using the Data Import Wizard. This is a bro
 
 1. Download the contacts file: [contacts.csv](pathname:///seed-data/contacts.csv)
 
-   This file contains ~48,672 rows. Every contact has a first name, last name, email, phone, mailing state, loyalty tier, loyalty points, and exam dates. All contacts are associated with a single shared Account called "LEOptical Customers".
+   This file contains ~48,672 rows. Every contact has a first name, last name, email, phone, and mailing state. All contacts are associated with a single shared Account called "LEOptical Customers".
 
 :::info
 In a production B2C engagement, you would likely use Person Accounts rather than a shared Business Account. This course uses a shared Account because Person Account configuration varies across SDOs and the Account model is not relevant to MCA. The Marketing Data Kit ingests Contacts into Individual DMOs regardless of Account structure.
@@ -147,21 +71,21 @@ In a production B2C engagement, you would likely use Person Accounts rather than
 
 ### Verify field mapping
 
-The wizard auto-maps CSV columns to Salesforce fields based on the column headers. All 10 fields should map automatically, including the four custom fields you just created.
+The wizard auto-maps CSV columns to Salesforce fields based on the column headers. All 6 fields should map automatically.
 
-<Screenshot src="/img/getting-started/seed-04-field-mapping.png" alt="Edit Field Mapping screen showing all 10 fields auto-mapped with sample values" />
+<Screenshot src="/img/getting-started/seed-04-field-mapping.png" alt="Edit Field Mapping screen showing all fields auto-mapped with sample values" />
 
 You will see a warning triangle on the **Phone** field. This is normal. The wizard maps Phone to both the Account and the Contact, which is fine.
 
-If any field shows as unmapped, click on it and search for the matching field label. The custom fields will appear as "Contact: Loyalty Tier", "Contact: Loyalty Points", etc.
+If any field shows as unmapped, click on it and search for the matching field label.
 
 13. Click **Next**. The button may show **Loading...** for 15-20 seconds while the wizard processes ~49,000 rows. This is normal.
 
 ### Start the import
 
-<Screenshot src="/img/getting-started/seed-05-review-import.png" alt="Review and Start Import screen showing 10 mapped fields, 0 unmapped fields" />
+<Screenshot src="/img/getting-started/seed-05-review-import.png" alt="Review and Start Import screen showing mapped fields, 0 unmapped fields" />
 
-14. Review the summary: 10 mapped fields, 0 unmapped fields. Click **Start Import**.
+14. Review the summary: 6 mapped fields, 0 unmapped fields. Click **Start Import**.
 
 15. A confirmation dialog appears. Click **OK** to go to the Bulk Data Load Jobs page.
 
@@ -185,7 +109,7 @@ You may see a small number of failed records (typically under 200). This is caus
 
 ---
 
-## Step 3: Create products and campaigns
+## Step 2: Create products and campaigns
 
 The five LEOptical products and three campaigns are created via a short anonymous Apex script. This runs instantly.
 
@@ -213,7 +137,7 @@ Run this script only once. Running it again will create duplicate Products and C
 
 ---
 
-## Step 4: Verify the data
+## Step 3: Verify the data
 
 Once the contact import has finished and the Apex script has run, do a quick check to confirm everything landed correctly.
 
@@ -230,11 +154,9 @@ Once the contact import has finished and the Apex script has run, do a quick che
 4. Open her Contact record and click the **Details** tab. Confirm:
    - **Account Name** is LEOptical Customers
    - **Email** is `maria.chen.000001@example.com`
-   - **Loyalty Tier** is `Gold`
-   - **Loyalty Points** is `62,000`
-   - **Last Exam Date** and **Next Exam Due** are populated
+   - **Mailing State** is populated
 
-<Screenshot src="/img/getting-started/seed-10-maria-chen.png" alt="Maria Chen contact record Details tab showing Loyalty Tier Gold, Loyalty Points 62000, and exam dates populated" />
+<Screenshot src="/img/getting-started/seed-10-maria-chen.png" alt="Maria Chen contact record Details tab showing Account Name LEOptical Customers and email address" />
 
 :::tip
 List view search may not find recently imported contacts due to search indexing delays. Use the global search bar at the top of the page instead.
@@ -268,17 +190,15 @@ There is nothing to do with the protagonist contacts right now. You will come ba
 
 ## Assignment
 
-1. Create all four custom fields on the Contact object exactly as described in Step 1.
-2. Download `contacts.csv` and import it via the Data Import Wizard.
-3. Run the Products and Campaigns anonymous Apex script in Developer Console.
-4. Verify: ~48,672 contacts, 1 "LEOptical Customers" Account, 5 Products, 3 Campaigns.
+1. Download `contacts.csv` and import it via the Data Import Wizard.
+2. Run the Products and Campaigns anonymous Apex script in Developer Console.
+3. Verify: ~48,672 contacts, 1 "LEOptical Customers" Account, 5 Products, 3 Campaigns.
 
 ## Success Criteria
 
-- [ ] All four custom fields exist on the Contact object with the correct API names (`Loyalty_Tier__c`, `Loyalty_Points__c`, `Last_Exam_Date__c`, `Next_Exam_Due__c`).
 - [ ] ~48,672 Contacts are visible in the org (the exact count depends on duplicate rule behavior in your SDO).
 - [ ] Exactly 1 Account named "LEOptical Customers" exists.
-- [ ] Maria Chen exists as a Contact with Loyalty Tier = Gold and Loyalty Points = 62,000.
+- [ ] Maria Chen exists as a Contact with the correct email and account.
 - [ ] 5 Products and 3 Campaigns are present in the org.
 
 ## Knowledge check
@@ -288,5 +208,4 @@ The following questions are an opportunity to reflect on key topics in this less
 - The ~48,000 contacts use `@example.com` email addresses. Why is that domain safe to use for email sends throughout the course?
 - Why does the Data Import Wizard create two separate bulk jobs (one for Account, one for Contact) from a single CSV?
 - What does "Match Account by: Name & Site" do, and why did we set it?
-- The CSV includes custom field columns like "Loyalty Tier" instead of the API name "Loyalty_Tier__c". Why does the Data Import Wizard still map them correctly?
 - If you accidentally ran the Products and Campaigns Apex script twice, what would happen, and how would you fix it?

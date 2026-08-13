@@ -103,7 +103,7 @@ You can combine multiple direct attribute filters with AND or OR logic. The popu
 
 <ScreenshotPlaceholder alt="Segment canvas showing a direct attribute filter on Individual First Name with an Is Equal To operator and a text value, and the population count displayed below the filter row" />
 
-For LEOptical, direct attributes you might filter on include: first name, city, or a custom field like `Last_Exam_Date__c` if it is mapped directly to the Individual DMO from the CRM Contact.
+For LEOptical, direct attributes you might filter on include first name or city, both of which are standard fields on the Individual DMO populated from CRM Contact data.
 
 ## Related attributes and containers
 
