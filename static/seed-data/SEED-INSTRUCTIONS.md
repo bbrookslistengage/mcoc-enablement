@@ -1,6 +1,6 @@
 # Seed Data Instructions
 
-This content is meant to be incorporated into the Module 1 page at the point where
+This content is meant to be incorporated into the Getting Started module page at the point where
 the learner seeds their org. Copy the sections below into the module markdown.
 
 ---
@@ -8,63 +8,36 @@ the learner seeds their org. Copy the sections below into the module markdown.
 ## Seed your org with LEOptical data
 
 Before you can work with real data in MCA, you need records in your CRM. The seed
-script creates ~60,000 Contacts, 5 Products, and 3 Campaigns — enough volume to
+script creates ~48,672 Contacts, 5 Products, and 3 Campaigns — enough volume to
 make segmentation, identity resolution, and consumption exercises feel like a real
 engagement.
 
 You do not need to understand Apex to run this. Follow the steps below exactly.
 
-### Step 1: Create the custom fields on Contact
-
-The seed script sets four custom fields on Contact. Create them now, before
-deploying the script.
-
-Navigate to **Setup > Object Manager > Contact > Fields & Relationships > New** and
-create each field:
-
-| Field Label | API Name | Type | Additional settings |
-|---|---|---|---|
-| Loyalty Tier | `Loyalty_Tier__c` | Text | Length: 10 |
-| Loyalty Points | `Loyalty_Points__c` | Number | Length: 18, Decimal places: 0 |
-| Last Exam Date | `Last_Exam_Date__c` | Date | — |
-| Next Exam Due | `Next_Exam_Due__c` | Date | — |
-
-:::warning
-The seed script will fail to deploy if these fields do not exist. Create all four
-before moving to Step 2.
-:::
-
-### Step 2: Deploy the batch class
+### Step 1: Run the seed script
 
 1. In your SDO, navigate to **Setup > Developer Console** and open it.
-2. Go to **File > New > Apex Class**.
-3. Name the class `LEOpticalSeedBatch` and click **OK**.
-4. Delete all placeholder content in the editor.
-5. Copy the entire contents of [`LEOpticalSeedBatch.cls`](pathname:///seed-data/LEOpticalSeedBatch.cls) and paste it in.
-6. Click **Save** (or press `Ctrl+S` / `Cmd+S`).
+2. Go to **Debug > Open Execute Anonymous Window**.
+3. Paste the script from the SeedScript component above and click **Execute**.
 
-You should see no errors in the **Problems** tab at the bottom. If there are compile
-errors, confirm the four custom fields from Step 1 exist and are named exactly as
-shown.
+That's it. The 10 protagonist contacts are now created. Close the Execute Anonymous Window.
 
-### Step 3: Run the seed script
+### Step 2: Import contacts via Data Import Wizard
 
-1. In Developer Console, go to **Debug > Open Execute Anonymous Window**.
-2. Paste the following and click **Execute**:
+1. In Salesforce, navigate to **Setup > Data Import Wizard** and click **Launch Wizard**.
+2. Select **Contacts and Accounts**, then choose **Add new records**.
+3. Click **CSV**, then upload `contacts.csv` from the seed data package.
+4. Map the columns to the matching Contact fields when prompted.
+5. Click **Next**, review the import summary, then click **Start Import**.
 
-```apex
-Database.executeBatch(new LEOpticalSeedBatch(), 200);
-```
+The import queues a background job. You can monitor progress under **Setup > Bulk Data Load Jobs**.
 
-That's it. The batch job is now queued. Close the Execute Anonymous Window.
+### Step 3: Monitor progress
 
-### Step 4: Monitor progress
+Navigate to **Setup** and search for **Bulk Data Load Jobs** in the Quick Find box.
 
-Navigate to **Setup** and search for **Apex Jobs** in the Quick Find box.
-
-You will see a list of batch jobs. Each row represents one chunk of ~200 contacts.
-With ~60,000 contacts total, expect around 300 rows. The **Status** column will
-cycle through **Queued**, **Processing**, and **Completed** for each chunk.
+You will see the import job listed. With ~48,672 contacts total, the job may take
+several minutes. The **Status** column will update as the job processes.
 
 :::warning
 Do not navigate away or close your browser during the first few minutes. The jobs
@@ -76,11 +49,11 @@ is failing.
 The full run takes roughly 10–20 minutes depending on platform load. When all rows
 show **Completed**, your org is seeded.
 
-### Step 5: Verify the data
+### Step 4: Verify the data
 
 Run a quick spot-check to confirm the records landed correctly.
 
-1. Navigate to the **Contacts** tab and confirm the total count is around 60,010.
+1. Navigate to the **Contacts** tab and confirm the total count is around 48,682.
 2. Search for `Maria Chen` — she should exist with `Loyalty Tier: Gold`.
 3. Search for `Wei Zhang` — he should exist with `Loyalty Tier: Platinum`.
 4. Navigate to the **Products** tab and confirm 5 products exist:
@@ -95,7 +68,7 @@ most common cause is a missing custom field.
 :::warning
 Run the seed script only once. Running it again will create duplicate contacts.
 If something went wrong and you need to start over, delete all Contact records
-first using Data Loader, then re-run the script.
+first using `DeleteSeedData.apex`, then re-run the script.
 :::
 
 ### Update protagonist email addresses
@@ -105,4 +78,4 @@ The 10 protagonist contacts are created with placeholder emails
 Before you reach the email-sending modules, you will update these to your own
 email address using `+alias` routing.
 
-Module 4 covers this step in detail. For now, leave the placeholder emails in place.
+The appropriate module covers this step in detail. For now, leave the placeholder emails in place.
