@@ -19,11 +19,14 @@
 - [x] `scripts/generate-seed-data.py` written (single source of truth for all CSVs)
 - [x] `contacts.csv` generated (~48,675 Contacts with dirty data per spec)
 - [x] `seed-products-campaigns.apex` anonymous Apex snippet written
-- [x] `loyalty_members.csv` generated (with dirty data per spec)
-- [x] `ecommerce_orders.csv` generated (with dirty data per spec, includes protagonist orders)
-- [x] `exam_history.csv` generated (with dirty data per spec)
-- [x] `new_signups_july.csv` generated
-- [x] `new_orders_july.csv` generated
+- [ ] `loyalty.csv` generated (with dirty data per spec)
+- [ ] `ecom_customers.csv` generated
+- [ ] `ecom_orders.csv` generated (with dirty data per spec, includes protagonist orders)
+- [ ] `ecom_order_items.csv` generated (with orphaned SKUs per spec)
+- [ ] `clinic_patients.csv` generated (stretch goal)
+- [ ] `clinic_exams.csv` generated (stretch goal)
+- [ ] `new_signups_july.csv` redesigned for new loyalty.csv schema
+- [ ] `new_orders_july.csv` redesigned for new split ecom schema
 - [x] `new_contacts_batch1.csv` generated
 - [x] All 10 protagonist contacts verified across all data files
 - [ ] `SeedScript.tsx` updated to generate UPDATE script (not INSERT) for Module 4
@@ -56,7 +59,7 @@ Written, reviewed, and verified against a live SDO.
 | 2 | 8 | Identity Resolution (multi-subpage) | Restructured | - | Draft (5 VERIFY) | - | - |
 | 2 | 9 | Data Graphs (multi-subpage) | Restructured | - | Draft (4 VERIFY) | - | - |
 | 2 | 10 | Segmentation | Done | - | Draft (24 VERIFY) | - | - |
-| 3 | 11 | Salesforce CMS and Content Management (multi-subpage) | Done | - | - | - | - |
+| 3 | 11 | Salesforce CMS and Content Management (multi-subpage) | Done | - | Draft (10 VERIFY) | - | - |
 | 3 | 12 | The Email Builder (multi-subpage) | Needs update | - | - | - | - |
 | 3 | 13 | Content Blocks (multi-subpage) | - | - | - | - | - |
 | 3 | 14 | Email Templates (multi-subpage) | - | - | - | - | - |

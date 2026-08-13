@@ -88,7 +88,7 @@ Read these files and extract content relevant to this module:
 
 1. `.planning/specs/module-assignments.md` — find the entry for this module. Extract the client ask, full assignment, and success criteria.
 2. `.planning/platform-gotchas.md` — identify any gotchas that apply to this module's topic.
-3. `.planning/specs/data-model.md` — if this module involves data (DMOs, data streams, identity resolution, segmentation, data graphs, activation), extract the relevant DMO mappings and field-level details.
+3. `.planning/specs/2026-08-12-data-360-data-model-design.md` — if this module involves data (DMOs, data streams, identity resolution, segmentation, data graphs, activation), extract the relevant DMO mappings and field-level details.
 4. `.planning/specs/leoptical-client.md` — extract relevant client context (product families, loyalty program, previous state).
 
 ### Step 2: Web Research
@@ -293,7 +293,7 @@ Your factual source is the research file. Period.
 - UI element names in **bold**: **Save**, **New Data Stream**
 - Navigation paths: **Setup > Data 360 > Data Streams**
 - Field names in backticks: `FirstName`, `Last_Exam_Date__c`
-- File names in backticks: `loyalty_members.csv`
+- File names in backticks: `loyalty.csv`
 - Code snippets in fenced blocks with language specified
 - Numbered lists for sequential steps, bullets for unordered items
 - Max two levels of list nesting
