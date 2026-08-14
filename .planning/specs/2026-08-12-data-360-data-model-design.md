@@ -207,6 +207,7 @@ exam_id, patient_id, exam_date, exam_type, provider
 | `ecom_customer_id` | Individual Id | Primary key for this source's Individuals |
 | `first_name` | First Name | |
 | `last_name` | Last Name | |
+| `email_optin` | Ecom Email Opt-In (Custom) | Boolean. Used for consent migration. |
 
 ### ecom_customers.csv → Contact Point Email
 
