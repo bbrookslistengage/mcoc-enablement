@@ -6,11 +6,11 @@ description: "How segmentation works in Data 360: segment types, the builder can
 
 ## Overview
 
-You have Unified Individuals. Now you use them. Segmentation is the first place in MCA where all the upstream work pays off: the ingested data, the identity resolution, the Data Graph. A segment takes that unified view and answers one question: who is in this audience?
+You have Unified Individuals. Now you use them. Segmentation is the first place in Marketing Cloud Next where all the upstream work pays off: the ingested data, the identity resolution, the Data Graph. A segment takes that unified view and answers one question: who is in this audience?
 
 This lesson covers the mechanics of the segment builder in full. You will learn what each segment type is for, how the canvas is structured, how containers work, how the lookback window affects evaluation, and exactly what happens when you click Publish.
 
-The guided walkthrough and the four LEOptical segments are in the next lesson. Read this one first.
+The guided walkthrough and the four LEOptical segments are in the next lesson.
 
 ## Lesson overview
 
@@ -30,7 +30,7 @@ This section contains a general overview of topics that you will learn in this l
 
 ## Segment types
 
-MCA supports four segment types. This course builds **Standard** segments throughout. You should know the others exist so you recognize them when clients ask.
+Marketing Cloud Next supports four segment types. This course builds **Standard** segments throughout. You should know the others exist so you recognize them when clients ask.
 
 | Type | What it is | Cadence | Data window |
 |------|-----------|---------|-------------|
@@ -43,17 +43,17 @@ For the full reference on segment types and statuses, see the [Salesforce Help a
 
 **Standard** is the right choice for virtually every email campaign audience. Use the others when you have a specific reason to.
 
-:::info
-"Nested segment" is not a segment type. It describes what happens when you use an existing published Standard segment as a filter criterion inside another segment. You build it with the same Standard type. The nesting is a configuration choice, not a separate type.
-:::
-
 **Rapid Publish** is not a segment type. It is a publish mode you can enable on a Standard segment when you need 1-hour or 4-hour refresh cadences. It has restrictions: it only looks at the last 7 days of data, is limited to 20 segments per org, and only activates to MCE and cloud file storage targets.
 
 **Real-Time** segments are for Agentforce use cases where a millisecond response is required. They do not support exclusion criteria, do not show population counts, and cannot contain nested batch segments. Do not use them for email campaigns.
 
 **Waterfall** segments enforce mutual exclusivity. Each Unified Individual lands in exactly one segment in the waterfall, whichever they qualify for first. The waterfall can contain up to 20 segments. You would use this for tiered offer programs where Gold members should receive a Gold offer and never see the Bronze offer, even if they technically qualify for both.
 
-**Nested** segments let you use a published segment as a building block inside another segment. The use case is reuse: if "All Consented Customers" is a shared definition, multiple teams can reference it without duplicating the filter logic.
+**Nested** segments let you use a published segment as a building block inside another segment. The use case is reuse: if "All Consented Customers" is a shared definition, multiple teams can reference it without duplicating the filter logic. A nested segment can be used as include or exclude logic.
+
+:::info
+"Nested segment" is not a segment type. It describes what happens when you use an existing published Standard segment as a filter criterion inside another segment. You build it with the same Standard type. The nesting is a configuration choice, not a separate type.
+:::
 
 **Dynamic** segments require API integration and are an advanced use case. They are not covered in this course.
 
@@ -61,11 +61,11 @@ For the full reference on segment types and statuses, see the [Salesforce Help a
 
 When you create a Standard segment and open the builder, the canvas has three elements worth understanding before you build anything.
 
-<ScreenshotPlaceholder alt="Segment builder canvas in its empty state showing the Segment On selector at the top, Include and Exclude tabs, and the attribute sidebar on the right with Direct Attributes and Related Attributes sections visible" />
+<Screenshot src="/img/segmentation/01-canvas-overview.png" alt="Segment builder canvas showing the Segment On selector set to Unified Individual, Include and Exclude tabs, a Rank and Limit tab, the segment population count, and the attribute sidebar with Attributes and Calculated Insights entries" />
 
 ### Segment On
 
-**Segment On** is the DMO the segment counts members of. Every filter you add returns a count of distinct members of this DMO. For all MCA use cases with Identity Resolution configured, this should always be **Unified Individual**.
+**Segment On** is the DMO the segment counts members of. Every filter you add returns a count of distinct members of this DMO. For all Marketing Cloud Next use cases with Identity Resolution configured, this should always be **Unified Individual**.
 
 If you segment on the raw Individual DMO instead, you count the same real person multiple times (once per source record). A customer who appears in CRM, the loyalty system, and ecommerce orders would count as three members. Do not do this.
 
@@ -79,12 +79,19 @@ Real-Time segments do not have an Exclude tab.
 
 ### The attribute sidebar
 
-The attribute sidebar shows all available filters, organized into two categories:
+The attribute sidebar has two top-level entries under a Resources header: **Attributes** and **Calculated Insights**.
 
-- **Direct attributes:** fields that resolve to a single value per Unified Individual. This includes fields unified directly onto the Unified Individual DMO (like first name, birth date, city) and fields from any DMO that has a one-to-one relationship with Unified Individual.
-- **Related attributes:** fields from DMOs with a one-to-many relationship to the Segment On DMO. Multiple records can exist per Unified Individual. Examples: Sales Orders, Eye Exams, email engagement events.
+Expanding **Attributes** reveals three sections:
 
-Dragging a direct attribute onto the canvas adds a simple filter. Dragging a related attribute creates a **container** for that DMO.
+- Fields listed at the top (no subheading) are direct attributes on the Unified Individual itself: first name, birth date, city, and so on.
+- **Direct Data Model Objects:** DMOs with a one-to-one relationship to Unified Individual. Each resolves to a single value per individual.
+- **Related Data Model Objects:** DMOs with a one-to-many relationship to Unified Individual. Multiple records can exist per individual. Examples: Sales Orders, Eye Exams, Communication Subscription Consents.
+
+**Calculated Insights** exposes metrics derived from Calculated Insights you have built in Data 360.
+
+Dragging a direct attribute onto the canvas adds a simple filter row. Dragging a related attribute creates a **container** for that DMO.
+
+<Screenshot src="/img/segmentation/02-attributes-sidebar.png" alt="Attribute sidebar showing direct fields at the top, then Direct Data Model Objects (Account, Party - Party Id) and Related Data Model Objects (Account Contact, Campaign Member, Communication Subscription Consent, Device Application Engagement)" />
 
 ## Direct attributes
 
@@ -101,7 +108,7 @@ Filter operators vary by data type:
 
 You can combine multiple direct attribute filters with AND or OR logic. The population count updates per filter as you build.
 
-<ScreenshotPlaceholder alt="Segment canvas showing a direct attribute filter on Individual First Name with an Is Equal To operator and a text value, and the population count displayed below the filter row" />
+<Screenshot src="/img/segmentation/03-direct-attribute-filter.png" alt="Segment canvas with a direct attribute filter: Object is Unified Individual, Attribute is First Name, Operator is Is Equal To, Value is Test" />
 
 For LEOptical, direct attributes you might filter on include first name or city, both of which are standard fields on the Individual DMO populated from CRM Contact data.
 
@@ -126,23 +133,27 @@ AND logic between filters inside a container: both conditions must be true on th
 
 AND logic between two containers: the individual must satisfy each container's criteria, but the records satisfying each container do not need to be the same record.
 
-<ScreenshotPlaceholder alt="Segment canvas showing a Sales Order container with two filters inside it connected by AND: Order Date Last Number Of Days 30 AND Total Amount Is Greater Than 100" />
+<Screenshot src="/img/segmentation/04-related-attribute-container.png" alt="Sales Order container with two filters connected by AND: Order End Date Last Number Of Days 30, and Total Amount Is Greater Than 100. The breadcrumb shows Resources > Unified Individual > Sales Order." />
 
 ### Aggregation options
 
-Inside a container, you choose how to aggregate the related records before applying the filter. Five options:
+Inside a container, you choose how to aggregate the related records before applying the filter. The official options are Count, Sum, Average, Min, and Max.
 
 | Aggregation | What it evaluates | LEOptical example |
 |------------|------------------|------------------|
 | **Count** | Number of matching records | "Has placed at least 3 orders" |
-| **Sum** | Total of a numeric field across matching records | "Total order spend over $500" |
-| **Average** | Mean of a numeric field across matching records | "Average order value over $100" |
+| **Sum** | A chosen attribute summed across all data values | "Total order spend over $500" |
+| **Average** | A chosen attribute averaged across all data values | "Average order value over $100" |
 | **Min** | Lowest value in a numeric or date field | "Earliest exam date before 2024" |
 | **Max** | Highest value in a numeric or date field | "Most recent order within the last 30 days" |
 
-Count works with any data type. Sum, Average, Min, and Max require a numeric or date field.
+Count works with any data type. Sum, Average, Min, and Max require a numeric field.
 
-The aggregation you choose determines what the filter operator applies to. If you choose Max(Order Date), the operator compares against the most recent order date, not any individual order date.
+{/* VERIFY: The official Trailhead language for Sum is "summed across all data values." It is unclear whether the other filters inside the container pre-filter the records before the sum is calculated, or whether the sum runs across every related record for that individual first and the result is then compared to the threshold. The docs do not specify processing order. Confirm in SDO with a test segment: a container with Total Amount > 0 AND Sum(Total Amount) > 500 vs. a container with Sum(Total Amount) > 500 alone — do they produce different populations? */}
+
+The aggregation you choose determines what the operator applies to. If you choose Max(Order Date), the operator compares against the most recent order date for that individual, not any individual order date.
+
+<Screenshot src="/img/segmentation/05-container-aggregation-options.png" alt="Sales Order container showing the Measurement dropdown open with options: Average, Count (selected), Min, Max, Sum. Two filters are visible: Order End Date Last Number Of Days 30, and Total Amount Is Greater Than 100." />
 
 ### The lookback window
 
@@ -166,7 +177,7 @@ An individual must satisfy each container's criteria to qualify when containers 
 
 When containers are connected by OR, qualifying for either container is enough.
 
-<ScreenshotPlaceholder alt="Segment canvas showing two containers (a Loyalty Program Member container and a Sales Order container) connected by an AND operator between them, each with their own filters" />
+<Screenshot src="/img/segmentation/06-two-containers-and.png" alt="Segment canvas with two containers connected by AND: a Sales Order container (Order End Date Last Number Of Days 30, Total Amount Is Greater Than 100) and a Loyalty Program Member container (Loyalty Tier Is Equal To Gold)" />
 
 ### Nesting
 
@@ -207,7 +218,7 @@ An important constraint: **linked field values are case-sensitive**. If the join
 
 Only one traversal path per container.
 
-<ScreenshotPlaceholder alt="Traversal path selection UI showing a dropdown or modal with two relationship chain options to reach the Product DMO, with one option highlighted" />
+<Screenshot src="/img/segmentation/07-traversal-path-selection.png" alt="Container Path dropdown for Account Contact showing a long list of traversal paths, each representing a different relationship chain from Unified Individual to Account Contact. One path (Account Contact Account > Account) is selected." caption="When multiple paths exist to a DMO, the builder lists every available relationship chain. The paths can be long and similar-looking. Read them carefully before selecting." />
 
 ## Using segments as criteria
 
@@ -223,12 +234,18 @@ This is useful for suppression patterns. If "All Consented Customers" is a publi
 
 When you add a segment as a criterion, the builder offers two options for how to evaluate it:
 
-- **Copy criteria:** The referenced segment's filter logic is copied into the current segment at save time. Changes to the referenced segment do not automatically propagate. The current segment evaluates the copied logic independently.
+- **Copy criteria:** Copies the filter criteria of the referenced segment into the current segment. The current segment evaluates that copied logic directly.
 - **Use last published:** The current segment evaluates against the most recent published membership list of the referenced segment. If the referenced segment has not been published since its last change, the current segment uses the prior membership state.
 
 {/* VERIFY: Confirm the exact UI labels for these two options in the Summer '26 builder. "Copy criteria" and "Use last published" are the expected labels based on research but confirm in SDO. */}
 
-Use "copy criteria" when you want a self-contained segment that is not affected by changes to the referenced segment. Use "last published" when you want the current segment to stay synchronized with the referenced segment's current membership.
+Use "copy criteria" when:
+- The child segment's filters are simple, since the parent segment's total filter limit (50 filters per tab) includes both child and parent filters when criteria are copied.
+- You want a self-contained segment that evaluates independently of any future changes to the referenced segment.
+
+Use "last published" when:
+- Real-time updates matter and you want changes in the child segment's published membership to reflect in the parent segment on the next publish.
+- The child segment is complex and copying its criteria would push the parent over the 50-filter limit.
 
 ### Rank and limit
 
@@ -240,6 +257,8 @@ The segment builder supports **rank** and **limit** options, which let you contr
 - **Limit** caps the segment at a specific number of individuals. After ranking, the top N individuals are included and the rest are excluded.
 
 This is useful when you want to target, for example, the 500 highest-spending customers, not just everyone over a threshold.
+
+When no rank field is set and only a limit is applied, the platform selects a random subset of the qualifying population. That selection is not stable between publishes. A limit of 1,000 on one publish may return an entirely different 1,000 on the next, a partial overlap, or the same set. There is no way to control which individuals are selected outside of segment logic that explicitly identifies who was previously included and who was not.
 
 ### Limits on nested segments
 
@@ -259,7 +278,7 @@ Common patterns for LEOptical:
 
 One approach for the Lapsed Buyers segment is to use the Exclude tab: Include everyone, Exclude anyone with a Sales Order in the last 180 days. This is often more readable than an aggregation-based filter on the Include side, though both approaches produce the same result.
 
-<ScreenshotPlaceholder alt="Exclude tab active on the segment canvas showing a Sales Order container that excludes individuals with any order in the last 180 days" />
+<Screenshot src="/img/segmentation/08-exclude-tab.png" alt="Exclude tab active on the segment canvas, showing a Sales Order container with Count At Least 1 and a filter: Order End Date Last Number Of Months 3" />
 
 ## Population counts and previews
 
@@ -316,7 +335,6 @@ When you click Publish for the first time, the platform materializes the member 
 1. Reads all Unified Individual records in the data space
 2. Evaluates Include criteria for each individual
 3. Evaluates Exclude criteria and removes matching individuals
-4. Writes the resulting member list to the segment membership DMO
 
 Until this process completes, the segment has no members. Status shows Processing or Publishing during this time.
 
@@ -331,23 +349,19 @@ After first publish, the member list is locked until the next scheduled refresh 
 This is correct and expected behavior, not a bug.
 
 :::warning
-**Segment-triggered flows against unpublished segments show "Completed" status but send nothing.** When a flow runs against a Draft segment, it queries the membership DMO and finds zero records. The flow marks itself Completed (zero interviews run) and exits without error or warning. You will not know anything went wrong until you check the send report. Always publish a segment before activating a campaign flow that references it.
+A flow that references a stale or unpublished segment sends to whatever the current membership list contains, which may be empty or out of date. Flows have a setting to auto-publish the segment before sending, which avoids this. More on that in the flows module.
 :::
 
 ### After publish
 
 Two system-generated DMOs exist per published segment:
 
-- **Latest DMO:** current publish snapshot, who is in the segment right now
-- **History DMO:** last 30 days of membership snapshots
+- **Segment Membership Latest:** the current publish snapshot, showing who is in the segment right now.
+- **Segment Membership History:** a rolling record of past membership snapshots.
+
+{/* VERIFY: Confirm the exact official names for these two DMOs in Summer '26. Research confirms "Segment Membership Latest" and "Segment Membership History" as the names, but verify in SDO via the Data Explorer or Query Editor. Also confirm the history retention window. Research cited 30 days but that was not from official docs. */}
 
 Both are queryable via the Data 360 Query Editor. This is useful for auditing segment membership or building reports of who entered or exited a segment over time.
-
-<ScreenshotPlaceholder alt="Segment list view showing three segments with different status badges: one in Draft, one in Processing, and one Published/Active, with member count and last published timestamp visible" />
-
-:::warning
-**SDOs only support manual segment publishing.** In your SDO, segments will not refresh on a schedule. You must publish manually each time. Production client orgs use the scheduled publish cadence you configure. This means that testing in your SDO requires intentional manual publishes to see updated membership.
-:::
 
 ## Publish schedule options
 
@@ -363,15 +377,13 @@ Standard Manual means you publish on demand. The segment does not refresh automa
 Rapid Publish is a publish mode you enable per segment. The max is 20 Rapid Publish segments per org. The 7-day data window is a hard limit. If a Lapsed Buyers segment needs to look back 180 days, Rapid Publish is the wrong choice for that segment.
 
 :::tip[Coming from MCE?]
-MCE had no concept of a scheduled audience refresh cadence. The send would run a Filter Activity at send time, then use the resulting DE. There was no pre-computed, periodically refreshed member list.
+In MCE, Automation Studio ran Query Activities against Data Extensions at send time to produce the audience. The send queried the data fresh each time.
 
-MCA's publish cycle is a fundamentally different model. The audience is computed ahead of time on a schedule. The send uses the pre-computed list, not a fresh query. This means:
+Marketing Cloud Next's publish cycle works differently. The audience is computed ahead of time on a schedule. The send uses the pre-computed list, not a fresh query. This means:
 
 - Faster sends for large audiences (no filter evaluation at send time)
 - Audiences that are always slightly stale by design
 - A segment must be published before you can use it, not just created
-
-There is no MCE equivalent to a 12-hour or 24-hour audience refresh cycle.
 :::
 
 ## Knowledge check
