@@ -1,51 +1,51 @@
 loyalty_member_id,email,first_name,last_name,phone,tier,points,join_date,email_optin
-LM-N0001,margaud.morvan.new000@example.com,Margaud,Morvan,(600) 600-0000,Bronze,269,17-Jul-2026,true
-LM-N0002,jade.cardoso.new001@example.com,Jade,Cardoso,607-613-0031,Bronze,175,02-Jul-2026,true
-LM-N0003,wendy.decker.new002@example.com,Wendy,Decker,6146260062,Bronze,146,13-Jul-2026,true
-LM-N0004,micaela.laureano.new003@example.com,Micaela,Laureano,+16216390093,Bronze,89,14-Jul-2026,true
-LM-N0005,raquel.hernandez.new004@example.com,Raquel,Hernandez,(628) 652-0124,Bronze,74,07-Jul-2026,true
-LM-N0006,susan.ramirez.new005@example.com,Susan,Ramirez,635-665-0155,Bronze,244,22-Jul-2026,true
-LM-N0007,collin.aubry.new006@example.com,Collin,Aubry,6426780186,Bronze,146,17-Jul-2026,true
-LM-N0008,guillermo.figueroa.new007@example.com,Guillermo,Figueroa,+16496910217,Bronze,138,08-Jul-2026,true
-LM-N0009,luizfernando.villanueva.new008@example.com,Luiz Fernando,Villanueva,(656) 704-0248,Bronze,63,07-Jul-2026,true
-LM-N0010,chelsea.foster.new009@example.com,Chelsea,Foster,663-717-0279,Bronze,495,25-Jul-2026,true
-LM-N0011,manuel.huerta.new010@example.com,Manuel,Huerta,6707300310,Bronze,20,01-Jul-2026,true
-LM-N0012,socorro.wagner.new011@example.com,Socorro,Wagner,+16777430341,Bronze,226,29-Jul-2026,true
-LM-N0013,gaurang.bonnin.new012@example.com,Gaurang,Bonnin,(684) 756-0372,Bronze,265,01-Jul-2026,true
-LM-N0014,veer.brennan.new013@example.com,Veer,Brennan,691-769-0403,Bronze,440,01-Jul-2026,true
-LM-N0015,heitor.dube.new014@example.com,Heitor,Dube,6987820434,Bronze,484,30-Jul-2026,true
-LM-N0016,rachel.diaz.new015@example.com,Rachel,Diaz,+17057950465,Bronze,241,12-Jul-2026,true
-LM-N0017,alonso.cherry.new016@example.com,Alonso,Cherry,(712) 808-0496,Bronze,13,12-Jul-2026,true
-LM-N0018,amy.henderson.new017@example.com,Amy,Henderson,719-821-0527,Bronze,319,13-Jul-2026,true
-LM-N0019,angela.fabre.new018@example.com,Angela,Fabre,7268340558,Bronze,388,15-Jul-2026,true
-LM-N0020,andrea.galloway.new019@example.com,Andrea,Galloway,+17338470589,Bronze,385,09-Jul-2026,true
-LM-N0021,jennifer.wise.new020@example.com,Jennifer,Wise,(740) 860-0620,Bronze,293,13-Jul-2026,true
-LM-N0022,anabeatriz.suarez.new021@example.com,Ana Beatriz,Suarez,747-873-0651,Bronze,223,30-Jul-2026,true
-LM-N0023,john.navarro.new022@example.com,John,Navarro,7548860682,Bronze,232,23-Jul-2026,true
-LM-N0024,diego.garrison.new023@example.com,Diego,Garrison,+17618990713,Bronze,305,04-Jul-2026,true
-LM-N0025,luke.whitehead.new024@example.com,Luke,Whitehead,(768) 912-0744,Bronze,47,04-Jul-2026,true
-LM-N0026,nathalie.bousquet.new025@example.com,Nathalie,Bousquet,775-925-0775,Bronze,168,24-Jul-2026,true
-LM-N0027,amador.hill.new026@example.com,Amador,Hill,7829380806,Bronze,74,17-Jul-2026,true
-LM-N0028,adam.higgins.new027@example.com,Adam,Higgins,+17899510837,Bronze,7,22-Jul-2026,true
-LM-N0029,perla.jacobs.new028@example.com,Perla,Jacobs,(796) 964-0868,Bronze,348,31-Jul-2026,true
-LM-N0030,brian.zuniga.new029@example.com,Brian,Zuniga,803-977-0899,Bronze,386,18-Jul-2026,true
-LM-N0031,debra.keith.new030@example.com,Debra,Keith,8109900930,Bronze,68,28-Jul-2026,true
-LM-N0032,edhitha.duarte.new031@example.com,Edhitha,Duarte,+18172030961,Bronze,218,24-Jul-2026,true
-LM-N0033,gabriel.castro.new032@example.com,Gabriel,Castro,(824) 216-0992,Bronze,407,21-Jul-2026,true
-LM-N0034,tracey.wilson.new033@example.com,Tracey,Wilson,831-229-1023,Bronze,203,31-Jul-2026,true
-LM-N0035,tracy.osorio.new034@example.com,Tracy,Osorio,8382421054,Bronze,233,02-Jul-2026,true
-LM-N0036,jorge.green.new035@example.com,Jorge,Green,+18452551085,Bronze,287,03-Jul-2026,true
-LM-N0037,pamela.toro.new036@example.com,Pamela,Toro,(852) 268-1116,Bronze,147,22-Jul-2026,true
-LM-N0038,blanca.collins.new037@example.com,Blanca,Collins,859-281-1147,Bronze,107,17-Jul-2026,true
-LM-N0039,cristian.valencia.new038@example.com,Cristian,Valencia,8662941178,Bronze,19,26-Jul-2026,true
-LM-N0040,mirella.freitas.new039@example.com,Mirella,Freitas,+18733071209,Bronze,2,08-Jul-2026,true
-LM-N0041,juliette.rodrigues.new040@example.com,Juliette,Rodrigues,(880) 320-1240,Bronze,290,31-Jul-2026,true
-LM-N0042,kathryn.perez.new041@example.com,Kathryn,Perez,887-333-1271,Bronze,253,25-Jul-2026,true
-LM-N0043,emily.ibarra.new042@example.com,Emily,Ibarra,8943461302,Bronze,55,27-Jul-2026,true
-LM-N0044,anna.daniel.new043@example.com,Anna,Daniel,+19013591333,Bronze,189,14-Jul-2026,true
-LM-N0045,janet.peterson.new044@example.com,Janet,Peterson,(908) 372-1364,Bronze,317,05-Jul-2026,true
-LM-N0046,audrey.howard.new045@example.com,Audrey,Howard,915-385-1395,Bronze,282,31-Jul-2026,true
-LM-N0047,kimberly.mcdaniel.new046@example.com,Kimberly,Mcdaniel,9223981426,Bronze,297,19-Jul-2026,true
-LM-N0048,lindsay.wood.new047@example.com,Lindsay,Wood,+19294111457,Bronze,322,10-Jul-2026,true
-LM-N0049,veronica.clements.new048@example.com,Veronica,Clements,(936) 424-1488,Bronze,320,07-Jul-2026,true
-LM-N0050,eduardo.allen.new049@example.com,Eduardo,Allen,943-437-1519,Bronze,85,06-Jul-2026,true
+LM-N0001,margaud.morvan.new000@example.com,Margaud,Morvan,(600) 600-0000,Bronze,52,2026-07-21T00:00:00Z,true
+LM-N0002,jade.cardoso.new001@example.com,Jade,Cardoso,607-613-0031,Bronze,277,2026-07-05T00:00:00Z,true
+LM-N0003,wendy.decker.new002@example.com,Wendy,Decker,6146260062,Bronze,85,2026-07-03T00:00:00Z,true
+LM-N0004,micaela.laureano.new003@example.com,Micaela,Laureano,+16216390093,Bronze,341,2026-07-13T00:00:00Z,true
+LM-N0005,raquel.hernandez.new004@example.com,Raquel,Hernandez,(628) 652-0124,Bronze,326,2026-07-10T00:00:00Z,true
+LM-N0006,susan.ramirez.new005@example.com,Susan,Ramirez,635-665-0155,Bronze,259,2026-07-23T00:00:00Z,true
+LM-N0007,collin.aubry.new006@example.com,Collin,Aubry,6426780186,Bronze,228,2026-07-09T00:00:00Z,true
+LM-N0008,guillermo.figueroa.new007@example.com,Guillermo,Figueroa,+16496910217,Bronze,494,2026-07-07T00:00:00Z,true
+LM-N0009,luizfernando.villanueva.new008@example.com,Luiz Fernando,Villanueva,(656) 704-0248,Bronze,418,2026-07-30T00:00:00Z,true
+LM-N0010,chelsea.foster.new009@example.com,Chelsea,Foster,663-717-0279,Bronze,234,2026-07-05T00:00:00Z,true
+LM-N0011,manuel.huerta.new010@example.com,Manuel,Huerta,6707300310,Bronze,466,2026-07-06T00:00:00Z,true
+LM-N0012,socorro.wagner.new011@example.com,Socorro,Wagner,+16777430341,Bronze,185,2026-07-26T00:00:00Z,true
+LM-N0013,gaurang.bonnin.new012@example.com,Gaurang,Bonnin,(684) 756-0372,Bronze,427,2026-07-23T00:00:00Z,true
+LM-N0014,veer.brennan.new013@example.com,Veer,Brennan,691-769-0403,Bronze,85,2026-07-26T00:00:00Z,true
+LM-N0015,heitor.dube.new014@example.com,Heitor,Dube,6987820434,Bronze,476,2026-07-26T00:00:00Z,true
+LM-N0016,rachel.diaz.new015@example.com,Rachel,Diaz,+17057950465,Bronze,464,2026-07-30T00:00:00Z,true
+LM-N0017,alonso.cherry.new016@example.com,Alonso,Cherry,(712) 808-0496,Bronze,361,2026-07-20T00:00:00Z,true
+LM-N0018,amy.henderson.new017@example.com,Amy,Henderson,719-821-0527,Bronze,483,2026-07-09T00:00:00Z,true
+LM-N0019,angela.fabre.new018@example.com,Angela,Fabre,7268340558,Bronze,39,2026-07-08T00:00:00Z,true
+LM-N0020,andrea.galloway.new019@example.com,Andrea,Galloway,+17338470589,Bronze,192,2026-07-09T00:00:00Z,true
+LM-N0021,jennifer.wise.new020@example.com,Jennifer,Wise,(740) 860-0620,Bronze,388,2026-07-18T00:00:00Z,true
+LM-N0022,anabeatriz.suarez.new021@example.com,Ana Beatriz,Suarez,747-873-0651,Bronze,109,2026-07-21T00:00:00Z,true
+LM-N0023,john.navarro.new022@example.com,John,Navarro,7548860682,Bronze,416,2026-07-16T00:00:00Z,true
+LM-N0024,diego.garrison.new023@example.com,Diego,Garrison,+17618990713,Bronze,474,2026-07-21T00:00:00Z,true
+LM-N0025,luke.whitehead.new024@example.com,Luke,Whitehead,(768) 912-0744,Bronze,413,2026-07-27T00:00:00Z,true
+LM-N0026,nathalie.bousquet.new025@example.com,Nathalie,Bousquet,775-925-0775,Bronze,171,2026-07-08T00:00:00Z,true
+LM-N0027,amador.hill.new026@example.com,Amador,Hill,7829380806,Bronze,241,2026-07-12T00:00:00Z,true
+LM-N0028,adam.higgins.new027@example.com,Adam,Higgins,+17899510837,Bronze,149,2026-07-19T00:00:00Z,true
+LM-N0029,perla.jacobs.new028@example.com,Perla,Jacobs,(796) 964-0868,Bronze,35,2026-07-26T00:00:00Z,true
+LM-N0030,brian.zuniga.new029@example.com,Brian,Zuniga,803-977-0899,Bronze,460,2026-07-31T00:00:00Z,true
+LM-N0031,debra.keith.new030@example.com,Debra,Keith,8109900930,Bronze,191,2026-07-09T00:00:00Z,true
+LM-N0032,edhitha.duarte.new031@example.com,Edhitha,Duarte,+18172030961,Bronze,216,2026-07-14T00:00:00Z,true
+LM-N0033,gabriel.castro.new032@example.com,Gabriel,Castro,(824) 216-0992,Bronze,130,2026-07-23T00:00:00Z,true
+LM-N0034,tracey.wilson.new033@example.com,Tracey,Wilson,831-229-1023,Bronze,293,2026-07-19T00:00:00Z,true
+LM-N0035,tracy.osorio.new034@example.com,Tracy,Osorio,8382421054,Bronze,281,2026-07-21T00:00:00Z,true
+LM-N0036,jorge.green.new035@example.com,Jorge,Green,+18452551085,Bronze,212,2026-07-23T00:00:00Z,true
+LM-N0037,pamela.toro.new036@example.com,Pamela,Toro,(852) 268-1116,Bronze,157,2026-07-04T00:00:00Z,true
+LM-N0038,blanca.collins.new037@example.com,Blanca,Collins,859-281-1147,Bronze,294,2026-07-07T00:00:00Z,true
+LM-N0039,cristian.valencia.new038@example.com,Cristian,Valencia,8662941178,Bronze,393,2026-07-16T00:00:00Z,true
+LM-N0040,mirella.freitas.new039@example.com,Mirella,Freitas,+18733071209,Bronze,213,2026-07-17T00:00:00Z,true
+LM-N0041,juliette.rodrigues.new040@example.com,Juliette,Rodrigues,(880) 320-1240,Bronze,95,2026-07-19T00:00:00Z,true
+LM-N0042,kathryn.perez.new041@example.com,Kathryn,Perez,887-333-1271,Bronze,481,2026-07-28T00:00:00Z,true
+LM-N0043,emily.ibarra.new042@example.com,Emily,Ibarra,8943461302,Bronze,0,2026-07-05T00:00:00Z,true
+LM-N0044,anna.daniel.new043@example.com,Anna,Daniel,+19013591333,Bronze,263,2026-07-17T00:00:00Z,true
+LM-N0045,janet.peterson.new044@example.com,Janet,Peterson,(908) 372-1364,Bronze,182,2026-07-04T00:00:00Z,true
+LM-N0046,audrey.howard.new045@example.com,Audrey,Howard,915-385-1395,Bronze,415,2026-07-31T00:00:00Z,true
+LM-N0047,kimberly.mcdaniel.new046@example.com,Kimberly,Mcdaniel,9223981426,Bronze,343,2026-07-24T00:00:00Z,true
+LM-N0048,lindsay.wood.new047@example.com,Lindsay,Wood,+19294111457,Bronze,55,2026-07-08T00:00:00Z,true
+LM-N0049,veronica.clements.new048@example.com,Veronica,Clements,(936) 424-1488,Bronze,208,2026-07-30T00:00:00Z,true
+LM-N0050,eduardo.allen.new049@example.com,Eduardo,Allen,943-437-1519,Bronze,294,2026-07-13T00:00:00Z,true

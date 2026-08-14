@@ -769,8 +769,7 @@ def generate_loyalty_csv(people: list[Person], rng: random.Random):
 
             # join_date — 1 to 4 years ago
             join_date = TODAY - timedelta(days=rng.randint(365, 1460))
-            # Format as DD-Mon-YYYY (dirty data — different from CRM format)
-            join_date_str = join_date.strftime('%d-%b-%Y')
+            join_date_str = join_date.strftime('%Y-%m-%dT%H:%M:%SZ')
 
             # Loyalty tier & points — mostly correct, but ~500 are stale
             tier = p.loyalty_tier or tier_for_points(rng.randint(0, 100_000))
@@ -824,7 +823,7 @@ def generate_ecom_customers_csv(people: list[Person]):
                 email,
                 p.first_name,
                 p.last_name or '',
-                created_date.isoformat(),
+                created_date.strftime('%Y-%m-%dT%H:%M:%SZ'),
                 email_optin,
             ])
     print(f"  ecom_customers.csv: {len(customers):,} rows")
@@ -844,26 +843,26 @@ def generate_ecom_orders_csv(people: list[Person], rng: random.Random) -> list[d
     # ── Protagonist orders (fixed, known purchase histories) ────────────
     protagonist_order_specs = [
         # Maria Chen — SeeClear DailyFocus + SeeClear SunSync
-        {'name': ('Maria', 'Chen'),     'sku': 'SEC-DLF-001', 'price': 189.00, 'date': '03/15/2026'},
-        {'name': ('Maria', 'Chen'),     'sku': 'SEC-SNS-001', 'price': 219.00, 'date': '11/22/2025'},
+        {'name': ('Maria', 'Chen'),     'sku': 'SEC-DLF-001', 'price': 189.00, 'date': '2026-03-15T00:00:00Z'},
+        {'name': ('Maria', 'Chen'),     'sku': 'SEC-SNS-001', 'price': 219.00, 'date': '2025-11-22T00:00:00Z'},
         # James Okafor — Visionaire UltraLux
-        {'name': ('James', 'Okafor'),   'sku': 'VIS-ULX-001', 'price': 349.00, 'date': '05/10/2026'},
+        {'name': ('James', 'Okafor'),   'sku': 'VIS-ULX-001', 'price': 349.00, 'date': '2026-05-10T00:00:00Z'},
         # David Kim — Visionaire ChromaShift (lapsed — 200+ days ago)
-        {'name': ('David', 'Kim'),      'sku': 'VIS-CHS-001', 'price': 299.00, 'date': '01/08/2026'},
+        {'name': ('David', 'Kim'),      'sku': 'VIS-CHS-001', 'price': 299.00, 'date': '2026-01-08T00:00:00Z'},
         # Aisha Patel — SeeClear DailyFocus
-        {'name': ('Aisha', 'Patel'),    'sku': 'SEC-DLF-001', 'price': 189.00, 'date': '04/20/2026'},
+        {'name': ('Aisha', 'Patel'),    'sku': 'SEC-DLF-001', 'price': 189.00, 'date': '2026-04-20T00:00:00Z'},
         # Carlos Mendez — Visionaire UltraLux
-        {'name': ('Carlos', 'Mendez'),  'sku': 'VIS-ULX-001', 'price': 349.00, 'date': '06/05/2026'},
+        {'name': ('Carlos', 'Mendez'),  'sku': 'VIS-ULX-001', 'price': 349.00, 'date': '2026-06-05T00:00:00Z'},
         # Wei Zhang — all 4 lens products
-        {'name': ('Wei', 'Zhang'),      'sku': 'VIS-ULX-001', 'price': 349.00, 'date': '07/01/2026'},
-        {'name': ('Wei', 'Zhang'),      'sku': 'VIS-CHS-001', 'price': 299.00, 'date': '05/15/2026'},
-        {'name': ('Wei', 'Zhang'),      'sku': 'SEC-DLF-001', 'price': 189.00, 'date': '03/22/2026'},
-        {'name': ('Wei', 'Zhang'),      'sku': 'SEC-SNS-001', 'price': 219.00, 'date': '01/30/2026'},
+        {'name': ('Wei', 'Zhang'),      'sku': 'VIS-ULX-001', 'price': 349.00, 'date': '2026-07-01T00:00:00Z'},
+        {'name': ('Wei', 'Zhang'),      'sku': 'VIS-CHS-001', 'price': 299.00, 'date': '2026-05-15T00:00:00Z'},
+        {'name': ('Wei', 'Zhang'),      'sku': 'SEC-DLF-001', 'price': 189.00, 'date': '2026-03-22T00:00:00Z'},
+        {'name': ('Wei', 'Zhang'),      'sku': 'SEC-SNS-001', 'price': 219.00, 'date': '2026-01-30T00:00:00Z'},
         # Fatima Al-Hassan — SeeClear SunSync
-        {'name': ('Fatima', 'Al-Hassan'), 'sku': 'SEC-SNS-001', 'price': 219.00, 'date': '02/14/2026'},
+        {'name': ('Fatima', 'Al-Hassan'), 'sku': 'SEC-SNS-001', 'price': 219.00, 'date': '2026-02-14T00:00:00Z'},
         # Priya Sharma — Visionaire ChromaShift + Visionaire UltraLux
-        {'name': ('Priya', 'Sharma'),   'sku': 'VIS-CHS-001', 'price': 299.00, 'date': '06/18/2026'},
-        {'name': ('Priya', 'Sharma'),   'sku': 'VIS-ULX-001', 'price': 349.00, 'date': '04/02/2026'},
+        {'name': ('Priya', 'Sharma'),   'sku': 'VIS-CHS-001', 'price': 299.00, 'date': '2026-06-18T00:00:00Z'},
+        {'name': ('Priya', 'Sharma'),   'sku': 'VIS-ULX-001', 'price': 349.00, 'date': '2026-04-02T00:00:00Z'},
     ]
 
     orders = []
@@ -935,12 +934,11 @@ def generate_ecom_orders_csv(people: list[Person], rng: random.Random) -> list[d
             else:
                 status = 'Returned'
 
-            # Date format — MM/DD/YYYY (dirty data — different from CRM)
-            date_str = order_date.strftime('%m/%d/%Y')
+            date_str = order_date.strftime('%Y-%m-%dT%H:%M:%SZ')
 
             # "Lapsed" boundary case: exactly 180 days ago
             if unique_order_count == 500:
-                date_str = (TODAY - timedelta(days=180)).strftime('%m/%d/%Y')
+                date_str = (TODAY - timedelta(days=180)).strftime('%Y-%m-%dT%H:%M:%SZ')
 
             orders.append({
                 'order_id': order_id,
@@ -1038,12 +1036,7 @@ def generate_clinic_exams_csv(people: list[Person], rng: random.Random):
             TODAY - timedelta(days=900), TODAY, rng
         )
 
-        # Date format: DD-Mon-YYYY (dirty data — different from CRM and ecommerce)
-        exam_date_str = exam_date.strftime('%d-%b-%Y')
-
-        # Some records use different date format for extra messiness
-        if rng.random() < 0.05:
-            exam_date_str = exam_date.isoformat()  # YYYY-MM-DD
+        exam_date_str = exam_date.strftime('%Y-%m-%dT%H:%M:%SZ')
 
         rows.append({
             'exam_id': exam_id,
@@ -1088,7 +1081,7 @@ def generate_simulation_csvs(rng: random.Random):
                 email, fn, ln,
                 phone_for_index(90_000 + i, rng),
                 'Bronze', rng.randint(0, 500),
-                join_date.strftime('%d-%b-%Y'),
+                join_date.strftime('%Y-%m-%dT%H:%M:%SZ'),
                 'true',
             ])
     print(f"  new_signups_july.csv: 50 rows")
@@ -1109,7 +1102,7 @@ def generate_simulation_csvs(rng: random.Random):
             writer.writerow([
                 f"ORD-N{i + 1:05d}",
                 f"EC-N{i + 1:05d}",
-                order_date.strftime('%m/%d/%Y'),
+                order_date.strftime('%Y-%m-%dT%H:%M:%SZ'),
                 total, 'Completed',
             ])
     print(f"  new_orders_july.csv: 100 rows")
