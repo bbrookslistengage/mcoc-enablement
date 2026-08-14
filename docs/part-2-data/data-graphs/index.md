@@ -14,13 +14,7 @@ A Data Graph is a pre-computed view of your DMO relationships, organized around 
 
 That expression breaks down like this:
 
-| Part | What it means |
-|------|--------------|
-| `@root` | The root context of the Handlebars template |
-| `$dataGraph` | The default Data Graph configured in MCA Setup |
-| `ssot__FirstName__c` | A field on the Unified Individual DMO, using the Salesforce namespace prefix |
-
-<ScreenshotPlaceholder alt="Annotated diagram of a Handlebars expression showing @root, $dataGraph, and ssot__FirstName__c as labeled segments, similar to an anatomy-of-an-email-address style breakdown" />
+<HandlebarsAnatomy />
 
 This module covers the concept, the mechanics, and the dependencies. The next lesson has you build the LEOptical Data Graph in your SDO.
 
@@ -116,8 +110,6 @@ For LEOptical's use cases (loyalty tier notifications, purchase history emails, 
 
 ## The Unified Link Individual
 
-This is the part of the Data Graph that trips people up.
-
 When you create a Data Graph rooted on the Unified Individual, you cannot reach Contact Point Email, Contact Point Phone, or other standard Individual-linked objects directly. Those objects are linked to source Individual records, not to the Unified Individual. The Unified Link Individual is the bridge.
 
 After Identity Resolution runs, two system-generated objects exist for each resolved profile:
@@ -193,8 +185,6 @@ SDO orgs are limited to three Data Graphs total. Production orgs allow up to 25.
 :::
 
 ## The missing field gotcha
-
-This is the most common source of blank personalization in MCA emails, and it is not obvious until you hit it.
 
 If a Unified Individual has no data for a field (for example, a contact imported from CRM who has never placed an ecommerce order), the Data Graph JSON for that individual will not include the Sales Order fields at all. Not null. Not an empty array. The fields simply do not exist in the JSON.
 

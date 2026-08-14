@@ -158,7 +158,6 @@ Use Exact for stable, machine-generated identifiers where an exact match is mean
 
 Do not use Exact for email addresses. A person who enters `Maria.Chen@example.com` in one system and `maria.chen@example.com` in another will not match on Exact. Use Exact Normalized for email.
 
-<ScreenshotPlaceholder alt="Match rule criterion configured with Exact method, showing the Object, Field, and Match Method dropdowns" />
 
 #### Exact Normalized
 
@@ -171,7 +170,7 @@ Normalization by field type:
 
 Use Exact Normalized for email addresses, phone numbers, and mailing addresses.
 
-<ScreenshotPlaceholder alt="Match rule criterion configured with Exact Normalized method on the Email Address field of Contact Point Email" />
+<Screenshot src="/img/configuring-idr/05-match-rule-exact-normalized.png" alt="Configure Match Criteria screen showing a custom rule with one criterion: Data Model Object set to Contact Point Email, Field set to Email Address, and Match Method set to Exact Normalized." />
 
 #### Fuzzy
 
@@ -186,7 +185,7 @@ Precision levels:
 - **Medium Precision**: Initials, gender variants, shuffled names (e.g., S. / Sharon, Gabriel / Gabrielle)
 - **High Precision**: Nicknames, punctuation variations, cross-cultural spellings (e.g., William / Bill, Beatriz / Beatrice)
 
-<ScreenshotPlaceholder alt="Match rule criterion configured with Fuzzy method on First Name, showing the Precision Level dropdown with Low, Medium, and High options" />
+<Screenshot src="/img/configuring-idr/05-fuzzy-precision.png" alt="Configure Match Criteria screen for a fuzzy match rule, showing the match method dropdown open with Fuzzy - Medium Precision selected for the First Name field" />
 
 :::warning
 Fuzzy matching only runs in batch/scheduled mode. If you are using real-time identity resolution (for personalization flows), only Exact and Exact Normalized are supported. Fuzzy rules are ignored in real-time mode.
@@ -205,7 +204,7 @@ The default ruleset contains four pre-built match rules:
 | Fuzzy Name and Normalized Address | First name (fuzzy) plus mailing address (normalized) |
 | Fuzzy Name and Normalized Phone | First name (fuzzy) plus phone number (normalized) |
 
-<ScreenshotPlaceholder alt="Add Match Rules screen showing the four default rules: MC Subscriber Key, Fuzzy Name and Normalized Email, Fuzzy Name and Normalized Address, Fuzzy Name and Normalized Phone, with OR connectors between them and an Add Match Rule button at the bottom" />
+<Screenshot src="/img/configuring-idr/05-mca-default-ruleset.png" alt="Add Match Rules screen showing the four default match rules: MC Subscriber Key, Fuzzy Name and Normalized Email, Fuzzy Name and Normalized Address, and Fuzzy Name and Normalized Phone" />
 
 The fuzzy name rules are broad. They will catch most email-based and phone-based matches for LEOptical's data. For this course, these defaults are a reasonable starting point. The next page walks through reviewing them and deciding whether to keep, adjust, or add rules.
 
@@ -249,9 +248,9 @@ The value from the source record that was most recently updated wins.
 
 Use this for fields that change over time and where the latest state is the truth: email address, mailing address, phone number.
 
-Example: CRM has an email address updated 30 days ago. The loyalty system has a different email updated 5 days ago. Most Recent gives the loyalty email to the Unified Individual.
+The Contact Point Email DMO defaults to Last Updated across all its fields. This is a reasonable starting point, as the most recently updated email record is the most likely to be active.
 
-<ScreenshotPlaceholder alt="Reconciliation rule configured with Most Recent strategy on the Email Address field of Contact Point Email" />
+<Screenshot src="/img/configuring-idr/05-reconciliation-rules.png" alt="Individual Identity Resolution reconciliation rules showing the Contact Point Email DMO section expanded. All fields including Contact Point Email Id, Created Date, Data Source, Data Source Object, Email Address, Email Latest Bounce Date Time, Email Latest Bounce Reason Text, Internal Organization, Last Modified Date, and Party are set to Last Updated reconciliation rule." />
 
 #### Most Frequent
 
@@ -261,7 +260,7 @@ Use this for fields where agreement across sources is a signal of accuracy. If t
 
 This is often the default reconciliation strategy for name fields.
 
-<ScreenshotPlaceholder alt="Reconciliation rule configured with Most Frequent strategy on the Individual DMO at the object level" />
+<Screenshot src="/img/configuring-idr/05-most-frequent-reconciliation.png" alt="Individual Identity Resolution reconciliation rules table showing Individual DMO fields. First Name row is highlighted with Reconciliation Rule set to Most Frequent. All other fields show Last Updated." />
 
 #### Source Priority (Source Sequence)
 
@@ -273,7 +272,7 @@ Use this when one source is definitively the system of record for a specific fie
 
 Example configuration: For Individual Name, rank Contact > Loyalty. For Loyalty Tier, rank Loyalty Program Member DMO first.
 
-<ScreenshotPlaceholder alt="Reconciliation rule configured with Source Priority strategy, showing the ranked list of DMOs with Contact at the top and Loyalty Program Member below it" />
+<Screenshot src="/img/configuring-idr/05-reconciliation-source-priority.png" alt="Edit Reconciliation Rule panel for the Title field showing Source Priority strategy. Source list shows Contact_Home ranked 1, Loyalty_Members ranked 2, Ecommerce_Customers ranked 3, Lead_Home ranked 4, Marketing Intelligence Profile ranked 5, and MobileAppMessagingV2 ranked 6." />
 
 ### Unified Contact Points are additive, not reconciled
 
