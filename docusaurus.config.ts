@@ -6,7 +6,7 @@ import path from 'path';
 const config: Config = {
   title: 'Marketing Cloud Next Enablement Course',
   tagline: 'Self-paced Marketing Cloud Next (Advanced Edition) training by ListEngage',
-  favicon: 'img/favicon.ico',
+  favicon: 'img/favicon.svg',
 
   future: {
     v4: true,
