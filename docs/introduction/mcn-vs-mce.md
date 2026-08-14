@@ -1,13 +1,13 @@
 ---
 has_assignment: false
 sidebar_position: 2
-title: "MCA vs. MCE"
-description: "A high-level orientation to MCA's architecture and how it differs from Marketing Cloud Engagement."
+title: "MCN vs. MCE"
+description: "A high-level orientation to Marketing Cloud Next's architecture and how it differs from Marketing Cloud Engagement."
 ---
 
 ## Overview
 
-Whether you are coming from MCE or encountering marketing automation on the Salesforce platform for the first time, this module gives you the big-picture context for what MCA is and how its architecture differs from its predecessor. You do not need MCE experience to follow along. Everything here stands on its own.
+Whether you are coming from MCE or encountering marketing automation on the Salesforce platform for the first time, this module gives you the big-picture context for what Marketing Cloud Next is and how its architecture differs from its predecessor. You do not need MCE experience to follow along. Everything here stands on its own.
 
 Throughout this course, you will see "Coming from MCE?" callouts that draw specific comparisons where they are relevant. This module is the wide-angle view. Those callouts are the close-ups.
 
@@ -17,34 +17,34 @@ If you have never touched MCE, that is completely fine. You will not be at a dis
 
 This section contains a general overview of topics that you will learn in this lesson.
 
-- What MCA is and where it fits in the Salesforce product family.
-- The key architectural differences between MCA and MCE.
-- Why MCA depends on a fully configured data layer before marketing features work.
+- What Marketing Cloud Next is and where it fits in the Salesforce product family.
+- The key architectural differences between Marketing Cloud Next and MCE.
+- Why Marketing Cloud Next depends on a fully configured data layer before marketing features work.
 - How "Coming from MCE?" callouts work throughout the course.
 
-## What is MCA
+## What is Marketing Cloud Next
 
-Marketing Cloud Advanced (MCA) is Salesforce's current-generation marketing automation platform. It is built natively on the core Salesforce platform (Lightning Platform) and on Data 360. It uses the same objects as the core platform, like Contacts, Accounts, and Campaigns.
+Marketing Cloud Next is Salesforce's current-generation marketing automation platform. It is built natively on the core Salesforce platform (Lightning Platform) and on Data 360. It uses the same objects as the core platform, like Contacts, Accounts, and Campaigns.
 
-MCA is not a rebranding of MCE. It is not MCE with a new coat of paint. It is a fundamentally different product built on a fundamentally different architecture.
+Marketing Cloud Next is not a rebranding of MCE. It is not MCE with a new coat of paint. It is a fundamentally different product built on a fundamentally different architecture.
 
 ### A note on naming
 
-The naming history around this product is messy. At various points, Salesforce has called the platform MCG (Growth edition), MCA (Advanced edition), Marketing Cloud on Core, Marketing Cloud Next, and (as of Spring '26) Agentforce Marketing. Growth and Advanced are not separate products. They are edition tiers of the same platform, with Advanced including additional features like Einstein Engagement Scoring, Einstein Engagement Frequency, Path Experiments, and SMS.
+The naming history around this product is messy. At various points, Salesforce has called the platform Marketing Cloud on Core, Marketing Cloud Next, and (as of Spring '26) Agentforce Marketing. Marketing Cloud Next comes in two edition tiers: Growth (MCG) and Advanced (MCA). Growth and Advanced are not separate products. They are tiers of the same platform, with Advanced including additional features like Einstein Engagement Scoring, Einstein Engagement Frequency, Path Experiments, and SMS.
 
-This course uses "MCA" (Marketing Cloud Advanced) because that is the edition tier that includes the features covered here. If you see "MCG" or "Marketing Cloud Next" in Salesforce documentation, they are referring to the same underlying platform.
+This course covers the Advanced edition (MCA). When you see "MCA" throughout this course, it refers to the Advanced edition tier specifically. When you see "Marketing Cloud Next," it refers to the platform as a whole. If you see "MCG" in Salesforce documentation, it refers to the Growth edition tier of the same platform.
 
 ## The architectural shift
 
-MCA is not MCE with a new UI. The architecture is different at every layer.
+Marketing Cloud Next is not MCE with a new UI. The architecture is different at every layer.
 
 MCE (originally ExactTarget) was a standalone platform. It had its own data layer (data extensions and subscriber lists), its own automation engines (a visual campaign orchestrator and Automation Studio), its own content tools (Content Builder), and its own sending infrastructure. You could run MCE without a Salesforce CRM license. Everything was self-contained.
 
-MCA takes a different approach. It does not have its own data layer. It uses Data 360. It does not have its own automation engine. It uses Salesforce Flow. The marketing-specific features (email builder, landing pages, segments, forms) are built on top of existing platform services: Data 360 for data, Flow for automation, Salesforce CMS for content, and Digital Experiences for landing pages.
+Marketing Cloud Next takes a different approach. It does not have its own data layer. It uses Data 360. It does not have its own automation engine. It uses Salesforce Flow. The marketing-specific features (email builder, landing pages, segments, forms) are built on top of existing platform services: Data 360 for data, Flow for automation, Salesforce CMS for content, and Digital Experiences for landing pages.
 
 Here is how the responsibilities break down:
 
-| Function | What handles it in MCA |
+| Function | What handles it in Marketing Cloud Next |
 |----------|----------------------|
 | Data unification and segmentation | Data 360 |
 | Automation and workflows | Flow Builder, Campaign object |
@@ -53,10 +53,10 @@ Here is how the responsibilities break down:
 | AI and scoring | Einstein + Agentforce |
 | Reporting | Data 360 + Tableau Next |
 
-The key framing for this course: **MCA is mostly Data 360 with a thin marketing layer on top.** The marketing-specific additions are the email builder, segments, marketing flow elements, and landing pages. Everything else is a platform service that exists independently of MCA.
+The key framing for this course: **Marketing Cloud Next is mostly Data 360 with a thin marketing layer on top.** The marketing-specific additions are the email builder, segments, marketing flow elements, and landing pages. Everything else is a platform service that exists independently of Marketing Cloud Next.
 
 :::tip[Coming from MCE?]
-The biggest mental shift: MCE was a self-contained marketing platform. MCA is a marketing layer on top of platform services. Here is how the major components map:
+The biggest mental shift: MCE was a self-contained marketing platform. Marketing Cloud Next is a marketing layer on top of platform services. Here is how the major components map:
 
 - **Data extensions / subscriber lists** become Data 360 DMOs (Data Model Objects)
 - **MCE's campaign orchestrator / Automation Studio** become Salesforce Flow (with 8 marketing-specific flow types)
@@ -65,14 +65,14 @@ The biggest mental shift: MCE was a self-contained marketing platform. MCA is a 
 - **AMPscript / SSJS** are largely replaced by Handlebars (with partial AMPscript support)
 - **Subscriber key** is replaced by identity resolution, which produces Unified Individuals through fuzzy matching across sources
 
-MCE could run standalone without a CRM license. MCA requires an Enterprise+ CRM license. It is natively part of the Salesforce platform, not a separate system connected via Marketing Cloud Connect.
+MCE could run standalone without a CRM license. Marketing Cloud Next requires an Enterprise+ CRM license. It is natively part of the Salesforce platform, not a separate system connected via Marketing Cloud Connect.
 :::
 
 ### Flow as the automation engine
 
-All automation in MCA runs through Salesforce Flow. There is no separate automation engine like MCE's visual campaign orchestrator or Automation Studio.
+All automation in Marketing Cloud Next runs through Salesforce Flow. There is no separate automation engine like MCE's visual campaign orchestrator or Automation Studio.
 
-Flow in MCA includes 8 marketing-specific flow types:
+Flow in Marketing Cloud Next includes 8 marketing-specific flow types:
 
 1. **Segment Triggered Flow** (the most common campaign flow type)
 2. **Automation Event-Triggered Flow** (email clicks, form submissions)
@@ -83,13 +83,13 @@ Flow in MCA includes 8 marketing-specific flow types:
 7. **Activation-Triggered Flow**
 8. **Autolaunched Flow** (reusable sub-flows)
 
-If you have used Flow Builder in Sales Cloud or Service Cloud, you already know the interface. MCA adds marketing-specific elements (like send email actions and wait steps) to the same tool.
+If you have used Flow Builder in Sales Cloud or Service Cloud, you already know the interface. Marketing Cloud Next adds marketing-specific elements (like send email actions and wait steps) to the same tool.
 
 ## What this means in practice
 
 In MCE, you could build an email, create a data extension, write a SQL query, and send. The data and marketing tools were tightly coupled and self-contained. You could go from zero to sending in a single platform.
 
-In MCA, before you can send anything, you need:
+In Marketing Cloud Next, before you can send anything, you need:
 
 1. Data streams ingesting data into Data 360
 2. Data mapped into DMOs (Data Model Objects)
@@ -102,7 +102,7 @@ This is not a criticism. It is the architectural reality. Once the data layer is
 
 ## Coming from MCE? callouts throughout the course
 
-Every module that covers a concept with an MCE equivalent includes a "Coming from MCE?" callout. These callouts look like the one earlier in this module. They map the MCA concept to its MCE counterpart, note what changed, and flag cases where there is no MCE equivalent at all.
+Every module that covers a concept with an MCE equivalent includes a "Coming from MCE?" callout. These callouts look like the one earlier in this module. They map the Marketing Cloud Next concept to its MCE counterpart, note what changed, and flag cases where there is no MCE equivalent at all.
 
 The callouts are placed at the point in each lesson where the comparison is most useful. They are not grouped at the end of the module. Some modules have multiple callouts if they cover several concepts with MCE parallels.
 
@@ -123,10 +123,10 @@ If you have no MCE background, skip these callouts. They are supplementary conte
 
 The following questions are an opportunity to reflect on key topics in this lesson. If you can't answer a question, revisit the relevant section, but keep in mind you are not expected to memorize or master this knowledge.
 
-- What is the foundational data platform that MCA is built on?
-- How does MCA's data layer differ from MCE's data extensions and subscriber lists?
-- Why does this course describe MCA as "mostly Data 360 with a thin marketing layer on top"?
-- What automation engine does MCA use, and what does it replace from MCE?
+- What is the foundational data platform that Marketing Cloud Next is built on?
+- How does Marketing Cloud Next's data layer differ from MCE's data extensions and subscriber lists?
+- Why does this course describe Marketing Cloud Next as "mostly Data 360 with a thin marketing layer on top"?
+- What automation engine does Marketing Cloud Next use, and what does it replace from MCE?
 - What should you do with the "Coming from MCE?" callouts if you have no MCE background?
 
 ## Additional resources

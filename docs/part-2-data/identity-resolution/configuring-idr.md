@@ -6,13 +6,13 @@ description: "Step-by-step walkthrough for reviewing the default ruleset, config
 
 ## Overview
 
-This page is the hands-on companion to the Identity Resolution concepts page. You will open your SDO, confirm the ruleset that was created during the MCA setup steps, configure reconciliation rules, and run IDR for the first time. By the end, you will have unified profiles for LEOptical's multi-source customer data.
+This page is the hands-on companion to the Identity Resolution concepts page. You will open your SDO, confirm the ruleset that was created during the Marketing Cloud Next setup steps, configure reconciliation rules, and run IDR for the first time. By the end, you will have unified profiles for LEOptical's multi-source customer data.
 
 Read the concepts page before starting here.
 
 ## Getting to the ruleset
 
-During the MCA setup steps in the onboarding quip doc, you configured an IDR ruleset as part of Basic Settings. That ruleset should already exist in your SDO. This page walks you through reviewing and configuring it, not creating a new one.
+During the Marketing Cloud Next setup steps in the onboarding quip doc, you configured an IDR ruleset as part of Basic Settings. That ruleset should already exist in your SDO. This page walks you through reviewing and configuring it, not creating a new one.
 
 Navigate to **Data 360 > Identity Resolutions** and open your existing ruleset.
 
@@ -21,7 +21,7 @@ Navigate to **Data 360 > Identity Resolutions** and open your existing ruleset.
 :::tip[Didn't configure IDR during setup?]
 If you skipped the IDR step in the quip doc, you can generate the default ruleset now. Navigate to **Setup > Assistant Home > Basic Settings**, scroll to step 3 (**Configure Identity Resolution Rulesets**), and click **Generate Rule Set**.
 
-<Screenshot src="/img/configuring-idr/05-idr-mca-setup.png" alt="MCA Setup Basic Settings page showing the Configure Identity Resolution Rulesets step with a callout circle around it. The Unified Individual Object field is set to UnifiedIndividual__dlm." />
+<Screenshot src="/img/configuring-idr/05-idr-mca-setup.png" alt="Marketing Cloud Next Setup Basic Settings page showing the Configure Identity Resolution Rulesets step with a callout circle around it. The Unified Individual Object field is set to UnifiedIndividual__dlm." />
 
 After generating, navigate to **Data 360 > Identity Resolutions** to open the ruleset and continue with the steps below.
 :::
@@ -95,7 +95,7 @@ For LEOptical's seed data, expect most records to have at least one email-based 
 
 Using the data streams you configured in the previous modules, configure Identity Resolution for LEOptical's multi-source data.
 
-1. Navigate to the default IDR ruleset. If the auto-generated ruleset was not created during MCA setup, create one now from **Data Cloud > Identity Resolutions > New**. Document what rules are in the default ruleset.
+1. Navigate to the default IDR ruleset. If the auto-generated ruleset was not created during Marketing Cloud Next setup, create one now from **Data Cloud > Identity Resolutions > New**. Document what rules are in the default ruleset.
 
 2. Evaluate the default ruleset against LEOptical's data model. Write a short assessment (a few sentences is fine): what does it catch? What does it miss? Are the four default rules appropriate for LEOptical's data, or do you need to add or remove any?
 

@@ -7,7 +7,7 @@ description: "A high-level primer on Data 360 concepts: data streams, DLOs, DMOs
 
 ## Overview
 
-Data 360 is the data platform underneath MCA. Every feature you will use in this course (segmentation, email personalization, AI scoring, activation) reads from Data 360. Before you start configuring anything, it helps to understand the core concepts at a high level.
+Data 360 is the data platform underneath Marketing Cloud Next. Every feature you will use in this course (segmentation, email personalization, AI scoring, activation) reads from Data 360. Before you start configuring anything, it helps to understand the core concepts at a high level.
 
 This module is intentionally surface-level. There is a lot more depth underneath each topic, and the course covers it thoroughly in later modules. The goal here is to give you a mental model so the setup steps in Getting Started make sense. If something feels incomplete, that is by design. You will get the full picture as you build out LEOptical's implementation.
 
@@ -17,7 +17,7 @@ You do not need to memorize any of this right now. Think of this as a map you gl
 
 This section contains a general overview of topics that you will learn in this lesson.
 
-- What Data 360 is and why it matters for MCA
+- What Data 360 is and why it matters for Marketing Cloud Next
 - How data streams bring external data into the platform
 - The difference between data lake objects (DLOs) and data model objects (DMOs)
 - How DMO relationships enable cross-object segmentation
@@ -28,7 +28,7 @@ This section contains a general overview of topics that you will learn in this l
 
 Data 360 is Salesforce's unified data platform. It is where all customer data from all sources lives, gets unified, and becomes available for marketing (and other) use cases.
 
-Everything in MCA reads from Data 360. Segments read from it. Email personalization reads from it. AI scoring reads from it. Activation reads from it. If Data 360 is not set up correctly, the marketing features have nothing to work with. The previous module (MCA vs. MCE) described MCA as "mostly Data 360 with a thin marketing layer on top." This is where that starts to become concrete.
+Everything in Marketing Cloud Next reads from Data 360. Segments read from it. Email personalization reads from it. AI scoring reads from it. Activation reads from it. If Data 360 is not set up correctly, the marketing features have nothing to work with. The previous module (MCN vs. MCE) described Marketing Cloud Next as "mostly Data 360 with a thin marketing layer on top." This is where that starts to become concrete.
 
 Data flows through Data 360 in three conceptual stages:
 
@@ -46,7 +46,7 @@ The external system could be CRM objects (Contacts, Accounts), CSV files, an eco
 
 For LEOptical, you will set up data streams for CRM contacts, ecommerce orders, loyalty members, and eye exam records. Each data stream brings one source of data into the platform.
 
-When MCA is first set up, a component called the Marketing Data Kit auto-installs CRM data streams for common objects like Contact and Account. You will see these already in place when you open your SDO.
+When Marketing Cloud Next is first set up, a component called the Marketing Data Kit auto-installs CRM data streams for common objects like Contact and Account. You will see these already in place when you open your SDO.
 
 ## Data lake objects
 

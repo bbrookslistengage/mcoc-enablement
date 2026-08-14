@@ -1,14 +1,14 @@
 ---
 sidebar_position: 2
 title: "Configuring LEOptical's Data Graph"
-description: "Step-by-step walkthrough for building the LEOptical Data Graph rooted on Unified Individual and linking it to MCA."
+description: "Step-by-step walkthrough for building the LEOptical Data Graph rooted on Unified Individual and linking it to Marketing Cloud Next."
 ---
 
 ## Overview
 
 The conceptual module explained what a Data Graph is and how it works. This lesson is the build. You will open your SDO, find the Data Graph that <ModuleLink slug="getting-started" /> had you create, and extend it with the full set of DMOs that LEOptical's personalization and segmentation use cases require.
 
-By the end of this lesson, the Data Graph is built, Active, and linked to MCA as the default for email and Flow personalization. Every module from here that uses Handlebars or Data Graph Decision Splits depends on this work being done correctly.
+By the end of this lesson, the Data Graph is built, Active, and linked to Marketing Cloud Next as the default for email and Flow personalization. Every module from here that uses Handlebars or Data Graph Decision Splits depends on this work being done correctly.
 
 One thing to know going in: after you click **Save and Build**, removing DMOs or fields is not possible. You can add new ones, but you cannot remove anything already built. Read the LEOptical graph design carefully before you build.
 
@@ -21,12 +21,12 @@ This section contains a general overview of topics that you will learn in this l
 - Adding the LEOptical-specific DMOs: Loyalty Program Member, Sales Order, Sales Order Product, and Product.
 - Setting the refresh schedule and triggering the build.
 - Monitoring build status.
-- Running Configure Basic Personalization in MCA Setup.
+- Running Configure Basic Personalization in Salesforce Setup.
 - Verifying the graph in the email builder.
 
 ## Navigating to Data Graphs
 
-Data Graphs live in the Data 360 app, not in MCA Setup.
+Data Graphs live in the Data 360 app, not in Salesforce Setup.
 
 1. Click the **App Launcher** (nine-dot grid in the top-left navigation bar).
 2. Search for and select **Data Cloud**.
@@ -170,9 +170,9 @@ If you click **Save and Build** and the graph shows an error or reverts, you may
 
 <Screenshot src="/img/data-graphs/processing-complete.png" alt="Data Graphs list view with the Marketing Content Personalization row showing Active status and a recent Last Refreshed On timestamp of 1:38 PM" caption="Active status with a recent Last Refreshed On timestamp confirms the build completed successfully." />
 
-## Configuring Basic Personalization in MCA Setup
+## Configuring Basic Personalization in Salesforce Setup
 
-Building the Data Graph is not sufficient on its own. You must also tell MCA to use it as the default data graph for email, Flow, and dynamic content.
+Building the Data Graph is not sufficient on its own. You must also tell Marketing Cloud Next to use it as the default data graph for email, Flow, and dynamic content.
 
 1. Click the **App Launcher** and navigate to **Setup** (the gear icon in the top-right navigation, then **Setup**).
 2. In the left Setup menu, navigate to **Reports and Optimization → Customer Engagement**.
@@ -196,7 +196,7 @@ To create a draft email and reach the Data Sources tab:
 
 1. Click the **App Launcher** and search for **Marketing**, then select **Marketing**.
 
-<Screenshot src="/img/data-graphs/navigate-to-marketing-tab.png" alt="App Launcher with 'marketing' typed in the search field and Marketing highlighted in the Apps list" caption="Search for Marketing in the App Launcher to navigate to MCA." />
+<Screenshot src="/img/data-graphs/navigate-to-marketing-tab.png" alt="App Launcher with 'marketing' typed in the search field and Marketing highlighted in the Apps list" caption="Search for Marketing in the App Launcher to navigate to Marketing Cloud Next." />
 
 2. In the top navigation bar, click **Content**.
 3. On the All CMS Workspaces page, select **LEOptical Marketing**.
@@ -228,7 +228,7 @@ If the Data Graph appears in the Data Sources tab, the configuration is complete
 > **The client wants:** LEOptical needs to answer questions like "Show me Gold loyalty members who purchased SeeClear lenses online in the last 90 days." Build the Data Graph that makes this possible.
 
 1. Complete the full walkthrough above. Confirm that the Data Graph named **Marketing Content Personalization** is Active in your SDO.
-2. Run **Configure Basic Personalization** in MCA Setup and select your Data Graph.
+2. Run **Configure Basic Personalization** in Salesforce Setup and select your Data Graph.
 3. Open the email builder and verify that the Data Graph appears in the Data Sources tab.
 4. Navigate to a Unified Individual profile in Data 360 and confirm that related DMO data is visible. Check that a protagonist contact shows loyalty tier and recent order data if they have records in those DMOs.
 5. Write down your answers to these questions (you will not submit them, but you will need them for the Personalization module):
@@ -242,7 +242,7 @@ If the Data Graph appears in the Data Sources tab, the configuration is complete
 - [ ] The Data Graph named **Marketing Content Personalization** shows **Active** status in the Data Graphs list view.
 - [ ] The Last Refreshed On timestamp reflects a completed build (not still building).
 - [ ] The graph structure includes Loyalty Program Member, Sales Order, Sales Order Product, and Product under Individual.
-- [ ] **Configure Basic Personalization** in MCA Setup points to **Marketing Content Personalization**.
+- [ ] **Configure Basic Personalization** in Salesforce Setup points to **Marketing Content Personalization**.
 - [ ] The email builder Data Sources tab shows the Data Graph with a Default badge.
 - [ ] You can navigate to a protagonist Unified Individual profile in Data 360 and see loyalty and/or order data (if that contact has records in those DMOs).
 - [ ] You understand that a missing field in the Data Graph is absent from the JSON entirely, not null.

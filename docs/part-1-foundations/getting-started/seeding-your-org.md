@@ -6,7 +6,7 @@ description: "Load LEOptical's course data into your SDO: custom fields, ~49,000
 
 ## Overview
 
-Before you can do anything meaningful in MCA, you need data. This page walks you through loading LEOptical's fictional customer data into your SDO. By the end, your org will have:
+Before you can do anything meaningful in Marketing Cloud Next, you need data. This page walks you through loading LEOptical's fictional customer data into your SDO. By the end, your org will have:
 
 - ~48,672 contacts with realistic names, emails, and phone numbers
 - 5 Products and 3 Campaigns
@@ -32,7 +32,7 @@ Now you will import ~48,672 contacts using the Data Import Wizard. This is a bro
    This file contains ~48,672 rows. Every contact has a first name, last name, email, phone, and mailing state. All contacts are associated with a single shared Account called "LEOptical Customers".
 
 :::info
-In a production B2C engagement, you would likely use Person Accounts rather than a shared Business Account. This course uses a shared Account because Person Account configuration varies across SDOs and the Account model is not relevant to MCA. The Marketing Data Kit ingests Contacts into Individual DMOs regardless of Account structure.
+In a production B2C engagement, you would likely use Person Accounts rather than a shared Business Account. This course uses a shared Account because Person Account configuration varies across SDOs and the Account model is not relevant to Marketing Cloud Next. The Marketing Data Kit ingests Contacts into Individual DMOs regardless of Account structure.
 :::
 
 ### Open the Data Import Wizard

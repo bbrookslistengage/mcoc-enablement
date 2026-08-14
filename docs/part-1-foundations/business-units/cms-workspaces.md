@@ -6,17 +6,17 @@ description: "Create an Enhanced CMS Workspace for LEOptical and configure contr
 
 ## Overview
 
-MCA uses Enhanced CMS Workspaces as the content library for marketing assets: email templates, images, content blocks, and other reusable brand materials. These workspaces are native Salesforce objects built on Salesforce CMS, not a Marketing Cloud-specific content repository.
+Marketing Cloud Next uses Enhanced CMS Workspaces as the content library for marketing assets: email templates, images, content blocks, and other reusable brand materials. These workspaces are native Salesforce objects built on Salesforce CMS, not a Marketing Cloud-specific content repository.
 
 A CMS workspace:
 - Serves as the content library for campaign assets
 - Can be designated as the default workspace for a business unit
-- Has its own contributor role system, separate from MCA permission sets
+- Has its own contributor role system, separate from Marketing Cloud Next permission sets
 - Can share content with other business units via a shared assets folder (Summer '26)
 
 ## CMS workspace contributor roles
 
-The workspace-level roles are distinct from the org-level permission sets. A user's MCA permission set controls what they can do in campaigns and flows. Their CMS contributor role controls what they can do inside a specific workspace.
+The workspace-level roles are distinct from the org-level permission sets. A user's Marketing Cloud Next permission set controls what they can do in campaigns and flows. Their CMS contributor role controls what they can do inside a specific workspace.
 
 | Role | What they can do |
 |------|-----------------|
@@ -89,13 +89,13 @@ The following questions are an opportunity to reflect on key topics in this less
 
 - What are the three CMS workspace contributor roles, and what does each role allow?
 - A Content Author submits an email template for review. They expect it to go live immediately. Why won't it?
-- How does a user's CMS contributor role relate to their MCA permission set? Do they control the same things?
+- How does a user's CMS contributor role relate to their Marketing Cloud Next permission set? Do they control the same things?
 
 ## Additional resources
 
 These resources are not required. They are here if you want to go deeper on a specific topic.
 
-- [How to Set Up Marketing Cloud Next (arthurbackouche.com)](https://arthurbackouche.com/docs/marketing-cloud-next/foundation-setup/how-to-set-up-marketing-cloud-next/). Detailed setup guide for MCA including data space selection, permission set assignment, and Basic Settings navigation. Updated March 2026.
+- [How to Set Up Marketing Cloud Next (arthurbackouche.com)](https://arthurbackouche.com/docs/marketing-cloud-next/foundation-setup/how-to-set-up-marketing-cloud-next/). Detailed setup guide for MCN including data space selection, permission set assignment, and Marketing Cloud Basic Settings navigation. Updated March 2026.
 
 - [User Permissions in Marketing Cloud Next (Salesforce Help)](https://help.salesforce.com/s/articleView?id=mktg.mktg_admin_permissions_ref.htm&type=5). The complete permissions reference: every individual permission across all five categories with descriptions. Read this before building custom permission sets.
 

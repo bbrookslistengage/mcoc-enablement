@@ -6,7 +6,7 @@ description: "Configure DKIM/SPF authentication for LEOptical's email sending do
 
 ## Overview
 
-This page covers the authenticated sending domain setup: the subdomain that appears in your emails' `From:` address and that proves to receiving mail servers that MCA is authorized to send on behalf of your domain.
+This page covers the authenticated sending domain setup: the subdomain that appears in your emails' `From:` address and that proves to receiving mail servers that Marketing Cloud Next is authorized to send on behalf of your domain.
 
 This is the prerequisite for everything else. No authenticated domain means no email. Do this first.
 
@@ -44,7 +44,7 @@ The walkthrough on [arthurbackouche.com](https://arthurbackouche.com/docs/market
 2. Click **+ Add Domain**.
 3. Enter your subdomain (e.g., `e.leoptical.com`). Click **Submit**.
 4. Create a From Address for the domain. Use a recognizable address like `marketing@e.leoptical.com`. This address appears in the `From:` field of every email sent from this domain.
-5. Click **Manual DNS Record Information** to view the DNS records MCA has generated for your domain.
+5. Click **Manual DNS Record Information** to view the DNS records Marketing Cloud Next has generated for your domain.
 6. Add all DNS records at your registrar. See the next section for what these records are and what each one does.
 
 <Screenshot src="/img/domain-setup/02-manual-dns-records.png" alt="Manual DNS Record Information panel showing the generated CNAME records for the authenticated sending domain" />
@@ -61,21 +61,21 @@ You cannot use the From Address until the domain status changes from **Pending**
 
 ## DNS Records: What to Hand to IT
 
-Understanding what MCA generates lets you write a proper DNS handoff document for LEOptical's IT team. This is a real deliverable on real engagements.
+Understanding what Marketing Cloud Next generates lets you write a proper DNS handoff document for LEOptical's IT team. This is a real deliverable on real engagements.
 
-MCA generates approximately 8 CNAME records for an authenticated sending domain (source: arthurbackouche.com, SFMC Tips #140). All of them are CNAME records. There is no separate SPF TXT record.
+Marketing Cloud Next generates approximately 8 CNAME records for an authenticated sending domain (source: arthurbackouche.com, SFMC Tips #140). All of them are CNAME records. There is no separate SPF TXT record.
 
 :::warning
-SPF in MCA is handled through the bounce CNAME chain, not a separate TXT record. Do not add a standalone SPF TXT record to your DNS. If you add both an SPF TXT record and the CNAME chain, you risk an SPF conflict that can break deliverability. (Source: multiple Salesforce Help article summaries)
+SPF in Marketing Cloud Next is handled through the bounce CNAME chain, not a separate TXT record. Do not add a standalone SPF TXT record to your DNS. If you add both an SPF TXT record and the CNAME chain, you risk an SPF conflict that can break deliverability. (Source: multiple Salesforce Help article summaries)
 :::
 
-{/* VERIFY: Confirm this is current MCA behavior and not MCE behavior being described. The SPF-via-CNAME mechanism was referenced in search result summaries but not confirmed against a live SDO. */}
+{/* VERIFY: Confirm this is current Marketing Cloud Next behavior and not MCE behavior being described. The SPF-via-CNAME mechanism was referenced in search result summaries but not confirmed against a live SDO. */}
 
 Here is what the records do:
 
 | Record Subdomain | Purpose |
 |---|---|
-| `[subdomain]` (3 CNAME records) | DKIM authentication. 2048-bit keys that prove MCA is authorized to sign email on behalf of your domain. |
+| `[subdomain]` (3 CNAME records) | DKIM authentication. 2048-bit keys that prove Marketing Cloud Next is authorized to sign email on behalf of your domain. |
 | `bounce.[subdomain]` | Bounce handling and SPF. Return-path for bounced messages, and the CNAME chain that establishes SPF authorization. |
 | `reply.[subdomain]` | Inbound reply handling. Used by Reply Mail Management (RMM) to process replies to marketing emails. |
 | `fbl.[subdomain]` | Feedback loop. Receives spam complaint signals from ISPs. |
@@ -98,9 +98,9 @@ When you deliver DNS instructions to a client's IT team, include:
 
 Give IT the records as a table, not prose. A DNS administrator reading a paragraph of explanation is slower than one reading a table.
 
-## DMARC: The Part MCA Does Not Configure for You
+## DMARC: The Part Marketing Cloud Next Does Not Configure for You
 
-MCA handles DKIM (via the generated CNAME records) and SPF (via the bounce CNAME chain). DMARC is yours to configure.
+Marketing Cloud Next handles DKIM (via the generated CNAME records) and SPF (via the bounce CNAME chain). DMARC is yours to configure.
 
 DMARC (Domain-based Message Authentication, Reporting, and Conformance) is a TXT record you add to your root domain's DNS. It tells receiving mail servers what to do when an email fails DKIM or SPF checks. Without DMARC, you have no policy enforcement and no visibility into whether someone is spoofing your domain.
 
@@ -137,7 +137,7 @@ After your domain activates, you create From Addresses that use it. You can have
 
 The From Address is now available to select when building emails and flows.
 
-As of Summer '26, MCA supports dynamic From Addresses. The `From:` and Reply-To can be set from field values on Contact or Lead records (source: cgc-agency.com, SFMC Tips #304). The domain used for dynamic addresses must still be an authenticated domain. You cannot use a Gmail or Outlook address as a dynamic sender.
+As of Summer '26, Marketing Cloud Next supports dynamic From Addresses. The `From:` and Reply-To can be set from field values on Contact or Lead records (source: cgc-agency.com, SFMC Tips #304). The domain used for dynamic addresses must still be an authenticated domain. You cannot use a Gmail or Outlook address as a dynamic sender.
 
 ### Reply Mail Management (Optional)
 
@@ -160,7 +160,7 @@ The Agentic Marketer's [RMM deep dive](https://the-agentic-marketer.com/marketin
 Before starting, register a throwaway domain if you do not already own one you can use for testing. Porkbun is a good option at roughly $1-2 per year. You only need DNS control, not hosting.
 
 1. Configure an authenticated sending domain in your SDO. Use a subdomain of the domain you own (e.g., `e.[yourdomain].com`). Follow the [arthurbackouche.com walkthrough](https://arthurbackouche.com/docs/marketing-cloud-next/email-channel-configuration/how-to-setup-the-domain-authentication-in-marketing-cloud-next/) or The Agentic Marketer ["First Email"](https://the-agentic-marketer.com/marketing-cloud-next-tips-from-the-trenches/first-email/) walkthrough as your primary guide.
-2. Add all DNS records at your registrar. Enable domain activation in MCA.
+2. Add all DNS records at your registrar. Enable domain activation in Marketing Cloud Next.
 3. While waiting for DNS propagation, create a From Address using the authenticated domain (e.g., `marketing@e.[yourdomain].com`).
 4. Add a DMARC TXT record to your domain's DNS with `p=none` and an `rua` reporting address.
 5. Document the DNS records you added. Write out each record type, host name, and value in a table formatted as if you were handing it to LEOptical's IT team. Include a brief explanation of what each record does.
@@ -178,7 +178,7 @@ Before starting, register a throwaway domain if you do not already own one you c
 The following questions are an opportunity to reflect on key topics in this lesson. If you can't answer a question, revisit the relevant section, but keep in mind you are not expected to memorize or master this knowledge.
 
 - Why does Salesforce recommend using a subdomain rather than the root domain for the authenticated sending domain?
-- MCA generates approximately 8 CNAME records for an authenticated domain. What does the `bounce.[subdomain]` CNAME handle, and why does it matter for SPF?
-- DMARC is not configured automatically by MCA. What does DMARC do, and what is the recommended starting policy value?
-- You add a standalone SPF TXT record to your DNS alongside the MCA CNAME records. What problem could this cause?
+- Marketing Cloud Next generates approximately 8 CNAME records for an authenticated domain. What does the `bounce.[subdomain]` CNAME handle, and why does it matter for SPF?
+- DMARC is not configured automatically by Marketing Cloud Next. What does DMARC do, and what is the recommended starting policy value?
+- You add a standalone SPF TXT record to your DNS alongside the Marketing Cloud Next CNAME records. What problem could this cause?
 - LEOptical's IT team has never managed DNS records for a Salesforce implementation before. What would you include in the handoff document to help them add records correctly and avoid common mistakes?

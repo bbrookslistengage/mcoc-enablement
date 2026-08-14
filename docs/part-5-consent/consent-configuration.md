@@ -1,12 +1,12 @@
 ---
-sidebar_position: 6
+sidebar_position: 2
 title: "Consent Configuration"
 description: "Configure Communication Subscriptions, set up the preference page and web tracking consent banner, and add the Privacy Consent Status component to CRM record pages."
 ---
 
 ## Overview
 
-LEOptical has never had a consent management framework. Their previous ESP sent newsletters to whoever was in the list. MCA works differently. Before a marketing email can leave the platform, the recipient needs an explicit OPT_IN record for the relevant Communication Subscription. If no OPT_IN record exists, the send is blocked. The contact appears in send reporting as not sent, with a reason indicating they were not opted in.
+LEOptical has never had a consent management framework. Their previous ESP sent newsletters to whoever was in the list. Marketing Cloud Next works differently. Before a marketing email can leave the platform, the recipient needs an explicit OPT_IN record for the relevant Communication Subscription. If no OPT_IN record exists, the send is blocked. The contact appears in send reporting as not sent, with a reason indicating they were not opted in.
 
 This module is where you build the plumbing that makes consent work. You will create the Communication Subscriptions that define LEOptical's marketing categories, configure a preference page so subscribers can manage their own opt-ins, set up the web tracking consent banner for landing pages, and use CSV import to create OPT_IN records for your protagonist contacts. You will also add the Privacy Consent Status component to Lead and Contact pages so your team can see consent status at a glance without opening Data 360.
 
@@ -18,7 +18,7 @@ This module builds on the setup work from <ModuleLink slug="domain-setup" />, <M
 
 This section contains a general overview of topics that you will learn in this lesson.
 
-- How to create LEOptical's three marketing Communication Subscriptions in the MCA Consent tab.
+- How to create LEOptical's three marketing Communication Subscriptions in the Consent tab.
 - How to configure the default preference page so subscribers can manage their email opt-ins.
 - What the web tracking consent banner is and how it differs from the email preference center.
 - What the "Create Consent" flow element requires and how it differs from a standard Create Records element.
@@ -27,9 +27,9 @@ This section contains a general overview of topics that you will learn in this l
 
 ## Communication Subscriptions
 
-LEOptical's four Communication Subscriptions are defined in the Consent Fundamentals module. This section covers how to create them in the platform. Communication Subscriptions are created and managed in the MCA Consent tab, separate from Salesforce Setup.
+LEOptical's four Communication Subscriptions are defined in the Consent Fundamentals module. This section covers how to create them in the platform. Communication Subscriptions are created and managed in the Consent tab, separate from Salesforce Setup.
 
-MCA auto-creates a default "Marketing" Communication Subscription when the org is configured. You can use it, rename it, or ignore it in favor of creating your own. For LEOptical, create the three named marketing subscriptions as your primary marketing categories. Order Updates is transactional. You will not build consent automation for it and it does not appear on the preference page.
+Marketing Cloud Next auto-creates a default "Marketing" Communication Subscription when the org is configured. You can use it, rename it, or ignore it in favor of creating your own. For LEOptical, create the three named marketing subscriptions as your primary marketing categories. Order Updates is transactional. You will not build consent automation for it and it does not appear on the preference page.
 
 ### Create a Communication Subscription
 
@@ -44,13 +44,13 @@ Navigate to **Marketing Cloud App > Consent > Preference Pages and Subscriptions
 4. Click **Save**.
 5. Repeat for `VisionCare Rewards Updates` and `Eye Health Reminders`.
 
-After saving each subscription, MCA creates a **Communication Subscription Channel Type** record in the background. This junction record links the subscription to the email channel and is what the consent flow references when writing records.
+After saving each subscription, Marketing Cloud Next creates a **Communication Subscription Channel Type** record in the background. This junction record links the subscription to the email channel and is what the consent flow references when writing records.
 
 <Screenshot src="/img/consent-configuration/01-subscription-list.png" alt="Consent Subscriptions list showing four Communication Subscriptions: Eye Health Reminders, Marketing, Promotional Offers, and VisionCare Rewards Updates, all with Email channel" caption="The Subscriptions list after creating LEOptical's three marketing subscriptions. The default Marketing subscription is also visible." />
 
 ## The default preference page
 
-The preference page is where subscribers manage their own opt-ins. MCA provides a default hosted page out of the box. You need to add your three marketing subscriptions to it so they appear as toggles when a subscriber visits the page.
+The preference page is where subscribers manage their own opt-ins. Marketing Cloud Next provides a default hosted page out of the box. You need to add your three marketing subscriptions to it so they appear as toggles when a subscriber visits the page.
 
 ### Add subscriptions to the default preference page
 
@@ -78,7 +78,7 @@ When you build emails in later modules, you will insert a preference center link
 4. Choose **Link > Preference Center**.
 5. Save the email.
 
-This inserts a tokenized URL that identifies the recipient when they visit the page. MCA uses this token to pre-populate their current subscription status.
+This inserts a tokenized URL that identifies the recipient when they visit the page. Marketing Cloud Next uses this token to pre-populate their current subscription status.
 
 :::warning
 The standard **Preference Center** merge field does not work with custom preference pages (the branded option added in Spring '26). If you switch to a custom preference page later, the link mechanism is different. Confirm the correct link approach before deploying custom preference pages.
@@ -86,8 +86,8 @@ The standard **Preference Center** merge field does not work with custom prefere
 
 :::tip[Coming from MCE?]
 - MCE had a native hosted preference center tied to Publication Lists, configured in Email Studio.
-- MCA's preference page is tied to Communication Subscriptions, configured in the Consent tab.
-- MCE's preference center worked with all email types. MCA's custom preference pages (Spring '26 feature) do not support transactional emails. The standard default preference page does not have this restriction.
+- Marketing Cloud Next's preference page is tied to Communication Subscriptions, configured in the Consent tab.
+- MCE's preference center worked with all email types. Marketing Cloud Next's custom preference pages (Spring '26 feature) do not support transactional emails. The standard default preference page does not have this restriction.
 :::
 
 ## Privacy Consent Status component
@@ -141,17 +141,17 @@ The Privacy Consent Status component updates the consent cache immediately, but 
 The component also works on Person Account records as of Spring '26. If LEOptical moves to a Person Account model in the future, the component transfers without reconfiguration.
 
 :::tip[Coming from MCE?]
-MCA has no direct equivalent to several of the consent mechanics you used in MCE:
+Marketing Cloud Next has no direct equivalent to several of the consent mechanics you used in MCE:
 - The **Create Consent Request** flow element (`MessagingConsent.MessagingConsent`) has no MCE counterpart. MCE did not have a platform-native consent write action.
-- The **Privacy Consent Status LWC** on record pages is MCA-specific. MCE required custom development or third-party tools to surface consent status in the CRM.
-- The **Communication Subscription Consent DMO** is MCA-specific. MCE used the Subscriber object and Publication List relationship.
-- In MCE, global unsubscribe permanently removed a subscriber from all sends. MCA's global unsubscribe opts out all existing subscriptions but does not block future subscriptions.
-- MCE had no consent check for transactional emails and no configuration option to add one. MCA defaults to no consent check for transactional sends, but this setting is configurable at the org level.
+- The **Privacy Consent Status LWC** on record pages is Marketing Cloud Next-specific. MCE required custom development or third-party tools to surface consent status in the CRM.
+- The **Communication Subscription Consent DMO** is Marketing Cloud Next-specific. MCE used the Subscriber object and Publication List relationship.
+- In MCE, global unsubscribe permanently removed a subscriber from all sends. Marketing Cloud Next's global unsubscribe opts out all existing subscriptions but does not block future subscriptions.
+- MCE had no consent check for transactional emails and no configuration option to add one. Marketing Cloud Next defaults to no consent check for transactional sends, but this setting is configurable at the org level.
 :::
 
 ## CSV consent import
 
-For bulk consent creation when you have a list of known opt-ins that were not processed through the flow, MCA provides a CSV import path.
+For bulk consent creation when you have a list of known opt-ins that were not processed through the flow, Marketing Cloud Next provides a CSV import path.
 
 Navigate to **Marketing Cloud App > Consent > Consent Imports**.
 
@@ -181,7 +181,7 @@ The CSV import updates the consent cache. Contact points must already exist in t
 
 ## The Create Consent Request flow element
 
-This is the platform-native flow element for writing consent records. It is the only method that updates both the Communication Subscription Consent DMO and the consent cache at the same time. If you write directly to the DMO using a standard Create Records element, the cache is not updated and the consent status MCA checks at send time will not reflect the change.
+This is the platform-native flow element for writing consent records. It is the only method that updates both the Communication Subscription Consent DMO and the consent cache at the same time. If you write directly to the DMO using a standard Create Records element, the cache is not updated and the consent status Marketing Cloud Next checks at send time will not reflect the change.
 
 In Flow Builder, add a **Create Consent** element to the canvas. The element's input panel has four fields:
 
@@ -204,9 +204,9 @@ The web tracking consent banner is separate from email subscription consent. The
 
 The consent banner can appear in two places. You do not need to configure either one in this module, but understanding the two mechanisms now will save you time when you reach the landing page and web connector modules later.
 
-### MCA landing pages
+### Marketing Cloud Next landing pages
 
-For MCA-hosted landing pages, the consent banner is a piece of content you create in a CMS workspace and then enable through the Marketing Landing Page site builder. The banner editor lets you configure position (top, bottom, or center), colors, and button text. Once created, you add the Data 360 and web tracking consent banner integrations to the site and publish.
+For Marketing Cloud Next-hosted landing pages, the consent banner is a piece of content you create in a CMS workspace and then enable through the Marketing Landing Page site builder. The banner editor lets you configure position (top, bottom, or center), colors, and button text. Once created, you add the Data 360 and web tracking consent banner integrations to the site and publish.
 
 :::warning
 The first page view of a website visitor is not recorded when consent is required. Tracking begins only after the visitor accepts the consent banner. This is expected behavior.
@@ -216,15 +216,15 @@ You will create the consent banner content and configure the landing page integr
 
 ### External websites (web connector)
 
-For external websites (like the LEOptical site you will build on Netlify), tracking is handled by a **web connector** that embeds a tracking beacon on the external site. The web connector has a toggle in **Setup > Quick Find > Web Tracking** that controls whether MCA displays the consent banner on the external site.
+For external websites (like the LEOptical site you will build on Netlify), tracking is handled by a **web connector** that embeds a tracking beacon on the external site. The web connector has a toggle in **Setup > Quick Find > Web Tracking** that controls whether Marketing Cloud Next displays the consent banner on the external site.
 
-Not every client uses the MCA consent banner on their external sites. Some clients use their own consent management platform (OneTrust, Cookiebot, or similar) and do not want a second consent banner from MCA. The web connector toggle lets you disable the MCA banner in those cases while still capturing behavioral data once the visitor has consented through the client's own tool.
+Not every client uses the Marketing Cloud Next consent banner on their external sites. Some clients use their own consent management platform (OneTrust, Cookiebot, or similar) and do not want a second consent banner from Marketing Cloud Next. The web connector toggle lets you disable the Marketing Cloud Next banner in those cases while still capturing behavioral data once the visitor has consented through the client's own tool.
 
 You will configure the web connector in <ModuleLink slug="web-connector" />. There is nothing to configure here.
 
 ## Org-wide consent settings
 
-MCA has org-level settings that control which message types require consent checks.
+Marketing Cloud Next has org-level settings that control which message types require consent checks.
 
 The default configuration:
 - Promotional emails: consent checks enabled
@@ -257,13 +257,13 @@ Even if you disable consent management globally, consent is still checked for an
 - [ ] Privacy Consent Status component is present on the Contact record page layout and activated as the org default
 - [ ] Privacy Consent Status component is present on the Lead record page layout and activated as the org default
 - [ ] All 10 protagonist contacts show OPT_IN for all three marketing subscriptions in the Privacy Consent Status component
-- [ ] You can explain why MCA does not auto-create consent records and what happens to sends when no record exists
+- [ ] You can explain why Marketing Cloud Next does not auto-create consent records and what happens to sends when no record exists
 
 ## Knowledge check
 
 The following questions are an opportunity to reflect on key topics in this lesson. If you can't answer a question, revisit the relevant section, but keep in mind you are not expected to memorize or master this knowledge.
 
-- What is the default consent status for a new Individual in MCA, and what does that mean for marketing sends?
+- What is the default consent status for a new Individual in Marketing Cloud Next, and what does that mean for marketing sends?
 - What four inputs does the "Create Consent" flow element require, and how does it differ from writing directly to the Communication Subscription Consent DMO?
 - Why can you not write directly to the Communication Subscription Consent DMO using a standard Create Records flow element?
 - What is the difference between the web tracking consent banner and the email preference page? Where is each one configured?

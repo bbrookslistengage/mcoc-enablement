@@ -197,7 +197,7 @@ Document your decision: should contacts with no exam history appear in Exam Over
 
 Once you publish a segment, you can expose its members inside Salesforce CRM as an Actionable List. From the App Launcher, find **List Builder for Data 360 Segment**. Create a new Actionable List, select your segment, choose which fields to display, and select the target CRM object type (Contact, Lead, Account, or Opportunity). The list syncs with segment membership on a schedule: records removed from the segment are suppressed in the list.
 
-Actionable Lists are not used for MCA email campaigns. They are the bridge between Data 360 segments and CRM-based sales outreach. If LEOptical's sales team wants to call VIP Customers who have lapsed, an Actionable List is how they get that list into their CRM queue.
+Actionable Lists are not used for Marketing Cloud Next email campaigns. They are the bridge between Data 360 segments and CRM-based sales outreach. If LEOptical's sales team wants to call VIP Customers who have lapsed, an Actionable List is how they get that list into their CRM queue.
 
 {/* VERIFY: Exact navigation path for List Builder for Data 360 Segment in Summer '26. Confirm the feature name in the App Launcher. */}
 

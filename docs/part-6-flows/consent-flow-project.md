@@ -31,7 +31,7 @@ This section contains a general overview of topics that you will learn in this l
 This walkthrough is not yet available. The consent automation flow design requires hands-on validation in a live SDO before it can be documented accurately. For now, use the CSV import method in <ModuleLink slug="consent-configuration" /> to create consent records for your protagonist contacts so you can continue with later modules.
 :::
 
-For background on the bidirectional consent sync pattern (flow changes in MCA writing back to CRM, and vice versa), see the [modrzejewski.it consent sync guide](https://modrzejewski.it/blog/how-to-keep-consent-in-sync-between-salesforce-data-360-and-marketing-cloud-next/).
+For background on the bidirectional consent sync pattern (flow changes in Marketing Cloud Next writing back to CRM, and vice versa), see the [modrzejewski.it consent sync guide](https://modrzejewski.it/blog/how-to-keep-consent-in-sync-between-salesforce-data-360-and-marketing-cloud-next/).
 
 ## Assignment
 

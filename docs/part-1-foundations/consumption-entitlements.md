@@ -8,7 +8,7 @@ description: "How Data 360 consumption-based pricing works, what operations cost
 
 Data 360 does not bill for seats or features. It bills for operations. Every time an identity resolution job runs, every time a segment refreshes, every time a batch ingestion pulls in records, credits are consumed from a pool defined by your contract. When that pool runs out, operations stop. There is no automatic overage. Things simply fail.
 
-This is a fundamentally different model from anything in Marketing Cloud Engagement (MCE). In MCE, the primary cost variables were contact count and message volume. Data processing was included and not separately metered. In MCA, a third dimension exists: Data Services Credits that tick down every time the platform does work on your data. Consultants who miss this dimension get clients into trouble at scale.
+This is a fundamentally different model from anything in Marketing Cloud Engagement (MCE). In MCE, the primary cost variables were contact count and message volume. Data processing was included and not separately metered. In Marketing Cloud Next, a third dimension exists: Data Services Credits that tick down every time the platform does work on your data. Consultants who miss this dimension get clients into trouble at scale.
 
 This module is worth reading carefully before going into any sizing or scoping conversation. The credit rate card here is the same rate card your client's Salesforce Account Executive uses. Knowing it lets you give credible advice about where their money goes and where to be careful with design decisions.
 
@@ -19,7 +19,7 @@ The concepts in this module will come up again throughout the course as you buil
 This section contains a general overview of topics that you will learn in this lesson.
 
 - How the credit consumption formula works and what it means in practice.
-- The two credit types in MCA (Data Services Credits and Messaging Credits) and how they differ from each other.
+- The two credit types in Marketing Cloud Next (Data Services Credits and Messaging Credits) and how they differ from each other.
 - What each major platform operation costs, from free CRM ingestion to the most expensive operation on the rate card.
 - Why identity resolution is the single costliest operation and what triggers a full re-run.
 - How refresh frequency compounds credit consumption over time.
@@ -47,7 +47,7 @@ Unused credits expire at the Order End Date on your Order Form. Credits do not r
 
 ## Credit types
 
-Credits in MCA fall into two distinct pools. They are not interchangeable.
+Credits in Marketing Cloud Next fall into two distinct pools. They are not interchangeable.
 
 **Data Services Credits** cover data processing operations: ingestion, identity resolution, data transforms, calculated insights, segmentation, activation, and data queries. These are the credits that tick down as Data 360 does work on your data.
 
@@ -56,14 +56,14 @@ Credits in MCA fall into two distinct pools. They are not interchangeable.
 Salesforce reorganized credit types with a pricing overhaul effective March 2, 2026. Orgs that purchased or renewed after February 24, 2026 may also use **Flex Credits**, a poolable universal currency that covers Data 360 operations, Agentforce actions, AI/LLM prompts, and speech services. Flex Credits are shared across products.
 
 :::warning
-Flex Credits introduce cross-team credit contention. If your client's org uses Flex Credits and their Sales team runs Agentforce agents heavily, those actions draw from the same pool as your marketing data processing. There is no built-in mechanism to allocate Flex Credits to specific teams or departments. This is a governance problem that must be addressed at the contract and administration level, not in MCA configuration.
+Flex Credits introduce cross-team credit contention. If your client's org uses Flex Credits and their Sales team runs Agentforce agents heavily, those actions draw from the same pool as your marketing data processing. There is no built-in mechanism to allocate Flex Credits to specific teams or departments. This is a governance problem that must be addressed at the contract and administration level, not in Marketing Cloud Next configuration.
 :::
 
 :::tip[Coming from MCE?]
-- MCE used **SuperMessages** as its primary consumption unit for email, SMS, and push sends. MCA uses Salesforce Message Credits for messaging. The concept is similar (per-send billing with channel multipliers), but the name and rate structure differ.
-- MCE contracts specified a **contact tier**, a ceiling on the number of stored contact records. MCA replaces this with Unified Individual profiles as the profile-based entitlement metric.
-- MCE had **no equivalent to Data Services Credits**. In MCE, data processing (SQL queries via Query Activity, audience building, deduplication) was included and not separately metered. This entire dimension of MCA billing is new for MCE consultants.
-- The **Digital Wallet** is new in MCA. MCE had limited self-service visibility into consumption. Tracking consumption typically required working with a Salesforce Account Executive.
+- MCE used **SuperMessages** as its primary consumption unit for email, SMS, and push sends. Marketing Cloud Next uses Salesforce Message Credits for messaging. The concept is similar (per-send billing with channel multipliers), but the name and rate structure differ.
+- MCE contracts specified a **contact tier**, a ceiling on the number of stored contact records. Marketing Cloud Next replaces this with Unified Individual profiles as the profile-based entitlement metric.
+- MCE had **no equivalent to Data Services Credits**. In MCE, data processing (SQL queries via Query Activity, audience building, deduplication) was included and not separately metered. This entire dimension of Marketing Cloud Next billing is new for MCE consultants.
+- The **Digital Wallet** is new in Marketing Cloud Next. MCE had limited self-service visibility into consumption. Tracking consumption typically required working with a Salesforce Account Executive.
 :::
 
 ## The operation rate card
@@ -172,12 +172,12 @@ Salesforce Message Credits are consumed per recipient per send:
 - **WhatsApp:** Credit-based, priced per message with country multipliers.
 
 :::warning
-Without an Activation Template configured, MCA sends to every Contact Point Email on a Unified Individual. A customer with 3 email addresses receives 3 emails and 3 email credits are consumed. This is both a messaging credit waste problem and a customer experience problem. The Activation Template is how you specify which contact point to use. This is covered in the <ModuleLink slug="personalization-project" /> module.
+Without an Activation Template configured, Marketing Cloud Next sends to every Contact Point Email on a Unified Individual. A customer with 3 email addresses receives 3 emails and 3 email credits are consumed. This is both a messaging credit waste problem and a customer experience problem. The Activation Template is how you specify which contact point to use. This is covered in the <ModuleLink slug="personalization-project" /> module.
 :::
 
 ## Edition entitlements
 
-MCA ships with different credit allocations depending on the edition purchased.
+Marketing Cloud Next ships with different credit allocations depending on the edition purchased.
 
 **Marketing Cloud Growth Edition** (~$1,500/org/month, billed annually) includes approximately 240,000 Data 360 Service credits, 10,000 Segment and Activation credits, 180,000 Email Credits, and 20,000 AI Request Credits annually, with 1 TB storage.
 
@@ -187,7 +187,7 @@ Source: [The Agentic Marketer, MCN Survival Guide for Marketers](https://the-age
 
 Both editions include email sends. SMS and WhatsApp are add-ons.
 
-For clients on Enterprise or Unlimited Edition with Salesforce Foundations, Data 360 is provisioned at no additional cost with 250,000 credits and 1 TB storage. This is the baseline many larger orgs operate from before purchasing a dedicated MCA license.
+For clients on Enterprise or Unlimited Edition with Salesforce Foundations, Data 360 is provisioned at no additional cost with 250,000 credits and 1 TB storage. This is the baseline many larger orgs operate from before purchasing a dedicated MCN license.
 
 ## Monitoring with Digital Wallet
 
@@ -206,7 +206,7 @@ To see Digital Wallet, your user profile or permission set must include the **Vi
 Digital Wallet shows near-real-time estimates, not contractually billed amounts. Salesforce explicitly warns against treating Digital Wallet data as the authoritative source of truth. The Monthly Account Summary email sent to the primary billing contact on the 10th of each month is the definitive consumption record. Use Digital Wallet for trend monitoring and operational alerting. Use the billing email for contract discussions.
 :::
 
-Digital Wallet tracks four consumption categories in an MCA context:
+Digital Wallet tracks four consumption categories in a Marketing Cloud Next context:
 
 - **Messaging:** Email, SMS, and WhatsApp sends
 - **Segmentations and activations:** Data 360 processing operations

@@ -7,9 +7,9 @@ description: "Course structure, the LEOptical client scenario, and the learning 
 
 ## Overview
 
-You are about to build a complete MCA implementation from scratch. Over the course of roughly 35 modules, you will configure data ingestion, identity resolution, segmentation, consent, email, flows, landing pages, and more. By the end, you will have hands-on experience with every major area of the platform.
+You are about to build a complete Marketing Cloud Next implementation from scratch. Over the course of roughly 35 modules, you will configure data ingestion, identity resolution, segmentation, consent, email, flows, landing pages, and more. By the end, you will have hands-on experience with every major area of the platform.
 
-This course is built for experienced Salesforce consultants. You do not need to be an MCA expert. You do not need Data 360 experience. You just need a Salesforce background and the willingness to get hands-on. Your platform knowledge, your understanding of data modeling, your experience working with clients, all of that transfers directly. The specifics of MCA are new. The skills you bring are not.
+This course is built for experienced Salesforce consultants. You do not need to be a Marketing Cloud Next expert. You do not need Data 360 experience. You just need a Salesforce background and the willingness to get hands-on. Your platform knowledge, your understanding of data modeling, your experience working with clients, all of that transfers directly. The specifics of Marketing Cloud Next are new. The skills you bring are not.
 
 ## Lesson overview
 
@@ -46,7 +46,7 @@ Every module in this course is grounded in a fictional client: **LEOptical**, a 
 
 LEOptical sells glasses, contact lenses, and sunglasses through retail stores and an ecommerce site. They run a loyalty program called VisionCare Rewards with four tiers (Bronze, Silver, Gold, Platinum). They send promotional emails, appointment reminders, and order confirmations. They have customer data scattered across multiple systems, no unified view of who their customers are, and no consent management framework in place.
 
-They hired you to build out their MCA implementation end-to-end.
+They hired you to build out their Marketing Cloud Next implementation end-to-end.
 
 Why a fake client? Because learning sticks when every task connects to a coherent business scenario. You are not configuring features in a vacuum. You are building an implementation for a client with real (simulated) data, real business needs, and real complexity. When you set up a data stream, you are ingesting LEOptical's ecommerce orders. When you build a segment, you are targeting LEOptical's lapsed loyalty members. When you create a flow, you are automating a post-purchase email for LEOptical's customers. The business context ties everything together and gives you practice making the same kinds of decisions you make on real engagements.
 

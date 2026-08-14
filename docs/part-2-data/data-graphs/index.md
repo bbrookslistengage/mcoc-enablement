@@ -1,7 +1,7 @@
 ---
 sidebar_position: 1
 title: "Data Graphs"
-description: "What Data Graphs are, how they work, and why they are the prerequisite for email personalization and Flow in MCA."
+description: "What Data Graphs are, how they work, and why they are the prerequisite for email personalization and Flow in Marketing Cloud Next."
 ---
 
 ## Overview
@@ -10,7 +10,7 @@ You have built the data model. You have run Identity Resolution and produced Uni
 
 The answer is the Data Graph.
 
-A Data Graph is a pre-computed view of your DMO relationships, organized around the Unified Individual. When MCA sends an email with a Handlebars expression like `{{@root.$dataGraph.ssot__FirstName__c}}`, it is not running a database query. It is reading from a materialized snapshot built ahead of time, one that already has the first name, loyalty tier, last order date, and next exam due date indexed for each unified profile.
+A Data Graph is a pre-computed view of your DMO relationships, organized around the Unified Individual. When Marketing Cloud Next sends an email with a Handlebars expression like `{{@root.$dataGraph.ssot__FirstName__c}}`, it is not running a database query. It is reading from a materialized snapshot built ahead of time, one that already has the first name, loyalty tier, last order date, and next exam due date indexed for each unified profile.
 
 That expression breaks down like this:
 
@@ -19,7 +19,7 @@ That expression breaks down like this:
 This module covers the concept, the mechanics, and the dependencies. The next lesson has you build the LEOptical Data Graph in your SDO.
 
 :::tip[Coming from MCE?]
-A Data Graph is roughly analogous to a pre-joined set of Data Extensions made available to AMPscript at send time. The key differences: it handles identity resolution across multiple source systems, and you do not write the joins yourself. In MCE, you either pre-joined data before import or wrote `Lookup()` calls in AMPscript. In MCA, the Data Graph handles that at the platform level.
+A Data Graph is roughly analogous to a pre-joined set of Data Extensions made available to AMPscript at send time. The key differences: it handles identity resolution across multiple source systems, and you do not write the joins yourself. In MCE, you either pre-joined data before import or wrote `Lookup()` calls in AMPscript. In Marketing Cloud Next, the Data Graph handles that at the platform level.
 :::
 
 ## Lesson overview
@@ -54,7 +54,7 @@ A segment answers "who." The Data Graph answers "what to say to them."
 
 Two types exist:
 
-**Standard Data Graph** refreshes on a configurable schedule: hourly, every four hours, daily, weekly, or monthly. This is the type used for email personalization, Handlebars expressions, Flow Decision Splits, and dynamic content blocks. Every MCA email personalization use case uses a Standard Data Graph.
+**Standard Data Graph** refreshes on a configurable schedule: hourly, every four hours, daily, weekly, or monthly. This is the type used for email personalization, Handlebars expressions, Flow Decision Splits, and dynamic content blocks. Every Marketing Cloud Next email personalization use case uses a Standard Data Graph.
 
 **Real-Time Data Graph** refreshes in milliseconds. It is designed for Agentforce AI agent interactions where data must reflect the customer's current state in the middle of a live conversation. It is not used for email marketing or standard Flow work.
 
@@ -64,7 +64,7 @@ For everything in this course, you use the Standard Data Graph.
 
 The Data Graph engine reads your selected DMOs and traverses the configured relationship paths. It materializes a denormalized JSON view for each Unified Individual, then indexes that view for fast retrieval. The result is a nested JSON object per individual that already contains all the related data you configured when you built the graph.
 
-When an email sends, MCA looks up the Unified Individual, pulls the pre-computed JSON, and resolves the Handlebars expressions against it. No query runs at send time. This is what enables the system to send to hundreds of thousands of contacts without per-record database joins.
+When an email sends, Marketing Cloud Next looks up the Unified Individual, pulls the pre-computed JSON, and resolves the Handlebars expressions against it. No query runs at send time. This is what enables the system to send to hundreds of thousands of contacts without per-record database joins.
 
 The trade-off: the data is only as current as the last successful refresh. If a customer's loyalty tier changed after the last refresh, the email will use the old tier until the next refresh completes.
 
@@ -131,7 +131,7 @@ You cannot shortcut this path. Adding Contact Point Email directly off Unified I
 
 :::tip[Coming from MCE?]
 - In MCE, there was no unified identity concept. Each subscriber was a row in a Data Extension, and cross-source data required ETL to pre-join before import.
-- MCA's Unified Individual is a post-IDR resolved identity. The Unified Link Individual is the system object that tracks which source records merged into it.
+- Marketing Cloud Next's Unified Individual is a post-IDR resolved identity. The Unified Link Individual is the system object that tracks which source records merged into it.
 - The Data Graph traversal path (going through Unified Link Individual to reach Contact Point data) has no MCE equivalent. In MCE, you accessed subscriber attributes directly from the audience Data Extension or via AMPscript `Lookup()` against related DEs.
 - The concept of a separate "configure personalization" setup step also has no MCE equivalent. In MCE, the send audience DE implicitly defined available personalization data.
 :::
@@ -148,7 +148,7 @@ The result is a nested JSON object. Field names use the Salesforce namespace con
 
 ### The depth limit
 
-A Data Graph supports relationships up to six levels deep from the primary DMO. For most MCA use cases, three to four levels is typical:
+A Data Graph supports relationships up to six levels deep from the primary DMO. For most Marketing Cloud Next use cases, three to four levels is typical:
 
 ```
 Level 1: Unified Individual
@@ -188,7 +188,7 @@ SDO orgs are limited to three Data Graphs total. Production orgs allow up to 25.
 
 If a Unified Individual has no data for a field (for example, a contact imported from CRM who has never placed an ecommerce order), the Data Graph JSON for that individual will not include the Sales Order fields at all. Not null. Not an empty array. The fields simply do not exist in the JSON.
 
-Handlebars expressions that reference a missing field will error. MCA blocks preview and test sends if the template references a field that is absent from the Data Graph JSON. If your email template has:
+Handlebars expressions that reference a missing field will error. Marketing Cloud Next blocks preview and test sends if the template references a field that is absent from the Data Graph JSON. If your email template has:
 
 ```
 {{@root.$dataGraph.ssot__FirstName__c}}
@@ -204,9 +204,9 @@ The fix is the `{{fallback}}` helper:
 
 This returns "Valued Customer" when the field is missing. You will use this pattern in the <ModuleLink slug="merge-fields-dynamic-content" /> module. For now, understand the problem. The Data Graph is not null-safe by default.
 
-## Connecting the Data Graph to MCA
+## Connecting the Data Graph to Marketing Cloud Next
 
-Building the Data Graph is not enough. You also have to tell MCA to use it.
+Building the Data Graph is not enough. You also have to tell Marketing Cloud Next to use it.
 
 After your Data Graph is Active, you run **Configure Basic Personalization** from Setup. This step links your Data Graph as the default for:
 
@@ -225,7 +225,7 @@ The following questions are an opportunity to reflect on key topics in this less
 - Why does the traversal path to Contact Point Email pass through the Unified Link Individual instead of going directly off the Unified Individual?
 - A contact's loyalty tier changed yesterday. The Data Graph refreshes daily at 2:00 AM. An email sends at 10:00 AM today. What loyalty tier will the email reflect?
 - What happens to an email send when a Handlebars expression references a field that is absent from the Data Graph JSON for a given contact?
-- What must be configured in MCA Setup before the email builder can access Data Graph fields?
+- What must be configured in Salesforce Setup before the email builder can access Data Graph fields?
 - A colleague wants to add Sales Order Product to a Data Graph that is already built and Active. Is this possible? What about removing a field that was already built in?
 
 ## Additional resources

@@ -6,7 +6,7 @@ description: "Review the target data model, understand DMO relationship design d
 
 ## Overview
 
-Every MCA engagement starts with a data model conversation. Before you build segments, configure identity resolution, or personalize emails, you need a clear picture of what data exists, where it lives, and how the pieces connect. This is that conversation for LEOptical.
+Every Marketing Cloud Next engagement starts with a data model conversation. Before you build segments, configure identity resolution, or personalize emails, you need a clear picture of what data exists, where it lives, and how the pieces connect. This is that conversation for LEOptical.
 
 In the previous lessons, you toured the auto-installed CRM data streams, learned the refresh chain, and ingested LEOptical's external CSV data. Now you step back and look at the full picture. You will review the target entity relationship diagram, understand why each DMO was chosen, and verify that your org's data model matches the design.
 

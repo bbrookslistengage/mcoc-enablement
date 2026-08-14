@@ -1,12 +1,12 @@
 ---
 sidebar_position: 4
 title: "Link Branding Domain"
-description: "Configure a branded subdomain for click-tracking URLs in MCA emails, including the SSL certificate requirement."
+description: "Configure a branded subdomain for click-tracking URLs in Marketing Cloud Next emails, including the SSL certificate requirement."
 ---
 
 ## Overview
 
-Every link in an MCA email is rewritten through a click-tracking URL. By default, that URL looks like `xxxxx.tracking.e360.salesforce.com/click/[trackingcode]`. Configuring a link branding domain replaces the Salesforce domain with your own subdomain, so tracked links in LEOptical emails look like `links.leoptical.com/click/[trackingcode]` instead.
+Every link in a Marketing Cloud Next email is rewritten through a click-tracking URL. By default, that URL looks like `xxxxx.tracking.e360.salesforce.com/click/[trackingcode]`. Configuring a link branding domain replaces the Salesforce domain with your own subdomain, so tracked links in LEOptical emails look like `links.leoptical.com/click/[trackingcode]` instead.
 
 Branded tracking links matter for two reasons. Some spam filters penalize messages with third-party tracking domains. And DMARC alignment is easier to maintain when your tracking domain shares a parent domain with your sending domain.
 
@@ -22,7 +22,7 @@ Free CA certificates (from providers like Let's Encrypt or ZeroSSL) expire every
 This is an ongoing IT coordination commitment. Factor it into your implementation handoff plan.
 :::
 
-Only one tracking domain is allowed per org (source: SFMC Tips #172). You cannot configure separate tracking domains for different campaigns or brands within the same MCA org.
+Only one tracking domain is allowed per org (source: SFMC Tips #172). You cannot configure separate tracking domains for different campaigns or brands within the same Marketing Cloud Next org.
 
 ## Setup Walkthrough
 
@@ -45,7 +45,7 @@ SFMC Tips #172, ["Setting Domains for Email Tracking Links"](https://medium.com/
 2. Add a new domain and select the tracking/link branding domain option.
 3. Enter your subdomain (e.g., `links.leoptical.com`).
 4. Select the certificate you uploaded in Step 1.
-5. MCA provides a CNAME value to point your subdomain at.
+5. Marketing Cloud Next provides a CNAME value to point your subdomain at.
 6. Add the CNAME record at your registrar.
 
 ### Certificate Renewal
@@ -59,7 +59,7 @@ Set a calendar reminder at 60 days to renew the certificate before the 90-day ex
 1. Read SFMC Tips #172, ["Setting Domains for Email Tracking Links"](https://medium.com/@marketingcloudtips/marketing-cloud-next-setting-domains-for-email-tracking-links-1195027cb56d), before starting. It covers the full setup flow with screenshots.
 2. Create a CA-signed certificate in **Setup > Certificate and Key Management**. Use a subdomain different from your sending and landing page domains (e.g., `links.[yourdomain].com`).
 3. Submit the CSR to a free Certificate Authority and upload the returned certificate back to Salesforce.
-4. Configure the link branding domain in Setup, pointing it at the CNAME value MCA provides.
+4. Configure the link branding domain in Setup, pointing it at the CNAME value Marketing Cloud Next provides.
 5. Add the CNAME record at your registrar.
 6. Write a maintenance note for LEOptical's IT team documenting the 90-day certificate renewal process. Include: what happens if the cert expires, how to renew it, and where the reminder emails come from.
 
@@ -68,7 +68,7 @@ This is a stretch task relative to the other two domain configurations. It requi
 ## Success Criteria
 
 - [ ] A CA-signed SSL certificate for the link branding subdomain has been created in **Setup > Certificate and Key Management**.
-- [ ] The link branding domain is configured in MCA Domain Settings with the certificate attached.
+- [ ] The link branding domain is configured in Domain Settings with the certificate attached.
 - [ ] The CNAME record for the link branding domain has been added at the registrar.
 - [ ] A maintenance note documenting the 90-day certificate renewal process has been written.
 
@@ -78,5 +78,5 @@ The following questions are an opportunity to reflect on key topics in this less
 
 - Why does the link branding domain require a CA-signed certificate, while the landing page domain does not?
 - What happens to click-tracking in existing emails if the SSL certificate on the link branding domain expires?
-- Only one link branding domain is allowed per MCA org. What are the implications of this constraint for a client that has multiple brands?
+- Only one link branding domain is allowed per Marketing Cloud Next org. What are the implications of this constraint for a client that has multiple brands?
 - How would you explain the 90-day certificate renewal requirement to a client's IT team that has never managed Salesforce domain configuration before?

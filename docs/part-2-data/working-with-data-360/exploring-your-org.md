@@ -124,7 +124,7 @@ Here is the key thing to observe: the Contact DLO maps to more than one DMO. It 
 :::tip[Coming from MCE?]
 In MCE, Contact Builder is an optional metadata layer that links data extensions to the contact record. It enables Audience Builder segmentation and Contact Data access in decision splits. Many MCE practitioners bypass Contact Builder entirely and use SQL queries in Automation Studio instead.
 
-In MCA, DMO relationships are not optional. Segmentation, activation, and personalization all query DMOs directly. There is no SQL workaround and no need for one. Think of it this way: Contact Builder was a way to describe your data to MCE. In MCA, the data model *is* the platform.
+In Marketing Cloud Next, DMO relationships are not optional. Segmentation, activation, and personalization all query DMOs directly. There is no SQL workaround and no need for one. Think of it this way: Contact Builder was a way to describe your data to MCE. In Marketing Cloud Next, the data model *is* the platform.
 :::
 
 ### Touring the existing DMOs
@@ -154,9 +154,9 @@ You will work more with DMOs in the remaining lessons of this module. For now, t
 
 ### The Unified Individual is the target
 
-As you explore the data model, keep one thing in mind: MCA operates on Unified Individuals. Under almost every circumstance, you need a Unified Individual to send to. The Individual DMO holds source records from your CRM contacts, but MCA sends to the Unified Individual that identity resolution creates by matching and merging those source records.
+As you explore the data model, keep one thing in mind: Marketing Cloud Next operates on Unified Individuals. Under almost every circumstance, you need a Unified Individual to send to. The Individual DMO holds source records from your CRM contacts, but Marketing Cloud Next sends to the Unified Individual that identity resolution creates by matching and merging those source records.
 
-This means two things must happen before a person is reachable in MCA: their profile data must be ingested (through the data streams you are looking at now), and they must run through identity resolution to become a Unified Individual. You will configure identity resolution in a later lesson, but keep this dependency in mind as you explore. Data ingestion alone is not enough.
+This means two things must happen before a person is reachable in Marketing Cloud Next: their profile data must be ingested (through the data streams you are looking at now), and they must run through identity resolution to become a Unified Individual. You will configure identity resolution in a later lesson, but keep this dependency in mind as you explore. Data ingestion alone is not enough.
 
 ## Assignment
 

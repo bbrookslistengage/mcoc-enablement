@@ -1,15 +1,15 @@
 ---
 sidebar_position: 1
 title: "Environment Setup"
-description: "Provision your SDO and configure Data 360, Marketing Cloud, Identity Resolution, and the AI features MCA depends on."
+description: "Provision your SDO and configure Data 360, Marketing Cloud, Identity Resolution, and the AI features Marketing Cloud Next depends on."
 ---
 
 ## Setup
 
-The authoritative setup guide for MCA in an SDO is the [MCA SDO Setup Guide](https://quip.com/rSLuAs4M0ak3). Complete the following sections from that doc in order. The notes below each section flag things the doc does not cover or where SDO behavior differs.
+The authoritative setup guide for Marketing Cloud Next in an SDO is the [Agentforce Marketing Partner Demo Guide](https://quip.com/rSLuAs4M0ak3). Complete the following sections from that doc in order. The notes below each section flag things the doc does not cover or where SDO behavior differs.
 
 :::tip[Coming from MCE?]
-MCA lives entirely inside a Core Salesforce org. There is no separate "Marketing Cloud" login. You log into Salesforce and MCA is an app in the App Launcher. This is a fundamental shift from MCE, which had its own separate application and login.
+Marketing Cloud Next lives entirely inside a Core Salesforce org. There is no separate "Marketing Cloud" login. You log into Salesforce and Marketing Cloud Next is an app in the App Launcher. This is a fundamental shift from MCE, which had its own separate application and login.
 :::
 
 ### Get your own Simple Demo Org (SDO) from Partner Learning Camp (PLC)
@@ -40,7 +40,7 @@ Org ID: [YOUR ORG ID]
 Org URL: [YOUR ORG URL]
 Current expiry date: [CURRENT EXPIRY DATE]
 
-I am using this org for MCA enablement training and need the additional
+I am using this org for Marketing Cloud Next enablement training and need the additional
 time to complete the course curriculum.
 
 Thank you.
@@ -73,7 +73,7 @@ The Sales Data Kit can fail due to missing Account permissions on the **Data Clo
 :::
 
 :::tip[Coming from MCE?]
-MCE had Contact Builder connectors and synchronized data extensions to pull CRM data into Marketing Cloud. Data Kits are the MCA equivalent. The concept is similar: pre-built bundles that map CRM objects to a marketing data model. The implementation is entirely different. Data Kits map to Data 360 DMOs, not synchronized data extensions.
+MCE had Contact Builder connectors and synchronized data extensions to pull CRM data into Marketing Cloud. Data Kits are the Marketing Cloud Next equivalent. The concept is similar: pre-built bundles that map CRM objects to a marketing data model. The implementation is entirely different. Data Kits map to Data 360 DMOs, not synchronized data extensions.
 :::
 
 ### Install the Marketing Performance App
@@ -86,18 +86,18 @@ The Marketing Performance Intelligence package must be uninstalled and reinstall
 
 ### Define an Identity Resolution Ruleset
 
-Follow the guide to set up Identity Resolution (IDR). IDR is how MCA determines that two records in different systems represent the same real person. It produces **Unified Individual** records.
+Follow the guide to set up Identity Resolution (IDR). IDR is how Marketing Cloud Next determines that two records in different systems represent the same real person. It produces **Unified Individual** records.
 
 You can access Identity Resolution through the setup menu as the guide describes, or directly via **App Launcher > Identity Resolutions**. Both get you to the same place.
 
 :::warning
-MCA setup can auto-create a default IDR ruleset. Before creating any ruleset, navigate to **App Launcher > Identity Resolutions** and check whether one already exists. If a default ruleset is there, review its configuration rather than creating a duplicate.
+Marketing Cloud Next setup can auto-create a default IDR ruleset. Before creating any ruleset, navigate to **App Launcher > Identity Resolutions** and check whether one already exists. If a default ruleset is there, review its configuration rather than creating a duplicate.
 :::
 
 <Screenshot src="/img/environment-setup/01-identity-resolution-ruleset.png" alt="Identity Resolutions list view showing one ruleset: Individual Identity Resolution, data space default, Primary Data Object Individual, Ruleset Status Published" caption="If your SDO already has a default ruleset like this, review it rather than creating a new one." />
 
 :::tip[Coming from MCE?]
-MCA has no concept of a Subscriber Key. There is no single primary identifier for contacts. Instead, Identity Resolution combines records from multiple sources and produces a **Unified Individual**: the resolved identity that MCA uses for segmentation, personalization, and sending.
+Marketing Cloud Next has no concept of a Subscriber Key. There is no single primary identifier for contacts. Instead, Identity Resolution combines records from multiple sources and produces a **Unified Individual**: the resolved identity that Marketing Cloud Next uses for segmentation, personalization, and sending.
 :::
 
 ### Confirm Company Information includes Address
@@ -137,13 +137,13 @@ STO activation can take up to 48 hours. It will not produce meaningful results w
 ## Assignment
 
 1. Provision your SDO from Partner Learning Camp. Extend the expiry to 12 months via the Partner Community before doing anything else.
-2. Complete all setup sections in the [MCA SDO Setup Guide](https://quip.com/rSLuAs4M0ak3) listed above. Work through them in order.
-3. Take a platform tour: navigate to MCA in the App Launcher, open Data 360 Setup, and find Salesforce CMS. Orient yourself to where things live.
+2. Complete all setup sections in the [Agentforce Marketing Partner Demo Guide](https://quip.com/rSLuAs4M0ak3) listed above. Work through them in order.
+3. Take a platform tour: navigate to Marketing in the App Launcher, open Data 360 Setup, and find Salesforce CMS. Orient yourself to where things live.
 4. **(Stretch)** Explore the dynamic sending configuration options in the Marketing Cloud Assisted Setup. Note what is available and what each setting does. You do not need to configure anything.
 
 ## Success Criteria
 
-- [ ] MCA is accessible from the App Launcher.
+- [ ] Marketing Cloud Next is accessible from the App Launcher.
 - [ ] Data 360 is provisioned and a Tenant Endpoint is visible in **Data 360 Setup**.
 - [ ] Marketing Data Kits are all installed and show a status of **Deployed**.
 - [ ] At least one Identity Resolution ruleset is configured.
@@ -169,7 +169,7 @@ The following questions are an opportunity to reflect on key topics in this less
 
 These resources are not required. They are here if you want to go deeper on a specific topic.
 
-- [SFMC Tips #151: Marketing Cloud Next Setup for SDO](https://medium.com/@marketingcloudtips/marketing-cloud-next-basic-setup-procedure-for-the-demo-environment-be441f7c37d8): Step-by-step SDO setup walkthrough for MCA, written for partners. Covers permission sets, Data 360 setup, Data Kits, IDR, and domain configuration.
+- [SFMC Tips #151: Marketing Cloud Next Setup for SDO](https://medium.com/@marketingcloudtips/marketing-cloud-next-basic-setup-procedure-for-the-demo-environment-be441f7c37d8): Step-by-step SDO setup walkthrough for MCN, written for partners. Covers permission sets, Data 360 setup, Data Kits, IDR, and domain configuration.
 - [Marketing Cloud Next: From Zero to First Email (The Agentic Marketer)](https://the-agentic-marketer.com/marketing-cloud-next-tips-from-the-trenches/first-email/): 16-step setup guide. Corroborates the setup sequence and notes common failure points including CMS workspace creation issues.
 - [SFMC Tips #263: SubscriberKey Identity Resolution Match Rule](https://medium.com/@marketingcloudtips/marketing-cloud-next-subscriberkey-identity-resolution-match-rule-ce345a3ae072): Covers the MCE Subscriber Key IDR ruleset configuration in detail. Notes Spring '26 behavior around automatic ruleset creation.
 - [Campaign Creation Agent Setup (arthurbackouche.com)](https://arthurbackouche.com/docs/marketing-cloud-next/agentforce-agents/how-to-set-up-the-campaign-creation-agent-in-agentforce-marketing/): Confirms Agentforce setup steps and notes the Agentforce Builder transition in mid-2026.

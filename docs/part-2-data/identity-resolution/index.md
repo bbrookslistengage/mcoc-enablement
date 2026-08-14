@@ -6,9 +6,9 @@ description: "How IDR works: the three-object architecture, match rules, reconci
 
 ## Overview
 
-LEOptical is a classic multi-source identity problem. The same customer exists in at least three systems: Salesforce CRM with a work email, the VisionCare Rewards loyalty program with a personal email, and the ecommerce customer master with yet another email. Without something to connect those records, MCA cannot tell they are the same person. Every segment query counts her three times. Every email send reaches her three times. Every personalization lookup fails to see her complete purchase history.
+LEOptical is a classic multi-source identity problem. The same customer exists in at least three systems: Salesforce CRM with a work email, the VisionCare Rewards loyalty program with a personal email, and the ecommerce customer master with yet another email. Without something to connect those records, Marketing Cloud Next cannot tell they are the same person. Every segment query counts her three times. Every email send reaches her three times. Every personalization lookup fails to see her complete purchase history.
 
-Identity Resolution (IDR) is the process that solves this. It reads your source Individual records, runs them through configurable match rules, and produces a single **Unified Individual** record per resolved real person. Every downstream MCA feature (segmentation, Data Graphs, activation templates) operates against Unified Individuals, not raw source records. IDR is not optional. It is the engine that makes the single-customer view possible.
+Identity Resolution (IDR) is the process that solves this. It reads your source Individual records, runs them through configurable match rules, and produces a single **Unified Individual** record per resolved real person. Every downstream Marketing Cloud Next feature (segmentation, Data Graphs, activation templates) operates against Unified Individuals, not raw source records. IDR is not optional. It is the engine that makes the single-customer view possible.
 
 This page covers how IDR works: the data model, when it runs, what it costs, and how match and reconciliation rules are structured. The next page walks through configuring IDR for LEOptical's data.
 
@@ -24,7 +24,7 @@ This section contains a general overview of topics that you will learn in this l
 - Credit costs and why run frequency matters.
 - Match rules: Exact, Exact Normalized, and Fuzzy match methods.
 - How multiple criteria within a rule work (AND logic) and how rules in a ruleset work (OR logic).
-- The default ruleset MCA generates and what it covers for LEOptical's data.
+- The default ruleset Marketing Cloud Next generates and what it covers for LEOptical's data.
 - Reconciliation rules: Most Recent, Most Frequent, and Source Priority.
 
 ## Individual vs. Unified Individual
@@ -75,12 +75,12 @@ MCE does not have a native identity resolution system.
 
 - In MCE, a subscriber's identity is determined by their **Subscriber Key** (typically the CRM Contact ID or the email address). There was no automated cross-source matching. A customer who used two different email addresses in two systems existed as two separate subscribers. Deduplication required custom AMPscript or manual list work.
 - **MC Connect / Synchronized Data Extensions** brought CRM data into MCE but did not attempt to unify identities across non-CRM sources.
-- MCA's IDR handles multi-source matching at scale with configurable rules, LLM-powered fuzzy matching, and credit-tracked processing. There is no MCE equivalent to map it to.
+- Marketing Cloud Next's IDR handles multi-source matching at scale with configurable rules, LLM-powered fuzzy matching, and credit-tracked processing. There is no MCE equivalent to map it to.
 :::
 
 ## Why Unified Individual matters for everything downstream
 
-IDR is not just an optional data quality step. The rest of MCA depends on it.
+IDR is not just an optional data quality step. The rest of Marketing Cloud Next depends on it.
 
 **Segmentation.** The best practice is to build segments against the **Unified Individual DMO**, not the raw Individual DMO. If you segment on raw Individual records, you count the same person multiple times (once per source record) and miss cross-source behavioral patterns. A loyalty member who also has exam history only appears that way on the Unified Individual.
 
@@ -91,7 +91,7 @@ There is a valid advanced use case for segmenting on Individual directly (when y
 **Activation Templates.** Activation templates specify which contact point (email address) to use when sending to a Unified Individual. Without IDR, there is no Unified Individual to activate against.
 
 :::warning
-If you send to a segment without an Activation Template configured, MCA sends to every Contact Point Email associated with each Unified Individual. A customer unified from three source records with three different email addresses receives three copies of the email. Configure an Activation Template before sending. This is covered in <ModuleLink slug="activation-templates" />, but keep it in mind as you build IDR rules that will produce Unified Individuals with multiple contact points.
+If you send to a segment without an Activation Template configured, Marketing Cloud Next sends to every Contact Point Email associated with each Unified Individual. A customer unified from three source records with three different email addresses receives three copies of the email. Configure an Activation Template before sending. This is covered in <ModuleLink slug="activation-templates" />, but keep it in mind as you build IDR rules that will produce Unified Individuals with multiple contact points.
 :::
 
 ## When IDR runs
@@ -193,7 +193,7 @@ Fuzzy matching only runs in batch/scheduled mode. If you are using real-time ide
 
 ### The default ruleset
 
-During MCA setup, the platform can auto-generate a default IDR ruleset (from **Setup > Assistant Home > Basic Settings > Step 3: Configure Identity Resolution Rulesets > Generate Rule Set**). This is not required. You can configure IDR directly in Data 360.
+During Marketing Cloud Next setup, the platform can auto-generate a default IDR ruleset (from **Setup > Assistant Home > Basic Settings > Step 3: Configure Identity Resolution Rulesets > Generate Rule Set**). This is not required. You can configure IDR directly in Data 360.
 
 The default ruleset contains four pre-built match rules:
 
@@ -299,7 +299,7 @@ The following questions are an opportunity to reflect on key topics in this less
 
 These resources are not required. They are here if you want to go deeper on a specific topic.
 
-- [Salesforce Help: Configure Identity Resolution Rulesets for Marketing Cloud Next](https://help.salesforce.com/s/articleView?id=mktg.mktg_admin_data_identity_resolution.htm&language=en_US&type=5). The official MCA-specific help article for IDR configuration. Primary reference for UI navigation and setup steps.
+- [Salesforce Help: Configure Identity Resolution Rulesets for Marketing Cloud Next](https://help.salesforce.com/s/articleView?id=mktg.mktg_admin_data_identity_resolution.htm&language=en_US&type=5). The official MCN help article for IDR configuration. Primary reference for UI navigation and setup steps.
 - [Salesforce Help: Identity Resolution Match Rules](https://help.salesforce.com/s/articleView?id=data.c360_a_match_rules.htm&language=en_US&type=5). Reference for available match methods, criteria objects, and how rules are structured.
 - [Salesforce Help: Identity Resolution Reconciliation Rules](https://help.salesforce.com/s/articleView?language=en_US&id=sf.c360_a_reconciliation_rules.htm&type=5). Reference for reconciliation strategies and configuration.
 - [Trailhead: Configure Identity Resolution Rules](https://trailhead.salesforce.com/content/learn/modules/data-and-identity-in-salesforce-cdp/configure-identity-resolution-rules). Hands-on module covering reconciliation rules with examples of all three strategies (Most Recent, Frequency, Source Priority).

@@ -6,7 +6,7 @@ description: "Create the LEOptical Marketing workspace folder structure, upload 
 
 ## Overview
 
-LEOptical is moving from a basic email service provider to MCA. Before they can send a single email, they need a content library: a structured workspace with their brand assets, product imagery, and reusable email components in place. Without it, every email starts from scratch, and updating a footer requires touching every email individually.
+LEOptical is moving from a basic email service provider to Marketing Cloud Next. Before they can send a single email, they need a content library: a structured workspace with their brand assets, product imagery, and reusable email components in place. Without it, every email starts from scratch, and updating a footer requires touching every email individually.
 
 This module builds that library. You will organize the LEOptical Marketing CMS workspace that was created in the <ModuleLink slug="business-units" /> module, upload the course-provided brand assets, and create the six content blocks that will be referenced throughout the rest of the course.
 

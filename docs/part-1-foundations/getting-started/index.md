@@ -1,14 +1,14 @@
 ---
 sidebar_position: 1
 title: "Getting Started"
-description: "Provision your SDO, configure MCA, and seed the org with LEOptical's course data."
+description: "Provision your SDO, configure Marketing Cloud Next, and seed the org with LEOptical's course data."
 ---
 
 ## Overview
 
-LEOptical just signed their Salesforce contract. Day one of the engagement. Your job is to get the MCA environment provisioned and ready for configuration. This module gets you there.
+LEOptical just signed their Salesforce contract. Day one of the engagement. Your job is to get the Marketing Cloud Next environment provisioned and ready for configuration. This module gets you there.
 
-The environment you will work in throughout this course is an SDO (Simple Demo Org), Salesforce's partner demo environment. Think of it as LEOptical's org for the duration of the course. It is not a sandbox. It is not a Developer Edition. It has specific characteristics, specific limitations, and a 30-day expiry you need to address immediately. Every configuration decision you make here maps to what a real MCA implementation would require.
+The environment you will work in throughout this course is an SDO (Simple Demo Org), Salesforce's partner demo environment. Think of it as LEOptical's org for the duration of the course. It is not a sandbox. It is not a Developer Edition. It has specific characteristics, specific limitations, and a 30-day expiry you need to address immediately. Every configuration decision you make here maps to what a real Marketing Cloud Next implementation would require.
 
 This module is split into two phases. The first is environment setup: SDO provisioning, Data 360, Marketing Cloud, Identity Resolution, Data Graphs, and a handful of AI features. Several of these steps kick off automated processes that take hours or even days to complete. The second phase is loading course data: running a seed script that populates your org with approximately 60,000 fictional LEOptical contacts, products, and campaigns. That data is what you will work with for the rest of the course.
 

@@ -2,12 +2,12 @@
 has_assignment: false
 sidebar_position: 4
 title: "Navigating a New Platform"
-description: "Practical advice for learning MCA, managing expectations about the learning curve, and using AI tools effectively."
+description: "Practical advice for learning Marketing Cloud Next, managing expectations about the learning curve, and using AI tools effectively."
 ---
 
 ## Overview
 
-You are an experienced Salesforce professional picking up a new product. You have done this before, whether it was learning a new cloud, a new tool, or an entirely new platform. MCA is another one of those. It will feel unfamiliar at first. Some parts will feel clunky or counterintuitive. That is completely normal. Some of it smooths out as you learn the platform's patterns. Some of it is just how the platform works right now.
+You are an experienced Salesforce professional picking up a new product. You have done this before, whether it was learning a new cloud, a new tool, or an entirely new platform. Marketing Cloud Next is another one of those. It will feel unfamiliar at first. Some parts will feel clunky or counterintuitive. That is completely normal. Some of it smooths out as you learn the platform's patterns. Some of it is just how the platform works right now.
 
 This module covers how to approach the learning process, how to use the tools at your disposal (especially AI), and why you are more prepared for this than you might think. There is no configuration work here. Just perspective and practical advice before you start building.
 
@@ -15,23 +15,23 @@ This module covers how to approach the learning process, how to use the tools at
 
 This section contains a general overview of topics that you will learn in this lesson.
 
-- Why your existing Salesforce experience transfers directly to learning MCA.
-- What makes MCA's learning curve feel steeper than other products, and why that is temporary.
-- How to use AI tools effectively when researching MCA topics.
+- Why your existing Salesforce experience transfers directly to learning Marketing Cloud Next.
+- What makes Marketing Cloud Next's learning curve feel steeper than other products, and why that is temporary.
+- How to use AI tools effectively when researching Marketing Cloud Next topics.
 
 ## You already know how to learn hard things
 
-You are a Salesforce consultant. You have picked up new products, learned new tools, and navigated unfamiliar UIs more times than you can count. MCA is another new thing. It is a big new thing, because the underlying architecture is different from what you are used to. But the process of learning it is the same process you have used before: get your hands on it, build things, make mistakes, figure it out.
+You are a Salesforce consultant. You have picked up new products, learned new tools, and navigated unfamiliar UIs more times than you can count. Marketing Cloud Next is another new thing. It is a big new thing, because the underlying architecture is different from what you are used to. But the process of learning it is the same process you have used before: get your hands on it, build things, make mistakes, figure it out.
 
 You are not starting from zero. Your Salesforce platform knowledge, your understanding of data modeling, your experience with client implementations, all of that transfers. The specifics are different. The skills are the same.
 
-Think about the last time you learned a new Salesforce product. There was a period where nothing made sense, then a period where some things clicked but others did not, and then a point where it all came together. MCA follows the same arc. You are at the beginning of that arc right now.
+Think about the last time you learned a new Salesforce product. There was a period where nothing made sense, then a period where some things clicked but others did not, and then a point where it all came together. Marketing Cloud Next follows the same arc. You are at the beginning of that arc right now.
 
 ## Why it feels different (and why that is okay)
 
-MCA is newer than MCE. The UI has rough edges in places. Some workflows require more steps than you might expect. Some things that were simple in MCE are more involved in MCA.
+Marketing Cloud Next is newer than MCE. The UI has rough edges in places. Some workflows require more steps than you might expect. Some things that were simple in MCE are more involved in Marketing Cloud Next.
 
-The biggest difference is the data layer. Data 360 adds a layer of upfront complexity that MCE did not have. Getting data streams, DMOs, and identity resolution configured before you can do anything marketing-related can feel like a lot of overhead. The MCA vs. MCE module covered this architectural reality. Here is the good news: that overhead is front-loaded. Once the data layer is set up, you spend less and less time thinking about it.
+The biggest difference is the data layer. Data 360 adds a layer of upfront complexity that MCE did not have. Getting data streams, DMOs, and identity resolution configured before you can do anything marketing-related can feel like a lot of overhead. The MCN vs. MCE module covered this architectural reality. Here is the good news: that overhead is front-loaded. Once the data layer is set up, you spend less and less time thinking about it.
 
 The early modules are the steepest part of the learning curve. Once data is flowing and identity resolution is running, you start building segments, creating emails, and configuring flows. That is where things start to move faster and feel more intuitive.
 
@@ -39,13 +39,13 @@ If something feels confusing in the first few modules, keep going. It is not a s
 
 ## Using AI as a learning tool
 
-AI tools like ChatGPT, Claude, and Gemini are excellent companions for learning MCA. But they need some guidance to be useful.
+AI tools like ChatGPT, Claude, and Gemini are excellent companions for learning Marketing Cloud Next. But they need some guidance to be useful.
 
-### Confirm it knows the difference between MCA and MCE
+### Confirm it knows the difference between Marketing Cloud Next and MCE
 
-This is the single most important thing to do before asking an AI tool any MCA question. Many AI models conflate MCA and MCE, or default to MCE documentation when you ask about "Marketing Cloud." Before you ask anything else, confirm that the AI understands you are working in Marketing Cloud Advanced (built on Data 360), not Marketing Cloud Engagement (the legacy platform with data extensions, automation tools, and AMPscript).
+This is the single most important thing to do before asking an AI tool any Marketing Cloud Next question. Many AI models conflate Marketing Cloud Next and MCE, or default to MCE documentation when you ask about "Marketing Cloud." Before you ask anything else, confirm that the AI understands you are working in Marketing Cloud Next Advanced edition (built on Data 360), not Marketing Cloud Engagement (the legacy platform with data extensions, automation tools, and AMPscript).
 
-Ask it to explain the distinction. If its answer sounds like the MCA vs. MCE module you just read, you are in good shape. If it starts talking about data extensions and automation studios as current features, correct it. Have it explicitly exclude MCE results from its research.
+Ask it to explain the distinction. If its answer sounds like the MCN vs. MCE module you just read, you are in good shape. If it starts talking about data extensions and automation studios as current features, correct it. Have it explicitly exclude MCE results from its research.
 
 ### Use AI to get unstuck
 
@@ -71,18 +71,18 @@ The course is structured to build your knowledge progressively. No module assume
 
 ## Assignment
 
-1. If you plan to use AI tools during the course, open your preferred AI tool and confirm that it understands the difference between MCA and MCE. Ask it to explain the distinction. Compare its response to what you learned in the MCA vs. MCE module.
+1. If you plan to use AI tools during the course, open your preferred AI tool and confirm that it understands the difference between Marketing Cloud Next and MCE. Ask it to explain the distinction. Compare its response to what you learned in the MCN vs. MCE module.
 2. Browse the "Coming from MCE?" callouts in the Consent Fundamentals module to see how they work in practice. If you do not have MCE experience, skim them anyway to understand what they cover.
 
 ## Success Criteria
 
-- [ ] You have tested an AI tool's understanding of MCA vs. MCE (or decided not to use AI tools during the course).
+- [ ] You have tested an AI tool's understanding of Marketing Cloud Next vs. MCE (or decided not to use AI tools during the course).
 - [ ] You have browsed at least one module with "Coming from MCE?" callouts and understand their purpose.
 
 ## Knowledge check
 
 The following questions are an opportunity to reflect on key topics in this lesson. If you can't answer a question, revisit the relevant section, but keep in mind you are not expected to memorize or master this knowledge.
 
-- Why does MCA feel more complex upfront compared to MCE or other Salesforce products?
-- What is the first thing you should do before using an AI tool to research MCA topics?
-- What should you do if an AI tool starts describing MCE features as if they are current MCA features?
+- Why does Marketing Cloud Next feel more complex upfront compared to MCE or other Salesforce products?
+- What is the first thing you should do before using an AI tool to research Marketing Cloud Next topics?
+- What should you do if an AI tool starts describing MCE features as if they are current Marketing Cloud Next features?

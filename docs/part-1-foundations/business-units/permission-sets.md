@@ -1,18 +1,18 @@
 ---
 sidebar_position: 3
 title: "Permission Sets"
-description: "Configure MCA's standard and custom permission sets for the LEOptical marketing team."
+description: "Configure Marketing Cloud Next's standard and custom permission sets for the LEOptical marketing team."
 ---
 
 ## Overview
 
-MCA governance is built on Salesforce permission sets. There is no proprietary MCE-style role system. Two standard permission sets ship with MCA.
+Marketing Cloud Next governance is built on Salesforce permission sets. There is no proprietary MCE-style role system. Two standard permission sets ship with Marketing Cloud Next.
 
 **Marketing Cloud Admin**
 - Access to Salesforce Setup
 - Access to Agentforce Admin and Prompt Template Manager
 - Full control of campaigns, segments, and flows, including admin-level flows that can touch CRM objects
-- Required for data space selection during MCA Basic Settings
+- Required for data space selection during Marketing Cloud Basic Settings
 
 **Marketing Cloud Manager**
 - Full control of campaigns, segments, and campaign flows (non-admin flows only)
@@ -22,12 +22,12 @@ MCA governance is built on Salesforce permission sets. There is no proprietary M
 The practical distinction: Marketing Cloud Manager cannot access Salesforce Setup and cannot run admin-level flows.
 
 :::tip[Coming from MCE?]
-The permission model in MCA is simpler in one way and more Salesforce-native in another.
+The permission model in Marketing Cloud Next is simpler in one way and more Salesforce-native in another.
 
-- **MCE uses proprietary role names** (Administrator, Content Creator, Analyst, Channel Manager, Security Administrator, Viewer). These do not exist in MCA.
-- **MCA uses Salesforce permission sets**, assigned in Salesforce Setup, not in a Marketing Cloud-specific interface.
-- **MCE role conflicts** follow a "Deny overrides Allow" model. MCA follows standard Salesforce permission set stacking rules.
-- **BU member roles in MCA** only matter when multiple BUs exist. In MCE, BU-level role assignment is always relevant because the BU hierarchy is always present.
+- **MCE uses proprietary role names** (Administrator, Content Creator, Analyst, Channel Manager, Security Administrator, Viewer). These do not exist in Marketing Cloud Next.
+- **Marketing Cloud Next uses Salesforce permission sets**, assigned in Salesforce Setup, not in a Marketing Cloud-specific interface.
+- **MCE role conflicts** follow a "Deny overrides Allow" model. Marketing Cloud Next follows standard Salesforce permission set stacking rules.
+- **BU member roles in Marketing Cloud Next** only matter when multiple BUs exist. In MCE, BU-level role assignment is always relevant because the BU hierarchy is always present.
 :::
 
 ## Assigning a standard permission set
@@ -97,4 +97,4 @@ The following questions are an opportunity to reflect on key topics in this less
 
 - What is the difference between the Marketing Cloud Admin and Marketing Cloud Manager permission sets? When would you assign each to a client team member?
 - A client's marketing team keeps accidentally editing Salesforce flows that touch CRM objects. Which permission set change would prevent this?
-- MCA has five custom permission categories. Which two would you combine for a user whose only job is building email templates in CMS?
+- MCN has five custom permission categories. Which two would you combine for a user whose only job is building email templates in CMS?

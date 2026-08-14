@@ -1,6 +1,6 @@
 {
-  "label": "Part 5: Flows & Automation",
-  "position": 5,
+  "label": "Part 6: Flows & Automation",
+  "position": 6,
   "collapsible": true,
   "collapsed": true,
   "description": "Build marketing flows from simple sends to advanced orchestration with subflows and batching."
