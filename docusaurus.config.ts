@@ -4,8 +4,8 @@ import type * as Preset from '@docusaurus/preset-classic';
 import path from 'path';
 
 const config: Config = {
-  title: 'MCA Enablement Course',
-  tagline: 'Self-paced Marketing Cloud Advanced training by ListEngage',
+  title: 'Marketing Cloud Next Enablement Course',
+  tagline: 'Self-paced Marketing Cloud Next (Advanced Edition) training by ListEngage',
   favicon: 'img/favicon.ico',
 
   future: {

@@ -6,7 +6,7 @@ export default function Home(): ReactNode {
   return (
     <Layout
       title="Course Overview"
-      description="Self-paced Marketing Cloud Advanced enablement course by ListEngage."
+      description="Self-paced Marketing Cloud Next (Advanced Edition) enablement course by ListEngage."
     >
       <main>
         <section className="course-hero">
@@ -46,10 +46,10 @@ export default function Home(): ReactNode {
             <div className="course-hero__label">ListEngage Enablement</div>
             <h1 className="course-hero__title">
               Marketing Cloud{' '}
-              <span className="course-hero__title-accent">Advanced</span>
+              <span className="course-hero__title-accent">Next</span>
             </h1>
             <p className="course-hero__subtitle">
-              Self-paced training. Build a real MCA implementation
+              Self-paced training. Build a real Marketing Cloud Next implementation
               for LEOptical, from data model to multi-channel campaigns.
             </p>
           </div>
