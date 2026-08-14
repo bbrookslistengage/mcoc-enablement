@@ -494,10 +494,10 @@ Based on the LEOptical data model and use cases from data-model.md:
 | DMO | Path from Unified Individual | Use Case |
 |-----|---------------------------|----------|
 | **Loyalty Program Member** | Unified Individual → Loyalty Program Member | Loyalty tier personalization, VIP segmentation, points display |
-| **Sales Order** | Unified Individual → Sales Order | Purchase history display, lapsed buyer segments, order date |
+| **Sales Order** | Unified Individual → Individual → Sales Order (via Sold To Customer) | Purchase history display, lapsed buyer segments, order date |
 | **Sales Order Product** | Sales Order → Sales Order Product | Recent purchases repeater in email, SeeClear enthusiasts segment |
 | **Product** | Sales Order Product → Product | Product name, family for personalization |
-| **Eye Exam** | Unified Individual → Eye Exam | Exam overdue segments, next exam due date personalization |
+| **Eye Exam** | Unified Individual → Individual → Eye Exam (via patient_id) — stretch | Exam overdue segments |
 
 ### Rationale for each
 
@@ -605,11 +605,11 @@ The Data Graph is the bridge between all DMOs built in earlier modules and the p
 - Contact Point Phone (Formatted E164 Phone Number — required for SMS)
 
 **LEOptical-specific:**
-- Loyalty Program Member (custom fields: Loyalty Tier, Points Balance, Email Address, Status)
-- Sales Order (Order Date, Total Amount, Status, Customer Email)
+- Loyalty Program Member (custom fields: `tier`, `points`, Email Address, Status)
+- Sales Order (Order Date, Total Amount, Status, Sold To Customer)
 - Sales Order Product (Quantity, Unit Price, Line Total)
 - Product (Product Name, Product SKU, Product Family)
-- Eye Exam (custom DMO: Exam Date, Next Exam Due, Exam Type, Provider)
+- Eye Exam (custom DMO, stretch: Exam Date, Exam Type, Provider)
 
 ### Key field-level details for personalization
 
@@ -621,7 +621,6 @@ The Data Graph is the bridge between all DMOs built in earlier modules and the p
 | Purchase history repeater | Sales Order Product → Product | Product Name |
 | Lapsed buyer segment | Sales Order | Order Date |
 | Exam overdue segment | Eye Exam | Exam Date |
-| Next exam due reminder | Eye Exam | Next Exam Due |
 | Email sending (activation) | Contact Point Email | Email Address |
 
 ### Data Refresh Dependency Chain (from data-model.md)

@@ -220,14 +220,14 @@ See `.planning/specs/2026-08-12-course-restructure-design.md` for the full restr
 **Assignment:**
 - Review the Data Model Object (DMO) schema in Data 360 — understand Individual, Contact Point Email, Sales Order, and other standard DMOs
 - Review the target data model for LEOptical (provided in the lesson) and understand why each DMO and relationship was chosen
-- Download `loyalty_members.csv` and `ecommerce_orders.csv` from the course resources
+- Download `loyalty.csv`, `ecom_customers.csv`, `ecom_orders.csv`, and `ecom_order_items.csv` from the course resources
 - Create Data Streams for each CSV source and ingest them into Data 360
 - Map the incoming fields to appropriate DMOs (standard or custom as specified in the target data model)
 - Verify data is flowing: check record counts in each DMO after ingestion
 
 **Success Criteria:**
 - [ ] You understand the target LEOptical data model and can explain the DMO relationships
-- [ ] Two Data Streams are configured (loyalty, ecommerce)
+- [ ] Four data streams are configured (loyalty, ecom customers, ecom orders, ecom order items). Stretch: two additional streams (clinic patients, clinic exams).
 - [ ] CSV data is ingested and visible in Data 360
 - [ ] Fields are mapped to the correct DMOs per the target data model
 - [ ] You've investigated any record count discrepancies between source files and ingested DMOs
@@ -235,7 +235,7 @@ See `.planning/specs/2026-08-12-course-restructure-design.md` for the full restr
 
 > **A note on record counts:** Your ingested record counts may not exactly match the row counts in your CSV files. If they don't match, investigate why. This is normal — welcome to real consulting. Common causes include missing required fields, date format mismatches, and values the platform doesn't recognize. Document what you find.
 
-> **Data model (resolved):** See [data-model.md](data-model.md) for the complete target data model, ERD, DMO mappings, and Data Graph structure.
+> **Data model (resolved):** See [2026-08-12-data-360-data-model-design.md](2026-08-12-data-360-data-model-design.md) for the complete target data model, ERD, DMO mappings, and Data Graph structure.
 
 ---
 
@@ -303,7 +303,7 @@ Build four segments using Data 360 segmentation:
 1. **"VIP Customers"** — Gold or Platinum loyalty tier members
 2. **"Lapsed Buyers"** — Customers with no purchase in the last 180 days
 3. **"SeeClear Enthusiasts"** — Customers who've purchased any SeeClear product family lens
-4. **"Exam Overdue"** — Customers whose last eye exam was more than 12 months ago
+4. **(Stretch) "Exam Overdue"** — Customers whose last eye exam was more than 12 months ago (requires clinic data stream)
 
 For each segment, verify the member count and spot-check profiles to confirm accuracy.
 

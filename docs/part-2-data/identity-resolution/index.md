@@ -6,7 +6,7 @@ description: "How IDR works: the three-object architecture, match rules, reconci
 
 ## Overview
 
-LEOptical is a classic multi-source identity problem. The same customer exists in at least three systems: Salesforce CRM with a work email, the VisionCare Rewards loyalty program with a personal email, and ecommerce orders with yet another email. Without something to connect those records, MCA cannot tell they are the same person. Every segment query counts her three times. Every email send reaches her three times. Every personalization lookup fails to see her complete purchase history.
+LEOptical is a classic multi-source identity problem. The same customer exists in at least three systems: Salesforce CRM with a work email, the VisionCare Rewards loyalty program with a personal email, and the ecommerce customer master with yet another email. Without something to connect those records, MCA cannot tell they are the same person. Every segment query counts her three times. Every email send reaches her three times. Every personalization lookup fails to see her complete purchase history.
 
 Identity Resolution (IDR) is the process that solves this. It reads your source Individual records, runs them through configurable match rules, and produces a single **Unified Individual** record per resolved real person. Every downstream MCA feature (segmentation, Data Graphs, activation templates) operates against Unified Individuals, not raw source records. IDR is not optional. It is the engine that makes the single-customer view possible.
 
@@ -31,7 +31,7 @@ This section contains a general overview of topics that you will learn in this l
 
 ### The source layer: Individual
 
-The **Individual DMO** is the input layer for IDR. Each row represents one person record from one source system. When CRM Contacts are ingested via the Marketing Data Kit, each Contact becomes one Individual row. When the loyalty CSV is ingested, each loyalty member row becomes one Individual row.
+The **Individual DMO** is the input layer for IDR. Each row represents one person record from one source system. When CRM Contacts are ingested via the Marketing Data Kit, each Contact becomes one Individual row. When the loyalty CSV is ingested, each loyalty member row becomes one Individual row. When the ecommerce customer file is ingested, each ecommerce customer record becomes one Individual row.
 
 One real person can have multiple Individual records if they appear in multiple source systems. Maria Chen is three Individual records before IDR runs. That is expected. The Individual DMO is not the problem. IDR is the fix.
 
@@ -45,7 +45,7 @@ The Unified Individual contains reconciled field values (more on reconciliation 
 
 The **Unified Link Individual** DMO (API name: `IndividualIdentityLink__dlm`) is a junction table that maps each source Individual ID to its parent Unified Individual ID.
 
-If Sarah has four source profiles across CRM, loyalty, ecommerce, and exam systems, the Unified Link Individual table contains four rows:
+If Sarah has four source profiles across CRM, loyalty, ecommerce, and clinic systems, the Unified Link Individual table contains four rows:
 
 ```
 Sarah Source Profile #001 → Sarah Unified Individual #0123
@@ -53,6 +53,8 @@ Sarah Source Profile #002 → Sarah Unified Individual #0123
 Sarah Source Profile #003 → Sarah Unified Individual #0123
 Sarah Source Profile #004 → Sarah Unified Individual #0123
 ```
+
+The fourth source profile (clinic) is only present if you completed the clinic data stretch goal. If you skipped it, Sarah resolves from three source profiles instead of four.
 
 This is the "key ring" model. IDR does not merge records. It creates a mapping from many source IDs to one unified ID. If source data changes, IDR re-runs and updates the links without losing any original data.
 

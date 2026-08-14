@@ -94,7 +94,7 @@ Two patterns in this table are worth noting immediately:
 
 **The streaming/batch gap is large.** Batch Calculated Insights cost 15 credits/million. Streaming Calculated Insights cost 800 credits/million. That is a 53x difference for the same computation, with the only distinction being when results are needed. Default to batch unless real-time is a stated business requirement.
 
-{/* VERIFY: Whether manual CSV file uploads (used for LEOptical's loyalty, ecommerce, and exam history data streams) count as external batch ingestion at 2,000 credits/million rows, or are billed differently from API-connected external pipelines */}
+{/* VERIFY: Whether manual CSV file uploads (used for LEOptical's loyalty, ecommerce, and clinic data streams) count as external batch ingestion at 2,000 credits/million rows, or are billed differently from API-connected external pipelines */}
 
 ## Identity resolution: the expensive one
 
@@ -105,7 +105,7 @@ Profile Unification (Identity Resolution) costs 100,000 credits per million sour
 - 5,000x more expensive than batch segmentation (20 credits/million)
 - 6,667x more expensive than batch Calculated Insights (15 credits/million)
 
-Credits are charged based on source profiles processed, not on the number of unified profiles produced. A "source profile" is an individual and their related records (contact points, party identifiers) included in the identity ruleset. At LEOptical, that means CRM Contacts, Loyalty Member records, and their associated email and phone contact points all count as source profiles going into the IDR run.
+Credits are charged based on source profiles processed, not on the number of unified profiles produced. A "source profile" is an individual and their related records (contact points, party identifiers) included in the identity ruleset. At LEOptical, that means CRM Contacts, Loyalty Member records, ecommerce customer records, and their associated email and phone contact points all count as source profiles going into the IDR run.
 
 :::warning
 Modifying identity resolution matching rules triggers a full reprocessing of all source profiles at the next IDR run. It does not process only new or changed records. It re-evaluates everything. At LEOptical's current scale (~49K contacts), a full IDR re-run is inexpensive. At 600K customers with a multi-source ruleset, a single rule tweak consumes hundreds of thousands of credits in one run. Lock down your IDR ruleset before go-live.
@@ -142,9 +142,9 @@ The LEOptical dataset has known data quality issues. These are not just correctn
 
 **Orphaned records still get ingested and processed.** LEOptical's ecommerce dataset has Sales Order Products that reference SKUs with no matching Product record. Those orphaned rows are still ingested and traversed during segmentation. They consume ingestion and transform credits without contributing to any useful segment output.
 
-**Mixed data formats require transforms.** LEOptical's `exam_history.csv` uses DD-Mon-YYYY date format. The ecommerce orders use MM/DD/YYYY. Transform jobs normalize these to a standard format. Each transform run costs 400 credits/million rows (batch). More dirty data means more transform work per ingestion cycle.
+**Mixed data formats require transforms.** LEOptical's `clinic_exams.csv` uses DD-Mon-YYYY date format. The ecommerce orders use MM/DD/YYYY. Transform jobs normalize these to a standard format. Each transform run costs 400 credits/million rows (batch). More dirty data means more transform work per ingestion cycle.
 
-**Contradictory consent data causes processing overhead.** LEOptical's loyalty CSV has records with `email_optin=true` and an `unsubscribed_date` set simultaneously. These contradictory records require additional logic to resolve during consent processing and can trigger segment recalculations when they cause unexpected membership changes.
+**Contradictory consent data causes processing overhead.** LEOptical's data has cross-source `email_optin` contradictions: some customers have `email_optin=true` in the loyalty file but `email_optin=false` in the ecommerce file. These contradictory records require additional logic to resolve during consent processing and can trigger segment recalculations when they cause unexpected membership changes.
 
 The assignment at the end of this module asks you to quantify the credit impact of dirty data cleanup vs. tolerating it. The calculation is not complicated: estimate the reduced source profile count after deduplication, multiply by the IDR rate, and compare to the ongoing cost of running IDR against the inflated dataset.
 

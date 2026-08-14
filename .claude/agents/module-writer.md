@@ -79,8 +79,8 @@ You can explain concepts in your own words. You can summarize, synthesize, and t
 
 - UI element names in **bold**: **Save**, **New Data Stream**
 - Navigation paths: **Setup > Data 360 > Data Streams**
-- Field names in backticks: `FirstName`, `Last_Exam_Date__c`
-- File names in backticks: `loyalty_members.csv`
+- Field names in backticks: `FirstName`, `Email`
+- File names in backticks: `loyalty.csv`
 - Code snippets in fenced blocks with language specified
 - Numbered lists for sequential steps, bullets for unordered items
 - Max two levels of list nesting

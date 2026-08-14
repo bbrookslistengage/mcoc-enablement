@@ -90,7 +90,7 @@ Sources: {count}
 2. **Gather internal context.** Read:
    - The module's entry in `.planning/specs/module-assignments.md`
    - `.planning/platform-gotchas.md` (filter to relevant entries)
-   - `.planning/specs/data-model.md` (if module touches data)
+   - `.planning/specs/2026-08-12-data-360-data-model-design.md` (if module touches data)
    - `.planning/specs/leoptical-client.md` (client profile)
 
 3. **Web research.** Search for current Salesforce documentation on the module's topic. Critical constraint: **MCA / Marketing Cloud Next / Marketing Cloud Advanced only.**

@@ -32,26 +32,24 @@ function buildScript(email: string, valid: boolean): string {
   const today = 'Date.today()';
 
   const contacts = [
-    { first: 'Maria',  last: 'Chen',      slug: 'mariac',  tier: 'Gold',     points: 62400,  lastExam: `${today}.addMonths(-14)`, nextDue: `${today}.addMonths(-2)` },
-    { first: 'James',  last: 'Okafor',    slug: 'jokafar', tier: 'Platinum', points: 88750,  lastExam: `${today}.addMonths(-2)`,  nextDue: `${today}.addMonths(10)` },
-    { first: 'Sofia',  last: 'Reyes',     slug: 'sofiar',  tier: 'Bronze',   points: 1200,   lastExam: 'null',                    nextDue: 'null' },
-    { first: 'David',  last: 'Kim',       slug: 'davidk',  tier: 'Silver',   points: 31500,  lastExam: `${today}.addMonths(-18)`, nextDue: `${today}.addMonths(-6)` },
-    { first: 'Aisha',  last: 'Patel',     slug: 'aishap',  tier: 'Gold',     points: 55800,  lastExam: `${today}.addMonths(-4)`,  nextDue: `${today}.addMonths(8)` },
-    { first: 'Carlos', last: 'Mendez',    slug: 'carlosm', tier: 'Bronze',   points: 8900,   lastExam: 'null',                    nextDue: 'null' },
-    { first: 'Wei',    last: 'Zhang',     slug: 'weiz',    tier: 'Platinum', points: 112300, lastExam: `${today}.addMonths(-1)`,  nextDue: `${today}.addMonths(11)` },
-    { first: 'Fatima', last: 'Al-Hassan', slug: 'fatimaa', tier: 'Silver',   points: 25000,  lastExam: `${today}.addMonths(-13)`, nextDue: `${today}.addMonths(-1)` },
-    { first: 'Ryan',   last: "O\\'Brien", slug: 'ryano',   tier: 'Bronze',   points: 3400,   lastExam: `${today}.addMonths(-6)`,  nextDue: `${today}.addMonths(6)` },
-    { first: 'Priya',  last: 'Sharma',    slug: 'priyas',  tier: 'Gold',     points: 71200,  lastExam: `${today}.addMonths(-3)`,  nextDue: `${today}.addMonths(9)` },
+    { first: 'Maria',  last: 'Chen',      slug: 'mariac'  },
+    { first: 'James',  last: 'Okafor',    slug: 'jokafar' },
+    { first: 'Sofia',  last: 'Reyes',     slug: 'sofiar'  },
+    { first: 'David',  last: 'Kim',       slug: 'davidk'  },
+    { first: 'Aisha',  last: 'Patel',     slug: 'aishap'  },
+    { first: 'Carlos', last: 'Mendez',    slug: 'carlosm' },
+    { first: 'Wei',    last: 'Zhang',     slug: 'weiz'    },
+    { first: 'Fatima', last: 'Al-Hassan', slug: 'fatimaa' },
+    { first: 'Ryan',   last: "O\\'Brien", slug: 'ryano'   },
+    { first: 'Priya',  last: 'Sharma',    slug: 'priyas'  },
   ];
 
-  const contactLines = contacts.map(({ first, last, slug, tier, points, lastExam, nextDue }, index) => {
+  const contactLines = contacts.map(({ first, last, slug }, index) => {
     const contactEmail = valid ? deriveAlias(email, slug) : `you+${slug}@yourdomain.com`;
     const comma = index < contacts.length - 1 ? ',' : '';
     return `    new Contact(
         FirstName='${first}', LastName='${last}',
-        Email='${contactEmail}',
-        Loyalty_Tier__c='${tier}', Loyalty_Points__c=${points},
-        Last_Exam_Date__c=${lastExam}, Next_Exam_Due__c=${nextDue}
+        Email='${contactEmail}'
     )${comma}`;
   }).join('\n');
 
@@ -65,8 +63,8 @@ function buildScript(email: string, valid: boolean): string {
 // Run in: Setup > Developer Console >
 //         Debug > Open Execute Anonymous Window
 //
-// Run this only once. The batch class (Step 2) handles the
-// remaining ~59,990 contacts separately.
+// Run this only once. The remaining ~48,662 contacts are
+// imported separately via the Data Import Wizard.
 // =============================================================
 
 List<Contact> testContacts = new List<Contact>{
@@ -213,7 +211,7 @@ export default function SeedScript(): React.ReactElement {
 
       {!valid && (
         <p style={{ fontSize: '0.85rem', color: 'var(--ifm-color-emphasis-600)', marginTop: '0.25rem', marginBottom: '1.5rem' }}>
-          Enter your email address above to enable copying. Only the 10 test contacts will use your address. The remaining ~59,990 contacts use <code>@example.com</code> addresses that never deliver to a real inbox.
+          Enter your email address above to enable copying. Only the 10 test contacts will use your address. The remaining ~48,662 contacts use <code>@example.com</code> addresses that never deliver to a real inbox.
         </p>
       )}
 

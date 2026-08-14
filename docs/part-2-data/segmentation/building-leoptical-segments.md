@@ -170,6 +170,10 @@ For LEOptical's data model, there is only one path from Unified Individual to Pr
 
 ---
 
+:::info
+This segment requires Eye Exam data from the clinic data stretch goal in the <ModuleLink slug="ingesting-external-data" /> module. Skip if you did not ingest clinic data.
+:::
+
 **Segment 3: Exam Overdue**
 
 Goal: Customers whose last eye exam was more than 12 months ago.
@@ -182,7 +186,7 @@ Set Aggregation to **Max** (this gives you the most recent exam date). Filter: M
 
 Decide what to do about contacts with no Eye Exam records at all. Contacts with no records in the Eye Exam DMO have no Max(Exam Date) value. The platform may include or exclude them depending on how it handles missing aggregation values.
 
-{/* VERIFY: Whether contacts with zero Eye Exam records appear in a segment that uses Max(Exam Date) Is Before 365 days ago. This is a key design decision for the Exam Overdue segment. Verify in SDO by checking whether protagonist contacts who have no exam_history records appear in the segment. */}
+{/* VERIFY: Whether contacts with zero Eye Exam records appear in a segment that uses Max(Exam Date) Is Before 365 days ago. This is a key design decision for the Exam Overdue segment. Verify in SDO by checking whether protagonist contacts who have no clinic exam records appear in the segment. */}
 
 Document your decision: should contacts with no exam history appear in Exam Overdue? If yes, what approach handles them correctly? If not, add an explicit filter to exclude them. You may need to explain this decision to LEOptical.
 

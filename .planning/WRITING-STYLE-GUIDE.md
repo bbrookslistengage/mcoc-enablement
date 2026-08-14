@@ -113,9 +113,9 @@ These words and constructions are not allowed anywhere in course content. This l
 ### Code and UI References
 - UI element names in **bold**: **Save**, **Data Streams**, **Setup**
 - Navigation paths with `>`: **Setup > Data 360 > Data Streams**
-- Field names in backticks: `Last_Exam_Date__c`, `FirstName`
+- Field names in backticks: `FirstName`, `Email`
 - Code snippets in fenced code blocks with language specified
-- File names in backticks: `loyalty_members.csv`
+- File names in backticks: `loyalty.csv`
 
 ### Admonitions
 Use Docusaurus admonitions for specific purposes only:

@@ -248,15 +248,15 @@ This is tedious. It is also the reality of working in an SDO. In a production or
 **Lesson body sections:**
 
 **CSV data streams**
-- LEOptical has three external data sources: loyalty members, ecommerce orders, and eye exam records
-- Each needs its own data stream
+- LEOptical has four required external data sources: loyalty (`loyalty.csv`), ecommerce customers (`ecom_customers.csv`), ecommerce orders (`ecom_orders.csv`), and ecommerce order items (`ecom_order_items.csv`). Two additional clinic files (`clinic_patients.csv`, `clinic_exams.csv`) are stretch goals.
+- Each required file needs its own data stream
 - Walk through creating a data stream for a CSV source (need to research exact steps)
-- Upload `loyalty_members.csv`, `ecommerce_orders.csv`, and `exam_history.csv`
+- Upload the four required CSVs
 
 **Standard vs custom DMOs**
 - Standard DMOs come with automatic relationships and built-in behaviors (need to research exactly what). Examples: Individual, Contact Point Email, Sales Order, Account.
 - Custom DMOs give you full control over fields and structure, but you wire up relationships yourself.
-- For LEOptical: loyalty data maps to the standard Loyalty Program Member DMO (with custom fields). Ecommerce data maps to standard Sales Order and Sales Order Product DMOs. Eye exam data has no standard equivalent, so you create a custom Eye Exam DMO.
+- For LEOptical: `loyalty.csv` maps to three DMOs from one Profile-category data stream — Individual, Contact Point Email, and Loyalty Program Member (standard, with custom fields). Ecommerce is split into a customer master file (`ecom_customers.csv`) that maps to Individual and Contact Point Email, plus transaction files (`ecom_orders.csv` → Sales Order, `ecom_order_items.csv` → Sales Order Product). Eye exam data (stretch goal) has no standard equivalent, so you create a custom Eye Exam DMO.
 - The tradeoff: standard DMOs integrate with platform features automatically (segmentation knows about them, IDR can reference them). Custom DMOs require more manual configuration. But sometimes the standard field names and relationships do not match what you need, and some consultants prefer custom DMOs for that reason.
 - (need to research: what specific advantages standard DMOs have — automatic relationships, out-of-box segment templates, IDR awareness, anything else)
 
@@ -273,21 +273,22 @@ This is tedious. It is also the reality of working in an SDO. In a production or
 - Record counts may not match source CSV row counts. That is expected. Document discrepancies.
 
 **Assignment:**
-- Create data streams for `loyalty_members.csv`, `ecommerce_orders.csv`, and `exam_history.csv`
-- Map fields to the appropriate DMOs (standard for loyalty and ecommerce, custom for eye exams)
-- Create the custom Eye Exam DMO
-- Refresh all three data streams
+- Create data streams for `loyalty.csv`, `ecom_customers.csv`, `ecom_orders.csv`, and `ecom_order_items.csv`
+- Map fields to the appropriate DMOs (standard for loyalty and ecommerce)
+- Refresh all four data streams
 - Verify record counts in each DMO and investigate any discrepancies
 - Document which records failed and why
+- **Stretch:** Create data streams for `clinic_patients.csv` and `clinic_exams.csv`. Create the custom Eye Exam DMO.
 
 **Success criteria:**
-- [ ] Three data streams are created (loyalty, ecommerce, eye exams)
-- [ ] Loyalty data is mapped to the Loyalty Program Member DMO
-- [ ] Ecommerce data is mapped to Sales Order and Sales Order Product DMOs
-- [ ] Eye Exam custom DMO is created and mapped
-- [ ] All three data streams have been refreshed successfully
+- [ ] Four data streams are created (loyalty, ecom customers, ecom orders, ecom order items)
+- [ ] Loyalty data is mapped to Individual, Contact Point Email, and Loyalty Program Member DMOs
+- [ ] Ecommerce customer data is mapped to Individual and Contact Point Email DMOs
+- [ ] Ecommerce order data is mapped to Sales Order and Sales Order Product DMOs
+- [ ] All four data streams have been refreshed successfully
 - [ ] Record count discrepancies are investigated and documented
 - [ ] You can explain the difference between using a standard DMO and creating a custom one
+- [ ] **Stretch:** Eye Exam custom DMO is created and mapped from clinic files
 
 ---
 
@@ -302,7 +303,7 @@ This is tedious. It is also the reality of working in an SDO. In a production or
 **The ERD**
 - Present the full LEOptical ERD showing all DMOs and their relationships
 - Walk through each entity: what it represents, where its data comes from, what relationships it has
-- (The ERD itself is defined in `.planning/specs/data-model.md`)
+- (The ERD itself is defined in `.planning/specs/2026-08-12-data-360-data-model-design.md`)
 
 **Relationship design decisions**
 - Why each DMO was chosen (standard vs custom)

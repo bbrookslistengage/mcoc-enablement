@@ -184,7 +184,7 @@ For LEOptical, the Data Graph needs:
 | Sales Order | Purchase history and order date. Powers lapsed buyer segments and purchase display. |
 | Sales Order Product | Line items. Powers product name repeaters in email. |
 | Product | Product name and family. Connects to Sales Order Product. |
-| Eye Exam | Exam date and next exam due. Powers exam reminder emails. |
+| Eye Exam (Stretch) | Exam date and next exam due. Powers exam reminder emails. Only present if clinic data was ingested. |
 
 :::warning
 Once you click **Save and Build**, you cannot remove DMOs or fields from the Data Graph. You can add new ones later, but nothing you build in can be removed. If the design is wrong, delete the graph and recreate from scratch.

@@ -3,15 +3,20 @@
 Generate all LEOptical seed data CSVs from a single source of truth.
 
 Produces:
-  Module 1 (CRM):
-    static/seed-data/contacts.csv    — ~50,000 Contacts
+  CRM seed data:
+    static/seed-data/contacts.csv              — ~49K Contacts
 
-  Modules 6-8 (Data 360):
-    static/seed-data/loyalty_members.csv   — ~40,000 loyalty program members
-    static/seed-data/ecommerce_orders.csv  — ~100,000 orders + line items
-    static/seed-data/exam_history.csv      — ~35,000 eye exam records
+  Data 360 — required (4 files):
+    static/seed-data/loyalty.csv               — ~40K loyalty program members
+    static/seed-data/ecom_customers.csv        — ~30K ecommerce customer accounts
+    static/seed-data/ecom_orders.csv           — ~100K ecommerce orders
+    static/seed-data/ecom_order_items.csv      — ~147K order line items
 
-  Later modules (simulation):
+  Data 360 — stretch goal (2 files):
+    static/seed-data/clinic_patients.csv       — ~25K clinic patient profiles
+    static/seed-data/clinic_exams.csv          — ~34K eye exam records
+
+  Simulation CSVs (later modules):
     static/seed-data/new_signups_july.csv      — ~50 new loyalty members
     static/seed-data/new_orders_july.csv       — ~100 recent orders
     static/seed-data/new_contacts_batch1.csv   — ~20 new contacts
@@ -33,9 +38,11 @@ from pathlib import Path
 
 SEED = 42  # Deterministic output
 CONTACT_COUNT = 48_672  # Background contacts only (protagonists created separately via Apex)
-LOYALTY_COUNT = 40_471
-ORDER_COUNT = 98_314
-EXAM_COUNT = 33_829
+LOYALTY_COUNT = 40_000
+ECOM_CUSTOMER_COUNT = 30_000
+ECOM_ORDER_COUNT = 100_000
+CLINIC_PATIENT_COUNT = 25_000
+CLINIC_EXAM_COUNT = 34_000
 
 # Output directory
 OUTPUT_DIR = Path(__file__).parent.parent / 'static' / 'seed-data'
@@ -388,18 +395,20 @@ class Person:
         'loyalty_tier', 'loyalty_points', 'last_exam_date', 'next_exam_due',
         'record_type',  # 'contact' or 'protagonist'
         # Cross-file tracking
-        'loyalty_email', 'ecommerce_email', 'exam_email',
-        'in_loyalty', 'in_ecommerce', 'in_exams',
+        'loyalty_email', 'ecom_email', 'clinic_email',
+        'in_loyalty', 'in_ecom', 'in_clinic',
         'email_variant',  # 'same', 'alt', 'typo'
         'nickname',  # Alternate first name for IDR name-variation testing
+        # Generated IDs for each source system
+        'loyalty_member_id', 'ecom_customer_id', 'patient_id',
     ]
 
     def __init__(self):
         for attr in self.__slots__:
             setattr(self, attr, None)
         self.in_loyalty = False
-        self.in_ecommerce = False
-        self.in_exams = False
+        self.in_ecom = False
+        self.in_clinic = False
         self.email_variant = 'same'
         self.nickname = None
 
@@ -455,11 +464,11 @@ def generate_master_registry(rng: random.Random) -> list[Person]:
 
         # Protagonists appear in Data 360 data sources with consistent emails
         p.in_loyalty = True
-        p.in_ecommerce = p_data['exam'] != 'never' or p_data['pts'] > 5000
-        p.in_exams = p_data['exam'] != 'never'
+        p.in_ecom = p_data['exam'] != 'never' or p_data['pts'] > 5000
+        p.in_clinic = p_data['exam'] != 'never'
         p.loyalty_email = p.email
-        p.ecommerce_email = p.email
-        p.exam_email = p.email
+        p.ecom_email = p.email
+        p.clinic_email = p.email
 
         people.append(p)
         email_counter += 1
@@ -534,7 +543,7 @@ def generate_master_registry(rng: random.Random) -> list[Person]:
 
 
 def assign_cross_file_membership(people: list[Person], rng: random.Random):
-    """Decide which people appear in loyalty, ecommerce, and exam files.
+    """Decide which people appear in loyalty, ecom, and clinic files.
     Also assign email variants for IDR testing."""
 
     non_protagonists = [p for p in people if p.record_type == 'contact']
@@ -545,31 +554,68 @@ def assign_cross_file_membership(people: list[Person], rng: random.Random):
     for p in loyalty_candidates:
         p.in_loyalty = True
 
-    # ── Ecommerce orders (~100,000 orders across a subset of people) ────
-    # ~45,000 unique buyers, some with multiple orders
-    ecomm_candidates = rng.sample(non_protagonists, min(45_000, len(non_protagonists)))
-    for p in ecomm_candidates:
-        p.in_ecommerce = True
+    # ── Ecommerce customers (~30,000 unique accounts) ────────────────────
+    ecom_candidates = rng.sample(non_protagonists, min(ECOM_CUSTOMER_COUNT - 10, len(non_protagonists)))
+    for p in ecom_candidates:
+        p.in_ecom = True
 
-    # ── Exam history (~35,000) ───────────────────────────────────────────
-    exam_candidates = [p for p in people if p.last_exam_date is not None]
-    for p in exam_candidates:
-        p.in_exams = True
-    # Fill remaining exam slots from contacts without exam dates
-    remaining = EXAM_COUNT - len(exam_candidates)
+    # ── Clinic patients (~25,000) ────────────────────────────────────────
+    clinic_candidates = [p for p in people if p.last_exam_date is not None]
+    for p in clinic_candidates:
+        p.in_clinic = True
+    # Fill remaining clinic slots from contacts without exam dates
+    remaining = CLINIC_PATIENT_COUNT - len(clinic_candidates)
     if remaining > 0:
         no_exam = [p for p in non_protagonists if p.last_exam_date is None]
         extra = rng.sample(no_exam, min(remaining, len(no_exam)))
         for p in extra:
-            p.in_exams = True
+            p.in_clinic = True
             days_ago = rng.randint(30, 900)
             p.last_exam_date = TODAY - timedelta(days=days_ago)
             p.next_exam_due = p.last_exam_date + timedelta(days=365)
 
+    # ── ~20% single-source-only enforcement ──────────────────────────────
+    # For each source, unset flags for ~20% of that source's members so they
+    # appear in only that one file (IDR coverage gap scenario).
+    for source in ('loyalty', 'ecom', 'clinic'):
+        flag_attr = f'in_{source}'
+        source_people = [p for p in non_protagonists if getattr(p, flag_attr)]
+        single_source_count = int(len(source_people) * 0.20)
+        rng.shuffle(source_people)
+        for p in source_people[:single_source_count]:
+            if source == 'loyalty':
+                p.in_ecom = False
+                p.in_clinic = False
+            elif source == 'ecom':
+                p.in_loyalty = False
+                p.in_clinic = False
+            elif source == 'clinic':
+                p.in_loyalty = False
+                p.in_ecom = False
+
+    # ── Assign generated IDs ─────────────────────────────────────────────
+    lm_counter = 1
+    for p in people:
+        if p.in_loyalty:
+            p.loyalty_member_id = f"LM-{lm_counter:05d}"
+            lm_counter += 1
+
+    ec_counter = 1
+    for p in people:
+        if p.in_ecom:
+            p.ecom_customer_id = f"EC-{ec_counter:05d}"
+            ec_counter += 1
+
+    pt_counter = 1
+    for p in people:
+        if p.in_clinic:
+            p.patient_id = f"PT-{pt_counter:05d}"
+            pt_counter += 1
+
     # ── Assign email variants for IDR testing ────────────────────────────
     # For people in multiple files, decide if their email differs
     multi_file = [p for p in people
-                  if (p.in_loyalty or p.in_ecommerce or p.in_exams)
+                  if (p.in_loyalty or p.in_ecom or p.in_clinic)
                   and p.record_type != 'protagonist']
 
     rng.shuffle(multi_file)
@@ -597,22 +643,22 @@ def assign_cross_file_membership(people: list[Person], rng: random.Random):
     for p in multi_file:
         if p.email_variant == 'same':
             p.loyalty_email = p.email
-            p.ecommerce_email = p.email
-            p.exam_email = p.email
+            p.ecom_email = p.email
+            p.clinic_email = p.email
         elif p.email_variant == 'alt':
             variant = rng.randint(0, 2)
             alt = make_alt_email(p.first_name, p.last_name, p.id, variant)
             # Put the alt in one randomly chosen source
-            target = rng.choice(['loyalty', 'ecommerce', 'exam'])
+            target = rng.choice(['loyalty', 'ecom', 'clinic'])
             p.loyalty_email = alt if target == 'loyalty' else p.email
-            p.ecommerce_email = alt if target == 'ecommerce' else p.email
-            p.exam_email = alt if target == 'exam' else p.email
+            p.ecom_email = alt if target == 'ecom' else p.email
+            p.clinic_email = alt if target == 'clinic' else p.email
         elif p.email_variant == 'typo':
             typo = make_typo_email(p.email, rng)
-            target = rng.choice(['loyalty', 'ecommerce', 'exam'])
+            target = rng.choice(['loyalty', 'ecom', 'clinic'])
             p.loyalty_email = typo if target == 'loyalty' else p.email
-            p.ecommerce_email = typo if target == 'ecommerce' else p.email
-            p.exam_email = typo if target == 'exam' else p.email
+            p.ecom_email = typo if target == 'ecom' else p.email
+            p.clinic_email = typo if target == 'clinic' else p.email
 
     # ── Shared household emails (~50 cases) ──────────────────────────────
     # Pick 50 pairs of people and give them the same email in one source
@@ -664,7 +710,7 @@ def assign_cross_file_membership(people: list[Person], rng: random.Random):
     name_var_candidates = [p for p in non_protagonists
                            if p.in_loyalty and p.first_name in NICKNAMES]
     rng.shuffle(name_var_candidates)
-    # Store the variant name to use in loyalty/ecommerce files
+    # Store the variant name to use in loyalty/ecom files
     for p in name_var_candidates[:50]:
         variants = NICKNAMES[p.first_name]
         p.nickname = rng.choice(variants)
@@ -679,8 +725,6 @@ def generate_contacts_csv(people: list[Person]):
         writer.writerow([
             'Account Name',
             'FirstName', 'LastName', 'Email', 'Phone', 'MailingState',
-            'Loyalty Tier', 'Loyalty Points',
-            'Last Exam Date', 'Next Exam Due',
         ])
         for p in contacts:
             writer.writerow([
@@ -690,19 +734,15 @@ def generate_contacts_csv(people: list[Person]):
                 p.email,
                 p.phone,
                 p.state,
-                p.loyalty_tier,
-                p.loyalty_points,
-                p.last_exam_date.isoformat() if p.last_exam_date else '',
-                p.next_exam_due.isoformat() if p.next_exam_due else '',
             ])
     print(f"  contacts.csv: {len(contacts):,} rows")
 
 
 
 def generate_loyalty_csv(people: list[Person], rng: random.Random):
-    """Write loyalty_members.csv for Data 360 CSV data stream."""
+    """Write loyalty.csv for Data 360 CSV data stream."""
     members = [p for p in people if p.in_loyalty]
-    path = OUTPUT_DIR / 'loyalty_members.csv'
+    path = OUTPUT_DIR / 'loyalty.csv'
 
     # Track stale data: ~500 members will have Gold tier but sub-Gold points
     stale_count = 0
@@ -711,12 +751,11 @@ def generate_loyalty_csv(people: list[Person], rng: random.Random):
     with open(path, 'w', newline='', encoding='utf-8') as f:
         writer = csv.writer(f)
         writer.writerow([
-            'membership_number', 'first_name', 'last_name', 'email', 'phone',
-            'loyalty_tier', 'points_balance', 'enrollment_date', 'status',
-            'email_optin', 'unsubscribed_date',
+            'loyalty_member_id', 'email', 'first_name', 'last_name', 'phone',
+            'tier', 'points', 'join_date', 'email_optin',
         ])
         for i, p in enumerate(members):
-            member_id = f"LM-{i + 1:05d}"
+            member_id = p.loyalty_member_id
 
             # Use nickname variant if assigned
             first = p.nickname or p.first_name
@@ -728,12 +767,9 @@ def generate_loyalty_csv(people: list[Person], rng: random.Random):
             if i % 20 == 0 and p.record_type != 'protagonist':
                 email = ''
 
-            # Enrollment date — 1 to 4 years ago
-            enrollment = TODAY - timedelta(days=rng.randint(365, 1460))
-            # Format as DD-Mon-YYYY (dirty data — different from CRM format)
-            enrollment_str = enrollment.strftime('%d-%b-%Y')
-
-            status = 'Active' if rng.random() > 0.05 else 'Inactive'
+            # join_date — 1 to 4 years ago
+            join_date = TODAY - timedelta(days=rng.randint(365, 1460))
+            join_date_str = join_date.strftime('%Y-%m-%dT%H:%M:%SZ')
 
             # Loyalty tier & points — mostly correct, but ~500 are stale
             tier = p.loyalty_tier or tier_for_points(rng.randint(0, 100_000))
@@ -744,12 +780,8 @@ def generate_loyalty_csv(people: list[Person], rng: random.Random):
                 tier = 'Gold'
                 stale_count += 1
 
-            # Contradictory consent signals (~30 records)
+            # email_optin: ~90% true in loyalty, but ~5% will contradict ecom_customers
             email_optin = 'true' if rng.random() > 0.1 else 'false'
-            unsub_date = ''
-            if email_optin == 'true' and rng.random() < 0.001:
-                # Contradictory: opted in but also has unsubscribe date
-                unsub_date = (TODAY - timedelta(days=rng.randint(10, 200))).strftime('%d-%b-%Y')
 
             # Null vs empty vs "N/A" for phone (~3% each)
             phone = p.phone or ''
@@ -762,85 +794,112 @@ def generate_loyalty_csv(people: list[Person], rng: random.Random):
                 phone = 'n/a'
 
             writer.writerow([
-                member_id, first, last, email, phone,
-                tier, points, enrollment_str, status,
-                email_optin, unsub_date,
+                member_id, email, first, last, phone,
+                tier, points, join_date_str, email_optin,
             ])
-    print(f"  loyalty_members.csv: {len(members):,} rows")
+    print(f"  loyalty.csv: {len(members):,} rows")
 
 
-def generate_ecommerce_csv(people: list[Person], rng: random.Random):
-    """Write ecommerce_orders.csv for Data 360 CSV data stream.
-    Contains both order header and line item data in a denormalized format."""
-    buyers = [p for p in people if p.in_ecommerce]
-    path = OUTPUT_DIR / 'ecommerce_orders.csv'
+def generate_ecom_customers_csv(people: list[Person]):
+    """Write ecom_customers.csv for Data 360 CSV data stream."""
+    customers = [p for p in people if p.in_ecom]
+    path = OUTPUT_DIR / 'ecom_customers.csv'
+    with open(path, 'w', newline='', encoding='utf-8') as f:
+        writer = csv.writer(f)
+        writer.writerow([
+            'ecom_customer_id', 'email', 'first_name', 'last_name',
+            'created_date', 'email_optin',
+        ])
+        for p in customers:
+            email = p.ecom_email or p.email
+            # created_date — 2+ years ago (account creation predates order history)
+            created_date = random_date_between(
+                TODAY - timedelta(days=1095), TODAY - timedelta(days=730),
+                random.Random(p.id)
+            )
+            email_optin = 'true' if random.Random(p.id + 1).random() < 0.85 else 'false'
+            writer.writerow([
+                p.ecom_customer_id,
+                email,
+                p.first_name,
+                p.last_name or '',
+                created_date.strftime('%Y-%m-%dT%H:%M:%SZ'),
+                email_optin,
+            ])
+    print(f"  ecom_customers.csv: {len(customers):,} rows")
+
+
+def generate_ecom_orders_csv(people: list[Person], rng: random.Random) -> list[dict]:
+    """Write ecom_orders.csv for Data 360 CSV data stream. Returns the list of orders."""
+    buyers = [p for p in people if p.in_ecom]
+    path = OUTPUT_DIR / 'ecom_orders.csv'
+
+    # Build a name-to-person lookup for protagonist order resolution
+    person_by_name: dict[tuple[str, str], 'Person'] = {}
+    for p in people:
+        if p.record_type == 'protagonist':
+            person_by_name[(p.first_name, p.last_name)] = p
 
     # ── Protagonist orders (fixed, known purchase histories) ────────────
-    # These use @example.com emails. The learner's CRM contacts have
-    # different emails (+alias). IDR links them in Module 9.
-    protagonist_orders = [
+    protagonist_order_specs = [
         # Maria Chen — SeeClear DailyFocus + SeeClear SunSync
-        {'email': 'maria.chen.000001@example.com', 'sku': 'SEC-DLF-001', 'price': 189.00, 'date': '03/15/2026'},
-        {'email': 'maria.chen.000001@example.com', 'sku': 'SEC-SNS-001', 'price': 219.00, 'date': '11/22/2025'},
+        {'name': ('Maria', 'Chen'),     'sku': 'SEC-DLF-001', 'price': 189.00, 'date': '2026-03-15T00:00:00Z'},
+        {'name': ('Maria', 'Chen'),     'sku': 'SEC-SNS-001', 'price': 219.00, 'date': '2025-11-22T00:00:00Z'},
         # James Okafor — Visionaire UltraLux
-        {'email': 'james.okafor.000002@example.com', 'sku': 'VIS-ULX-001', 'price': 349.00, 'date': '05/10/2026'},
+        {'name': ('James', 'Okafor'),   'sku': 'VIS-ULX-001', 'price': 349.00, 'date': '2026-05-10T00:00:00Z'},
         # David Kim — Visionaire ChromaShift (lapsed — 200+ days ago)
-        {'email': 'david.kim.000004@example.com', 'sku': 'VIS-CHS-001', 'price': 299.00, 'date': '01/08/2026'},
+        {'name': ('David', 'Kim'),      'sku': 'VIS-CHS-001', 'price': 299.00, 'date': '2026-01-08T00:00:00Z'},
         # Aisha Patel — SeeClear DailyFocus
-        {'email': 'aisha.patel.000005@example.com', 'sku': 'SEC-DLF-001', 'price': 189.00, 'date': '04/20/2026'},
+        {'name': ('Aisha', 'Patel'),    'sku': 'SEC-DLF-001', 'price': 189.00, 'date': '2026-04-20T00:00:00Z'},
         # Carlos Mendez — Visionaire UltraLux
-        {'email': 'carlos.mendez.000006@example.com', 'sku': 'VIS-ULX-001', 'price': 349.00, 'date': '06/05/2026'},
+        {'name': ('Carlos', 'Mendez'),  'sku': 'VIS-ULX-001', 'price': 349.00, 'date': '2026-06-05T00:00:00Z'},
         # Wei Zhang — all 4 lens products
-        {'email': 'wei.zhang.000007@example.com', 'sku': 'VIS-ULX-001', 'price': 349.00, 'date': '07/01/2026'},
-        {'email': 'wei.zhang.000007@example.com', 'sku': 'VIS-CHS-001', 'price': 299.00, 'date': '05/15/2026'},
-        {'email': 'wei.zhang.000007@example.com', 'sku': 'SEC-DLF-001', 'price': 189.00, 'date': '03/22/2026'},
-        {'email': 'wei.zhang.000007@example.com', 'sku': 'SEC-SNS-001', 'price': 219.00, 'date': '01/30/2026'},
+        {'name': ('Wei', 'Zhang'),      'sku': 'VIS-ULX-001', 'price': 349.00, 'date': '2026-07-01T00:00:00Z'},
+        {'name': ('Wei', 'Zhang'),      'sku': 'VIS-CHS-001', 'price': 299.00, 'date': '2026-05-15T00:00:00Z'},
+        {'name': ('Wei', 'Zhang'),      'sku': 'SEC-DLF-001', 'price': 189.00, 'date': '2026-03-22T00:00:00Z'},
+        {'name': ('Wei', 'Zhang'),      'sku': 'SEC-SNS-001', 'price': 219.00, 'date': '2026-01-30T00:00:00Z'},
         # Fatima Al-Hassan — SeeClear SunSync
-        {'email': 'fatima.alhassan.000008@example.com', 'sku': 'SEC-SNS-001', 'price': 219.00, 'date': '02/14/2026'},
+        {'name': ('Fatima', 'Al-Hassan'), 'sku': 'SEC-SNS-001', 'price': 219.00, 'date': '2026-02-14T00:00:00Z'},
         # Priya Sharma — Visionaire ChromaShift + Visionaire UltraLux
-        {'email': 'priya.sharma.000010@example.com', 'sku': 'VIS-CHS-001', 'price': 299.00, 'date': '06/18/2026'},
-        {'email': 'priya.sharma.000010@example.com', 'sku': 'VIS-ULX-001', 'price': 349.00, 'date': '04/02/2026'},
+        {'name': ('Priya', 'Sharma'),   'sku': 'VIS-CHS-001', 'price': 299.00, 'date': '2026-06-18T00:00:00Z'},
+        {'name': ('Priya', 'Sharma'),   'sku': 'VIS-ULX-001', 'price': 349.00, 'date': '2026-04-02T00:00:00Z'},
     ]
 
     orders = []
     order_counter = 100_001
     unique_order_count = 0
 
-    for po in protagonist_orders:
+    for po in protagonist_order_specs:
+        person = person_by_name.get(po['name'])
+        if person is None or person.ecom_customer_id is None:
+            continue
         order_id = f"ORD-{order_counter}"
         order_counter += 1
         orders.append({
             'order_id': order_id,
-            'customer_email': po['email'],
+            'ecom_customer_id': person.ecom_customer_id,
             'order_date': po['date'],
             'order_total': po['price'],
             'order_status': 'Completed',
-            'order_source': 'ecommerce',
-            'line_item_id': f"{order_id}-LI1",
-            'product_sku': po['sku'],
-            'quantity': 1,
-            'unit_price': po['price'],
-            'line_total': po['price'],
+            # Store line item data for generate_ecom_order_items_csv
+            '_line_items': [{'sku': po['sku'], 'quantity': 1,
+                              'unit_price': po['price'], 'line_total': po['price']}],
         })
         unique_order_count += 1
 
     # ── Random orders ────────────────────────────────────────────────────
     # Distribute remaining orders across buyers (1-8 orders each)
-
     for p in buyers:
         num_orders = rng.choices([1, 2, 3, 4, 5, 6, 7, 8],
                                   weights=[30, 25, 20, 10, 6, 4, 3, 2])[0]
         for _ in range(num_orders):
-            if unique_order_count >= ORDER_COUNT:
+            if unique_order_count >= ECOM_ORDER_COUNT:
                 break
             order_id = f"ORD-{order_counter}"
             order_counter += 1
 
             # Order date — between 2 years ago and today
             order_date = random_date_between(TODAY - timedelta(days=730), TODAY, rng)
-
-            # Use ecommerce email (may differ from CRM)
-            email = p.ecommerce_email or p.email
 
             # 1-3 line items per order
             num_items = rng.choices([1, 2, 3], weights=[60, 30, 10])[0]
@@ -860,8 +919,7 @@ def generate_ecommerce_csv(people: list[Person], rng: random.Random):
                 order_total += line_total
 
                 line_items.append({
-                    'line_item_id': f"{order_id}-LI{li + 1}",
-                    'product_sku': product['sku'],
+                    'sku': product['sku'],
                     'quantity': qty,
                     'unit_price': unit_price,
                     'line_total': line_total,
@@ -876,54 +934,89 @@ def generate_ecommerce_csv(people: list[Person], rng: random.Random):
             else:
                 status = 'Returned'
 
-            # Date format — MM/DD/YYYY (dirty data — different from CRM)
-            date_str = order_date.strftime('%m/%d/%Y')
+            date_str = order_date.strftime('%Y-%m-%dT%H:%M:%SZ')
 
             # "Lapsed" boundary case: exactly 180 days ago
             if unique_order_count == 500:
-                date_str = (TODAY - timedelta(days=180)).strftime('%m/%d/%Y')
+                date_str = (TODAY - timedelta(days=180)).strftime('%Y-%m-%dT%H:%M:%SZ')
 
-            for li in line_items:
-                orders.append({
-                    'order_id': order_id,
-                    'customer_email': email,
-                    'order_date': date_str,
-                    'order_total': round(order_total, 2),
-                    'order_status': status,
-                    'order_source': 'ecommerce',
-                    'line_item_id': li['line_item_id'],
-                    'product_sku': li['product_sku'],
-                    'quantity': li['quantity'],
-                    'unit_price': li['unit_price'],
-                    'line_total': li['line_total'],
-                })
+            orders.append({
+                'order_id': order_id,
+                'ecom_customer_id': p.ecom_customer_id,
+                'order_date': date_str,
+                'order_total': round(order_total, 2),
+                'order_status': status,
+                '_line_items': line_items,
+            })
             unique_order_count += 1
-        if unique_order_count >= ORDER_COUNT:
+        if unique_order_count >= ECOM_ORDER_COUNT:
             break
 
     with open(path, 'w', newline='', encoding='utf-8') as f:
         writer = csv.writer(f)
         writer.writerow([
-            'order_id', 'customer_email', 'order_date', 'order_total',
-            'order_status', 'order_source',
-            'line_item_id', 'product_sku', 'quantity', 'unit_price', 'line_total',
+            'order_id', 'ecom_customer_id', 'order_date', 'order_total', 'order_status',
         ])
         for row in orders:
             writer.writerow([
-                row['order_id'], row['customer_email'], row['order_date'],
-                row['order_total'], row['order_status'], row['order_source'],
-                row['line_item_id'], row['product_sku'], row['quantity'],
-                row['unit_price'], row['line_total'],
+                row['order_id'], row['ecom_customer_id'], row['order_date'],
+                row['order_total'], row['order_status'],
             ])
 
-    unique_orders = len(set(r['order_id'] for r in orders))
-    print(f"  ecommerce_orders.csv: {len(orders):,} line item rows ({unique_orders:,} unique orders)")
+    print(f"  ecom_orders.csv: {len(orders):,} rows")
+    return orders
 
 
-def generate_exam_csv(people: list[Person], rng: random.Random):
-    """Write exam_history.csv for Data 360 CSV data stream."""
-    exam_people = [p for p in people if p.in_exams]
-    path = OUTPUT_DIR / 'exam_history.csv'
+def generate_ecom_order_items_csv(orders: list[dict], rng: random.Random):
+    """Write ecom_order_items.csv for Data 360 CSV data stream."""
+    path = OUTPUT_DIR / 'ecom_order_items.csv'
+    with open(path, 'w', newline='', encoding='utf-8') as f:
+        writer = csv.writer(f)
+        writer.writerow([
+            'order_item_id', 'order_id', 'sku', 'quantity', 'unit_price', 'line_total',
+        ])
+        total_items = 0
+        for order in orders:
+            for li_num, li in enumerate(order['_line_items'], start=1):
+                order_item_id = f"{order['order_id']}-LI{li_num}"
+                writer.writerow([
+                    order_item_id,
+                    order['order_id'],
+                    li['sku'],
+                    li['quantity'],
+                    li['unit_price'],
+                    li['line_total'],
+                ])
+                total_items += 1
+    print(f"  ecom_order_items.csv: {total_items:,} rows")
+
+
+def generate_clinic_patients_csv(people: list[Person]):
+    """Write clinic_patients.csv for Data 360 CSV data stream (stretch goal)."""
+    patients = [p for p in people if p.in_clinic]
+    path = OUTPUT_DIR / 'clinic_patients.csv'
+    with open(path, 'w', newline='', encoding='utf-8') as f:
+        writer = csv.writer(f)
+        writer.writerow([
+            'patient_id', 'email', 'first_name', 'last_name', 'email_optin',
+        ])
+        for p in patients:
+            email = p.clinic_email or p.email
+            email_optin = 'true' if random.Random(p.id + 2).random() < 0.85 else 'false'
+            writer.writerow([
+                p.patient_id,
+                email,
+                p.first_name,
+                p.last_name or '',
+                email_optin,
+            ])
+    print(f"  clinic_patients.csv: {len(patients):,} rows")
+
+
+def generate_clinic_exams_csv(people: list[Person], rng: random.Random):
+    """Write clinic_exams.csv for Data 360 CSV data stream (stretch goal)."""
+    exam_people = [p for p in people if p.in_clinic]
+    path = OUTPUT_DIR / 'clinic_exams.csv'
 
     exam_types = ['Comprehensive', 'Follow-up', 'Contact Lens Fitting']
     providers = [
@@ -939,97 +1032,78 @@ def generate_exam_csv(people: list[Person], rng: random.Random):
         exam_id = f"EX-{exam_counter}"
         exam_counter += 1
 
-        email = p.exam_email or p.email
         exam_date = p.last_exam_date or random_date_between(
             TODAY - timedelta(days=900), TODAY, rng
         )
-        next_due = p.next_exam_due or (exam_date + timedelta(days=365))
 
-        # Date format: DD-Mon-YYYY (dirty data — different from CRM and ecommerce)
-        exam_date_str = exam_date.strftime('%d-%b-%Y')
-        next_due_str = next_due.strftime('%d-%b-%Y')
-
-        # Some records use different date format for extra messiness
-        if rng.random() < 0.05:
-            exam_date_str = exam_date.isoformat()  # YYYY-MM-DD
+        exam_date_str = exam_date.strftime('%Y-%m-%dT%H:%M:%SZ')
 
         rows.append({
             'exam_id': exam_id,
-            'patient_email': email,
-            'patient_first_name': p.first_name,
-            'patient_last_name': p.last_name or '',
+            'patient_id': p.patient_id,
             'exam_date': exam_date_str,
-            'next_exam_due': next_due_str,
             'exam_type': rng.choice(exam_types),
-            'provider_name': rng.choice(providers),
+            'provider': rng.choice(providers),
         })
 
     with open(path, 'w', newline='', encoding='utf-8') as f:
         writer = csv.writer(f)
         writer.writerow([
-            'exam_id', 'patient_email', 'patient_first_name', 'patient_last_name',
-            'exam_date', 'next_exam_due', 'exam_type', 'provider_name',
+            'exam_id', 'patient_id', 'exam_date', 'exam_type', 'provider',
         ])
         for row in rows:
             writer.writerow([
-                row['exam_id'], row['patient_email'],
-                row['patient_first_name'], row['patient_last_name'],
-                row['exam_date'], row['next_exam_due'],
-                row['exam_type'], row['provider_name'],
+                row['exam_id'], row['patient_id'],
+                row['exam_date'], row['exam_type'], row['provider'],
             ])
-    print(f"  exam_history.csv: {len(rows):,} rows")
+    print(f"  clinic_exams.csv: {len(rows):,} rows")
 
 
 def generate_simulation_csvs(rng: random.Random):
     """Generate the small simulation CSVs for later modules."""
 
     # ── new_signups_july.csv (~50 new loyalty signups) ───────────────────
+    # Schema matches loyalty.csv
     path = OUTPUT_DIR / 'new_signups_july.csv'
     with open(path, 'w', newline='', encoding='utf-8') as f:
         writer = csv.writer(f)
         writer.writerow([
-            'membership_number', 'first_name', 'last_name', 'email', 'phone',
-            'loyalty_tier', 'points_balance', 'enrollment_date', 'status',
-            'email_optin', 'unsubscribed_date',
+            'loyalty_member_id', 'email', 'first_name', 'last_name', 'phone',
+            'tier', 'points', 'join_date', 'email_optin',
         ])
         for i in range(50):
             fn = FIRST_NAMES[(i * 3) % len(FIRST_NAMES)]
             ln = LAST_NAMES[(i * 7) % len(LAST_NAMES)]
             email = f"{slugify(fn)}.{slugify(ln)}.new{i:03d}@example.com"
-            enrollment = date(2026, 7, 1) + timedelta(days=rng.randint(0, 30))
+            join_date = date(2026, 7, 1) + timedelta(days=rng.randint(0, 30))
             writer.writerow([
                 f"LM-N{i + 1:04d}",
-                fn, ln, email,
+                email, fn, ln,
                 phone_for_index(90_000 + i, rng),
                 'Bronze', rng.randint(0, 500),
-                enrollment.strftime('%d-%b-%Y'),
-                'Active', 'true', '',
+                join_date.strftime('%Y-%m-%dT%H:%M:%SZ'),
+                'true',
             ])
     print(f"  new_signups_july.csv: 50 rows")
 
     # ── new_orders_july.csv (~100 recent orders) ─────────────────────────
+    # Schema matches ecom_orders.csv. FK is ecom_customer_id (not email).
+    # TODO: split into separate orders + order_items simulation files
     path = OUTPUT_DIR / 'new_orders_july.csv'
     with open(path, 'w', newline='', encoding='utf-8') as f:
         writer = csv.writer(f)
         writer.writerow([
-            'order_id', 'customer_email', 'order_date', 'order_total',
-            'order_status', 'order_source',
-            'line_item_id', 'product_sku', 'quantity', 'unit_price', 'line_total',
+            'order_id', 'ecom_customer_id', 'order_date', 'order_total', 'order_status',
         ])
         for i in range(100):
-            fn = FIRST_NAMES[(i * 11) % len(FIRST_NAMES)]
-            ln = LAST_NAMES[(i * 13) % len(LAST_NAMES)]
-            email = f"{slugify(fn)}.{slugify(ln)}.new{i:03d}@example.com"
             order_date = date(2026, 7, 1) + timedelta(days=rng.randint(0, 30))
             product = rng.choice(PRODUCTS)
-            qty = 1
             total = product['price']
             writer.writerow([
-                f"ORD-N{i + 1:05d}", email,
-                order_date.strftime('%m/%d/%Y'),
-                total, 'Completed', 'ecommerce',
-                f"ORD-N{i + 1:05d}-LI1",
-                product['sku'], qty, product['price'], total,
+                f"ORD-N{i + 1:05d}",
+                f"EC-N{i + 1:05d}",
+                order_date.strftime('%Y-%m-%dT%H:%M:%SZ'),
+                total, 'Completed',
             ])
     print(f"  new_orders_july.csv: 100 rows")
 
@@ -1066,19 +1140,22 @@ def main():
     print("\nStep 2: Assigning cross-file membership and email variants...")
     assign_cross_file_membership(people, rng)
     loyalty_count = sum(1 for p in people if p.in_loyalty)
-    ecomm_count = sum(1 for p in people if p.in_ecommerce)
-    exam_count = sum(1 for p in people if p.in_exams)
+    ecom_count = sum(1 for p in people if p.in_ecom)
+    clinic_count = sum(1 for p in people if p.in_clinic)
     print(f"  Loyalty members: {loyalty_count:,}")
-    print(f"  Ecommerce buyers: {ecomm_count:,}")
-    print(f"  Exam patients: {exam_count:,}")
+    print(f"  Ecom customers: {ecom_count:,}")
+    print(f"  Clinic patients: {clinic_count:,}")
 
     print(f"\nStep 3: Writing CSVs to {OUTPUT_DIR}/")
     os.makedirs(OUTPUT_DIR, exist_ok=True)
 
     generate_contacts_csv(people)
     generate_loyalty_csv(people, rng)
-    generate_ecommerce_csv(people, rng)
-    generate_exam_csv(people, rng)
+    generate_ecom_customers_csv(people)
+    orders = generate_ecom_orders_csv(people, rng)
+    generate_ecom_order_items_csv(orders, rng)
+    generate_clinic_patients_csv(people)
+    generate_clinic_exams_csv(people, rng)
 
     print("\nStep 4: Writing simulation CSVs...")
     generate_simulation_csvs(rng)
