@@ -17,9 +17,9 @@ One thing to know going in: after you click **Save and Build**, removing DMOs or
 This section contains a general overview of topics that you will learn in this lesson.
 
 - Navigating to the Data Graphs tab in Data 360.
-- Reviewing the "Marketing Content Personalization" graph from Getting Started.
-- Adding the LEOptical-specific DMOs: Loyalty Program Member, Sales Order, Sales Order Product, Product, and Eye Exam.
-- Setting the refresh schedule.
+- Opening the existing graph for editing.
+- Adding the LEOptical-specific DMOs: Loyalty Program Member, Sales Order, Sales Order Product, and Product.
+- Setting the refresh schedule and triggering the build.
 - Monitoring build status.
 - Running Configure Basic Personalization in MCA Setup.
 - Verifying the graph in the email builder.
@@ -32,33 +32,31 @@ Data Graphs live in the Data 360 app, not in MCA Setup.
 2. Search for and select **Data Cloud**.
 3. In the Data 360 tab bar, look for **Data Graphs**. If it is not visible, click **More** at the end of the tab bar to find it.
 
-<ScreenshotPlaceholder alt="Data 360 app tab bar showing Data Graphs tab, with 'More' dropdown open in case it is not immediately visible" />
+<Screenshot src="/img/data-graphs/data-graphs-more.png" alt="Data 360 app tab bar with the More dropdown open, showing Data Graphs as a menu item" caption="Data Graphs may be hidden under the More dropdown if your tab bar is full." />
 
-4. You should see the Data Graphs list view. If the "Marketing Content Personalization" graph from Getting Started is present, it appears here with a Last Run Status.
+4. You should see the Data Graphs list view with the **Marketing Content Personalization** graph from Getting Started.
 
-<ScreenshotPlaceholder alt="Data Graphs list view showing Marketing Content Personalization graph with columns for Name, Primary DMO, Last Run Status, and Last Run date" />
+<Screenshot src="/img/data-graphs/personalization-data-graph-list-view.png" alt="Data Graphs list view showing the Marketing Content Personalization graph with Active status, Daily schedule, and a recent Last Refreshed On timestamp" caption="The Data Graphs list view. Each row shows the graph's status, schedule, and last refresh time." />
 
 :::info
-If you do not see "Marketing Content Personalization" in the list, you may have skipped or not completed that step in Getting Started. In that case, you will create the graph from scratch in the walkthrough below. The steps are identical.
+If you do not see "Marketing Content Personalization" in the list, you may have skipped or not completed that step in Getting Started. In that case, click **New** to create it from scratch with Unified Individual as the primary DMO.
 :::
 
-## Reviewing the existing graph
+## Opening the graph for editing
 
-Before you modify anything, look at what was built.
+This is a step many people miss. Clicking the graph's name in the list view opens a read-only detail view. To edit the graph and add DMOs or fields, you must use the row dropdown.
 
-1. Click **Marketing Content Personalization** to open the graph.
-2. The left panel shows the graph structure: the primary DMO at the top (Unified Individual) and any related DMOs added beneath it.
-3. The right panel shows the selected fields for whatever object is highlighted in the left panel.
+1. Scroll to the right end of the **Marketing Content Personalization** row in the list view.
+2. Click the **dropdown arrow** ( ⌄ ) at the far right of the row.
+3. Select **Edit** from the dropdown menu.
 
-<ScreenshotPlaceholder alt="Data Graph detail view showing the left panel with Unified Individual at the top of the graph tree, and the right panel listing selected fields like First Name, Last Name, Individual ID" />
+<Screenshot src="/img/data-graphs/edit-data-graph.png" alt="Data Graphs list view with the row dropdown open on the Marketing Content Personalization row, showing options including Edit, Clone, Refresh Now, Update Status, Schedule, and Refresh History" caption="Use the row dropdown to access Edit. Clicking the graph name opens a read-only view." />
 
-Note which DMOs and fields are already included. The Getting Started walkthrough included the basic path from Unified Individual through Unified Link Individual to Individual, Contact Point Email, and Contact Point Phone. If those are present, you are in the right state to continue.
-
-If the graph has fewer objects than expected, the next section adds what is missing.
+The graph editor opens with the left panel showing the current DMO tree and the right panel showing fields for whatever object is selected.
 
 ## Adding the LEOptical DMOs
 
-You will add five LEOptical-specific DMOs to the graph: Loyalty Program Member, Sales Order, Sales Order Product, Product, and Eye Exam.
+You will add four LEOptical-specific DMOs: Loyalty Program Member, Sales Order, Sales Order Product, and Product.
 
 :::warning
 You cannot remove DMOs or fields after clicking **Save and Build**. Add only what is listed here. Extra DMOs slow down build time and increase graph size without benefit.
@@ -66,89 +64,64 @@ You cannot remove DMOs or fields after clicking **Save and Build**. Add only wha
 
 ### Add Loyalty Program Member
 
-Loyalty Program Member connects directly to Unified Individual. This is a 1:1 relationship for LEOptical (each unified profile has one loyalty record, if any).
+Loyalty Program Member connects to **Individual**, not directly to Unified Individual. In the graph tree, you will find Individual nested under Unified Link Individual.
 
-1. In the graph editor, click the **+** (add) icon next to **Unified Individual** in the left panel.
+1. In the left panel, expand **Unified Link Individual**, then expand **Individual** to find it in the tree.
+2. Click the **+** (add) icon next to **Individual**.
+3. A DMO picker appears. Search for **Loyalty Program Member** and select it.
 
-<ScreenshotPlaceholder alt="Data Graph editor left panel showing Unified Individual with a + icon button to add a related DMO" />
+<Screenshot src="/img/data-graphs/add-loyalty-member.png" alt="Data Graph editor left panel showing the tree expanded to Individual, with the DMO picker open and Loyalty Program Member highlighted as a search result" caption="Search for Loyalty Program Member and select it from the picker. The + button is next to Individual, not Unified Individual." />
 
-2. A DMO picker appears. Search for **Loyalty Program Member** and select it.
-
-<ScreenshotPlaceholder alt="DMO picker modal with a search field containing 'loyalty', showing Loyalty Program Member as a search result" />
-
-3. In the right panel, select these fields:
-   - `Loyalty Tier` (your custom field)
-   - `Points Balance` (your custom field)
+4. In the right panel, select these fields:
    - `Enrollment Date`
-   - `Status`
-   - `Email Address` (the field used for matching if needed)
+   - `Loyalty Tier`
+   - `Points Balance`
 
-<ScreenshotPlaceholder alt="Right panel showing Loyalty Program Member field list with checkboxes, with Loyalty Tier, Points Balance, Enrollment Date, Status, and Email Address fields checked" />
+<Screenshot src="/img/data-graphs/loyalty-member-fields.png" alt="Right panel showing the Loyalty Program Member field list with Enrollment Date, Loyalty Tier, and Points Balance checked" caption="Select Enrollment Date, Loyalty Tier, and Points Balance. Leave all other fields unchecked." />
 
-4. The Loyalty Program Member node now appears under Unified Individual in the left panel.
+5. Loyalty Program Member now appears under Individual in the left panel tree.
 
 ### Add Sales Order
 
-Sales Order also connects directly to Unified Individual. This is a 1:many relationship. A single unified profile may have many orders.
+Sales Order also connects to **Individual**. A single unified profile may have many orders (1:many relationship).
 
-1. Click the **+** icon next to **Unified Individual** again.
-2. Search for and select **Sales Order**.
-3. Select these fields:
-   - `Order Date`
+1. Click the **+** icon next to **Individual** again.
+2. Search for **Sales Order** and select it.
+
+<Screenshot src="/img/data-graphs/sales-order-search.png" alt="Data Graph editor left panel with the DMO picker open and Sales Order highlighted as a search result, showing the existing tree with Individual, Contact Point Email, Email Engagement, Bulk Email Message, Message Engagement, Contact Point Phone, Account, and Loyalty Program Member already added" caption="Search for Sales Order in the DMO picker with Individual selected." />
+
+3. In the right panel, select these fields:
+   - `Order Start Date`
+   - `Status Reason`
    - `Total Amount`
-   - `Status`
 
-<ScreenshotPlaceholder alt="Right panel showing Sales Order field list with Order Date, Total Amount, and Status checked" />
-
-:::info
-Sales Order supports Sort and Limit Filters (a feature released in October 2025). You can use these to limit the graph to, for example, the 5 most recent orders per individual. For now, leave Sort and Limit at the default. You can edit the graph to add these later if needed.
-
-{/* VERIFY: Whether Sort and Limit Filters are available in the current SDO UI and where the option appears in the graph editor. */}
-:::
+<Screenshot src="/img/data-graphs/sales-order-fields-added.png" alt="Right panel showing the Sales Order field list with Order Start Date, Status Reason, and Total Amount checked" caption="Select Order Start Date, Status Reason, and Total Amount for Sales Order." />
 
 ### Add Sales Order Product
 
-Sales Order Product connects to Sales Order, not to Unified Individual directly. You add it as a child of Sales Order.
+Sales Order Product connects to Sales Order, not to Individual directly. Add it as a child of Sales Order.
 
 1. Click the **+** icon next to **Sales Order** in the left panel.
 2. Search for and select **Sales Order Product**.
-3. Select these fields:
-   - `Quantity`
-   - `Unit Price`
-   - `Line Total`
+3. In the right panel, select these fields:
+   - `Ordered Quantity`
+   - `Total Line Amount`
+   - `Unit Price Amount`
 
-<ScreenshotPlaceholder alt="Data Graph editor left panel showing Sales Order expanded with Sales Order Product nested beneath it, and the right panel showing Sales Order Product fields" />
+<Screenshot src="/img/data-graphs/sales-order-product-fields-added.png" alt="Data Graph editor showing Sales Order Product selected in the left panel tree nested under Sales Order, with Ordered Quantity, Total Line Amount, and Unit Price Amount checked in the right panel" caption="Sales Order Product sits under Sales Order in the tree. Select Ordered Quantity, Total Line Amount, and Unit Price Amount." />
 
 ### Add Product
 
 Product connects to Sales Order Product.
 
-1. Click the **+** icon next to **Sales Order Product**.
+1. Click the **+** icon next to **Sales Order Product** in the left panel.
 2. Search for and select **Product**.
-3. Select these fields:
+3. In the right panel, select these fields:
+   - `Product Family`
    - `Product Name`
    - `Product SKU`
-   - `Product Family`
 
-<ScreenshotPlaceholder alt="Right panel showing Product field list with Product Name, Product SKU, and Product Family checked" />
-
-:::info
-This step requires clinic data from the stretch goal in the <ModuleLink slug="ingesting-external-data" /> module. Skip if you did not ingest clinic data.
-:::
-
-### Add Eye Exam (Stretch)
-
-Eye Exam is a custom DMO that connects directly to Unified Individual.
-
-1. Click the **+** icon next to **Unified Individual**.
-2. Search for **Eye Exam** and select it.
-3. Select these fields:
-   - `Exam Date`
-   - `Next Exam Due`
-   - `Exam Type`
-   - `Provider`
-
-<ScreenshotPlaceholder alt="Right panel showing Eye Exam custom DMO fields with Exam Date, Next Exam Due, Exam Type, and Provider checked" />
+<Screenshot src="/img/data-graphs/product-fields.png" alt="Right panel showing the Product field list with Product Family, Product Name, and Product SKU checked" caption="Select Product Family, Product Name, and Product SKU for the Product DMO." />
 
 ### Review the complete graph structure
 
@@ -159,67 +132,59 @@ Unified Individual
   ├── Unified Link Individual
   │     └── Individual
   │           ├── Contact Point Email
-  │           └── Contact Point Phone
-  ├── Loyalty Program Member
-  ├── Sales Order
-  │     └── Sales Order Product
-  │           └── Product
-  └── Eye Exam  (Stretch: only if clinic data was ingested)
+  │           ├── Contact Point Phone
+  │           ├── Loyalty Program Member
+  │           └── Sales Order
+  │                 └── Sales Order Product
+  │                       └── Product
+  └── Unified Indv Contact Point Phone
+  └── Unified Indv Contact Point Email
 ```
-
-<ScreenshotPlaceholder alt="Data Graph editor left panel showing the complete LEOptical graph tree with all DMOs expanded as listed in the structure above" />
 
 If the structure matches, proceed to build.
 
 ## Building the graph
 
-1. Click **Save and Build**.
+1. Click **Save and Build** in the top-right corner of the editor.
 
-<ScreenshotPlaceholder alt="Data Graph editor toolbar showing the Save and Build button in the top-right corner" />
+<Screenshot src="/img/data-graphs/save-and-build.png" alt="Data Graph editor toolbar showing the Save and Build button highlighted in the top-right corner, with 15/25 objects selected and 19/200 non-key fields selected shown in the left panel header" caption="Click Save and Build when your DMO tree and field selections are complete." />
 
-2. A dialog appears asking you to confirm the refresh schedule. Select **Daily**. This is appropriate for LEOptical's email marketing use cases.
+2. A dialog appears asking you to set the refresh schedule. Leave it set to **Daily** and click **Save and Build** to confirm.
 
-<ScreenshotPlaceholder alt="Refresh schedule dialog with options Hourly, Every 4 hours, Daily (selected), Weekly, and Monthly" />
+<Screenshot src="/img/data-graphs/data-graph-schedule.png" alt="Set Your Data Graph's Refresh Schedule dialog showing a Refresh Interval dropdown set to Daily and a Save and Build button" caption="Daily refresh is appropriate for LEOptical's email marketing use cases." />
 
-3. Click **Save and Build** again to confirm.
-4. You are returned to the Data Graphs list view. The Last Run Status for your graph shows **Building** or a similar in-progress state.
+3. You are returned to the Data Graphs list view. The graph's Last Run Status will show a processing state while the build runs.
 
-<ScreenshotPlaceholder alt="Data Graphs list view with Marketing Content Personalization row showing Last Run Status as 'Building'" />
+<Screenshot src="/img/data-graphs/data-graph-processing.png" alt="Data Graphs list view showing the Marketing Content Personalization row with Active status and a recent Last Refreshed On timestamp after a successful build" caption="The graph moves to Active status once the build completes. Build time ranges from 15 minutes to several hours depending on data volume." />
 
-The build takes 15 minutes to several hours depending on data volume. Check back. Do not proceed to the next step until the Last Run Status shows **Active**.
+The build takes 15 minutes to several hours depending on data volume. Do not proceed to the next step until the Last Run Status shows **Active**.
 
 :::warning
-If you click **Save and Build** and the dialog does not appear (the graph saves but shows an error or reverts), you may have attempted to remove a DMO that was already built. You cannot remove built objects. If the graph is in a broken state, delete it and recreate from scratch.
+If you click **Save and Build** and the graph shows an error or reverts, you may have attempted to remove a DMO that was already built. You cannot remove built objects. If the graph is in a broken state, delete it and recreate from scratch.
 :::
 
 ## Monitoring build status
 
 1. From the Data Graphs list, check the **Last Run Status** column periodically.
-2. When status shows **Active** and **Last Run** reflects a recent timestamp, the build is complete.
+2. When status shows **Active** and **Last Refreshed On** reflects a recent timestamp, the build is complete.
 
-<ScreenshotPlaceholder alt="Data Graphs list view with Marketing Content Personalization row showing Last Run Status as 'Active' and a recent Last Run timestamp" />
-
-{/* VERIFY: Whether Summer '26 refresh history UI is accessible in SDO, and where it appears. The Data Graph list view may have a 'View History' option per graph. */}
+<Screenshot src="/img/data-graphs/processing-complete.png" alt="Data Graphs list view with the Marketing Content Personalization row showing Active status and a recent Last Refreshed On timestamp of 1:38 PM" caption="Active status with a recent Last Refreshed On timestamp confirms the build completed successfully." />
 
 ## Configuring Basic Personalization in MCA Setup
 
 Building the Data Graph is not sufficient on its own. You must also tell MCA to use it as the default data graph for email, Flow, and dynamic content.
 
 1. Click the **App Launcher** and navigate to **Setup** (the gear icon in the top-right navigation, then **Setup**).
-2. In the left Setup menu, search for or navigate to **Marketing Cloud > Assisted Setup**.
+2. In the left Setup menu, navigate to **Reports and Optimization → Customer Engagement**.
 
-{/* VERIFY: Exact label path in current SDO. Sources describe it as: Setup > Marketing Cloud > Assisted Setup > Reporting and Optimization > Customer Engagement > Configure Basic Personalization. The label 'Reporting and Optimization' may differ from what appears in your org. */}
+<Screenshot src="/img/data-graphs/data-graph-default.png" alt="Customer Engagement setup page showing Customize Scoring Rules, Set Up Salesforce Personalization, and Configure Basic Personalization sections" caption="Setup → Reports and Optimization → Customer Engagement. Configure Basic Personalization is at the bottom." />
 
-3. Find the **Configure Basic Personalization** item under Customer Engagement.
+3. Click **Go to Data Graphs** next to the Configure Basic Personalization item (or click the item itself if it shows **Edit**).
+4. In the **Data Graph** dropdown, select **Marketing Content Personalization**.
 
-<ScreenshotPlaceholder alt="MCA Assisted Setup page showing the Customer Engagement section with Configure Basic Personalization listed as a setup item" />
+<Screenshot src="/img/data-graphs/data-graph-update.png" alt="Configure Basic Personalization with the Data Graph dropdown open showing Marketing Content Personalization as an option" caption="Select your Data Graph from the dropdown and click Update." />
 
-4. Click **Configure Basic Personalization** (or **Edit** if it was previously configured).
-5. In the dropdown, select **Marketing Content Personalization** (your Data Graph).
-
-<ScreenshotPlaceholder alt="Configure Basic Personalization step showing a dropdown labeled 'Data Graph' with Marketing Content Personalization selected" />
-
-6. Click **Save** or **Confirm**.
+5. Click **Update** to save.
 
 After saving, the email builder's Data Sources tab will show the Data Graph as a selectable source, and Flow elements that reference Data Graph fields become configurable.
 
@@ -227,17 +192,36 @@ After saving, the email builder's Data Sources tab will show the Data Graph as a
 
 This is a quick smoke test to confirm the setup is working end-to-end.
 
-1. Navigate to **Marketing Cloud > Content > Emails** (or create a new draft email).
-2. Open or create a draft email and switch to the **Data Sources** tab (may also be labeled **Personalization** depending on your UI version).
-3. Confirm that **Marketing Content Personalization** appears as a data source option.
+To create a draft email and reach the Data Sources tab:
 
-<ScreenshotPlaceholder alt="Email builder Data Sources tab showing Marketing Content Personalization listed as an available data source" />
+1. Click the **App Launcher** and search for **Marketing**, then select **Marketing**.
 
-4. Navigate the field tree. You should see Unified Individual at the root, with branches for the DMOs you added (Loyalty Program Member, Sales Order, Eye Exam).
+<Screenshot src="/img/data-graphs/navigate-to-marketing-tab.png" alt="App Launcher with 'marketing' typed in the search field and Marketing highlighted in the Apps list" caption="Search for Marketing in the App Launcher to navigate to MCA." />
 
-<ScreenshotPlaceholder alt="Email builder field picker showing the Data Graph field tree with Unified Individual at root and Loyalty Program Member, Sales Order, and Eye Exam visible as branches" />
+2. In the top navigation bar, click **Content**.
+3. On the All CMS Workspaces page, select **LEOptical Marketing**.
 
-If the Data Graph is present in the Data Sources tab and the field tree reflects your DMOs, the configuration is complete.
+<Screenshot src="/img/data-graphs/navigate-to-leoptical-workspace.png" alt="All CMS Workspaces page showing 11 workspaces with LEOptical Marketing highlighted at the top of the list" caption="Select the LEOptical Marketing workspace to access your content." />
+
+4. In the workspace, click **Add** in the top-right corner and select **Content**.
+
+<Screenshot src="/img/data-graphs/add-content.png" alt="LEOptical Marketing workspace with the Add dropdown open showing Content and Folder as options" caption="Click Add, then Content to create a new piece of content." />
+
+5. In the Create CMS content dialog, select **Email** and click **Create**.
+
+<Screenshot src="/img/data-graphs/select-email.png" alt="Create CMS content dialog showing content type options including Audio, Brand, Consent Banner, Email (selected), Email Template, Expression, Form, Form Handler, and Image" caption="Select Email from the content type list." />
+
+6. When prompted to select an email creation method, choose **Use Components** and click **Select**.
+
+<Screenshot src="/img/data-graphs/use-components.png" alt="Select an email creation method dialog showing Select a Template, Use Components (selected with a blue checkmark), and Create with HTML as options" caption="Use Components opens the drag-and-drop email builder." />
+
+7. The email builder opens. Click the **Data Sources** tab in the right panel.
+
+<Screenshot src="/img/data-graphs/data-sources-tab.png" alt="Email builder showing the canvas on the left, and the right panel with Settings, Style, and Data Sources tabs, with Data Sources selected and Marketing Content Personalization listed under Manage Data Sources with a Default badge" caption="The Data Sources tab shows the Data Graph linked to this email. Marketing Content Personalization should appear here automatically as the default." />
+
+8. Confirm that **Marketing Content Personalization** appears under **Manage Data Sources** with a **Default** badge.
+
+If the Data Graph appears in the Data Sources tab, the configuration is complete. You can discard this draft email.
 
 ## Assignment
 
@@ -245,35 +229,34 @@ If the Data Graph is present in the Data Sources tab and the field tree reflects
 
 1. Complete the full walkthrough above. Confirm that the Data Graph named **Marketing Content Personalization** is Active in your SDO.
 2. Run **Configure Basic Personalization** in MCA Setup and select your Data Graph.
-3. Open the email builder and verify that the Data Graph appears in the Data Sources tab with the correct field tree.
-4. Navigate to a Unified Individual profile in Data 360 and confirm that related DMO data is visible. Check that a protagonist contact shows loyalty tier and recent order data if they have it.
+3. Open the email builder and verify that the Data Graph appears in the Data Sources tab.
+4. Navigate to a Unified Individual profile in Data 360 and confirm that related DMO data is visible. Check that a protagonist contact shows loyalty tier and recent order data if they have records in those DMOs.
 5. Write down your answers to these questions (you will not submit them, but you will need them for the Personalization module):
    - What is the `ssot__` field name for First Name on the Unified Individual?
    - How would you access the Loyalty Tier field in a Handlebars expression?
-   - If a contact has no eye exam records, what will a Handlebars expression referencing `Exam Date` return?
-6. **(Stretch)** Read the [the-agentic-marketer.com Handlebars guide](https://the-agentic-marketer.com/marketing-cloud-next-deep-dives/marketing-cloud-next-handlebars-low-code-scripting/) section on `$dataGraph`. Try inserting a basic merge field from your Data Graph into a draft email and preview it against one of your protagonist contacts.
+   - If a contact has no orders, what will a Handlebars expression referencing `Order Start Date` return?
+6. **(Stretch)** If you completed the clinic data stretch goal in <ModuleLink slug="ingesting-external-data" />, add the Eye Exam DMOs to your Data Graph. The clinic data model has two custom DMOs: one for clinic patient records (which maps to Individual) and one for Eye Exam records (which relates to Individual via the patient ID). Using the same pattern you followed for Loyalty Program Member and Sales Order, add the Eye Exam DMO as a child of Individual. Include at minimum these fields: `Exam Date`, `Exam Type`, and `Provider`. You will not get step-by-step screenshots for this one. Use what you learned above.
 
 ## Success Criteria
 
 - [ ] The Data Graph named **Marketing Content Personalization** shows **Active** status in the Data Graphs list view.
-- [ ] The Last Run timestamp on the Data Graph reflects a completed build (not still building).
-- [ ] The graph structure includes Loyalty Program Member, Sales Order, Sales Order Product, and Product.
-- [ ] **(Stretch)** Eye Exam is also included in the graph if clinic data was ingested in the Ingesting External Data module.
-- [ ] The graph includes the Unified Link Individual → Individual → Contact Point Email traversal path.
+- [ ] The Last Refreshed On timestamp reflects a completed build (not still building).
+- [ ] The graph structure includes Loyalty Program Member, Sales Order, Sales Order Product, and Product under Individual.
 - [ ] **Configure Basic Personalization** in MCA Setup points to **Marketing Content Personalization**.
-- [ ] The email builder Data Sources tab shows the Data Graph with the correct field tree.
+- [ ] The email builder Data Sources tab shows the Data Graph with a Default badge.
 - [ ] You can navigate to a protagonist Unified Individual profile in Data 360 and see loyalty and/or order data (if that contact has records in those DMOs).
 - [ ] You understand that a missing field in the Data Graph is absent from the JSON entirely, not null.
 - [ ] You understand the full dependency chain: Data Stream refresh → Identity Resolution → Data Graph refresh → email personalization resolves.
+- [ ] **(Stretch)** Eye Exam DMO is included in the graph if clinic data was ingested.
 
 ## Knowledge check
 
 The following questions are an opportunity to reflect on key topics in this lesson. If you cannot answer a question, revisit the relevant section, but keep in mind you are not expected to memorize or master this knowledge.
 
-- Why does the LEOptical Data Graph traversal to Contact Point Email pass through Unified Link Individual? What would happen if you tried to add Contact Point Email directly off Unified Individual?
+- Why does the LEOptical Data Graph reach Loyalty Program Member through Individual rather than directly off Unified Individual? What does that tell you about how the graph resolves relationships?
 - What is the consequence of choosing a daily refresh schedule for a time-sensitive use case like a real-time post-purchase email?
 - A colleague added Contact Point Address to the Data Graph but now wants to remove it. Can they? What are their options?
-- After clicking Save and Build, the Data Graph shows "Building" for two hours. Is this a problem? What should you check?
+- After clicking Save and Build, the Data Graph shows a processing state for two hours. Is this a problem? What should you check?
 - Why does **Configure Basic Personalization** need to be run separately from building the Data Graph? What breaks if you skip it?
 - A protagonist contact placed a new order this morning. The Data Graph last refreshed at 2:00 AM. When you preview an email against that contact at 10:00 AM, will the new order appear in the personalization data?
 

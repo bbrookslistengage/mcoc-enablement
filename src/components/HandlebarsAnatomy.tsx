@@ -19,7 +19,7 @@ const SEGMENTS: SegmentDef[] = [
     text: '$dataGraph',
     colorClass: styles.graph,
     label: '$dataGraph',
-    description: 'The default Data Graph configured in MCA Setup',
+    description: 'The Data Graph added to this email\'s Data Sources tab',
   },
   {
     text: 'ssot__FirstName__c',
@@ -39,7 +39,7 @@ export default function HandlebarsAnatomy(): React.JSX.Element {
     <div
       className={styles.wrapper}
       role="img"
-      aria-label="Anatomy of a Handlebars expression: {{@root.$dataGraph.ssot__FirstName__c}} — @root is the root template context, $dataGraph is the default Data Graph, ssot__FirstName__c is a field on a DMO"
+      aria-label="Anatomy of a Handlebars expression: {{@root.$dataGraph.ssot__FirstName__c}} — @root is the root template context, $dataGraph is the Data Graph added to this email's Data Sources tab, ssot__FirstName__c is a field on a DMO"
     >
       <div className={styles.anatomy}>
 

@@ -208,16 +208,14 @@ This returns "Valued Customer" when the field is missing. You will use this patt
 
 Building the Data Graph is not enough. You also have to tell MCA to use it.
 
-After your Data Graph is Active, you go to MCA Setup and run **Configure Basic Personalization**. This step links your Data Graph as the default for:
+After your Data Graph is Active, you run **Configure Basic Personalization** from Setup. This step links your Data Graph as the default for:
 
 - The email builder's Data Sources tab
 - Flow Decision Split elements that reference Data Graph fields
 - Merge Fields in the email builder
 - Dynamic content blocks
 
-Without this step, the email builder and Flow have no access to the Data Graph, even if the graph is built and Active.
-
-{/* VERIFY: Exact navigation path for Configure Basic Personalization. Confirmed to be under Marketing Cloud Setup, but the exact label sequence (Reporting and Optimization > Customer Engagement, vs. just Customer Engagement) varies across sources. Verify current UI label in SDO. */}
+Without this step, the email builder and Flow have no access to the Data Graph, even if the graph is built and Active. The exact navigation path and the configuration steps are covered in the walkthrough in <ModuleLink slug="configuring-leoptical-data-graph" />.
 
 ## Knowledge check
 
