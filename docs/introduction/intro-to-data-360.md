@@ -28,7 +28,7 @@ This section contains a general overview of topics that you will learn in this l
 
 Data 360 is Salesforce's unified data platform. It is where all customer data from all sources lives, gets unified, and becomes available for marketing (and other) use cases.
 
-Everything in Marketing Cloud Next reads from Data 360. Segments read from it. Email personalization reads from it. AI scoring reads from it. Activation reads from it. If Data 360 is not set up correctly, the marketing features have nothing to work with. The previous module (MCN vs. MCE) described Marketing Cloud Next as "mostly Data 360 with a thin marketing layer on top." This is where that starts to become concrete.
+Everything in Marketing Cloud Next reads from Data 360. Segments read from it. Email personalization reads from it. AI scoring reads from it. Activation reads from it. If Data 360 is not set up correctly, the marketing features have nothing to work with. The previous module (MCN vs. MCE) described Marketing Cloud Next as "mostly Data 360 with a marketing layer on top." This is where that starts to become concrete.
 
 Data flows through Data 360 in three conceptual stages:
 

@@ -53,7 +53,7 @@ Here is how the responsibilities break down:
 | AI and scoring | Einstein + Agentforce |
 | Reporting | Data 360 + Tableau Next |
 
-The key framing for this course: **Marketing Cloud Next is mostly Data 360 with a thin marketing layer on top.** The marketing-specific additions are the email builder, segments, marketing flow elements, and landing pages. Everything else is a platform service that exists independently of Marketing Cloud Next.
+The key framing for this course: **Marketing Cloud Next is mostly Data 360 with a marketing layer on top.** The marketing-specific additions are the email builder, segments, marketing flow elements, and landing pages. Everything else is a platform service that exists independently of Marketing Cloud Next.
 
 :::tip[Coming from MCE?]
 The biggest mental shift: MCE was a self-contained marketing platform. Marketing Cloud Next is a marketing layer on top of platform services. Here is how the major components map:
@@ -125,7 +125,7 @@ The following questions are an opportunity to reflect on key topics in this less
 
 - What is the foundational data platform that Marketing Cloud Next is built on?
 - How does Marketing Cloud Next's data layer differ from MCE's data extensions and subscriber lists?
-- Why does this course describe Marketing Cloud Next as "mostly Data 360 with a thin marketing layer on top"?
+- Why does this course describe Marketing Cloud Next as "mostly Data 360 with a marketing layer on top"?
 - What automation engine does Marketing Cloud Next use, and what does it replace from MCE?
 - What should you do with the "Coming from MCE?" callouts if you have no MCE background?
 
