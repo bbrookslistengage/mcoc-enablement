@@ -18,9 +18,9 @@ This section contains a general overview of topics that you will learn in this l
 
 - What the four segment types are and when to use each.
 - The segment builder canvas: Segment On, Include/Exclude tabs, and the attribute sidebar.
-- Direct attributes vs related attributes, and why the distinction matters.
+- Unified Individual fields vs. Direct Data Model Objects vs. Related Data Model Objects, and why the distinction matters.
 - Containers: how they evaluate, what aggregation options are available, and how the lookback window works.
-- Traversal paths: when they appear, how to choose, and why the path affects segment results.
+- Traversal paths: when they appear and why the path affects segment results.
 - Using published segments as criteria: Include and Exclude tabs, copy criteria vs. last published, and rank and limit.
 - Logic operators at the filter level and the container level.
 - Population counts and the on-demand preview.
@@ -79,19 +79,19 @@ Real-Time segments do not have an Exclude tab.
 
 ### The attribute sidebar
 
-The attribute sidebar has two top-level entries under a Resources header: **Attributes** and **Calculated Insights**.
+The attribute sidebar has two tabs at the top: **Attributes** and **Segments**. Use Attributes to filter on profile data and DMO fields. Use Segments to nest an existing published segment as a criterion.
 
-Expanding **Attributes** reveals three sections:
+Inside the Attributes tab, a **Resources** sub-navigation appears. Click **Resources**, then expand **Attributes** to see all available fields organized into three sections:
 
 - Fields listed at the top (no subheading) are direct attributes on the Unified Individual itself: first name, birth date, city, and so on.
 - **Direct Data Model Objects:** DMOs with a one-to-one relationship to Unified Individual. Each resolves to a single value per individual.
 - **Related Data Model Objects:** DMOs with a one-to-many relationship to Unified Individual. Multiple records can exist per individual. Examples: Sales Orders, Eye Exams, Communication Subscription Consents.
 
-**Calculated Insights** exposes metrics derived from Calculated Insights you have built in Data 360.
+The Resources section also exposes **Calculated Insights** for metrics derived from Calculated Insights you have built in Data 360.
 
 Dragging a direct attribute onto the canvas adds a simple filter row. Dragging a related attribute creates a **container** for that DMO.
 
-<Screenshot src="/img/segmentation/02-attributes-sidebar.png" alt="Attribute sidebar showing direct fields at the top, then Direct Data Model Objects (Account, Party - Party Id) and Related Data Model Objects (Account Contact, Campaign Member, Communication Subscription Consent, Device Application Engagement)" />
+<Screenshot src="/img/segmentation/02-attributes-sidebar.png" alt="Attribute sidebar showing the Attributes tab active, with a Resources sub-navigation. Under Resources > Attributes: direct Unified Individual fields at the top, then Direct Data Model Objects (Account, Party - Party Id), then Related Data Model Objects (Account Contact, Campaign Member, Communication Subscription Consent)" />
 
 ## Direct attributes
 
@@ -149,7 +149,7 @@ Inside a container, you choose how to aggregate the related records before apply
 
 Count works with any data type. Sum, Average, Min, and Max require a numeric field.
 
-{/* VERIFY: The official Trailhead language for Sum is "summed across all data values." It is unclear whether the other filters inside the container pre-filter the records before the sum is calculated, or whether the sum runs across every related record for that individual first and the result is then compared to the threshold. The docs do not specify processing order. Confirm in SDO with a test segment: a container with Total Amount > 0 AND Sum(Total Amount) > 500 vs. a container with Sum(Total Amount) > 500 alone — do they produce different populations? */}
+{/* VERIFY: The official Trailhead language for Sum is "summed across all data values." It is unclear whether the other filters inside the container pre-filter the records before the sum is calculated, or whether the sum runs across every related record for that individual first and the result is then compared to the threshold. The docs do not specify processing order. Confirm in SDO with a test segment: a container with Total Amount > 0 AND Sum(Total Amount) > 500 vs. a container with Sum(Total Amount) > 500 alone -- do they produce different populations? */}
 
 The aggregation you choose determines what the operator applies to. If you choose Max(Order Date), the operator compares against the most recent order date for that individual, not any individual order date.
 
@@ -157,7 +157,7 @@ The aggregation you choose determines what the operator applies to. If you choos
 
 ### The lookback window
 
-The lookback window limits how far back in time the segment engine looks at related records. The default is 90 days. You set it once in the segment creation wizard. It applies at the segment level and cannot be adjusted per container after the segment is created.
+The lookback window limits how far back in time the segment engine looks at related records. The default is 90 days. You set it in the third step of the segment creation wizard (the publish type and schedule step). It applies at the segment level, cannot be changed after the segment is created, and cannot be adjusted per container.
 
 For a Sales Order container with a 90-day lookback, the engine only considers orders placed in the last 90 days. An order from two years ago does not exist from the segment's perspective.
 
@@ -187,7 +187,7 @@ You can nest operator logic multiple levels deep inside a segment. This enables 
 
 ## Traversal paths
 
-A traversal path defines the relationship chain the segment engine follows to reach a related attribute. When there is only one path from the Segment On DMO to the attribute you want, the engine uses it automatically. When the same attribute is reachable by more than one chain, the builder prompts you to choose.
+A traversal path defines the relationship chain the segment engine follows to reach a related attribute. When there is only one path from the Segment On DMO to the attribute you want, the engine uses it automatically. When the same attribute is reachable by more than one chain, the builder prompts you to choose a path when you drag the attribute onto the canvas. The path is set at that moment and is determined by which container you dragged the value into.
 
 {/* VERIFY: Exact UI behavior when a traversal path prompt appears. Does it appear inline on the canvas when you drop the attribute, or as a modal dialog? Confirm in SDO when building SeeClear Enthusiasts. */}
 
@@ -215,8 +215,6 @@ Both paths end at the Product DMO, but they mean completely different things. If
 For LEOptical, the SeeClear Enthusiasts segment traverses Unified Individual → Sales Order → Sales Order Product → Product. There is only one path in the data model, so the prompt does not appear. But if a Wishlist DMO were added later and connected to Product, the prompt would appear and the correct path is the purchase path.
 
 An important constraint: **linked field values are case-sensitive**. If the join key value is `SeeClear` in one DMO and `seeclear` in another, the relationship does not resolve.
-
-Only one traversal path per container.
 
 <Screenshot src="/img/segmentation/07-traversal-path-selection.png" alt="Container Path dropdown for Account Contact showing a long list of traversal paths, each representing a different relationship chain from Unified Individual to Account Contact. One path (Account Contact Account > Account) is selected." caption="When multiple paths exist to a DMO, the builder lists every available relationship chain. The paths can be long and similar-looking. Read them carefully before selecting." />
 

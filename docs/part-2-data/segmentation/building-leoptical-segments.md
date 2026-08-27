@@ -27,63 +27,70 @@ This section contains a general overview of topics that you will learn in this l
 
 1. Click the **App Launcher** (nine-dot grid in the top-left navigation bar).
 2. Search for and select **Data Cloud**.
-{/* VERIFY: Research confirms the Segments tab exists in the Data 360 tab bar but does not confirm whether it appears in the overflow "More" menu. Verify this navigation in SDO. */}
-3. In the Data 360 tab bar, find the **Segments** tab. If it is not immediately visible, click **More** at the end of the tab bar.
+3. In the Data 360 tab bar, click **More** at the end of the tab bar. **Segments** appears in the dropdown.
 
-<ScreenshotPlaceholder alt="Data 360 app tab bar showing the Segments tab, with the More dropdown open showing additional navigation items" />
+<Screenshot src="/img/segmentation/segments-more.png" alt="Data 360 navigation bar with the More dropdown open, showing Segments highlighted in the list alongside Activation Targets, Activations, Data Spaces, and other items" />
 
-4. You are on the Segments list view. All existing segments appear here with their status, last published date, and member count.
+4. Click **Segments**. You are on the Segments list view. All existing segments appear here with their segment status, publish type, population count, and last modified date.
 
-<ScreenshotPlaceholder alt="Segments list view showing a table with columns for Segment Name, Status, Member Count, and Last Published date, with a New Segment button in the top right" />
+<Screenshot src="/img/segmentation/all-segments.png" alt="Segments list view showing a table with columns for Segment Name, Data Space, Publish Type, Segment Status, Population, and Created Date, with a New button in the top right" />
 
 ## Creating the VIP Customers segment
 
-1. Click **New Segment**.
-2. A dialog or wizard appears. Select **Use Visual Builder** if prompted.
-3. Select **Standard** as the segment type.
+The new segment wizard has three steps. Complete them in order.
 
-{/* VERIFY: Research does not confirm which segment types appear in the creation dialog. Research lists 5 types (Standard, Real-Time, Waterfall, Nested, Dynamic). Verify the exact options shown in the creation dialog in SDO. */}
-<ScreenshotPlaceholder alt="New segment creation dialog showing segment type options: Standard, Waterfall, and Real-Time, with Standard selected" />
+**Step 1: Choose creation method and segment type**
 
-4. Fill in the segment details:
-   - **Name:** VIP Customers
+1. Click **New**.
+2. Under "How do you want to create your segment?", select **Use a Visual Builder**.
+3. Under "What type of segment do you want to create?", select **Standard Segment**.
+
+<Screenshot src="/img/segmentation/new-segment.png" alt="New Segment wizard step 1 showing two sections: creation method (Use a Visual Builder selected) and segment type (Standard Segment selected, with Waterfall Segment and Real-Time Segment also visible)" />
+
+4. Click **Next**.
+
+**Step 2: Segment properties**
+
+5. Fill in the segment details:
+   - **Segment Name:** VIP Customers
    - **Segment On:** Unified Individual
-   - **Description:** Gold or Platinum loyalty tier members (optional but useful for team documentation)
-5. For **Publish Type**, select **Standard Publish**.
-6. For **Publish Schedule**, select **Do Not Schedule** for now. You will publish manually after building the segment.
+   - **Description:** Gold or Platinum loyalty tier members
 
-<ScreenshotPlaceholder alt="Segment creation form showing Name field with 'VIP Customers' entered, Segment On dropdown showing Unified Individual selected, Publish Type set to Standard Publish, and Publish Schedule set to Do Not Schedule" />
+<Screenshot src="/img/segmentation/segment-details.png" alt="New Segment wizard step 2 showing Segment Properties form with Data Space set to default, Segment Name set to VIP Customers, Segment On set to Unified Individual, and Description set to Gold or Platinum loyalty tier members" />
 
-{/* VERIFY: Research confirms this step enters the canvas after saving, but does not confirm the exact button label. Verify whether it is "Save" or "Next" in the SDO segment creation wizard. */}
-7. Click **Save** or **Next** to enter the canvas.
+6. Click **Next**.
+
+**Step 3: Publish type and schedule**
+
+7. For **Publish Type**, select **Standard Publish**.
+8. For **Publish Schedule**, select **Do Not Schedule** for now. You will publish manually after building the segment.
+9. The **Lookback Window** defaults to 90 days. Leave it at 90 days for VIP Customers. For segments that need to look further back (like Lapsed Buyers or Exam Overdue), you would increase this here. This setting cannot be changed after the segment is created.
+
+<Screenshot src="/img/segmentation/segment-schedule.png" alt="New Segment wizard step 3 showing Publish Type options (Standard Publish selected, Rapid Publish available), Publish Schedule with Do Not Schedule selected, and Lookback Window set to 90 Days" />
+
+10. Click **Save** to create the segment and open the canvas.
 
 ## Building the Include criteria
 
 VIP Customers are Gold or Platinum loyalty tier members. The Loyalty Tier field lives on the Loyalty Program Member DMO, which has a relationship to Unified Individual. This makes Loyalty Tier a related attribute, not a direct attribute. You will need a container.
 
-:::warning
-Loyalty Program Member appears in the **Related Attributes** section of the attribute sidebar, not the Direct Attributes section. If you do not see it at first, look for an expand button or scroll down in the sidebar.
-:::
-
 1. On the segment canvas, confirm you are on the **Include** tab.
-2. In the attribute sidebar on the right, find the **Related Attributes** section.
-3. Expand the related attributes list to find **Loyalty Program Member**.
-4. Expand **Loyalty Program Member** to see its fields. Find **Loyalty Tier**.
+2. In the attribute sidebar on the right, click the **Attributes** tab, then click **Resources** in the sub-navigation.
+3. Expand **Attributes** to see the three sections: Unified Individual fields at the top, Direct Data Model Objects, and Related Data Model Objects.
+4. Under **Related Data Model Objects**, find and expand **Loyalty Program Member**. Find **Loyalty Tier**.
 
-<ScreenshotPlaceholder alt="Attribute sidebar with Related Attributes section expanded, showing Loyalty Program Member with its fields including Loyalty Tier highlighted" />
+<Screenshot src="/img/segmentation/loyalty-tier.png" alt="Attribute sidebar showing Attributes tab active, with Resources > Unified Individual > Loyalty Program Member breadcrumb. The sidebar lists attributes in the Loyalty Program Member DMO including Loyalty Tier, with the canvas showing the empty Build your Segment state" />
 
-5. Drag **Loyalty Tier** onto the canvas. The platform creates a container for the Loyalty Program Member DMO.
+5. Drag **Loyalty Tier** onto the canvas. The platform creates a container for the Loyalty Program Member DMO with an empty filter row.
 
-<ScreenshotPlaceholder alt="Segment canvas after dragging Loyalty Tier onto it, showing a newly created Loyalty Program Member container with an empty filter row inside" />
+<Screenshot src="/img/segmentation/loyalty-tier-container.png" alt="Segment canvas showing a Loyalty Program Member container just created, with a filter row showing Object: Loyalty Program Member, Attribute: Loyalty Tier, Operator: Is Equal To, and an empty Value field with a Complete this field warning" />
 
 6. Inside the container, set the filter:
-   - Field: **Loyalty Tier**
-   - Operator: **Is In** (or, if "Is In" is not available, set Loyalty Tier **Is Equal To** Gold, then add an OR condition and set Loyalty Tier **Is Equal To** Platinum)
-   - Value: **Gold, Platinum**
+   - Field: **Loyalty Tier** (already set)
+   - Operator: **Is In**
+   - Value: Search for and select **Gold**, then **Platinum**
 
-{/* VERIFY: Whether "Is In" operator is available for text fields in the Summer '26 segment builder UI. If not, document the OR approach instead. */}
-
-<ScreenshotPlaceholder alt="Loyalty Program Member container showing a Loyalty Tier filter with Is In operator and Gold, Platinum as selected values" />
+<Screenshot src="/img/segmentation/gold-platinum.png" alt="Loyalty Program Member container with a filter row showing Loyalty Tier, Is In operator, and 2 Value(s) Selected with Gold and Platinum tags. The Segment Population shows 53,763." />
 
 7. Look at the population count that appears. This is a preview estimate of how many Unified Individuals have a Loyalty Program Member record with Tier = Gold or Platinum. Write this number down. You will use it to gut-check the published member count.
 
@@ -91,34 +98,27 @@ Loyalty Program Member appears in the **Related Attributes** section of the attr
 
 ### About the traversal path
 
-Loyalty Program Member connects to Unified Individual through a direct relationship in the LEOptical data model. There is only one path from Unified Individual to Loyalty Tier, so the platform should not prompt you to choose a traversal path. If a path selection prompt does appear, select the path that goes directly through **Loyalty Program Member**.
-
-{/* VERIFY: Confirm in SDO whether the traversal path prompt appears when adding Loyalty Program Member. Expect it does not appear given only one path exists. */}
+Loyalty Program Member connects to Unified Individual through a direct relationship in the LEOptical data model. There is only one path from Unified Individual to Loyalty Tier, so the platform does not prompt you to choose a traversal path. The breadcrumb in the attribute sidebar (Resources > Unified Individual > Loyalty Program Member) confirms the path being used.
 
 ## Publishing VIP Customers
 
-A Draft segment has zero members. You need to publish before any flow or activation can use this segment.
+A segment with no publish history has zero members. You need to publish before any flow or activation can use this segment.
 
-1. On the segment canvas or the segment detail view, click **Publish** (or **Publish Now**).
-2. A dialog appears. Select a publish schedule:
-   - For this exercise, select **Manual** or keep **Do Not Schedule**.
-   {/* VERIFY: Research confirms 12-hour and 24-hour cadence options exist but does not confirm the exact label wording in the publish dialog. Verify the precise option labels in SDO. */}
-   - In a client org, you would select **Standard — Every 12 hours** or **Standard — Every 24 hours**.
+1. On the segment canvas, click **Save**.
+2. Click **Done** to exit the canvas and return to the segment detail view.
+3. On the segment detail view, click the **dropdown arrow** next to the Copy button in the top-right. Select **Publish Now**.
 
-<ScreenshotPlaceholder alt="Publish dialog showing schedule options: Standard Every 12 hours, Standard Every 24 hours, Rapid Every 1 hour, Rapid Every 4 hours, and Manual, with Standard Every 24 hours selected" />
+<Screenshot src="/img/segmentation/publish-now.png" alt="Segment detail view for VIP Customers showing the dropdown menu open next to the Copy button, with Publish Now highlighted. The detail view shows Segment Status: Active, Segment Population: 9,712, and Activations: 0." />
 
-3. Click **Publish** or **Confirm**.
-4. The segment status changes to **Processing** or **Publishing**.
+4. The Publish Status changes to **Publishing**.
 
-<ScreenshotPlaceholder alt="Segment detail view showing the status badge reading 'Processing' with a spinner, and the member count showing dashes or zero" />
+<Screenshot src="/img/segmentation/publishing.png" alt="Segment detail view for VIP Customers showing Publish Status: Publishing in the status bar, with Segment Population: 9,712 and Segment Status: Active" />
 
-5. Wait for the status to change to **Published** or **Active**. In an SDO with seed data, this should complete within a few minutes.
+5. Wait for the Publish Status to change to a completed state. In an SDO with seed data, this should complete within a few minutes.
 
 {/* VERIFY: Typical publish time for VIP Customers segment with LEOptical seed data (~48K contacts) in SDO. Update this estimate once confirmed. */}
 
 6. Once published, confirm the member count. It should be a non-zero subset of the total contact population (specifically, the contacts who have Gold or Platinum loyalty records). Compare it against your population count estimate from the builder.
-
-<ScreenshotPlaceholder alt="Segment detail view showing Published status badge, a non-zero member count, and a Last Published timestamp reflecting the recent publish time" />
 
 :::warning
 If the member count after publish is zero but your population count in the builder showed thousands, the most likely cause is that the Loyalty Program Member DMO relationship was not correctly configured in the Data Graph, or IDR has not yet linked the Loyalty Program Member records to Unified Individuals. Check your Data Graph configuration and confirm IDR has run.
@@ -140,7 +140,7 @@ The Exclude approach is recommended: Include all Unified Individuals with no fil
 
 Alternative approach: Add a Sales Order container on the Include tab, set Aggregation to **Max**, apply it to **Order Date**, and filter: Max(Order Date) **Is Before** [relative date: 180 days ago]. This finds individuals whose most recent order date is older than 180 days.
 
-{/* VERIFY: Which approach works more cleanly in the Summer '26 builder — the Exclude method or the Max(Order Date) Is Before method. Document both for learners but recommend the one that works. */}
+{/* VERIFY: Which approach works more cleanly in the Summer '26 builder -- the Exclude method or the Max(Order Date) Is Before method. Document both for learners but recommend the one that works. */}
 
 Set the lookback window appropriately for a 180-day look-back requirement.
 
@@ -156,7 +156,7 @@ Goal: Customers who have purchased any product in the SeeClear product family.
 
 This segment requires traversal through three relationship hops: Unified Individual → Sales Order → Sales Order Product → Product. Product Family is a field on the Product DMO.
 
-In the attribute sidebar, browse through Sales Order → Sales Order Product → Product to find **Product Family**. Drag it onto the canvas. A container is created.
+In the attribute sidebar, go to Attributes tab > Resources > Attributes > Related Data Model Objects. Browse through Sales Order to find Sales Order Product, then Product, and find **Product Family**. Drag it onto the canvas. A container is created.
 
 Filter: Product Family **Is Equal To** SeeClear
 
@@ -178,7 +178,7 @@ This segment requires Eye Exam data from the clinic data stretch goal in the <Mo
 
 Goal: Customers whose last eye exam was more than 12 months ago.
 
-Use the Eye Exam DMO. In the attribute sidebar, find Eye Exam under Related Attributes. Drag **Exam Date** onto the canvas.
+Use the Eye Exam DMO. In the attribute sidebar, go to Attributes tab > Resources > Attributes > Related Data Model Objects. Find Eye Exam and drag **Exam Date** onto the canvas.
 
 Set Aggregation to **Max** (this gives you the most recent exam date). Filter: Max(Exam Date) **Is Before** [relative date: 365 days ago].
 

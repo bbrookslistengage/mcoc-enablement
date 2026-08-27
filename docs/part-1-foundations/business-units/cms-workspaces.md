@@ -24,7 +24,7 @@ The workspace-level roles are distinct from the org-level permission sets. A use
 | **Content Manager** | Create and publish all content, assign a default brand to the workspace |
 | **Content Author** | View, edit, and create content. Cannot publish. |
 
-A Salesforce org admin has full access across all workspaces through the Setup interface, regardless of workspace-level role assignment.
+A Salesforce org admin controls who can access the Digital Experiences app at the Setup level, but this does not grant them automatic contributor access to individual workspaces. Like any other user, an org admin must be explicitly added as a Content Admin to each workspace they need to work in.
 
 ## Creating a CMS workspace
 
