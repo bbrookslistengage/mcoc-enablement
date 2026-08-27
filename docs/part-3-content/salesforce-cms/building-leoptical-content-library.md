@@ -282,11 +282,6 @@ This block goes at the bottom of every promotional email. It has compliance requ
 
 Set all paragraph font sizes to 12px, font color to `#617084` (LEOptical muted).
 
-:::caution
-MCA does not validate whether an unsubscribe link exists in an email before sending. The platform will not throw an error if the unsubscribe link is missing. Because this footer block will be used in every promotional email via templates in a later module, the unsubscribe link must be in the block. If it is missing and an email goes out, that is a legal violation, not a platform error.
-
-The physical address merge field also matters. If the org's mailing address is not configured in Setup, this field will be blank in sends, and in some configurations the send will be blocked entirely. Confirm your org's mailing address is configured before sending any campaign. Check: **Setup > Company Information > Address**.
-:::
 
 Name the block `LEO-Footer-Standard`. After saving, move it to **Email Content Blocks > Footers**.
 
