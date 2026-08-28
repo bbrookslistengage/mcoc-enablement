@@ -31,7 +31,7 @@ The "LEOptical Marketing" workspace was created in the <ModuleLink slug="busines
 
 Navigate to the workspace from the MCA app: **MCA App > Content** (in the top navigation bar). A workspace selector appears. Choose **LEOptical Marketing**.
 
-<ScreenshotPlaceholder alt="MCA Content tab showing a workspace selector with two workspaces listed: Content Workspace for Marketing Cloud (default) and LEOptical Marketing. The LEOptical Marketing workspace is highlighted." />
+<Screenshot src="/img/building-leoptical-content-library/14-cms-workspaces.png" alt="The CMS Workspaces page showing all workspaces in the org. LEOptical Marketing and Content Workspace for Marketing Cloud are both visible in the list." />
 
 If you see only the default workspace and not LEOptical Marketing, you can also navigate via **App Launcher > Digital Experiences > CMS Workspaces** and select LEOptical Marketing from the list.
 
@@ -41,7 +41,7 @@ Two workspaces are visible in your org: **Content Workspace for Marketing Cloud*
 
 If you do not see the LEOptical Marketing workspace at all, check whether your user has been added as a contributor. Go to **MCA App > Content > LEOptical Marketing > Settings (gear icon) > Contributors** and confirm your user has a role of Content Admin.
 
-<ScreenshotPlaceholder alt="The Contributors settings panel for the LEOptical Marketing workspace, showing a table with Name, Email, and Role columns. One row shows a user with the Content Admin role assigned." />
+<Screenshot src="/img/building-leoptical-content-library/16-contributors-panel.png" alt="The Contributors settings panel for the LEOptical Marketing workspace showing one user with the Content Admin role assigned." />
 
 ## Building the folder structure
 
@@ -81,15 +81,13 @@ LEOptical Marketing (workspace root)
 
 To create a folder:
 
-1. Inside the LEOptical Marketing workspace, look for the **New Folder** option (or click the folder icon near the top of the workspace view).
+1. Inside the LEOptical Marketing workspace, click the **Add** button and select **Folder** from the dropdown menu.
 2. Give the folder a name.
 3. Save.
 
-{/* VERIFY: Confirm the exact UI action for creating a new folder in an MCA CMS workspace — is it a button labeled New Folder, a dropdown from an Add menu, or a right-click context menu? Document the exact path. */}
-
 Create the four top-level folders first, then create each subfolder inside its parent.
 
-<ScreenshotPlaceholder alt="The LEOptical Marketing workspace showing the four top-level folders: Brand Assets, Product Images, Email Content Blocks, and Legal and Compliance. The Email Content Blocks folder is expanded in the left sidebar showing the Headers, Footers, and Product Blocks subfolders." />
+<Screenshot src="/img/building-leoptical-content-library/15-workspace-folders.png" alt="The LEOptical Marketing workspace root showing the four top-level folders: Brand Assets, Product Images, Email Content Blocks, and Year-2026." />
 
 To move an existing asset into a folder: select the asset in the workspace list, then choose **Manage > Move** and select the target folder.
 
@@ -111,13 +109,13 @@ The course resources include LEOptical's brand assets. Upload the following file
 To upload an image to the workspace:
 
 1. Navigate to the **LEOptical Marketing** workspace.
-2. Click **Add > Image**.
-3. Upload the file (drag and drop or browse).
+2. Click **Add > Content**, then select **Image** from the content type picker.
+3. Upload the file (drag and drop or use the Upload button).
 4. Name the image using the names in the table above.
 5. Save.
 6. After saving, move it to the correct folder via **Manage > Move**.
 
-<ScreenshotPlaceholder alt="The Add Image dialog in the LEOptical Marketing workspace. The file leoptical-logo-primary.png has been selected for upload. The Title field shows leoptical-logo-primary. A Save button appears at the bottom." />
+<Screenshot src="/img/building-leoptical-content-library/19-add-image-dialog.png" alt="The Add Image form in the CMS workspace showing Title, Alt Text, and Source fields with a drag-and-drop upload area." />
 
 Repeat for each product image provided in the course resources. Place each in the matching product subfamily folder under **Product Images**. The product images are named:
 
@@ -132,15 +130,15 @@ Repeat for each product image provided in the course resources. Place each in th
 
 After uploading, the Brand Assets > Logos folder should look like this:
 
-<ScreenshotPlaceholder alt="The Brand Assets folder in the LEOptical Marketing workspace showing two image assets: leoptical-logo-primary and leoptical-logo-white. Each shows a thumbnail preview and Published status." />
+<Screenshot src="/img/building-leoptical-content-library/01-brand-assets-logos.png" alt="The Brand Assets folder in the LEOptical Marketing workspace showing leoptical-logo-primary and leoptical-logo-white image assets with Published status." />
 
 ## Creating the LEOptical Brand
 
 A Brand object stores the visual identity defaults for the workspace. When set as the workspace default, every new asset starts with these settings applied. No manual color-picking or button styling needed for each new email or landing page.
 
-To create a Brand: navigate to the **LEOptical Marketing** workspace, click **Add > Brand**, and fill in the fields described below.
+To create a Brand: navigate to the **LEOptical Marketing** workspace, click **Add > Content**, select **Brand** from the content type picker, and fill in the fields described below.
 
-<ScreenshotPlaceholder alt="The Add dropdown menu in the LEOptical Marketing workspace with the cursor hovering over Brand. Other options in the menu include Email, Content Block: Email, Landing Page, Form, SMS Message, Image, and Document." />
+<Screenshot src="/img/building-leoptical-content-library/18-add-content-type-picker.png" alt="The Create CMS content dialog showing all available content types including Audio, Brand, Content Block: Email, Document, Email, Form, Image, Landing Page, SMS and MMS, and more." />
 
 ### LEOptical Brand configuration
 
@@ -152,23 +150,21 @@ Configure the LEOptical Brand with these exact values:
 
 | Field | Value | Notes |
 |-------|-------|-------|
-| Primary color | `#11284f` | LEOptical navy (primary buttons, headings, key UI elements) |
-| Secondary color | `#5f8ec7` | Accent blue (links and secondary actions) |
-| Background color | `#ffffff` | White (standard email background) |
-| Surface color | `#f7fafc` | Cream (card backgrounds and section dividers) |
-| Text color | `#1e2a35` | Ink (body copy) |
-| Muted text color | `#617084` | Muted (secondary text, captions, footnotes) |
-
-{/* VERIFY: Confirm which color fields are actually present in the MCA Brand editor. The field labels above are inferred from the platform's brand configuration. Confirm the exact field names and whether all six color fields exist, or whether only primary and background colors are configurable. */}
+| Accent | `#11284f` | LEOptical navy (primary buttons, headings, key UI elements) |
+| Accent Contrast | `#ffffff` | White (text on accent-colored elements) |
+| Background | `#ffffff` | White (standard email background) |
+| Text | `#1e2a35` | Ink (body copy) |
+| Border | `rgba(17, 40, 79, 0.12)` | Subtle navy-tinted border |
 
 **Typography:**
 
 | Field | Value |
 |-------|-------|
-| Heading font | Palatino, Georgia, serif (Iowan Old Style is the primary brand font, not a web-safe fallback. Georgia is the web-safe substitute.) |
-| Body font | "Segoe UI", "Helvetica Neue", sans-serif |
+| Base Font Family | Trebuchet MS |
+| Heading 1 | Georgia |
+| Heading 2 | Georgia |
 
-{/* VERIFY: Confirm whether the MCA Brand editor allows custom font family strings, or whether it is limited to a dropdown of web-safe fonts or Google Fonts. If custom strings are not supported, use Georgia for headings and Helvetica Neue for body. */}
+The Brand editor uses a **Base Font Family** dropdown limited to web-safe fonts (Arial, Georgia, Trebuchet MS, Verdana, and others). Custom font family strings are not supported. Per-style overrides are available for H1 through H6, paragraph, button, input, and label.
 
 **Button style:**
 
@@ -179,7 +175,7 @@ Configure the LEOptical Brand with these exact values:
 | Button border radius | 30px (fully rounded, pill shape matching LEOptical's web presence) |
 | Button style | Filled |
 
-<ScreenshotPlaceholder alt="The Brand editor for a new Brand asset named LEOptical. The Colors section shows Primary Color set to #11284f and Background Color set to #ffffff. The Button section shows a filled pill-style button with navy background and white text. A preview of the button appears on the right." />
+<Screenshot src="/img/building-leoptical-content-library/02-brand-editor-buttons.png" alt="The Brand editor for LEOptical showing the Buttons section configured with a filled pill-style button using navy background and white text." />
 
 After filling in all fields, click **Save**. The Brand appears in the workspace root. Move it to **Brand Assets** via **Manage > Move** so it sits alongside the logo images.
 
@@ -192,9 +188,7 @@ After saving the Brand, set it as the workspace default so all new assets inheri
 3. Select the LEOptical Brand you just created.
 4. Save.
 
-{/* VERIFY: Confirm the exact navigation path for setting a Brand as the workspace default. Is it under Settings > Brand, or is there a "Set as Default" button on the Brand asset detail page itself? Confirm in a live SDO. */}
-
-<ScreenshotPlaceholder alt="The LEOptical Marketing workspace settings panel showing a Brand section. The LEOptical brand is selected as the Default Brand for this workspace. A Save button appears at the bottom of the settings panel." />
+<Screenshot src="/img/building-leoptical-content-library/05-brand-default-setting.png" alt="The Default Brand dialog with LEOptical selected as the workspace default Brand." />
 
 After setting the default Brand, all new emails and landing pages you create in this workspace will inherit these settings automatically. Existing assets are not retroactively updated.
 
@@ -217,11 +211,11 @@ If you click **Convert to Section** on a content block inside an email, the live
 
 ## Building the six content blocks
 
-You need to create six content blocks for LEOptical. Create each one by navigating to **MCA App > Content > LEOptical Marketing workspace > Add > Content Block: Email**, then building with the drag-and-drop editor.
+You need to create six content blocks for LEOptical. Create each one by navigating to **MCA App > Content > LEOptical Marketing workspace > Add > Content**, selecting **Content Block: Email** from the content type picker, then building with the drag-and-drop editor.
 
 After creating each block, move it to the appropriate folder under **Email Content Blocks**.
 
-<ScreenshotPlaceholder alt="A new Content Block: Email canvas open in the MCA email builder. The canvas is empty with a placeholder prompting you to drag components. The left panel shows the Components Panel with Basics, Layout, and Media tabs. A Title field at the top shows the block name being edited." />
+<Screenshot src="/img/building-leoptical-content-library/07-content-block-editor-empty.png" alt="A new Content Block: Email canvas in the MCA builder. The canvas is empty with a prompt to add components. The Components Panel on the left shows Basics, Layout, and Media categories." />
 
 ### LEO-Header-Standard
 
@@ -237,11 +231,11 @@ This block goes at the top of every promotional email.
    `Eye Exams  |  Lenses  |  Contacts  |  Frames  |  VisionCare Rewards`
    Set font color to `#dbe7f4` (accent soft, readable against navy without being pure white).
 
-{/* VERIFY: Confirm whether navigation links in a content block are standard text/paragraph components, or whether there is a dedicated navigation component in the email builder. Also confirm whether inline-linked text in a content block retains link styling when the block is placed into an email. */}
+{/* VERIFY: Confirm whether inline-linked text in a content block retains link styling when the block is placed into an email. */}
 
 Name the block `LEO-Header-Standard`. After saving, move it to **Email Content Blocks > Headers**.
 
-<ScreenshotPlaceholder alt="The LEO-Header-Standard content block on the email canvas. A dark navy section fills the full width. The white LEOptical logo appears on the left. Below it, navigation link text reads Eye Exams, Lenses, Contacts, Frames, VisionCare Rewards in a light blue-grey color." />
+<Screenshot src="/img/building-leoptical-content-library/08-header-block-published.png" alt="The LEO-Header-Standard content block after publishing, showing the block editor with a Published status toast." />
 
 ### LEO-Footer-Standard
 
@@ -285,7 +279,7 @@ Set all paragraph font sizes to 12px, font color to `#617084` (LEOptical muted).
 
 Name the block `LEO-Footer-Standard`. After saving, move it to **Email Content Blocks > Footers**.
 
-<ScreenshotPlaceholder alt="The LEO-Footer-Standard content block on the email canvas. A light cream section with a subtle top divider line. Small grey text reads that the recipient opted in to LEOptical marketing communications, followed by an Unsubscribe link. Below that is the org address merge field. A bottom line shows the Privacy Policy link and copyright notice." />
+<Screenshot src="/img/building-leoptical-content-library/09-footer-block-saved.png" alt="The LEO-Footer-Standard content block editor after saving, showing the divider and footer text components on the canvas." />
 
 ### Four product blocks
 
@@ -314,11 +308,11 @@ Create one content block per product family. Each block has the same structure.
 
 Move all four blocks to **Email Content Blocks > Product Blocks** after saving.
 
-<ScreenshotPlaceholder alt="The LEO-Product-VisionaireUltraLux content block on the email canvas. A white section contains a product image at the top, followed by the heading Visionaire UltraLux in dark navy text, a two-line product description in dark ink, and a pill-shaped navy Shop Now button." />
+<Screenshot src="/img/building-leoptical-content-library/10-product-block-ultralux.png" alt="The LEO-Product-VisionaireUltraLux content block on the canvas showing a heading and product description." />
 
 After creating all four, the Product Blocks folder should look like this:
 
-<ScreenshotPlaceholder alt="The Email Content Blocks > Product Blocks folder in the LEOptical Marketing workspace showing four content block assets: LEO-Product-VisionaireUltraLux, LEO-Product-VisionaireChromaShift, LEO-Product-SeeClearDailyFocus, and LEO-Product-SeeClearSunSync. All four show Published status." />
+<Screenshot src="/img/building-leoptical-content-library/11-product-blocks-folder.png" alt="The Product Blocks folder in the LEOptical Marketing workspace showing all four product content blocks with Published status." />
 
 ## Publishing the content blocks
 
@@ -339,21 +333,19 @@ Publish all six blocks:
 - `LEO-Product-SeeClearDailyFocus`
 - `LEO-Product-SeeClearSunSync`
 
-<ScreenshotPlaceholder alt="The LEO-Header-Standard content block detail view. The Publish button is highlighted in the top-right action bar. The current status shows Draft. A dropdown next to Publish shows Publish and Schedule options." />
+<Screenshot src="/img/building-leoptical-content-library/20-block-detail-published.png" alt="The LEO-Header-Standard content block detail page showing Published status, with the Edit button and actions menu visible." />
 
 ## Verifying content blocks in the email builder
 
 After publishing the blocks, confirm they are accessible from the email builder:
 
-1. From the LEOptical Marketing workspace, click **Add > Email** to create a test email. (You can delete it after this step. This is only a verification.)
-2. Open the email builder.
-3. In the Components Panel on the left, click the **Layout** tab.
-4. Drag a **Content Block** component onto the canvas.
-5. A picker appears. Verify that your six LEOptical blocks appear in the list.
+1. From the LEOptical Marketing workspace, click **Add > Email** to create a test email. (You can navigate away without saving after this step. This is only a verification.)
+2. In the email builder's Components Panel on the left, expand the **Layout** group.
+3. Drag the **Content Block** component onto the canvas.
+4. In the right-side property panel, click **Select Block**.
+5. A **Select content block** dialog appears. Navigate into the Email Content Blocks folder and its subfolders to verify that all six LEOptical blocks appear with Published status.
 
-{/* VERIFY: Confirm the exact location and label of the content block picker in the email builder UI. Is it a modal dialog, a side panel, or an inline dropdown? Confirm in a live SDO. */}
-
-<ScreenshotPlaceholder alt="The Content Block picker modal showing a list of available content blocks from the LEOptical Marketing workspace. The six LEOptical blocks are listed: LEO-Header-Standard, LEO-Footer-Standard, LEO-Product-VisionaireUltraLux, LEO-Product-VisionaireChromaShift, LEO-Product-SeeClearDailyFocus, and LEO-Product-SeeClearSunSync." />
+<Screenshot src="/img/building-leoptical-content-library/12-content-block-picker.png" alt="The Select content block dialog in the email builder, showing the Email Content Blocks folder structure with Headers, Footers, and Product Blocks subfolders available for selection." />
 
 If your blocks do not appear, the most common cause is that they were not published. Return to the workspace, confirm each block shows **Published** status, and try again.
 
@@ -380,7 +372,7 @@ If your blocks do not appear, the most common cause is that they were not publis
    - Accent/secondary color: `#5f8ec7`
    - Background: `#ffffff`
    - Button style: filled, pill shape (`30px` border radius), navy background, white text
-   - Typography: Georgia, serif for headings. Segoe UI / Helvetica Neue, sans-serif for body.
+   - Typography: Base Font Family = Trebuchet MS. H1/H2 overrides = Georgia.
 
    Set it as the default Brand for the LEOptical Marketing workspace.
 
