@@ -54,6 +54,15 @@ This is a step many people miss. Clicking the graph's name in the list view open
 
 The graph editor opens with the left panel showing the current DMO tree and the right panel showing fields for whatever object is selected.
 
+## Adding Loyalty Tier to Unified Individual
+
+Before adding child DMOs, select a field on the Unified Individual node itself. In the <ModuleLink slug="ingesting-external-data" /> module, you mapped the `tier` CSV column to a custom Loyalty Tier field on Individual. After Identity Resolution runs, that field carries through to Unified Individual. Adding it to the Data Graph here makes it a **Primary Object** field in the merge field picker, which means you can reference it directly in emails without traversing to a related object.
+
+1. In the left panel, click **Unified Individual** (the root node).
+2. In the right panel field list, find and check **Loyalty Tier**.
+
+<Screenshot src="/img/data-graphs/unified-individual-loyalty-tier.png" alt="Data Graph editor showing Unified Individual selected in the left panel, with the right panel field list showing Loyalty Tier checked along with Unified Individual Id, First Name, and Last Name." />
+
 ## Adding the LEOptical DMOs
 
 You will add four LEOptical-specific DMOs: Loyalty Program Member, Sales Order, Sales Order Product, and Product.
@@ -233,7 +242,7 @@ If the Data Graph appears in the Data Sources tab, the configuration is complete
 4. Navigate to a Unified Individual profile in Data 360 and confirm that related DMO data is visible. Check that a protagonist contact shows loyalty tier and recent order data if they have records in those DMOs.
 5. Write down your answers to these questions (you will not submit them, but you will need them for the Personalization module):
    - What is the `ssot__` field name for First Name on the Unified Individual?
-   - How would you access the Loyalty Tier field in a Handlebars expression?
+   - Loyalty Tier is now a direct field on Unified Individual. How does that change where you find it in the merge field picker compared to a field on Loyalty Program Member?
    - If a contact has no orders, what will a Handlebars expression referencing `Order Start Date` return?
 6. **(Stretch)** If you completed the clinic data stretch goal in <ModuleLink slug="ingesting-external-data" />, add the Eye Exam DMOs to your Data Graph. The clinic data model has two custom DMOs: one for clinic patient records (which maps to Individual) and one for Eye Exam records (which relates to Individual via the patient ID). Using the same pattern you followed for Loyalty Program Member and Sales Order, add the Eye Exam DMO as a child of Individual. Include at minimum these fields: `Exam Date`, `Exam Type`, and `Provider`. You will not get step-by-step screenshots for this one. Use what you learned above.
 
@@ -241,6 +250,7 @@ If the Data Graph appears in the Data Sources tab, the configuration is complete
 
 - [ ] The Data Graph named **Marketing Content Personalization** shows **Active** status in the Data Graphs list view.
 - [ ] The Last Refreshed On timestamp reflects a completed build (not still building).
+- [ ] Loyalty Tier is selected as a field on the Unified Individual node in the graph.
 - [ ] The graph structure includes Loyalty Program Member, Sales Order, Sales Order Product, and Product under Individual.
 - [ ] **Configure Basic Personalization** in Salesforce Setup points to **Marketing Content Personalization**.
 - [ ] The email builder Data Sources tab shows the Data Graph with a Default badge.

@@ -142,8 +142,13 @@ Click **Select Objects**, then search for **Individual** and select it.
 | `last_name` | Last Name |
 | `join_date` | Created Date |
 | `email_optin` | Email Opt-In |
+| `tier` | Loyalty Tier |
 
-<Screenshot src="/img/ingesting-external-data/03-loyalty-individual-mapping.png" alt="Loyalty_Members Mappings canvas with 9 fields mapped. Contact Point Email DMO shows Contact Point Email Id (Primary Key), Created Date, Email Address, and Party mapped. Individual DMO shows Created Date, Email Opt-In (Custom), First Name, Individual Id (Primary Key), and Last Name mapped." />
+The first five fields map to existing standard or custom fields on Individual. For `tier`, you need to create a new custom field: click **Add New Field** in the Unmapped section of the Individual DMO, set the Field Label to `Loyalty Tier`, the Data Type to `Text`, and save. Then map the `tier` DLO field to it.
+
+Mapping loyalty tier to Individual (in addition to Loyalty Program Member, which you will do in Step 5) gives IDR a single reconciled value on Unified Individual. Without this, accessing loyalty tier in an email would require traversing through Unified Link Individual to Individual to Loyalty Program Member, which can produce multiple values when a Unified Individual has matched records from multiple source systems.
+
+<Screenshot src="/img/ingesting-external-data/03-loyalty-individual-mapping.png" alt="Loyalty_Members Mappings canvas showing the Individual DMO with six mapped fields: Created Date, Email Opt-In (Custom), First Name, Individual Id (Primary Key), Last Name, and Loyalty Tier (Custom). Contact Point Email and Loyalty Program Member sections are also visible." />
 
 :::warning
 `loyalty_member_id` maps to **Individual Id** here, not to a custom field. This makes the loyalty member ID the primary key for these Individual records. Data 360 uses this to distinguish loyalty-sourced Individuals from CRM-sourced Individuals. When identity resolution runs later, it merges both into a Unified Individual based on matching email and name, not on matching IDs.
@@ -188,7 +193,7 @@ Click **Select Objects**, then search for **Individual** and select it.
 
 For the **Name** field on Loyalty Program Member, the DMO expects a single combined field but your CSV has separate `first_name` and `last_name` columns. Map `first_name` for now. You can concatenate in a formula field later if needed, or leave Name partially populated. It does not affect segmentation.
 
-19. The remaining CSV columns (`tier`, `points`, `email`, `phone`) do not exist as fields on the standard Loyalty Program Member DMO. You need to add them as custom fields. `email_optin` is mapped to Individual instead. That is where consent signals belong for identity resolution.
+19. The remaining CSV columns (`points`, `email`, `phone`) do not exist as fields on the standard Loyalty Program Member DMO. You need to add them as custom fields. `tier` is also added here as a custom field on LPM, even though you already mapped it to Individual in Step 3. The Individual mapping gives you a reconciled loyalty tier on Unified Individual for email personalization. The LPM mapping keeps the full loyalty profile intact for segmentation and reporting.
 
     Click **Add Field** or the custom field option in the Loyalty Program Member mapping section.
 
@@ -672,7 +677,8 @@ Complete each step below. The required steps must be done before identity resolu
 ## Success Criteria
 
 - [ ] Five data streams are created and in Active status: Loyalty_Members, Ecommerce_Customers, Product, Ecom_Orders, Ecom_Order_Items
-- [ ] Loyalty data is mapped to Individual (5 fields including Email Opt-In and Created Date), Contact Point Email (4 fields including Contact Point Email Id and Party Id), and Loyalty Program Member (standard fields + 4 custom fields)
+- [ ] Loyalty data is mapped to Individual (6 fields including Email Opt-In, Created Date, and Loyalty Tier), Contact Point Email (4 fields including Contact Point Email Id and Party Id), and Loyalty Program Member (standard fields + 4 custom fields)
+- [ ] Individual has a custom Loyalty Tier field mapped from the `tier` CSV column
 - [ ] Loyalty Program Member has four custom fields: Loyalty Tier, Points Balance, Email Address, Phone
 - [ ] Ecommerce_Customers is mapped to Individual (5 fields including Email Opt-In and Created Date) and Contact Point Email (4 fields including Contact Point Email Id and Party Id)
 - [ ] Product data stream maps only ProductCode, Name, Family, and Description to the Product DMO
