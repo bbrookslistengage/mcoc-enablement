@@ -47,8 +47,20 @@ Agents (dispatched by the commands, not invoked directly):
 **Screenshot component:** `src/components/Screenshot.tsx` is globally registered via `src/theme/MDXComponents.tsx`. Use it in any `.md` or `.mdx` file without importing:
 ```mdx
 <Screenshot src="/img/{module-slug}/{filename}.png" alt="..." caption="Optional caption" />
+<Screenshot src="/img/{module-slug}/{filename}.png" alt="..." size="wide" />
+<Screenshot src="/img/{module-slug}/{filename}.png" alt="..." size="narrow" />
 ```
-Screenshots live in `static/img/{module-slug}/`, named `{module-number}-{description}.png`. The component renders with a rounded border, shadow, and optional italic caption.
+Screenshots live in `static/img/{module-slug}/`, named `{module-number}-{description}.png`. The component renders with a rounded border, shadow, and optional italic caption. The `size` prop controls max-width:
+- `full` (default) — 100% width. Use for full-page screenshots showing the complete Salesforce UI.
+- `wide` — 75% width. Use for panels, settings sections, or editor views that don't need the full width.
+- `narrow` — 50% width. Use for modals, dialogs, small pickers, and confirmation popups.
+
+`ScreenshotPlaceholder` supports the same `size` prop. Choose the size based on what the screenshot shows, not the image file dimensions.
+
+**CopyText component:** `src/components/CopyText.tsx` is globally registered via `src/theme/MDXComponents.tsx`. Renders a visually distinct block (sunken background, border, copy icon) that copies its text content to the clipboard when clicked. Use it for values learners need to paste into the SDO (brand descriptions, configuration text, code snippets that aren't actual code):
+```mdx
+<CopyText>Text the learner needs to paste into a field in the SDO.</CopyText>
+```
 
 **Module registry:** A Docusaurus plugin (`plugins/module-registry/`) scans all doc frontmatter at build time and generates a registry mapping slugs to titles and paths. The registry is exposed via `setGlobalData` and consumed by `<ModuleLink>` and `ProgressOverview` via `usePluginData('module-registry')`. Module titles come from frontmatter, part metadata from `_category_.json` — the registry is the derived single source of truth. When adding or renaming modules, just update the frontmatter title. The `ProgressOverview` on the course overview page dynamically builds from the registry — no hardcoded module list.
 

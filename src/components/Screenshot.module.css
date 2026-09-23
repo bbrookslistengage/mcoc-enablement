@@ -1,5 +1,6 @@
 .figure {
   margin: var(--space-stack-xl) 0;
+  text-align: center;
 }
 
 .frame {
@@ -9,6 +10,19 @@
   overflow: hidden;
   background: var(--color-surface-raised);
   line-height: 0;
+  display: inline-block;
+}
+
+.full .frame {
+  max-width: 100%;
+}
+
+.wide .frame {
+  max-width: 75%;
+}
+
+.narrow .frame {
+  max-width: 50%;
 }
 
 .image {
@@ -16,6 +30,7 @@
   height: auto;
   display: block;
 }
+
 
 .caption {
   margin-top: var(--space-stack-sm);

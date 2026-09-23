@@ -79,7 +79,9 @@ for file in "${FILES[@]}"; do
   content_no_comments=$(echo "$content" | strip_html_comments)
   # Strip bold UI labels (**...**) — Salesforce UI labels inside bold markers are exempt
   # from prose style rules (they may use banned words as product/feature names).
-  content_prose=$(echo "$content_no_comments" | sed 's/\*\*[^*]*\*\*//g')
+  # Also strip inline code (`...`) — merge field syntax like {!$organization.Address}
+  # contains ! which would false-positive on the exclamation mark rule.
+  content_prose=$(echo "$content_no_comments" | sed 's/\*\*[^*]*\*\*//g' | sed 's/`[^`]*`//g')
 
   # ─── Typographic ───────────────────────────────────
   check_pattern $'\xe2\x80\x94' "em dash" "error" "$file" "$content_prose"

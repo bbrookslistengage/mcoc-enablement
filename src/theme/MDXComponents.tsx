@@ -4,6 +4,7 @@ import Screenshot from '@site/src/components/Screenshot';
 import ScreenshotPlaceholder from '@site/src/components/ScreenshotPlaceholder';
 import ModuleLink from '@site/src/components/ModuleLink';
 import HandlebarsAnatomy from '@site/src/components/HandlebarsAnatomy';
+import CopyText from '@site/src/components/CopyText';
 
 export default {
   ...MDXComponents,
@@ -11,4 +12,5 @@ export default {
   ScreenshotPlaceholder,
   ModuleLink,
   HandlebarsAnatomy,
+  CopyText,
 };
