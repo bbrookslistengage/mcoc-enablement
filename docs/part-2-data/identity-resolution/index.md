@@ -270,7 +270,7 @@ Use this when one source is definitively the system of record for a specific fie
 - CRM is the system of record for the legal name and primary contact information.
 - The Loyalty Program Member DMO is the system of record for loyalty tier, points balance, and member status.
 
-Example configuration: For Individual Name, rank Contact > Loyalty. For Loyalty Tier, rank Loyalty Program Member DMO first.
+Example configuration: For Individual Name, rank Contact > Loyalty. For Loyalty Tier and Points Balance on Individual, rank Loyalty_Members DMO first.
 
 <Screenshot src="/img/configuring-idr/05-reconciliation-source-priority.png" alt="Edit Reconciliation Rule panel for the Title field showing Source Priority strategy. Source list shows Contact_Home ranked 1, Loyalty_Members ranked 2, Ecommerce_Customers ranked 3, Lead_Home ranked 4, Marketing Intelligence Profile ranked 5, and MobileAppMessagingV2 ranked 6." />
 

@@ -54,14 +54,14 @@ This is a step many people miss. Clicking the graph's name in the list view open
 
 The graph editor opens with the left panel showing the current DMO tree and the right panel showing fields for whatever object is selected.
 
-## Adding Loyalty Tier to Unified Individual
+## Adding Loyalty Tier and Points Balance to Unified Individual
 
-Before adding child DMOs, select a field on the Unified Individual node itself. In the <ModuleLink slug="ingesting-external-data" /> module, you mapped the `tier` CSV column to a custom Loyalty Tier field on Individual. After Identity Resolution runs, that field carries through to Unified Individual. Adding it to the Data Graph here makes it a **Primary Object** field in the merge field picker, which means you can reference it directly in emails without traversing to a related object.
+Before adding child DMOs, select fields on the Unified Individual node itself. In the <ModuleLink slug="ingesting-external-data" /> module, you mapped the `tier` CSV column to a custom Loyalty Tier field on Individual and the `points` CSV column to a custom Points Balance field on Individual. After Identity Resolution runs, both fields carry through to Unified Individual. Adding them to the Data Graph here makes them **Primary Object** fields in the merge field picker, which means you can reference them directly in emails without traversing to a related object.
 
 1. In the left panel, click **Unified Individual** (the root node).
-2. In the right panel field list, find and check **Loyalty Tier**.
+2. In the right panel field list, find and check **Loyalty Tier** and **Points Balance**.
 
-<Screenshot src="/img/data-graphs/unified-individual-loyalty-tier.png" alt="Data Graph editor showing Unified Individual selected in the left panel, with the right panel field list showing Loyalty Tier checked along with Unified Individual Id, First Name, and Last Name." />
+<Screenshot src="/img/data-graphs/unified-individual-loyalty-tier.png" alt="Data Graph editor showing Unified Individual selected in the left panel, with the right panel field list showing Loyalty Tier and Points Balance both checked along with Unified Individual Id, First Name, and Last Name." />
 
 ## Adding the LEOptical DMOs
 
@@ -156,7 +156,7 @@ If the structure matches, proceed to build.
 
 1. Click **Save and Build** in the top-right corner of the editor.
 
-<Screenshot src="/img/data-graphs/save-and-build.png" alt="Data Graph editor toolbar showing the Save and Build button highlighted in the top-right corner, with 15/25 objects selected and 19/200 non-key fields selected shown in the left panel header" caption="Click Save and Build when your DMO tree and field selections are complete." />
+<Screenshot src="/img/data-graphs/save-and-build.png" alt="Data Graph editor toolbar showing the Save and Build button highlighted in the top-right corner, with 15/25 objects selected and 25/200 non-key fields selected shown in the left panel header" caption="Click Save and Build when your DMO tree and field selections are complete." />
 
 2. A dialog appears asking you to set the refresh schedule. Leave it set to **Daily** and click **Save and Build** to confirm.
 
@@ -250,7 +250,7 @@ If the Data Graph appears in the Data Sources tab, the configuration is complete
 
 - [ ] The Data Graph named **Marketing Content Personalization** shows **Active** status in the Data Graphs list view.
 - [ ] The Last Refreshed On timestamp reflects a completed build (not still building).
-- [ ] Loyalty Tier is selected as a field on the Unified Individual node in the graph.
+- [ ] Loyalty Tier and Points Balance are selected as fields on the Unified Individual node in the graph.
 - [ ] The graph structure includes Loyalty Program Member, Sales Order, Sales Order Product, and Product under Individual.
 - [ ] **Configure Basic Personalization** in Salesforce Setup points to **Marketing Content Personalization**.
 - [ ] The email builder Data Sources tab shows the Data Graph with a Default badge.

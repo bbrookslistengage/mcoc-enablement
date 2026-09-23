@@ -167,7 +167,7 @@ For LEOptical, the Data Graph needs:
 
 | DMO | Why it is included |
 |-----|-------------------|
-| Unified Individual | Root DMO (required) |
+| Unified Individual | Root DMO (required). Loyalty Tier and Points Balance are included here as Primary Object fields promoted from Individual, accessible directly in the merge field picker without traversing to Loyalty Program Member. |
 | Unified Link Individual | Bridge to source Individual records |
 | Individual | Source record, required to reach Contact Point objects |
 | Contact Point Email | Required for email activation |

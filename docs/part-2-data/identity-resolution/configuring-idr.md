@@ -99,7 +99,7 @@ Using the data streams you configured in the previous modules, configure Identit
 
 2. Evaluate the default ruleset against LEOptical's data model. Write a short assessment (a few sentences is fine): what does it catch? What does it miss? Are the four default rules appropriate for LEOptical's data, or do you need to add or remove any?
 
-3. Review and configure reconciliation rules. Set object-level defaults and add field-level overrides where appropriate (consider: what is the system of record for name? For loyalty tier? For email?).
+3. Review and configure reconciliation rules. Set object-level defaults and add field-level overrides where appropriate (consider: what is the system of record for name? For loyalty tier and points balance? For email?).
 
 4. Publish the ruleset and trigger **Run Now**. Review the processing results: how many Unified Individuals were created? Does the match rate look reasonable?
 
