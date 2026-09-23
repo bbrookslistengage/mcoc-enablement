@@ -158,7 +158,7 @@ No loyalty, exam, or ecommerce fields on the CRM Contact. Those values live in t
 
 ### Individual (from loyalty.csv, ecom_customers.csv, clinic_patients.csv)
 
-Each Profile-category source maps its PK to Individual Id and its name fields to First Name / Last Name. The PK (`loyalty_member_id`, `ecom_customer_id`, or `patient_id`) becomes that source's Individual Id.
+Each Profile-category source maps its PK to Individual Id and its name fields to First Name / Last Name. The PK (`loyalty_member_id`, `ecom_customer_id`, or `patient_id`) becomes that source's Individual Id. The `loyalty.csv` source maps two additional custom fields on Individual: `tier` → Loyalty Tier (Text) and `points` → Points Balance (Number). Both are promoted directly to Unified Individual after IDR runs, making them Primary Object fields without requiring traversal through Loyalty Program Member.
 
 ### Contact Point Email (from loyalty.csv, ecom_customers.csv, clinic_patients.csv)
 

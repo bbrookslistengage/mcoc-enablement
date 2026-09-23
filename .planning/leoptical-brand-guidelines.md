@@ -278,7 +278,7 @@ Used when a primary button exists and a second action is needed at a different w
 |----------|-------|
 | Background | Transparent |
 | Text color | `#11284f` (Navy) |
-| Border | 1.5px solid `#11284f` |
+| Border | 0.15rem solid `#11284f` |
 | Font | Arial, Bold |
 | Font size | 15px |
 | Border radius | 30px (pill shape) |

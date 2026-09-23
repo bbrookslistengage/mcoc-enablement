@@ -23,12 +23,19 @@ Progressive email building. Each module introduces one concept and produces a bu
 
 | Position | Slug | Title | Key Concepts |
 |----------|------|-------|-------------|
-| 1 | salesforce-cms | Salesforce CMS & Content Management | CMS workspace, collections, content types, asset organization |
-| 2 | email-builder | The Email Builder | Drag-and-drop editor, all builder elements, sections, preview & test. Build Email 1 (simple promotional email) |
-| 3 | content-blocks | Content Blocks | Reusable content blocks, propagation behavior, converting to sections (stops propagating). Build Email 2 using content blocks |
-| 4 | email-templates | Email Templates | Templates as starting points (don't propagate), locked/editable regions, locking strategies, HTML paste email. Build 2-3 templates with different lock levels |
+| 1 | salesforce-cms | Salesforce CMS & Content Management | CMS workspace, content types, folders, channels, brands, contributor roles, approvals, asset organization. Hands-on: build LEOptical workspace folder structure, upload brand assets, configure full Brand object, set workspace default |
+| 2 | email-builder | The Email Builder | Thorough builder reference: every component (Basics/Layout/Media tabs), sections and columns, mobile responsiveness, images (CMS vs direct upload), style panel, data sources tab, merge fields (including AE artifact warnings), preview and test, email settings. HTML paste acknowledged but course focuses on drag-and-drop. Hands-on: build a promotional email using every element except Content Block, direct image upload, multi-column layout, data graph connection, merge fields, test send |
+| 3 | content-blocks | Content Blocks | Propagation behavior, converting to sections (breaks propagation), block vs section strategy. Hands-on Part 1 (guided): build header, footer, product card blocks. Hands-on Part 2 (independent assignment): build 3 structural blocks (hero, feature, CTA banner). Test propagation and section conversion |
+| 4 | email-templates | Email Templates | Templates as starting points (do NOT propagate), locked vs editable regions, 3 locking strategies. Hands-on: build Monthly Newsletter (editable body), Product Spotlight (locked layout, editable slots), Loyalty Tier Notification (fully locked). All use shared header/footer content blocks. Test locking with Content Creator role |
 
-**Narrative arc:** Raw email → reusable pieces → reusable starting points. Each layer adds a propagation rule.
+**Narrative arc:** Raw email → reusable pieces (propagate) → reusable starting points (don't propagate). Each layer adds a propagation rule.
+
+**Scope boundaries (locked decisions):**
+- Module 12 owns merge fields as a builder feature (insert one, understand the picker, know which fields are AE traps). Module 16 owns merge fields as a personalization strategy (content variables, dynamic variations, data graph access patterns).
+- Module 12 owns data sources at the "connect and see what's there" level. Module 16 teaches what to do with that data.
+- Locked/editable regions are taught in Module 14 (templates), not Module 12. Module 12 is about the builder tool, not governance.
+- HTML paste emails are mentioned conceptually in Module 12. No hands-on HTML paste build anywhere in Part 3.
+- Content Variables are NOT covered in Part 3. They belong in Module 16 (Merge Fields & Dynamic Content).
 
 ### Part 4: Dynamic Content & Personalization (was Module 14)
 

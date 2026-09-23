@@ -60,9 +60,9 @@ Written, reviewed, and verified against a live SDO.
 | 2 | 9 | Data Graphs (multi-subpage) | Restructured | - | Draft (4 VERIFY) | - | - |
 | 2 | 10 | Segmentation | Done | - | Draft (24 VERIFY) | - | - |
 | 3 | 11 | Salesforce CMS and Content Management (multi-subpage) | Done | - | Draft (10 VERIFY) | - | - |
-| 3 | 12 | The Email Builder (multi-subpage) | Needs update | - | - | - | - |
-| 3 | 13 | Content Blocks (multi-subpage) | - | - | - | - | - |
-| 3 | 14 | Email Templates (multi-subpage) | - | - | - | - | - |
+| 3 | 12 | The Email Builder (multi-subpage) | Done | - | Draft (7 VERIFY) | - | - |
+| 3 | 13 | Content Blocks (multi-subpage) | Done | - | Draft (12 VERIFY) | - | - |
+| 3 | 14 | Email Templates (multi-subpage) | Done | - | - | - | - |
 | 4 | 15 | Marketing Objects (multi-subpage) | - | - | - | - | - |
 | 4 | 16 | Merge Fields and Dynamic Content (multi-subpage) | - | - | - | - | - |
 | 4 | 17 | Handlebars Essentials (multi-subpage) | - | - | - | - | - |
@@ -103,6 +103,9 @@ Tracked here when they surface. Move to the relevant spec or module when resolve
 | Messaging Channels scope | SMS/WhatsApp deferred. Decide whether to include as conceptual or remove entirely | Not started |
 | Conversational Messaging scope | Depends on Messaging Channels. Same decision needed | Not started |
 | Campaigns in MCA feature scope | New module needs research: campaign workspace, metrics aggregation, Campaign Creation Agent | Not started |
+| Account Engagement merge fields in email builder | Which specific AE/Pardot fields appear in the merge field picker? They cause generic error at preview and block publishing. Need exact field names. | Not started |
+| Direct image upload in email builder | Does uploading an image directly in the builder add it to the CMS workspace? If so, which folder? | Not started |
+| Repeater component | What does the Repeater element do, how is it configured, when is it used? Needs thorough coverage for Module 12. | Not started |
 
 ## Decisions Log
 
@@ -136,3 +139,7 @@ Record significant decisions here so we do not revisit them.
 | 2026-08-12 | Email builder split into 3 modules (editor, content blocks, templates) | Each introduces one concept with its own propagation rule. Progressive complexity |
 | 2026-08-12 | Web connector added as multi-subpage module | Covers setup, consent banner, Data 360 integration, custom events, identity capture, and Interactions SDK |
 | 2026-08-12 | Campaigns and Analytics merged into Part 8 | Both about organizing and measuring marketing activity. Campaigns after flows means learners can link everything they have built |
+| 2026-08-28 | Part 3 module scope locked (12, 13, 14) | Module 12 owns builder tool + data sources + merge fields (introductory). Module 13 has guided brand blocks + independent structural blocks (hero, feature, CTA banner). Module 14 builds 3 templates with different locking strategies. HTML paste dropped from hands-on. Content variables deferred to Module 16. |
+| 2026-08-28 | Module 12 merge field scope: builder feature, not personalization strategy | Module 12 teaches how to insert a merge field and which AE fields break preview/publish. Module 16 teaches content variables, dynamic variations, and data graph access patterns. |
+| 2026-08-28 | Account Engagement merge field warning required in Module 12 | AE/Pardot fields appear in the merge field picker but cause generic error at preview and block publishing. Module 12 must name specific fields. Research needed before writing. |
+| 2026-08-28 | Content blocks assignment: 3 guided + 3 independent | Guided: header, footer, product card. Independent: hero block, feature block (2-col), CTA banner block. Structural blocks get converted to sections to demonstrate propagation breaking. |

@@ -338,79 +338,173 @@ Additionally, learn how to query segment members directly via the **Unified Indi
 
 ---
 
-### Module 12 — The Email Builder
+### Module 12 — The Email Builder (multi-subpage)
+
+Each subpage below is a separate file. The concept page (`index.md`) teaches the builder thoroughly. The hands-on page (`building-leoptical-emails.md`) has the learner build a complete email.
 
 > **The client wants:** The marketing team needs to understand exactly how the email builder works. This is the tool they'll live in every day.
 
-**Lesson Focus — Email Builder Mastery:**
+**Subpage 1 — The Email Builder (concept page, `index.md`):**
 
-This module goes deep on the email builder. Learners should feel very confident using it by the end. Cover:
+A thorough, reference-quality walkthrough of every aspect of the email builder. The learner should come out of this knowing the builder cold. Cover:
 
-- **All builder elements** — text, image, button, divider, HTML, dynamic content, etc.
-- **Data Sources tab** — how to connect data to an email, what data is available, how data sources relate to the Data Graph
-- **Content Variables** — what they are, how to create them, how to use them in email content and within flows
-- **HTML paste email** — how to create an email from pasted HTML code
-- **Locked vs. editable regions** — how to lock sections so marketers can't modify headers/footers/legal content
+- **Editor interface layout** — canvas, components panel, style panel, settings panel. What each area does.
+- **Every component in the Components Panel:**
+  - Basics tab: Heading, Paragraph, List, Button, Divider, HTML
+  - Layout tab: Section, Repeater (NOT Content Block — that is covered in the Content Blocks module)
+  - Media tab: Image
+  - For each element: what it does, configuration options, when to use it.
+- **Sections and columns** — creating columns, custom column layouts (1-col, 2-col, 3-col, custom splits), nesting sections. Cover the drag-and-drop mechanics of adding and rearranging components.
+- **Mobile responsiveness** — how the builder handles responsive behavior, column stacking on mobile, mobile preview mode, any mobile-specific options (hide on mobile, reordering).
+- **Images — two sources:**
+  - CMS workspace images (uploaded in the CMS module)
+  - Direct upload in the builder (research needed: confirm whether direct uploads get added to the CMS workspace automatically)
+- **Style panel** — how per-element styling works, how Brand defaults from the LEOptical Brand apply and can be overridden per-element.
+- **Data sources** — connecting the data graph to an email, what appears in the Data Sources tab, how org merge fields show up alongside data graph fields.
+- **Merge fields** — how to insert a merge field, the picker UI, what each category/group of fields represents. CRITICAL: explicitly identify which fields in the merge field picker are Account Engagement (Pardot) artifacts that will break the email. These fields appear as valid options but cause a generic error at preview and block publishing. The module must name the specific fields, not just warn vaguely. (Research needed: identify the exact Account Engagement fields in the merge field picker and document the error behavior.)
+- **Preview and test** — responsive preview (desktop/mobile toggle), sending test emails, previewing as a specific contact.
+- **Email settings** — subject line, preheader, sender info configuration.
+- **HTML paste emails** — acknowledged as an option. Brief explanation of when HTML paste is the right choice (migrating from another ESP, developer-built templates). This course focuses on drag-and-drop components.
+
+**Subpage 2 — Building LEOptical Emails (hands-on page, `building-leoptical-emails.md`):**
+
+> **The client wants:** A promotional email for LEOptical's upcoming campaign. The marketing team will use this as their first hands-on experience with the email builder.
+
+Build a single promotional email from scratch (seasonal sale, product launch, or similar LEOptical campaign). The email should look polished and on-brand.
 
 **Assignment:**
-- Build a scratch email using each major builder element type (text, image, button, divider, HTML block)
-- Explore the Data Sources tab: connect your Data Graph and review what data fields are available
-- Create at least 2 Content Variables in an email and understand how these get populated when the email is sent from a flow
-- Create an HTML paste email using a provided HTML snippet
-- Test the locked vs. editable region feature: lock a header section and verify a Content Creator role user cannot modify it
+1. Create a new email in the LEOptical Marketing workspace.
+2. Use every builder element at least once (Heading, Paragraph, List, Button, Divider, HTML, Section, Repeater, Image). Do NOT use a Content Block — that is the next module.
+3. Upload an image directly in the builder (not from CMS) to demonstrate both image workflows. Use a different product image than the ones uploaded in the CMS module. (Course resources will provide this image.)
+4. Create a multi-column layout (at least one 2-column section).
+5. Connect the LEOptical Data Graph as a data source.
+6. Insert 2-3 simple merge fields (e.g., first name, loyalty tier) to prove the mechanic works.
+7. Preview the email on both desktop and mobile.
+8. Send a test email to yourself.
 
 **Success Criteria:**
-- [ ] You've used every major builder element at least once
-- [ ] You've connected the Data Graph via the Data Sources tab and can navigate available fields
-- [ ] Content Variables are created and you understand how they connect to flows
-- [ ] HTML paste email is created from provided snippet
-- [ ] Locked region behavior is tested and understood
+- [ ] A promotional email exists in the LEOptical Marketing workspace.
+- [ ] Every builder element (except Content Block) has been used at least once.
+- [ ] The email includes at least one image uploaded directly in the builder (not from CMS).
+- [ ] The email has at least one multi-column section.
+- [ ] The LEOptical Data Graph is connected as a data source.
+- [ ] Merge fields are inserted and resolve correctly in preview.
+- [ ] The email previews correctly on both desktop and mobile.
+- [ ] A test email was sent and received successfully.
+
+**Research needed before writing:**
+1. **Account Engagement merge fields** — which specific fields in the merge field picker are AE/Pardot artifacts? What error appears at preview/publish? Name every field. If inconclusive from docs, verify in SDO.
+2. **Direct image upload behavior** — does uploading an image directly in the builder add it to the CMS workspace? If so, which folder?
+3. **Full builder component inventory** — confirm every element, every tab, every configuration option in a live SDO. The component list in the CMS module's "How CMS content surfaces in the email builder" section (Basics: Button, Divider, Heading, HTML, List, Paragraph; Layout: Section, Repeater, Content Block; Media: Image) should be verified as complete.
+4. **Repeater element** — what does it do, how is it configured, when is it used? This needs thorough coverage.
 
 ---
 
-### Module 13 — Content Blocks
+### Module 13 — Content Blocks (multi-subpage)
 
-> **The client wants:** (assignment not yet designed — pending research)
+Each subpage below is a separate file. The concept page (`index.md`) teaches content block concepts. The hands-on page (`building-leoptical-content-blocks.md`) has two parts: a guided walkthrough and an independent assignment.
 
-**Assignment:** TBD
+> **The client wants:** Reusable brand components (header, footer, product card) that stay consistent across every email, plus structural building blocks the team can use as starting points for common email layouts.
+
+**Subpage 1 — Content Blocks (concept page, `index.md`):**
+
+- What content blocks are and how they differ from regular email sections.
+- **Propagation behavior** — when you edit a content block, the change propagates to every email that uses it. This is the key concept. Explain it clearly with examples.
+- **Converting a content block to a section** — this breaks propagation. The section retains the layout and content but is now independent. Future edits to the original content block do not affect it.
+- When propagation helps (brand consistency, legal footer updates) and when it creates risk (accidentally changing all emails).
+- Strategies for deciding what should be a content block vs. a one-off section.
+- How content blocks relate to templates and the broader content workflow (content blocks propagate, templates do not — covered in the next module).
+
+**Subpage 2 — Building LEOptical Content Blocks (hands-on page, `building-leoptical-content-blocks.md`):**
+
+Two-part hands-on page.
+
+**Part 1 — Guided walkthrough: Brand component blocks**
+
+Build 3 brand component content blocks step-by-step alongside the lesson, with full instructions and screenshots:
+
+1. **Header block** — LEOptical logo (from CMS workspace) and navigation links. Uses the LEOptical Brand colors and typography.
+2. **Footer block** — legal disclaimer text, unsubscribe link, company address. Uses muted colors from the Brand.
+3. **Product Card block** — product image, product name, short description, and CTA button. Designed to be reused for any LEOptical product by swapping the content.
+
+Place each completed block in the appropriate subfolder under **Email Content Blocks** in the CMS workspace (Headers, Footers, Product Blocks folders created in the CMS module).
+
+**Part 2 — Independent assignment: Structural layout blocks**
+
+Build 3 structural content blocks independently. These represent common email design patterns. Guardrails are provided (block type, purpose, layout description, which builder elements to use) but NOT step-by-step instructions. The learner designs the visual details using the LEOptical Brand.
+
+These blocks are the ones the learner will later convert to sections to experience propagation breaking.
+
+1. **Hero block** — a full-width section with a large image, a headline (Heading Style 1), and a single CTA button. Used at the top of promotional emails to grab attention and communicate the core offer. Builder elements: Image, Heading, Button, Section.
+2. **Feature block** — a side-by-side layout with an image on one side and text (heading + paragraph + optional button) on the other. Used to highlight a product feature, a service benefit, or a content teaser. Builder elements: Section (2-column), Image, Heading, Paragraph, Button.
+3. **CTA banner block** — a full-width section with a colored background, a short line of text, and a prominent button. Used as a repeating call-to-action at the bottom of longer emails. Builder elements: Section (with background color), Paragraph, Button.
+
+After building the 3 structural blocks:
+- Edit one of the brand component blocks (e.g., change the footer legal text) and confirm the change appears in any email that uses it.
+- Convert one of the structural blocks to a section in an email and verify that future edits to the original block no longer affect that section.
+
+**Assignment:**
+1. Build the 3 brand component content blocks (header, footer, product card) following the guided walkthrough.
+2. Publish all 3 brand component blocks.
+3. Move them to the correct subfolders in the Email Content Blocks folder.
+4. Build the 3 structural content blocks (hero, feature, CTA banner) independently using the guardrails provided.
+5. Publish all 3 structural blocks.
+6. Create a test email that uses at least 2 of the content blocks.
+7. Edit the footer content block and verify the change propagates to the test email.
+8. Convert one structural block to a section in the test email. Edit the original block and confirm the change does NOT appear in the converted section.
+
+**Success Criteria:**
+- [ ] 3 brand component content blocks exist (header, footer, product card), all Published.
+- [ ] Brand component blocks are organized in the correct Email Content Blocks subfolders.
+- [ ] 3 structural content blocks exist (hero, feature, CTA banner), all Published.
+- [ ] A test email uses at least 2 content blocks.
+- [ ] Editing a content block propagates the change to the test email.
+- [ ] Converting a block to a section stops propagation — editing the original block does not affect the converted section.
 
 ---
 
-### Module 14 — Email Templates
+### Module 14 — Email Templates (multi-subpage)
 
-> **The client wants:** Three email templates for their marketing team to use as starting points for campaigns.
+Each subpage below is a separate file. The concept page (`index.md`) teaches template concepts. The hands-on page (`building-leoptical-templates.md`) builds 3 templates with different locking strategies.
 
-> **Note:** Template-related assignment content from the old Module 13 (Email Builder Deep Dive) should be moved here. The three templates (Monthly Newsletter, Product Spotlight, Loyalty Tier Notification) and the HTML paste email belong in this module.
+> **The client wants:** Three email templates for their marketing team to use as starting points for campaigns. Each template should enforce different levels of control over what marketers can change.
 
-**Lesson Focus:**
+**Subpage 1 — Email Templates (concept page, `index.md`):**
 
-- **Content Blocks vs. Sections:**
-  - A Content Block is a reusable component. When you update a Content Block, the change propagates to ALL emails and templates that use it
-  - You can convert a Content Block to a Section to keep its structure but make the content independently editable. Once converted, updates to the original Content Block no longer affect that section
-- **Template behavior:** Template updates do NOT propagate to emails that already use the template. The template is a starting point, not a live link
-- **Locked vs. editable regions** — how to design templates for different marketer skill levels
+- How templates work as reusable starting points for new emails.
+- **Templates do NOT propagate.** When you create an email from a template, the email is a copy. Editing the template later does not update existing emails created from it. This is the opposite of content blocks. The Part 3 narrative arc: raw email (Module 12) → content blocks propagate (Module 13) → templates do NOT propagate (Module 14).
+- **Locked vs. editable regions** — how to lock sections so marketers cannot modify headers, footers, or layout structure. Editable regions are the areas marketers can change.
+- **Locking strategies:**
+  - Fully editable body (locked header/footer only) — for newsletters where the content changes every send
+  - Locked layout with editable content slots — for structured campaigns where the layout must stay consistent
+  - Fully locked — for automated/transactional emails where content is driven entirely by personalization
+- Planning template architecture for a multi-email program.
+- **HTML paste emails** — acknowledged conceptually. Brief mention that templates can also be created from pasted HTML. This course focuses on drag-and-drop templates.
+
+**Subpage 2 — Building LEOptical Templates (hands-on page, `building-leoptical-templates.md`):**
+
+Build 3 email templates, each demonstrating a different locking strategy. All 3 use the header and footer content blocks built in the Content Blocks module.
+
+1. **"Monthly Newsletter"** — Locked header (logo + nav via header content block) and footer (legal + unsubscribe via footer content block). The entire body section is an editable region. Marketers can add whatever content they want between the header and footer.
+2. **"Product Spotlight"** — Locked header, footer, AND layout structure (hero image slot, two-column feature section, CTA button). Marketers can only swap content within the predefined editable areas — they cannot change the layout itself.
+3. **"Loyalty Tier Notification"** — Fully locked template. No editable regions. Content will be driven entirely by personalization (Handlebars merge fields, covered in Part 4).
 
 **Assignment:**
-Build three email templates:
-
-1. **"Monthly Newsletter"** — Locked header (logo + nav) and footer (legal + unsubscribe). The entire body section is an editable region — marketers can add whatever content they want.
-2. **"Product Spotlight"** — Locked header, footer, AND layout structure (hero image slot, two-column feature grid, CTA button). Marketers can only swap content within predefined blocks — they can't change the layout.
-3. **"Loyalty Tier Notification"** — Fully locked template. No editable regions. Content will be driven entirely by personalization (covered in Part 4).
-
-Additionally:
-- Create a Content Block for the LEOptical header and use it across all three templates
-- Create a Content Block for the LEOptical footer (legal + unsubscribe) and use it across all three templates
-- Explore: convert the header Content Block to a Section in one template and observe that future header block updates no longer affect that template
+1. Build the Monthly Newsletter template. Lock the header and footer. Leave the body fully editable.
+2. Build the Product Spotlight template. Lock the header, footer, and layout structure. Mark specific content areas (image, text, button label) as editable.
+3. Build the Loyalty Tier Notification template. Lock everything.
+4. Use the header and footer content blocks from the Content Blocks module in all 3 templates.
+5. Test each template: create a new email from the template and confirm which regions are editable and which are locked.
+6. Verify that a Content Creator role user (configured in the Business Units & Governance module) can edit Template A's body but cannot modify the locked header/footer.
 
 **Success Criteria:**
-- [ ] Three templates created with consistent header/footer via Content Blocks
-- [ ] Header and footer are locked in all three templates
-- [ ] Template A (Newsletter) has a fully editable body region
-- [ ] Template B (Product Spotlight) has editable content within a locked layout
-- [ ] Template C (Loyalty Tier Notification) has no editable regions
-- [ ] You understand the difference between Content Blocks and Sections
-- [ ] You can explain that Content Block updates propagate but template updates do not
-- [ ] A Content Creator role user (from the Business Units & Governance module) can edit Template A's body but cannot modify the header/footer
+- [ ] 3 email templates exist in the LEOptical Marketing workspace.
+- [ ] All 3 templates use the shared header and footer content blocks.
+- [ ] Monthly Newsletter has a fully editable body with locked header/footer.
+- [ ] Product Spotlight has editable content areas within a locked layout.
+- [ ] Loyalty Tier Notification is fully locked with no editable regions.
+- [ ] Creating an email from each template confirms the correct locking behavior.
+- [ ] A Content Creator role user can edit the Newsletter body but cannot modify the header/footer.
 
 ---
 
@@ -430,7 +524,7 @@ Additionally:
 
 **Assignment:** TBD
 
-> **Note:** The no-code personalization content from the old Module 14 (data sources tab, content variables, dynamic variations) belongs here.
+> **Note:** This module owns merge fields as a personalization strategy. Module 12 (The Email Builder) introduces merge fields as a builder feature (how to insert one, what the picker looks like, which AE fields to avoid). This module goes deeper: content variables, dynamic variations, accessing nested data graph attributes, the no-code personalization interface. The Data Sources tab is introduced in Module 12 (connect and see what's there); this module teaches what to do with that data.
 
 ---
 
