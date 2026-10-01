@@ -235,9 +235,16 @@ Templates live in the CMS workspace and can be organized into folders. They can 
 
 An approval workflow can be configured for templates before they are published, managed through workspace settings. For LEOptical, this means a Marketing Cloud Admin reviews and approves new templates before they become available to the marketing team.
 
-Permission to create and publish templates requires CMS workspace access. The Content Creator persona defined in the Business Units and Governance module needs appropriate CMS permissions to build templates.
+Two separate controls decide who can work with templates. The first is the user's permission set. The second is their CMS workspace contributor role. A user needs both.
 
-{/* TODO: Confirm the exact permission set name required for template creation vs. template use in a live SDO. */}
+| Task | Permission set | CMS workspace role |
+|------|----------------|--------------------|
+| Create or edit a template | Marketing Cloud Manager | Any contributor role (Content Author or higher) |
+| Publish or unpublish a template | Marketing Cloud Manager | Content Manager or Content Admin |
+
+Creating an email from a template is also a content creation task, so it has the same requirements as creating the template. Salesforce does not document a separate permission for using a template versus building one. The difference is the contributor role. A Content Author can build and edit templates but cannot publish them, which matters because draft templates are hidden from the picker. For the permission set and role setup, see <ModuleLink slug="permission-sets" /> and <ModuleLink slug="cms-workspaces" />.
+
+{/* VERIFY: Requirements sourced from Salesforce Help search summaries (User Permissions in Marketing Cloud Next, Organize and Share Content in a Marketing Workspace). The Help pages did not load in full. Confirm the Manager plus contributor role pairing, and that no separate template-use permission exists, in a live SDO with a restricted test user. */}
 
 ## Knowledge check
 

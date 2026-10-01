@@ -62,7 +62,7 @@ Written, reviewed, and verified against a live SDO.
 | 3 | 11 | Salesforce CMS and Content Management (multi-subpage) | Done | - | Draft (10 VERIFY) | - | - |
 | 3 | 12 | The Email Builder (multi-subpage) | Done | - | Draft (7 VERIFY) | - | - |
 | 3 | 13 | Content Blocks (multi-subpage) | Done | - | Draft (12 VERIFY) | - | - |
-| 3 | 14 | Email Templates (multi-subpage) | Done | - | Build page done (VERIFY comments resolved). Template 3 uses Data Graph merge fields, confirmed via Preview 2026-10-01. `index.md` still has 4 ScreenshotPlaceholders and 1 TODO (permission set name for template creation vs. use) | Partial (build page: 38 screenshots. `index.md`: 4 placeholders open) | - |
+| 3 | 14 | Email Templates (multi-subpage) | Done | - | Build page done (VERIFY comments resolved). Template 3 uses Data Graph merge fields, confirmed via Preview 2026-10-01. `index.md` still has 4 ScreenshotPlaceholders and 1 VERIFY (permission requirements for templates, sourced from Help search summaries, not tested with a restricted user) | Partial (build page: 38 screenshots. `index.md`: 4 placeholders open) | - |
 | 4 | 15 | Marketing Objects (multi-subpage) | - | - | - | - | - |
 | 4 | 16 | Merge Fields and Dynamic Content (multi-subpage) | - | - | - | - | - |
 | 4 | 17 | Handlebars Essentials (multi-subpage) | - | - | - | - | - |
