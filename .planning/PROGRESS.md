@@ -62,7 +62,7 @@ Written, reviewed, and verified against a live SDO.
 | 3 | 11 | Salesforce CMS and Content Management (multi-subpage) | Done | - | Draft (10 VERIFY) | - | - |
 | 3 | 12 | The Email Builder (multi-subpage) | Done | - | Draft (7 VERIFY) | - | - |
 | 3 | 13 | Content Blocks (multi-subpage) | Done | - | Draft (12 VERIFY) | - | - |
-| 3 | 14 | Email Templates (multi-subpage) | Done | - | - | - | - |
+| 3 | 14 | Email Templates (multi-subpage) | Done | - | Screenshots done (34 screenshots, VERIFY comments resolved) | Done | - |
 | 4 | 15 | Marketing Objects (multi-subpage) | - | - | - | - | - |
 | 4 | 16 | Merge Fields and Dynamic Content (multi-subpage) | - | - | - | - | - |
 | 4 | 17 | Handlebars Essentials (multi-subpage) | - | - | - | - | - |

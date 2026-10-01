@@ -110,6 +110,40 @@ The Marketing Performance Intelligence analytics package (Tableau Next) must be 
 
 ---
 
+## Email Template Editor
+
+### Saving a template fails if subject line is locked and empty
+**Confirmed:** 2026-09-23
+**Release:** Summer '26 (SDO)
+
+If you attempt to save a template with the subject line locked but no value entered, the save fails with: "Email Template: Subject Line is required field in the actual content, it cannot be both locked and empty." You must either (1) enter a subject line value before saving, or (2) unlock the subject line. This applies at save time, not at publish time.
+
+---
+
+### Section settings panel throws module-not-found errors
+**Confirmed:** 2026-09-23
+**Release:** Summer '26 (SDO)
+
+When selecting a Section component in the template editor and clicking the Settings tab, the platform throws two consecutive JS errors: "Definition for module 'es_property_editors/sectionLayoutEditor' was not found" and "es_property_editors/sectionMobileLayoutEditor". The "Allow users to modify this section." toggle is still visible and functional, but the section layout and mobile layout editors fail to load. Learners will see a "Sorry to interrupt" error modal when they first select a Section. They can dismiss it and continue. The toggle itself still works.
+
+**Workaround:** Dismiss the error modal. The basic section unlock toggle is functional. Avoid clicking the section's layout configuration controls until the bug is fixed.
+
+---
+
+### Section unlock does NOT cascade to child components
+**Confirmed:** 2026-09-29
+**Release:** Summer '26 (SDO)
+
+Unlocking a Section in the template editor does not automatically unlock the child components inside it (Columns, Headings, Paragraphs, Images, Buttons). Each component has its own independent lock toggle in the Settings tab. The Section's toggle controls whether the section's structural layout (column count, spacing) is editable. Child component toggles control whether those specific components' content is editable. This means you can lock a section's layout while selectively unlocking individual child components — this is the mechanism for Strategy 2 (locked layout with editable content slots).
+
+### Content blocks inside templates retain live references
+**Confirmed:** 2026-09-29
+**Release:** Summer '26 (SDO)
+
+When an email is created from a template that contains a Content Block component, the email holds a live reference to the content block, not a copy. If the content block is later edited and republished, the change propagates to the email. The template's non-propagation rule applies only to the template's own components (sections, layout, text, images added directly to the template canvas). Content Block components are exempt — they always propagate.
+
+---
+
 ## Adding New Entries
 
 When you discover a gotcha:
