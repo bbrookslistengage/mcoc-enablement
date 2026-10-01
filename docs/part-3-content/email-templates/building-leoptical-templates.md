@@ -227,7 +227,7 @@ If the layout structure resists changes but the image, heading, paragraph, and b
 
 This template uses Strategy 3: fully locked. No editable regions anywhere in the email.
 
-This template uses real merge fields from the LEOptical Data Graph for the customer's first name, loyalty tier, and points balance. The Data Graph has no field for tier benefits, so that sentence uses static text. Part 4 covers merge fields in depth.
+It also uses real merge fields from the LEOptical Data Graph for the customer's first name, loyalty tier, and points balance. Part 4 covers merge fields in depth.
 
 ### Create the template
 
@@ -300,6 +300,10 @@ The platform will not save a template if the subject line is locked but empty. Y
 The email should behave as entirely static. All content is predetermined by the template.
 
 <Screenshot src="/img/building-leoptical-templates/32-t3-test-all-locked.png" alt="The Component Tree for an email created from the Loyalty Tier Notification template. Every component (Content Block, Section, Column, Heading, all three Paragraphs, Button, and the footer Content Block) shows a Locked badge. The subject line field is disabled." />
+
+21. In the email editor, click **Preview**. On the **Segment** tab, keep the segment, pick a sample recipient, and click **Generate Preview**. The merge fields resolve to that recipient's first name, loyalty tier, and points balance.
+
+<Screenshot src="/img/building-leoptical-templates/38-t3-preview-resolved-fields.png" alt="The Preview dialog for the Loyalty Tier Notification email with the VIP Customers segment and Corey Spears as the sample recipient. The rendered email reads: Hi Corey, Your tier is now Gold. You have 67767.0 points. As a Gold member, you unlock exclusive VisionCare Rewards benefits." size="wide" />
 
 ## Assignment
 
