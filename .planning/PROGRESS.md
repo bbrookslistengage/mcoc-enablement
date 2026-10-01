@@ -62,7 +62,7 @@ Written, reviewed, and verified against a live SDO.
 | 3 | 11 | Salesforce CMS and Content Management (multi-subpage) | Done | - | Draft (10 VERIFY) | - | - |
 | 3 | 12 | The Email Builder (multi-subpage) | Done | - | Draft (7 VERIFY) | - | - |
 | 3 | 13 | Content Blocks (multi-subpage) | Done | - | Draft (12 VERIFY) | - | - |
-| 3 | 14 | Email Templates (multi-subpage) | Done | - | Screenshots done (34 screenshots, VERIFY comments resolved) | Done | - |
+| 3 | 14 | Email Templates (multi-subpage) | Done | - | Build page done (VERIFY comments resolved). Template 3 uses Data Graph merge fields, confirmed via Preview 2026-10-01. `index.md` still has 4 ScreenshotPlaceholders and 1 TODO (permission set name for template creation vs. use) | Partial (build page: 38 screenshots. `index.md`: 4 placeholders open) | - |
 | 4 | 15 | Marketing Objects (multi-subpage) | - | - | - | - | - |
 | 4 | 16 | Merge Fields and Dynamic Content (multi-subpage) | - | - | - | - | - |
 | 4 | 17 | Handlebars Essentials (multi-subpage) | - | - | - | - | - |
@@ -143,3 +143,4 @@ Record significant decisions here so we do not revisit them.
 | 2026-08-28 | Module 12 merge field scope: builder feature, not personalization strategy | Module 12 teaches how to insert a merge field and which AE fields break preview/publish. Module 16 teaches content variables, dynamic variations, and data graph access patterns. |
 | 2026-08-28 | Account Engagement merge field warning required in Module 12 | AE/Pardot fields appear in the merge field picker but cause generic error at preview and block publishing. Module 12 must name specific fields. Research needed before writing. |
 | 2026-08-28 | Content blocks assignment: 3 guided + 3 independent | Guided: header, footer, product card. Independent: hero block, feature block (2-col), CTA banner block. Structural blocks get converted to sections to demonstrate propagation breaking. |
+| 2026-10-01 | Tier Benefits not added to the Data Graph. Template 3 uses static benefits copy | The flat Loyalty Program Member DMO has no tier or benefits field, and adding one is out of scope for a template exercise. Tier-specific benefit copy is a conditional content problem for Part 4. |
